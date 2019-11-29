@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseState : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+public abstract class BaseState
+{ 
+    protected GameObject obj;
+    protected Transform transform;
+
+    // State Constructor
+    public BaseState(GameObject gameObject)
     {
-        
+        this.obj = gameObject;
+        this.transform = gameObject.transform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Update function
+    public abstract Type Tick();
+    // Setup Code run for when player switches into the state
+    public abstract void OnEnter();
+    // Code to run when Player exits the state
+    public abstract void OnExit();
 }

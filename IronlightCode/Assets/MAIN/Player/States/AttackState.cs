@@ -1,18 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : MonoBehaviour
+public class AttackState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    PlayerStateManager stateManager;
+
+    public AttackState(PlayerStateManager state) : base(state.gameObject)
     {
-        
+        stateManager = state;
+    }
+    public override void OnEnter()
+    {
+        Debug.Log("Entering Attack State");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnExit()
     {
-        
+        Debug.Log("Exiting Attack State");
+    }
+
+    public override Type Tick()
+    {
+        Debug.Log("Currently in Attack State");
+
+
+        return null;
     }
 }

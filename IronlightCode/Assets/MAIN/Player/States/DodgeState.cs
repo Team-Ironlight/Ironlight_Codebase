@@ -1,18 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DodgeState : MonoBehaviour
+public class DodgeState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    PlayerStateManager stateManager;
+
+    public DodgeState(PlayerStateManager state) : base(state.gameObject)
     {
-        
+        stateManager = state;
+    }
+    public override void OnEnter()
+    {
+        Debug.Log("Entering Dodge State");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnExit()
     {
-        
+        Debug.Log("Exiting Dodge State");
+    }
+
+    public override Type Tick()
+    {
+        Debug.Log("Currently in Dodge State");
+
+
+        return null;
     }
 }
