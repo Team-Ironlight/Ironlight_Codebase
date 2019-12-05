@@ -9,6 +9,13 @@ public class DamageComponent : MonoBehaviour
     HealthComponent _defender;
 
     float _adjustedHealth;
+
+    void setDefender()
+    {
+
+    }
+
+
     void calculateDamageFunction(float _entityHealth, float _damageAmount, float _defenseVal)
     {
         _defenseVal = _defender.defValue;
