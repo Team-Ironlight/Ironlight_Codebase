@@ -5,19 +5,26 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour
 {
     // Programmer: Ron
-    // Additional Programmer:
+    // Additional Programmer: Danish
     // Description: Modular component to manage Health for all applicable entities.
- 
-    // Variables
-    public float currentHealth { get; private set; }
-    float maxHealth = 100;
-    public float defValue = 0.5f;
+
+    [Header("Variables")]
+    public float currentHealth;
+    float maxHealth;
+    public float defValue;
 
     // Code to Initialize Health Component
-    void Init()
+    public void Init(int _maxHealth, float _defValue)
     {
-        // Set currentHealth to maxHealth
+        // Cache the _maxHealth value in a local variable
+        maxHealth = _maxHealth;
+
+        // Set currentHealth equal to the cached maxHealth value
         currentHealth = maxHealth;
+
+        // Cache the _defValue in a local variable
+        defValue = _defValue;
+
     }
 
     // Code to Add Health 

@@ -11,6 +11,8 @@ public class InputHandler : MonoBehaviour
     bool attack;
     bool dodge;
 
+    float delta;
+
     PlayerStateManager playerState;
 
     // Start is called before the first frame update
@@ -22,12 +24,21 @@ public class InputHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         GetInput();
         UpdateStates();
     }
 
+    private void FixedUpdate()
+    {
+        delta = Time.fixedDeltaTime;
+        playerState.FixedTick(delta);
+    }
+
+
+
+    #region Functions
 
     void GetInput()
     {
@@ -49,4 +60,7 @@ public class InputHandler : MonoBehaviour
         playerState.jump = jump;
         playerState.dodge = dodge;
     }
+
+
+    #endregion
 }
