@@ -19,7 +19,11 @@ public class PlayerStateManager : MonoBehaviour
     public GameObject activeModel;
     public Animator anim;
     public Rigidbody rigid;
+
+    [Header("Components")]
     PlayerStateMachine machine;
+    PlayerStats stats;
+    HealthComponent health;
 
 
 
@@ -28,11 +32,16 @@ public class PlayerStateManager : MonoBehaviour
     {
         // Get Components and assign to appropriate variables
         machine = GetComponent<PlayerStateMachine>();
+        stats = GetComponent<PlayerStats>();
+
+        // Add other necessary components
+        gameObject.AddComponent<HealthComponent>();
 
         SetupAnimator();
         SetupRigidbody();
 
         InitializeStateMachine();
+        InitializeHealthComponent();
     }
 
 
@@ -83,6 +92,11 @@ public class PlayerStateManager : MonoBehaviour
         };
 
         machine.SetStates(states);
+    }
+
+    void InitializeHealthComponent()
+    {
+        health.Init(stats.maxHealthValue, stats.defenseValue);
     }
 
     #endregion

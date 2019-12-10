@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementComponent : MonoBehaviour
+interface IMovement
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    float moveAmount { get; set; }
+    float moveDir { get; set; }
+    float moveSpeed { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+    void CalculateMoveAmount();
+    void CalculateMoveDirection();
+    void CaluculateMoveSpeed();
+
+    //moveDir * (targetSpeed * moveAmount);
 }

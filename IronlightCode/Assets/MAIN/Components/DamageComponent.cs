@@ -5,24 +5,25 @@ using UnityEngine;
 public class DamageComponent : MonoBehaviour
 {
     /*Script With Damage value*/
-    _attacker;
-    HealthComponent _defender;
+    
+    //_attacker;
+    //HealthComponent _defender;
 
-    float _adjustedHealth;
+    //float _adjustedHealth;
 
-    void setDefender()
-    {
+    //void setDefender()
+    //{
 
-    }
+    //}
 
 
-    void calculateDamageFunction(float _entityHealth, float _damageAmount, float _defenseVal)
-    {
-        _defenseVal = _defender.defValue;
-        _damageAmount = _attacker./*DamageValue*/;
-        _entityHealth = _defender.currentHealth;
-        _entityHealth -= _damageAmount / _defenseVal;
-        _adjustedHealth = _entityHealth;
-        //_defender.subHealth(adjustedHealth);
-    }
+    //void calculateDamageFunction(float _entityHealth, float _damageAmount, float _defenseVal)
+    //{
+    //    _defenseVal = _defender.defValue;
+    //    _damageAmount = _attacker./*DamageValue*/;
+    //    _entityHealth = _defender.currentHealth;
+    //    _entityHealth -= _damageAmount / _defenseVal;
+    //    _adjustedHealth = _entityHealth;
+    //    //_defender.subHealth(adjustedHealth);
+    //}
 }
