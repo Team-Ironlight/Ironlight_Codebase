@@ -313,6 +313,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1448594328}
   - component: {fileID: 1448594329}
+  - component: {fileID: 1448594330}
+  - component: {fileID: 1448594331}
   - component: {fileID: 1448594327}
   - component: {fileID: 1448594326}
   - component: {fileID: 1448594325}
@@ -368,6 +370,8 @@ MonoBehaviour:
   activeModel: {fileID: 0}
   anim: {fileID: 0}
   rigid: {fileID: 0}
+  health: {fileID: 0}
+  movement: {fileID: 0}
 --- !u!4 &1448594328
 Transform:
   m_ObjectHideFlags: 0
@@ -398,6 +402,40 @@ MonoBehaviour:
   maxHealthValue: 100
   defenseValue: 25
   damageValue: 10
+  moveSpeed: 10
+  runSpeed: 0
+  dashSpeed: 0
+  meleeAttackSpeed: 0
+--- !u!114 &1448594330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448594324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c443ff24bc79740b64e94fa4c7d4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  defValue: 0
+--- !u!114 &1448594331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448594324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144a9fffaac6763469c6603c6748c57f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveAmount: 0
+  moveDir: {x: 0, y: 0, z: 0}
+  moveSpeed: 0
+  FinalForce: {x: 0, y: 0, z: 0}
 --- !u!1 &1849301371
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +448,7 @@ GameObject:
   - component: {fileID: 1849301374}
   - component: {fileID: 1849301373}
   - component: {fileID: 1849301372}
+  - component: {fileID: 1849301376}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -485,12 +524,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849301371}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1448594328}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1849301376
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849301371}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 31.97
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &2031346662
 GameObject:
   m_ObjectHideFlags: 0

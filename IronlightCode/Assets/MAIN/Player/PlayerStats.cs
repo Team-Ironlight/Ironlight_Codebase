@@ -8,6 +8,10 @@ public class PlayerStats : MonoBehaviour
     public float defenseValue;
     public float damageValue;
 
+    public float moveSpeed;
+    public float runSpeed;
+    public float dashSpeed;
+    public float meleeAttackSpeed;
 
 
     

@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class MoveState : BaseState
 {
-    PlayerStateManager stateManager;
+    PlayerStateManager _stateManager;
+    MovementComponent _movement;
 
     public MoveState(PlayerStateManager state) : base(state.gameObject)
     {
-        stateManager = state;
+        _stateManager = state;
     }
     public override void OnEnter()
     {
         Debug.Log("Entering Move State");
+        _movement = _stateManager.movement;
     }
 
     public override void OnExit()
@@ -25,10 +27,21 @@ public class MoveState : BaseState
     {
         Debug.Log("Currently in Move State");
 
-        if(stateManager.vertical == 0 && stateManager.horizontal == 0)
+        if(_stateManager.vertical == 0 && _stateManager.horizontal == 0)
         {
             return typeof(IdleState);
         }
+
+        else
+        {
+            _movement.CalculateMoveDir(_stateManager.vertical, _stateManager.horizontal);
+            _movement.CalculateMoveAmount(_stateManager.vertical, _stateManager.horizontal);
+
+            Debug.Log(_movement.moveDir);
+        }
+
+        
+
 
 
         return null;

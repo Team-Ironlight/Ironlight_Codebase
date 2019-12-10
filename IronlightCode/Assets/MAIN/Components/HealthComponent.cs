@@ -7,11 +7,11 @@ public class HealthComponent : MonoBehaviour
     // Programmer: Ron
     // Additional Programmer: Danish
     // Description: Modular component to manage Health for all applicable entities.
- 
-    // Variables
-    public float currentHealth { get; private set; }
-    float maxHealth { get;  set; }
-    public float defValue { get; set; }
+
+    [Header("Variables")]
+    public float currentHealth;
+    float maxHealth;
+    public float defValue;
 
     // Code to Initialize Health Component
     public void Init(int _maxHealth, float _defValue)
