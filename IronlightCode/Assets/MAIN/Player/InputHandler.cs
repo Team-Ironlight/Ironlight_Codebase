@@ -23,7 +23,7 @@ public class InputHandler : MonoBehaviour
         playerState.Init();
 
         cameraManager = CameraManager.singleton;
-        cameraManager.Init(playerState);
+        cameraManager.Init(transform);
 
     }
 

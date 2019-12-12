@@ -44,10 +44,10 @@ public class CameraManager : MonoBehaviour
         singleton = this;
     }
 
-    public void Init(PlayerStateManager state)
+    public void Init(Transform t)
     {
-        playerState = state;
-        target = state.transform;
+        //playerState = state;
+        target = t;
 
         CameraTransform = Camera.main.transform;
         pivot = CameraTransform.parent;
@@ -74,11 +74,14 @@ public class CameraManager : MonoBehaviour
     }
 
 
-    void FollowTarget(float delta)
+    void FollowTarget(float d)
     {
-        float speed = delta * followSpeed;
+        Debug.Log("Entered Follow Target");
+        float speed = d * followSpeed;
+        Debug.Log(speed);
         Vector3 targetPos = Vector3.Lerp(transform.position, target.position, speed);
-        transform.position = target.position;
+        Debug.Log(targetPos);
+        transform.position = targetPos;
     }
 
     void HandleRotations(float delta, float vertical, float horizontal, float targetSpeed)
