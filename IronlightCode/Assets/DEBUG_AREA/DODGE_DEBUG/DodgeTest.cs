@@ -4,49 +4,66 @@ using UnityEngine;
 
 public class DodgeTest : MonoBehaviour
 {
-    float ver;
-    float hor;
-    bool dodgeInput = false;
+    public float timer = 3;
+    public bool canDodge = true;
+    public float dodgeForce = 10;
+    public float speed;
+    public float smoothing = 0.5f;
 
+    public float vertical;
+    public float horizontal;
+    public Vector3 dodgeDirection;
+    public Vector3 currentSpeed;
 
-    public Vector3 moveDir;
+    public Rigidbody _rb;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetInput();
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
 
-        moveDir = new Vector3(hor, 0, ver);
+        dodgeDirection = new Vector3(horizontal, 0, vertical);
 
-        if (dodgeInput)
+        TakeDodgeInput();
+
+
+        if (!canDodge)
         {
-            Dodge();
+            SlowDown();
+        }
+    }
+    
+    void TakeDodgeInput()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftShift) && canDodge)
+        {
+            Debug.Log("Input");
+            PerformDodge();
         }
     }
 
-    void Dodge()
+    //It gets your direction and multiply it with the speed to dodge
+    void PerformDodge()
     {
-        Debug.Log("I'm Jumping bitches");
+        currentSpeed = dodgeDirection * speed;
+        _rb.velocity = currentSpeed;
+        canDodge = false;
+        Debug.Log("Dodge");
     }
 
-    void GetInput()
+    void SlowDown()
     {
-        ver = Input.GetAxis("Vertical");
-        hor = Input.GetAxis("Horizontal");
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        _rb.velocity = Vector3.Lerp(_rb.velocity, Vector3.zero, smoothing);
+        if(_rb.velocity == Vector3.zero)
         {
-            dodgeInput = true;
-        }
-        else
-        {
-            dodgeInput = false;
+            canDodge = true;
         }
     }
 }
