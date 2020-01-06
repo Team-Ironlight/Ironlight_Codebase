@@ -79,24 +79,20 @@ public class OrbTest : MonoBehaviour
         //activate bullet
         clone.SetActive(true);
 
+        // reset the location of the bullet
+        clone.transform.position = _pool.transform.position;
+
         //calculate the direction
         var ray = Cam.ScreenPointToRay(new Vector3(F_x, F_y, 0));
+
+        //give bullet the direction
+        clone.GetComponent<BulletTest>().Direction = ray.direction;
 
         //add force to bullets rigidbody in the right direction
         clone.GetComponent<Rigidbody>().velocity = ray.direction * I_speed;
 
-        //deactivate after 5 seconds
-        StartCoroutine(BulletDisable(clone));
+        
     }
 
-    IEnumerator BulletDisable(GameObject bullet)
-    {
-        // suspend execution for 5 seconds
-        yield return new WaitForSeconds(5);
-        bullet.SetActive(false);
-        // reset the location of the bullet
-        bullet.transform.position = _pool.transform.position;
-        //set velocity to 0
-        bullet.GetComponent<Rigidbody>().velocity = Vector3.zero;
-    }
+    
 }
