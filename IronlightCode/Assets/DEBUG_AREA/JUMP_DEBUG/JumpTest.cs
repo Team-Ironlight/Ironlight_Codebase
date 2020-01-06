@@ -4,49 +4,60 @@ using UnityEngine;
 
 public class JumpTest : MonoBehaviour
 {
-    float ver;
+
+    public Rigidbody rb;
+    public float jumpForce = 10;
+    [SerializeField]
+    bool isGrounded;
+    bool jumping;
+    int jumpCount;
     float hor;
-    bool jumpInput = false;
-
-
-    public Vector3 moveDir;
-
-    // Start is called before the first frame update
+    float vert;
+    [SerializeField]
+    Vector3 moveDirection;
     void Start()
     {
-        
+        isGrounded = false;
+        jumpCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetInput();
-
-        moveDir = new Vector3(hor, 0, ver);
-
-        if (jumpInput)
+        getInput();
+        if (jumping)
         {
-            Jump();
+            jump();
         }
     }
-    
-    void Jump()
+    void jump()
     {
-        Debug.Log("I'm Jumping bitches");
+        rb.AddForce(transform.up * jumpForce +moveDirection, ForceMode.Impulse) ;
+        isGrounded = false;
     }
-
-    void GetInput()
+    private void OnCollisionEnter(Collision collision)
     {
-        ver = Input.GetAxis("Vertical");
-        hor = Input.GetAxis("Horizontal");
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            jumpInput = true;
+            isGrounded = true;
+            jumping = false;
+            jumpCount = 0;
+        }
+      
+    }
+    void getInput()
+    {
+        hor = Input.GetAxis("Horizontal");
+        vert = Input.GetAxis("Vertical");
+        moveDirection = new Vector3(hor, 0, vert);
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCount == 0)
+        {
+            jumping = true;
+            jumpCount++;
         }
         else
         {
-            jumpInput = false;
+            jumping = false;
         }
     }
 }
