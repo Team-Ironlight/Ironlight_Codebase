@@ -6,12 +6,42 @@ public class OrbTest : MonoBehaviour
 {
     public bool inputReceived = false;
 
+    //object pool
+    public GameObject _pool;
+    List<GameObject> bulletPool = new List<GameObject>();
+    [SerializeField] private int MagezineSize = 10;
+
+    //attack
+    [SerializeField] private int I_speed;
+    public GameObject GB_Bullet;
+    public Camera Cam;
+    private float F_x = Screen.width / 2;
+    private float F_y = Screen.height / 2;
+    [SerializeField]private float AttackCoolDown = 0.5f;
+    private float AttackTimer;
+
+
+    // Initilization - Instantiate a set number of bullets
+
+    private void Start()
+    {
+        for (int i = 0; i <= MagezineSize; i++)
+        {
+            //instantiate the bullet
+            GameObject GB_Clone = Instantiate(GB_Bullet, transform.position, transform.rotation);
+            //deactivate object
+            GB_Clone.SetActive(false);
+            //child to the pool
+            GB_Clone.transform.parent = _pool.transform;
+            //add to the object pool
+            bulletPool.Add(GB_Clone);
+        }
+        AttackTimer = Time.time;
+    }
 
     private void Update()
     {
         GetInput();
-        if (inputReceived)
-            Shoot();
     }
 
     void GetInput()
@@ -20,6 +50,12 @@ public class OrbTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             inputReceived = true;
+            if(AttackTimer <= Time.time)
+            {
+                Shoot();
+                AttackTimer = Time.time + AttackCoolDown;
+            }
+
         }
         else
         {
@@ -28,8 +64,39 @@ public class OrbTest : MonoBehaviour
     }
 
     // Code to perform attack
-    void Shoot()
+    public void Shoot()
     {
-        Debug.Log("Bitches");
+        GameObject clone = null;
+        //loop to find the first deactive bullet in the pool
+        for (int i = 0; i < bulletPool.Count; i++)
+        {
+            if (bulletPool[i].activeSelf == false)
+            {
+                clone = bulletPool[i];
+                break;
+            }      
+        }
+        //activate bullet
+        clone.SetActive(true);
+
+        //calculate the direction
+        var ray = Cam.ScreenPointToRay(new Vector3(F_x, F_y, 0));
+
+        //add force to bullets rigidbody in the right direction
+        clone.GetComponent<Rigidbody>().velocity = ray.direction * I_speed;
+
+        //deactivate after 5 seconds
+        StartCoroutine(BulletDisable(clone));
+    }
+
+    IEnumerator BulletDisable(GameObject bullet)
+    {
+        // suspend execution for 5 seconds
+        yield return new WaitForSeconds(5);
+        bullet.SetActive(false);
+        // reset the location of the bullet
+        bullet.transform.position = _pool.transform.position;
+        //set velocity to 0
+        bullet.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }
