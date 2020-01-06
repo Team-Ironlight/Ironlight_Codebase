@@ -4,86 +4,60 @@ using UnityEngine;
 
 public class JumpTest : MonoBehaviour
 {
-    float ver;
-    float hor;
-    bool jumpInput = false;
+
     public Rigidbody rb;
-    bool isRising;
-    bool isFalling;
-    public Vector3 moveDir;
-    public float jumpHeight = 80;
-    Vector3 jumpVelocity;
-    Vector3 fallVelocity;
-    public float fallSpeed = 18;
-    public float jumpForce = 200;
-    Vector3 currPos;
-    // Start is called before the first frame update
+    public float jumpForce = 10;
+    [SerializeField]
+    bool isGrounded;
+    bool jumping;
+    int jumpCount;
+    float hor;
+    float vert;
+    [SerializeField]
+    Vector3 moveDirection;
     void Start()
     {
-        isRising = false;
-        isFalling = false;
-        jumpVelocity.y = jumpForce;
-        fallVelocity.y = fallSpeed;
+        isGrounded = false;
+        jumpCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currPos = rb.position;
-        GetInput();
-
-        moveDir = new Vector3(hor, 0, ver);
-
-        if (jumpInput)
+        getInput();
+        if (jumping)
         {
-            isRising = true;
-            if (isRising && rb.position.y <= jumpHeight)
-            {
-                Jump();
-                if (rb.position.y >= jumpHeight)
-                {
-                    isRising = false;
-
-                    isFalling = true;
-                }
-
-            }
-            if (isFalling)
-            {
-                Fall();
-                if (rb.position.y <= 1)
-                {
-                    print("landed");
-                    isFalling = false;
-                    jumpInput = false;
-                    currPos.y = 1;
-                }
-            }
+            jump();
         }
-
     }
-
-    void Jump()
+    void jump()
     {
-        Debug.Log("I'm Jumping bitches");
-
-        rb.position += jumpVelocity * Time.deltaTime;
-
+        rb.AddForce(transform.up * jumpForce +moveDirection, ForceMode.Impulse) ;
+        isGrounded = false;
     }
-    void Fall()
+    private void OnCollisionEnter(Collision collision)
     {
-        rb.position -= fallVelocity * Time.deltaTime;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            jumping = false;
+            jumpCount = 0;
+        }
+      
     }
-
-    void GetInput()
+    void getInput()
     {
-        ver = Input.GetAxis("Vertical");
         hor = Input.GetAxis("Horizontal");
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        vert = Input.GetAxis("Vertical");
+        moveDirection = new Vector3(hor, 0, vert);
+        if (Input.GetKeyDown(KeyCode.Space)&& jumpCount == 0)
         {
-            jumpInput = true;
+            jumping = true;
+            jumpCount++;
         }
-       
+        else
+        {
+            jumping = false;
+        }
     }
 }
