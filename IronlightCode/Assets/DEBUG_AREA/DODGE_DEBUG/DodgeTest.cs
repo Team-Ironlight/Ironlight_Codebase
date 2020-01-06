@@ -9,12 +9,13 @@ public class DodgeTest : MonoBehaviour
     public float dodgeForce = 10;
     public float speed;
     public float smoothing = 0.5f;
+    public float dodgeDistance;
 
     public float vertical;
     public float horizontal;
     public Vector3 dodgeDirection;
     public Vector3 currentSpeed;
-
+    
     public Rigidbody _rb;
 
     // Start is called before the first frame update
@@ -31,32 +32,78 @@ public class DodgeTest : MonoBehaviour
 
         dodgeDirection = new Vector3(horizontal, 0, vertical);
 
+        
+
         TakeDodgeInput();
 
 
         if (!canDodge)
         {
-            SlowDown();
+            //SlowDown();
         }
+
+   
     }
     
     void TakeDodgeInput()
     {
-        if(Input.GetKeyDown(KeyCode.LeftShift) && canDodge)
+        if(Input.GetKeyDown(KeyCode.Space) && canDodge)
         {
             Debug.Log("Input");
             PerformDodge();
         }
     }
 
+
+    // When dodge input is received
+        // Get player current position
+        // Get direction of movement, if any
+            // if not moving, dodge forward
+        // normalize dodge direction
+        // create a vector3 that adds the position and (the dodge direction * distance value)
+                //Vector3 vector = new Vector3(transform.position.x + vector.x, transform.position.y + vector.y, transform.position.z + vector.z);
+        // rb.MovePosition(vector)
+        
+
+
+
     //It gets your direction and multiply it with the speed to dodge
     void PerformDodge()
     {
-        currentSpeed = dodgeDirection * speed;
-        _rb.velocity = currentSpeed;
         canDodge = false;
         Debug.Log("Dodge");
+        Vector3 currentPosition = gameObject.transform.position;
+        Vector3 dodgeDir = dodgeDirection.normalized;
+
+        if(dodgeDir == Vector3.zero){
+            dodgeDir = gameObject.transform.forward;
+		}
+
+        dodgeDir *= speed;
+
+        Vector3 newPosition = new Vector3(currentPosition.x + dodgeDir.x, currentPosition.y, currentPosition.z + dodgeDir.z);
+
+        _rb.MovePosition(newPosition);
+
+        StartCoroutine(Wait());
+       
+
+       // canDodge = true;
+        //currentSpeed = dodgeDirection * speed;
     }
+
+
+       
+    IEnumerator Wait() 
+    {
+        if(canDodge == false)
+        {
+            yield return new WaitForSeconds(2);
+            canDodge = true;
+        }
+    }
+        
+	
 
     void SlowDown()
     {
