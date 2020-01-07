@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 89017035}
   - component: {fileID: 89017034}
   - component: {fileID: 89017039}
+  - component: {fileID: 89017041}
   m_Layer: 0
   m_Name: Orb1
   m_TagString: Environment
@@ -157,6 +158,10 @@ MonoBehaviour:
   Name: Orb1
   isActive: 0
   MyCurrentStatus: Orb1
+  Health: 100
+  DamagePerHitCollision: 40
+  DestructionSequence: {fileID: 11400000, guid: 3e28e3d5cfad43448b3b427b00973abc,
+    type: 2}
 --- !u!136 &89017035
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -260,6 +265,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!122 &89017041
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89017033}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4281326985
+  m_Size: 2.7
 --- !u!1 &389653714
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b1c05da4ecaf44db5537cdffe958c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorOpenAngle: 90
+  openSpeed: 2
   ObjCollider:
   - {fileID: 89017034}
   - {fileID: 1549504529}
@@ -682,6 +701,10 @@ MonoBehaviour:
   Name: Orb2
   isActive: 0
   MyCurrentStatus: Orb2
+  Health: 100
+  DamagePerHitCollision: 40
+  DestructionSequence: {fileID: 11400000, guid: 3e28e3d5cfad43448b3b427b00973abc,
+    type: 2}
 --- !u!136 &1549504530
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -822,6 +845,10 @@ MonoBehaviour:
   Name: Orb3
   isActive: 0
   MyCurrentStatus: Orb3
+  Health: 100
+  DamagePerHitCollision: 40
+  DestructionSequence: {fileID: 11400000, guid: 3e28e3d5cfad43448b3b427b00973abc,
+    type: 2}
 --- !u!136 &1678293866
 CapsuleCollider:
   m_ObjectHideFlags: 0
