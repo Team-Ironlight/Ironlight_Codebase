@@ -16,17 +16,37 @@ using Ironlight;
 public class TriggerPad: ColliderManager.ColliderCheck
 {
     [SerializeField]
-    public bool isActive;
+    public bool isActive;                                   
     public string MyCurrentStatus = "";
+
+    public float Health = 100;                          //For Destruction or Blast
+    public float DamagePerHitCollision = 40;            //For Destruction or Blast
+    public DestructionSequence DestructionSequence;     //For Destruction or Blast
+
+    public void TakeDamage(float damage)                //For Destruction or Blast
+    {
+        if (Health < 0) return;
+
+        Health -= damage;
+
+        if (Health < 0 && DestructionSequence)
+            StartCoroutine(DestructionSequence.SequenceCoroutine(this));
+        //public void OnCollisionEnter(Collision collision)
+    }
+
+
 
     //Only this two Function Call are used for this version the rest are for readyness future change 
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
       //For this Version we use Collision Trigger -  This can be change into a Projectile (Blast) that Collide into this Orbs GameObject , basically when the Blast Hit then set isActive into True! 
         if (other.gameObject.tag == "Player")
         {
             isActive = true;
+            TakeDamage(DamagePerHitCollision);       //For Destruction or Blast
+
+            Debug.Log("Enter");
         }
     }
 
