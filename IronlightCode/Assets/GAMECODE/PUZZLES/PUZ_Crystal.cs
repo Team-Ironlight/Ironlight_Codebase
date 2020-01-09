@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class PUZ_Crystal : MonoBehaviour, IHit
 {
-    LineRenderer lightRenderer;
+    private LineRenderer _ucLightRenderer;
 
     [SerializeField] private float _fRange = 10;
-    private IHit previousHit = null;
+    private IHit _ciPreviousHit = null;
 
-    [SerializeField] private bool hasLight = false;
+    [SerializeField] private bool _bAlwaysHasLight = false;
 
     private void Start()
     {
-        lightRenderer = GetComponent<LineRenderer>();
+        _ucLightRenderer = GetComponent<LineRenderer>();
 
-        if (!hasLight)
-            lightRenderer.enabled = false;
+        if (!_bAlwaysHasLight)
+            _ucLightRenderer.enabled = false;
     }
 
     private void Update()
     {
-        if (hasLight) HitWithLight(10);
+        if (_bAlwaysHasLight) HitWithLight(1);
     }
 
     public void HitWithLight(float pAmount)
@@ -36,29 +36,29 @@ public class PUZ_Crystal : MonoBehaviour, IHit
         if (other == null)
         {
             // Stopped hitting something
-            if (previousHit != null)
+            if (_ciPreviousHit != null)
             {
-                previousHit.ExitHitWithLight();
-                previousHit = other;
+                _ciPreviousHit.ExitHitWithLight();
+                _ciPreviousHit = other;
             }
         }
         // Hitting hitable
         else
         {
             // Started hitting something new
-            if (previousHit == null)
+            if (_ciPreviousHit == null)
             {
                 // Was not hitting something
                 other.EnterHitWithLight(pAmount);
-                previousHit = other;
+                _ciPreviousHit = other;
             }
 
-            else if (other != previousHit)
+            else if (other != _ciPreviousHit)
             {
                 // Was hitting something
                 other.EnterHitWithLight(pAmount);
-                previousHit.ExitHitWithLight();
-                previousHit = other;
+                _ciPreviousHit.ExitHitWithLight();
+                _ciPreviousHit = other;
             }
 
             // Update what is currently being hit
@@ -66,25 +66,23 @@ public class PUZ_Crystal : MonoBehaviour, IHit
         }
 
         // Update lineRendereer
-        lightRenderer.SetPosition(1, Vector3.forward * (hit.distance == 0 ? _fRange : hit.distance));
-
-        if (hasLight) Debug.Log(hit.distance);
+        _ucLightRenderer.SetPosition(1, Vector3.forward * (hit.distance == 0 ? _fRange : hit.distance));
     }
 
     public void EnterHitWithLight(float pAmount)
     {
-        lightRenderer.enabled = true;
+        _ucLightRenderer.enabled = true;
     }
 
     public void ExitHitWithLight()
     {
-        lightRenderer.enabled = false;
+        _ucLightRenderer.enabled = false;
 
         // Stop hitting what you are hitting
-        if (previousHit != null)
+        if (_ciPreviousHit != null)
         {
-            previousHit.ExitHitWithLight();
-            previousHit = null;
+            _ciPreviousHit.ExitHitWithLight();
+            _ciPreviousHit = null;
         }
     }
 }
