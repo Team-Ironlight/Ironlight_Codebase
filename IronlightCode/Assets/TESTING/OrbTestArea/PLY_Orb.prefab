@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8653003093019591447}
   - component: {fileID: 1106227746133917130}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: PLY_Orb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,3 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a4979d1e2bfd44cbbb8fabf09813e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Direction: {x: 0, y: 0, z: 0}
+  _iDisableTimer: 3
+  _iSpeed: 10
