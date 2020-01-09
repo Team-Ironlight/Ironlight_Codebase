@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLY_PlayerStateManager : MonoBehaviour
+public class PLY_StateManager : MonoBehaviour
 {
     // Programmer: Danish
     // Additional Programmer: 
@@ -26,9 +26,9 @@ public class PLY_PlayerStateManager : MonoBehaviour
 
     [Header("Components")]
     Rigidbody _rb;
-    PLY_PlayerStateMachine machine;
-    PLY_PlayerStats stats;
-    public PLY_HealthComponent health;
+    PLY_StateMachine machine;
+    PLY_Stats stats;
+    public PLY_Attributes attributes;
     public PLY_MovementComponent movement;
 
 
@@ -38,9 +38,9 @@ public class PLY_PlayerStateManager : MonoBehaviour
     public void Init()
     {
         // Get Components and assign to appropriate variables
-        machine = GetComponent<PLY_PlayerStateMachine>();
-        stats = GetComponent<PLY_PlayerStats>();
-        health = GetComponent<PLY_HealthComponent>();
+        machine = GetComponent<PLY_StateMachine>();
+        stats = GetComponent<PLY_Stats>();
+        attributes = GetComponent<PLY_Attributes>();
         movement = GetComponent<PLY_MovementComponent>();
         
 
@@ -109,7 +109,7 @@ public class PLY_PlayerStateManager : MonoBehaviour
     void InitializeHealthComponent()
     {
         // Initialize health component using corresponding values from PlayerStats script
-        health.Init(stats.maxHealthValue, stats.defenseValue);
+        attributes.Init(stats.maxHealthValue, stats.maxSpiritValue);
     }
 
     #endregion

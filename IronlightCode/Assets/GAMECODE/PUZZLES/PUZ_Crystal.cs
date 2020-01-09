@@ -52,7 +52,6 @@ public class PUZ_Crystal : MonoBehaviour, IHit
                 other.EnterHitWithLight(pAmount);
                 _ciPreviousHit = other;
             }
-
             else if (other != _ciPreviousHit)
             {
                 // Was hitting something

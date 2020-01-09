@@ -28,7 +28,9 @@ public class PLY_MovementComponent : MonoBehaviour
         Vector3 ver = v * Camera.main.transform.forward;
         Vector3 hor = h * Camera.main.transform.right;
 
-        moveDir = (ver + hor).normalized;
+        moveDir = (ver + hor);
+        moveDir.y = 0;
+        moveDir.Normalize();
     }
 
     public void Move(float targetSpeed)

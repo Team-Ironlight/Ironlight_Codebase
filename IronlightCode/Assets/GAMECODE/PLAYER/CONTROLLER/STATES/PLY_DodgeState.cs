@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PLY_DodgeState : PLY_BaseState
 {
-    PLY_PlayerStateManager stateManager;
+    PLY_StateManager stateManager;
 
-    public PLY_DodgeState(PLY_PlayerStateManager state) : base(state.gameObject)
+    public PLY_DodgeState(PLY_StateManager state) : base(state.gameObject)
     {
         stateManager = state;
     }

@@ -13,13 +13,13 @@ public class PLY_InputHandler : MonoBehaviour
 
     float delta;
 
-    PLY_PlayerStateManager playerState;
+    PLY_StateManager playerState;
     //CameraManager cameraManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerState = GetComponent<PLY_PlayerStateManager>();
+        playerState = GetComponent<PLY_StateManager>();
         playerState.Init();
 
         //cameraManager = CameraManager.singleton;

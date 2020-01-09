@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLY_PlayerTemplate : MonoBehaviour
+public class PLY_Template : MonoBehaviour
 {
-    PLY_PlayerStats stats;
+    PLY_Stats stats;
 
     
 
