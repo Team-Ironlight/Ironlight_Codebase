@@ -5,4 +5,6 @@ using UnityEngine;
 public interface IHit
 {
     void HitWithLight(float pAmount);
+    void EnterHitWithLight(float pAmount);
+    void ExitHitWithLight();
 }
