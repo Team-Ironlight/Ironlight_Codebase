@@ -15,12 +15,14 @@ public class PLY_IdleState : PLY_BaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering Idle State");
+        Debug.Log("IdleState: OnEnter");
+        // TODO Toggle Camera Idle Bool
     }
 
     public override void OnExit()
     {
-        Debug.Log("Exiting Idle State");
+        Debug.Log("IdleState: OnExit");
+        // TODO Toggle Camera Idle Bool
     }
 
     public override Type Tick()
