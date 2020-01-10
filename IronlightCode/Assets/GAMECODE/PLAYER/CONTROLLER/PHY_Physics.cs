@@ -120,7 +120,7 @@ public class PHY_Physics : MonoBehaviour
 
     #endregion
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.DrawLine(transform.position + raycastStartOffset, transform.position + raycastStartOffset + (Vector3.down * raycastLength));
         Gizmos.DrawSphere(transform.position + raycastStartOffset + (Vector3.down * raycastExtraLength), 0.1f);
