@@ -43,27 +43,12 @@ public class PLY_RadialTest : MonoBehaviour
         }
     }
 
-    //void GetInput()
-    //{
-    //    // Change this depending on how you want the attack to work
-        
-    //    if (Input.GetKey(KeyCode.Space))
-    //    {
-    //        inputReceived = true;
-    //    }
-    //    else
-    //    {
-    //        inputReceived = false;
-    //        radius = 0.01f;
-    //    }
-    //}
-
     IEnumerator RadialAction(float x)
     {
         Debug.Log("PULSE");
         if(x < 0)
         {
-            x = 1f;
+            x = 1.0f;
         }
 
         float count = 0.0f;
