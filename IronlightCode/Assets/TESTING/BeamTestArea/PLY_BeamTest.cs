@@ -13,9 +13,6 @@ public class PLY_BeamTest : MonoBehaviour
     private float Distance;
     private bool endAttack;
     private bool StartAttack;
-    [SerializeField] private float _fBeamSpeedGoing;
-    [SerializeField] private float _fBeamSpeedClosing;
-    [SerializeField] private int _iBeamRange;
 
 
     private void Start()
@@ -31,11 +28,6 @@ public class PLY_BeamTest : MonoBehaviour
         if(StartAttack)
         {
             beamgoing();
-
-            if (_line.GetPosition(1).z <= _iBeamRange)
-            {
-                _line.SetPosition(1, new Vector3(_line.GetPosition(1).x, _line.GetPosition(1).y, _line.GetPosition(1).z + _fBeamSpeedGoing * Time.deltaTime));
-            }
         }
         if(endAttack)
         {
@@ -73,12 +65,12 @@ public class PLY_BeamTest : MonoBehaviour
 
     private void beamgoing()
     {
-        
+        _line.SetPosition(1, new Vector3(_line.GetPosition(1).x, _line.GetPosition(1).y, _line.GetPosition(1).z + 5 * Time.deltaTime));
     }
 
     private void beamEnding()
     {
-        _line.SetPosition(0, new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, _line.GetPosition(0).z + _fBeamSpeedClosing * Time.deltaTime));
+        _line.SetPosition(0, new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, _line.GetPosition(0).z + 5 * Time.deltaTime));
     }
 
 }
