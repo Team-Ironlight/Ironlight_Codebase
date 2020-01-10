@@ -41,7 +41,12 @@ public class PLY_OrbTest : MonoBehaviour
 
     private void Update()
     {
-        GetInput();
+        //GetInput();
+
+        //if (inputReceived)
+        //{
+        //    Shoot();
+        //}
     }
 
     void GetInput()

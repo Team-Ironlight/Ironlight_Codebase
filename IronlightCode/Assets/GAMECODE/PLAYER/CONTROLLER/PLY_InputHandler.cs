@@ -8,7 +8,10 @@ public class PLY_InputHandler : MonoBehaviour
     float horizontal;
 
     bool jump;
-    bool attack;
+    bool orb;
+    bool beamStart;
+    bool beamEnd;
+    bool radial;
     bool dodge;
 
     float delta;
@@ -52,7 +55,10 @@ public class PLY_InputHandler : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
 
         jump = Input.GetKeyDown(KeyCode.Z);
-        attack = Input.GetKeyDown(KeyCode.X);
+        orb = Input.GetKeyDown(KeyCode.J);
+        beamStart = Input.GetKeyDown(KeyCode.K);
+        beamEnd = Input.GetKeyUp(KeyCode.K);
+        radial = Input.GetKeyUp(KeyCode.L);
         dodge = Input.GetKeyDown(KeyCode.C);
     }
 
@@ -62,7 +68,10 @@ public class PLY_InputHandler : MonoBehaviour
         playerState.vertical = vertical;
         playerState.horizontal = horizontal;
 
-        playerState.attack = attack;
+        playerState.orb = orb;
+        playerState.beamStart = beamStart;
+        playerState.beamEnd = beamEnd;
+        playerState.radial = radial;
         playerState.jump = jump;
         playerState.dodge = dodge;
     }

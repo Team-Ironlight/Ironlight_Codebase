@@ -11,8 +11,8 @@ public class PLY_BeamTest : MonoBehaviour
     //beam
     public GameObject muzzle;
     private float Distance;
-    private bool endAttack;
-    private bool StartAttack;
+    public bool endAttack;
+    public bool StartAttack;
     [SerializeField] private float _fBeamSpeedGoing;
     [SerializeField] private float _fBeamSpeedClosing;
     [SerializeField] private int _iBeamRange;
@@ -69,8 +69,6 @@ public class PLY_BeamTest : MonoBehaviour
             StartAttack = false;
             endAttack = true;
         }
-
-
     }
 
     private void beamgoing()
