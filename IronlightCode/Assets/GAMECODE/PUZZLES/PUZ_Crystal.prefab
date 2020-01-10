@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 169534407863270508}
   - component: {fileID: 169534407863270506}
   - component: {fileID: 169534407863270507}
+  - component: {fileID: 3868849822856545794}
   m_Layer: 0
   m_Name: PUZ_Crystal
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 169534407863270505}
-  m_LocalRotation: {x: -0, y: -0.7482641, z: -0, w: 0.66340107}
+  m_LocalRotation: {x: 0, y: -0.7482615, z: 0, w: 0.66340387}
   m_LocalPosition: {x: 1.19, y: 1, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -108,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fRange: 10
-  hasLight: 0
+  _bAlwaysHasLight: 0
 --- !u!120 &169534407863270507
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -116,7 +117,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 169534407863270505}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -205,3 +206,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &3868849822856545794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169534407863270505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8aca1855b9e674b96a9bb76d0ef4c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cColor: {r: 1, g: 0, b: 0, a: 1}
+  _fLength: 1.2

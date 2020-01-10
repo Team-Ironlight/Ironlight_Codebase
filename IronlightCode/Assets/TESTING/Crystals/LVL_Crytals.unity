@@ -439,16 +439,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 169534407863270506, guid: fba932c1741bf0744976f64da5ad6b28,
-        type: 3}
-      propertyPath: hasLight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 169534407863270506, guid: fba932c1741bf0744976f64da5ad6b28,
-        type: 3}
-      propertyPath: _bAlwaysHasLight
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fba932c1741bf0744976f64da5ad6b28, type: 3}
 --- !u!1001 &1128037776
@@ -604,7 +594,7 @@ MonoBehaviour:
   activeModel: {fileID: 0}
   anim: {fileID: 0}
   rigid: {fileID: 0}
-  health: {fileID: 0}
+  attributes: {fileID: 0}
   movement: {fileID: 0}
 --- !u!4 &1448594328
 Transform:
@@ -634,10 +624,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthValue: 100
-  defenseValue: 25
+  maxSpiritValue: 0
   damageValue: 10
   moveSpeed: 10
-  runSpeed: 0
   dashSpeed: 0
   meleeAttackSpeed: 0
 --- !u!114 &1448594330

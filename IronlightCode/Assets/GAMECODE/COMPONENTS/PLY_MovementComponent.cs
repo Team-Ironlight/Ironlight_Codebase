@@ -4,38 +4,34 @@ using UnityEngine;
 
 public class PLY_MovementComponent : MonoBehaviour
 {
-    public float moveAmount = 0;
-    public Vector3 moveDir = Vector3.zero;
-    public float moveSpeed;
+    public Vector2 vMoveInput = Vector3.zero;
+    private Vector3 _vMoveDir = Vector3.zero;
+    [SerializeField] private float _fMoveSpeed;
+    [SerializeField] private float _fJumpForce;
 
-    public Vector3 FinalForce;
-
-    //CameraManager cameraManager;
-
-    private void Awake()
+    private void Update()
     {
-        //cameraManager = CameraManager.singleton;
+        CalculateMoveDir();
     }
 
-    public void CalculateMoveAmount(float v, float h)
+    public void CalculateMoveDir()
     {
-        float m = Mathf.Abs(h) + Mathf.Abs(v);
-        moveAmount = Mathf.Clamp01(m);
+        Vector3 ver = vMoveInput.x * Camera.main.transform.right;
+        Vector3 hor = vMoveInput.y * Camera.main.transform.forward;
+
+        _vMoveDir = ver + hor;
+        _vMoveDir.y = 0;
+        _vMoveDir = _vMoveDir.normalized * _fMoveSpeed;
+
+        GetComponent<PHY_Physics>().AddHorizontalAcceleration(new Vector2(_vMoveDir.x, _vMoveDir.z));
+
+        if (Input.GetButtonDown("Jump"))
+            GetComponent<PHY_Physics>().SetVerticalForce(_fJumpForce);
     }
 
-    public void CalculateMoveDir(float v, float h)
+    private void OnDisable()
     {
-        Vector3 ver = v * Camera.main.transform.forward;
-        Vector3 hor = h * Camera.main.transform.right;
-
-        moveDir = (ver + hor).normalized;
+        // Switch to idle
+        GetComponent<PHY_Physics>().AddHorizontalAcceleration(Vector2.zero);
     }
-
-    public void Move(float targetSpeed)
-    {
-        FinalForce = moveDir * (targetSpeed * moveAmount);
-    }
-
-    
-    //moveDir * (targetSpeed * moveAmount);.
 }
