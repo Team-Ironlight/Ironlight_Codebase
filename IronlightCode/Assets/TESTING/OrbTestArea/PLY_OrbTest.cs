@@ -12,11 +12,8 @@ public class PLY_OrbTest : MonoBehaviour
     [SerializeField] private int MagezineSize = 10;
 
     //attack
-    [SerializeField] private int I_speed;
     public GameObject GB_Bullet;
     public Camera Cam;
-    private float F_x = Screen.width / 2;
-    private float F_y = Screen.height / 2;
     [SerializeField]private float AttackCoolDown = 0.5f;
     private float AttackTimer;
 
@@ -41,12 +38,7 @@ public class PLY_OrbTest : MonoBehaviour
 
     private void Update()
     {
-        //GetInput();
-
-        //if (inputReceived)
-        //{
-        //    Shoot();
-        //}
+        GetInput();
     }
 
     void GetInput()
@@ -57,7 +49,8 @@ public class PLY_OrbTest : MonoBehaviour
             inputReceived = true;
             if(AttackTimer <= Time.time)
             {
-                Shoot();
+                // TODO Change Inputed Parameter to not just be camera forward :D
+                Shoot(Cam.transform.forward);
                 AttackTimer = Time.time + AttackCoolDown;
             }
 
@@ -69,7 +62,7 @@ public class PLY_OrbTest : MonoBehaviour
     }
 
     // Code to perform attack
-    public void Shoot()
+    public void Shoot(Vector3 pDir)
     {
         GameObject clone = null;
         //loop to find the first deactive bullet in the pool
@@ -81,23 +74,11 @@ public class PLY_OrbTest : MonoBehaviour
                 break;
             }      
         }
-        //activate bullet
-        clone.SetActive(true);
+        if (clone != null)
+        {
+            clone.transform.position = _pool.transform.position;
 
-        // reset the location of the bullet
-        clone.transform.position = _pool.transform.position;
-
-        //calculate the direction
-        var ray = Cam.ScreenPointToRay(new Vector3(F_x, F_y, 0));
-
-        //give bullet the direction
-        clone.GetComponent<PLY_BulletTest>().Direction = ray.direction;
-
-        //add force to bullets rigidbody in the right direction
-        clone.GetComponent<Rigidbody>().velocity = ray.direction * I_speed;
-
-        
-    }
-
-    
+            clone.GetComponent<PLY_BulletTest>().StartOrb(pDir);
+        }
+    }  
 }
