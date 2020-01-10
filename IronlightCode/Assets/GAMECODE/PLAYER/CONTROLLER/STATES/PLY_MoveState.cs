@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PLY_MoveState : PLY_BaseState
 {
-    PLY_PlayerStateManager _stateManager;
+    PLY_StateManager _stateManager;
     PLY_MovementComponent _movement;
 
-    public PLY_MoveState(PLY_PlayerStateManager state) : base(state.gameObject)
+    public PLY_MoveState(PLY_StateManager state) : base(state.gameObject)
     {
         _stateManager = state;
     }

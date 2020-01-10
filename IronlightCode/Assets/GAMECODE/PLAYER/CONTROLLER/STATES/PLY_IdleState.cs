@@ -6,9 +6,9 @@ using UnityEngine;
 public class PLY_IdleState : PLY_BaseState
 {
 
-    PLY_PlayerStateManager stateManager;
+    PLY_StateManager stateManager;
 
-    public PLY_IdleState(PLY_PlayerStateManager state) : base(state.gameObject)
+    public PLY_IdleState(PLY_StateManager state) : base(state.gameObject)
     {
         stateManager = state;
     }
