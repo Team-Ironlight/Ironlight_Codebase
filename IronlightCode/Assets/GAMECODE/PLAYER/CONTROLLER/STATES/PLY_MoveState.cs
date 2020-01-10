@@ -11,16 +11,18 @@ public class PLY_MoveState : PLY_BaseState
     public PLY_MoveState(PLY_StateManager state) : base(state.gameObject)
     {
         _stateManager = state;
+        _movement = _stateManager.movement;
     }
     public override void OnEnter()
     {
-        Debug.Log("Entering Move State");
-        _movement = _stateManager.movement;
+        Debug.Log("MoveState: OnEnter");
+        _movement.vMoveInput = Vector2.zero;
     }
 
     public override void OnExit()
     {
-        Debug.Log("Exiting Move State");
+        Debug.Log("MoveState: OnExit");
+        _movement.vMoveInput = Vector2.zero;
     }
 
     public override Type Tick()
@@ -32,18 +34,7 @@ public class PLY_MoveState : PLY_BaseState
             return typeof(PLY_IdleState);
         }
 
-        else
-        {
-            _movement.CalculateMoveDir(_stateManager.vertical, _stateManager.horizontal);
-            _movement.CalculateMoveAmount(_stateManager.vertical, _stateManager.horizontal);
-
-            //Debug.Log(_movement.moveDir);
-        }
-
-        
-
-
-
+        _movement.vMoveInput = new Vector2(_stateManager.horizontal, _stateManager.vertical);
         return null;
     }
 }

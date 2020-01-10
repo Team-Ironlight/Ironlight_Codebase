@@ -64,7 +64,7 @@ public class PLY_StateManager : MonoBehaviour
     {
         delta = d;
 
-        _rb.velocity = movement.moveDir * (stats.moveSpeed * movement.moveAmount);
+        //_rb.velocity = movement.moveDir * (stats.moveSpeed * movement.moveAmount);
     }
 
 
@@ -99,7 +99,7 @@ public class PLY_StateManager : MonoBehaviour
             {typeof(PLY_IdleState), new PLY_IdleState(state:this) },
             {typeof(PLY_MoveState), new PLY_MoveState(state:this) },
             {typeof(PLY_AttackState), new PLY_AttackState(state:this) },
-            {typeof(PLY_DodgeState), new PLY_DodgeState(state:this) }
+            {typeof(PLY_DashState), new PLY_DashState(state:this) }
         };
 
         // Cache the dictionary in a local variable in the PlayerStateMachine Component

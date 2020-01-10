@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5688443931053791714}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5688443931472006256}
   - component: {fileID: 5688443931472006257}
   - component: {fileID: 5688443931472006254}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: PlayerCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2457618514464848117}
   - component: {fileID: 4232252179734827381}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: CameraHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   cameraCollisionDampening: 20
   cameraCollisionMinDisPercent: 0.09
   cameraCollisionOffset: 0.4
-  mouseSensitivity: 4
+  mouseSensitivity: 8
   defaultCamera: {fileID: 11400000, guid: 0fd6f18ae13c5be4dbf3686890111a6d, type: 2}
   CameraDisabled: 0
   Idle: 0

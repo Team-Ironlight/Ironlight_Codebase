@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Lead Programmer: Oliver Loescher
+// Additional Programmers: null
+// Description: Receive beam and sends it out in forward direction. Mean't for part of crystal puzzle
+
 public class PUZ_Crystal : MonoBehaviour, IHit
 {
     private LineRenderer _ucLightRenderer;
@@ -15,8 +19,8 @@ public class PUZ_Crystal : MonoBehaviour, IHit
     {
         _ucLightRenderer = GetComponent<LineRenderer>();
 
-        if (!_bAlwaysHasLight)
-            _ucLightRenderer.enabled = false;
+        if (_bAlwaysHasLight)
+            _ucLightRenderer.enabled = true;
     }
 
     private void Update()

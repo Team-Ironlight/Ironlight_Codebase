@@ -11,7 +11,4 @@ public class PLY_Stats : MonoBehaviour
     public float moveSpeed;
     public float dashSpeed;
     public float meleeAttackSpeed;
-
-
-    
 }
