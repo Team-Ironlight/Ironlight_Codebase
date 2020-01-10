@@ -34,6 +34,11 @@ public class PLY_IdleState : PLY_BaseState
             return typeof(PLY_MoveState);
         }
 
+        if(stateManager.orb || stateManager.beamStart || stateManager.beamEnd || stateManager.radial)
+        {
+            return typeof(PLY_AttackState);
+        }
+
         return null;
     }
 }
