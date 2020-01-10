@@ -17,6 +17,8 @@ public class PLY_BeamTest : MonoBehaviour
     [SerializeField] private float _fBeamSpeedClosing;
     [SerializeField] private int _iBeamRange;
 
+    float blah = 0;
+
 
     private void Start()
     {
