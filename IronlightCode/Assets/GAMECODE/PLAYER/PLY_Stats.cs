@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLY_PlayerStats : MonoBehaviour
+public class PLY_Stats : MonoBehaviour
 {
     public int maxHealthValue;
-    public float defenseValue;
-    public float damageValue;
+    public int maxSpiritValue;
+    public int damageValue;
 
     public float moveSpeed;
-    public float runSpeed;
     public float dashSpeed;
     public float meleeAttackSpeed;
-
-
-    
 }

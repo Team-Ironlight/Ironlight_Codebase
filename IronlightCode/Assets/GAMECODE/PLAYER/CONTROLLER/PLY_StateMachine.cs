@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PLY_PlayerStateMachine : MonoBehaviour
+public class PLY_StateMachine : MonoBehaviour
 {
     public Dictionary<Type, PLY_BaseState> _states;
 
