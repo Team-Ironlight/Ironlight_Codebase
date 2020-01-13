@@ -4,27 +4,22 @@ using UnityEngine;
 
 public class PLY_ImanBlastTest : MonoBehaviour
 {
+    //blast
     public bool inputReceived = false;
-    public float radius;
-    public float radiusMax = 1f;
-    public float radiusSpeed = 1f;
-    public float BlastSpeedMultiplyer = 1f;
-
-
-    public bool isPressed = false;
-
-    public float timer = 5.0f;
-    private float countdown = 0.01f;
-
-    bool coroutineOn = false;
-    float chargeCount = 0f;
-    [SerializeField] private int _iExplosionDmg;
-
-    [SerializeField] private GameObject ChargeVisual;
-
-    public List<GameObject> enemiesDamaged = new List<GameObject>();
-
+    private float radius;
+    [SerializeField] private float radiusMax = 1f;
+    [SerializeField] private float radiusChargeSpeed = 1f;
+    [SerializeField] private float BlastSpeedMultiplyer = 1f;
+    [SerializeField] private float PushBackForce;
+    [SerializeField] private int bigDmg;
+    [SerializeField] private int medDmg;
+    [SerializeField] private int smallDmg;
     [SerializeField] private LayerMask enemiesLayer;
+
+    private bool coroutineOn = false;
+    private float chargeCount = 0f;
+    [SerializeField] private GameObject ChargeVisual;
+    private List<GameObject> enemiesDamaged = new List<GameObject>();
 
     // Update is called once per frame
     void Update()
@@ -32,39 +27,45 @@ public class PLY_ImanBlastTest : MonoBehaviour
         Charge();
     }
 
+
+    //coroutine for doing the blast attack
     IEnumerator RadialAction(float x)
     {
-        Debug.Log("Charge");
-        
+        //initializing
         float count = 0.0f;
         bool damaged = false;
         GameObject blast = Instantiate(ChargeVisual, transform.position, transform.rotation);
+        //loop for the blast
         while (count < x)
         {
-            
+            //increasing the size of the blast
             radius = count;
+            //visual for blast
             blast.transform.localScale = new Vector3(radius, radius, radius) * 2;
             //get all colliders in the sphere
             foreach (Collider pcollider in Physics.OverlapSphere(transform.position, radius, enemiesLayer))
             {
-                Debug.Log("Entered collision check");
                 IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
                 //check if gameobject is damagable
                 if (cIA != null)
                 {
+                    //loop to check if the object was damaged before
                     for(int i = 0; i < enemiesDamaged.Count;i++)
                     {
                         if(enemiesDamaged[i].gameObject == pcollider.gameObject)
                         {
                             damaged = true;
-                            Debug.Log("Found enemy");
                             break;
                         }
                     }
+                    //if not damaged before
                     if (!damaged)
                     {
-                        //cIA.TakeDamage(_iExplosionDmg, false);
-                        print("Damaged enemy");
+                        //do damage to the enemy
+                        CalcDmg(pcollider.gameObject);
+                        //push back the enemy
+                        PushBack(pcollider.gameObject);
+                        //add enemy to damagedenemies
                         enemiesDamaged.Add(pcollider.gameObject);
                     }
                 }
@@ -74,26 +75,84 @@ public class PLY_ImanBlastTest : MonoBehaviour
 
             yield return null;
         }
-        //radius = 0.01f;
+        //reset variables to get ready for next blast
         coroutineOn = false;
         chargeCount = 0;
         Destroy(blast);
         enemiesDamaged.Clear();
+        //radius = 0.01f;
     }
 
+
+    //function for pushing back the enemy
+    private void PushBack(GameObject enemy)
+    {
+        enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * PushBackForce);
+        //get distance between player and the enemy
+        float dist = Vector3.Distance(enemy.transform.position, transform.position);
+        //if close range
+        if (dist <= radiusMax * (1f / 3f))
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (3f / 3f)));
+            print("Big push");
+        }
+        //if medium range
+        else if (dist <= radiusMax * (2f / 3f))
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (2f / 3f)));
+            print("Medium med");
+        }
+        //if long range
+        else if (dist <= radiusMax)
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (1f / 3f)));
+            print("Small small");
+        }
+    }
+
+
+    //function for managing inputs
     private void Charge()
     {
+        //while key is held add to radius if it hasnt reached max radius
         if (Input.GetKey(KeyCode.Space) && !coroutineOn)
         {
             if (chargeCount < radiusMax)
             {
-                chargeCount += radiusSpeed * Time.deltaTime;
+                chargeCount += radiusChargeSpeed * Time.deltaTime;
             }
         }
+        //on key released call the blast coroutine with the blast radius calculated
         if (Input.GetKeyUp(KeyCode.Space))
         {
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
+        }
+    }
+
+
+    //function to do damage based on distance from the player
+    private void CalcDmg(GameObject enemy)
+    {
+        //get distance between player and the enemy
+        float dist = Vector3.Distance(enemy.transform.position, transform.position);
+        //if close range
+        if(dist <= radiusMax * (1f/3f))
+        {
+            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(bigDmg, false);
+            print("Big Damage");
+        }
+        //if medium range
+        else if(dist <= radiusMax * (2f/3f))
+        {
+            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(medDmg, false);
+            print("Medium Damage");
+        }
+        //if long range
+        else if(dist <= radiusMax)
+        {
+            // enemy.gameObject.GetComponent<IAttributes>().TakeDamage(smallDmg, false);
+            print("Small Damage");
         }
     }
 
