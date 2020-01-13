@@ -10,18 +10,15 @@ public class PLY_ImanBlastTest : MonoBehaviour
     [SerializeField] private float radiusMax = 1f;
     [SerializeField] private float radiusChargeSpeed = 1f;
     [SerializeField] private float BlastSpeedMultiplyer = 1f;
-    [SerializeField] private LayerMask enemiesLayer;
-    [SerializeField] private int PushBackForce;
-    [SerializeField] private int smallDmg;
-    [SerializeField] private int medDmg;
+    [SerializeField] private float PushBackForce;
     [SerializeField] private int bigDmg;
+    [SerializeField] private int medDmg;
+    [SerializeField] private int smallDmg;
+    [SerializeField] private LayerMask enemiesLayer;
 
     private bool coroutineOn = false;
     private float chargeCount = 0f;
-
-
     [SerializeField] private GameObject ChargeVisual;
-
     private List<GameObject> enemiesDamaged = new List<GameObject>();
 
     // Update is called once per frame
@@ -91,6 +88,26 @@ public class PLY_ImanBlastTest : MonoBehaviour
     private void PushBack(GameObject enemy)
     {
         enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * PushBackForce);
+        //get distance between player and the enemy
+        float dist = Vector3.Distance(enemy.transform.position, transform.position);
+        //if close range
+        if (dist <= radiusMax * (1f / 3f))
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (3f / 3f)));
+            print("Big push");
+        }
+        //if medium range
+        else if (dist <= radiusMax * (2f / 3f))
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (2f / 3f)));
+            print("Medium med");
+        }
+        //if long range
+        else if (dist <= radiusMax)
+        {
+            enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * (PushBackForce * (1f / 3f)));
+            print("Small small");
+        }
     }
 
 

@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 498257170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.4918275, y: 0.1365, z: 4.6717}
+  m_LocalScale: {x: 4.4918275, y: 0.1365, z: 26.070889}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -788,12 +788,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputReceived: 0
   radiusMax: 2
-  radiusChargeSpeed: 1
+  radiusChargeSpeed: 2
   BlastSpeedMultiplyer: 2
   enemiesLayer:
     serializedVersion: 2
     m_Bits: 256
-  PushBackForce: 50
+  PushBackForce: 200
   smallDmg: 0
   medDmg: 0
   bigDmg: 0
