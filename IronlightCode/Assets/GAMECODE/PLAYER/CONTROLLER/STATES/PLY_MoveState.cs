@@ -34,6 +34,11 @@ public class PLY_MoveState : PLY_BaseState
             return typeof(PLY_IdleState);
         }
 
+        if (_stateManager.orb || _stateManager.beamStart || _stateManager.beamEnd || _stateManager.radial)
+        {
+            return typeof(PLY_AttackState);
+        }
+
         _movement.vMoveInput = new Vector2(_stateManager.horizontal, _stateManager.vertical);
         return null;
     }

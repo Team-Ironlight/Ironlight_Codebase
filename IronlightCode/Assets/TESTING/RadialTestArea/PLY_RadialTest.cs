@@ -15,8 +15,8 @@ public class PLY_RadialTest : MonoBehaviour
     public float timer = 5.0f;
     private float countdown = 0.01f;
 
-    private enum modes { off, pulse, hold, charge }
-    private modes currentMode = modes.off; 
+    public enum modes { off, pulse, hold, charge }
+    public modes currentMode = modes.pulse; 
 
     private void Update()
     {
@@ -43,27 +43,12 @@ public class PLY_RadialTest : MonoBehaviour
         }
     }
 
-    //void GetInput()
-    //{
-    //    // Change this depending on how you want the attack to work
-        
-    //    if (Input.GetKey(KeyCode.Space))
-    //    {
-    //        inputReceived = true;
-    //    }
-    //    else
-    //    {
-    //        inputReceived = false;
-    //        radius = 0.01f;
-    //    }
-    //}
-
     IEnumerator RadialAction(float x)
     {
         Debug.Log("PULSE");
         if(x < 0)
         {
-            x = 1f;
+            x = 1.0f;
         }
 
         float count = 0.0f;
@@ -90,6 +75,12 @@ public class PLY_RadialTest : MonoBehaviour
             coroutineOn = true;
             currentCoroutine = StartCoroutine(RadialAction(radiusMax));
         }
+    }
+
+    public void TestPulse()
+    {
+        coroutineOn = true;
+        currentCoroutine = StartCoroutine(RadialAction(radiusMax));
     }
 
     private void Hold()
@@ -123,7 +114,7 @@ public class PLY_RadialTest : MonoBehaviour
     }
 
     // Code to perform attack
-    void Shoot()
+    public void Shoot()
     {
         Debug.Log("CurrentMode: " + currentMode.ToString());
         if(currentMode == modes.pulse)

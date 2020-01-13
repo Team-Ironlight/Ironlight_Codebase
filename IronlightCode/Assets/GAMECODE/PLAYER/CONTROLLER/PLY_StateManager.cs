@@ -16,7 +16,10 @@ public class PLY_StateManager : MonoBehaviour
     [Header("Action Variables")]
     public bool jump;
     public bool dodge;
-    public bool attack;
+    public bool orb;
+    public bool beamStart;
+    public bool beamEnd;
+    public bool radial;
 
 
     public float delta;
@@ -24,12 +27,15 @@ public class PLY_StateManager : MonoBehaviour
     public Animator anim;
     public Rigidbody rigid;
 
+    public GameObject muzzle;
+
     [Header("Components")]
     Rigidbody _rb;
     PLY_StateMachine machine;
     PLY_Stats stats;
     public PLY_Attributes attributes;
     public PLY_MovementComponent movement;
+    public PLY_AttackComponent attack;
 
 
 
@@ -42,6 +48,12 @@ public class PLY_StateManager : MonoBehaviour
         stats = GetComponent<PLY_Stats>();
         attributes = GetComponent<PLY_Attributes>();
         movement = GetComponent<PLY_MovementComponent>();
+        attack = GetComponent<PLY_AttackComponent>();
+
+        //muzzle = GameObject.FindGameObjectWithTag("Muzzle");
+        //muzzle.AddComponent<PLY_OrbTest>();
+        //muzzle.AddComponent<PLY_BeamTest>();
+        //muzzle.AddComponent<PLY_RadialTest>();
         
 
         SetupAnimator();
@@ -109,7 +121,7 @@ public class PLY_StateManager : MonoBehaviour
     void InitializeHealthComponent()
     {
         // Initialize health component using corresponding values from PlayerStats script
-        attributes.Init(stats.maxHealthValue, stats.maxSpiritValue);
+        //attributes.Init(stats.maxHealthValue, stats.maxSpiritValue);
     }
 
     #endregion
