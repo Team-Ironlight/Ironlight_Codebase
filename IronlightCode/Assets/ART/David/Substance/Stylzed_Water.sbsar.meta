@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cd493b41945efd04483c6e26b7e17af2
+guid: 3bf8ac93e01c7104fa2e7a2c405f48fe
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -10,28 +10,26 @@ ScriptedImporter:
   script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
   version: 24
   mGraphInstanceData:
-  - graphLabel: Ground_Rock
-    prototypeName: Ground_Rock
+  - graphLabel: Stylzed_Water
+    prototypeName: Stylzed_Water
     graphDescIndex: 0
     generateAllOutputs: 0
     generateMipMaps: 1
-    preset: " <sbspreset pkgurl=\"pkg://Ground_Rock\" label=\"\" >\n  <presetinput
-      identifier=\"$outputsize\" uid=\"2220248972\" type=\"8\" value=\"9,9\" />\n
-      </sbspreset>\n"
-    shaderName: Tessellation/Tess_Standard
+    preset: " <sbspreset pkgurl=\"pkg://Stylzed_Water\" label=\"\" >\n </sbspreset>\n"
+    shaderName: Standard
     materialProperties:
-      shader: {fileID: 4800000, guid: e3fbcd342fdb1bc4eb5994f70774e4bd, type: 3}
+      shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
       shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _OCCLUSIONMAP _PARALLAXMAP
       lightmapFlags: 4
       texEnvs:
       - name: _BumpMap
-        texture: {fileID: -5091879754444565308, guid: cd493b41945efd04483c6e26b7e17af2,
+        texture: {fileID: -3457045945436704207, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _DetailAlbedoMap
         texture: {instanceID: 0}
-        scale: {x: 1, y: 1}
+        scale: {x: 10, y: 10}
         offset: {x: 0, y: 0}
       - name: _DetailMask
         texture: {instanceID: 0}
@@ -42,26 +40,27 @@ ScriptedImporter:
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _EmissionMap
-        texture: {instanceID: 0}
-        scale: {x: 1, y: 1}
+        texture: {fileID: 3042589321245713476, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
+          type: 3}
+        scale: {x: 4, y: 4}
         offset: {x: 0, y: 0}
       - name: _MainTex
-        texture: {fileID: 8457996575198110948, guid: cd493b41945efd04483c6e26b7e17af2,
+        texture: {fileID: 605565028207252927, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
-        scale: {x: 1, y: 1}
+        scale: {x: 4, y: 4}
         offset: {x: 0, y: 0}
       - name: _MetallicGlossMap
-        texture: {fileID: 7265186494207126316, guid: cd493b41945efd04483c6e26b7e17af2,
+        texture: {fileID: 7915622488702412488, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _OcclusionMap
-        texture: {fileID: 3573318486365521769, guid: cd493b41945efd04483c6e26b7e17af2,
+        texture: {fileID: -9004368879864583482, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
       - name: _ParallaxMap
-        texture: {fileID: -63422395854868029, guid: cd493b41945efd04483c6e26b7e17af2,
+        texture: {fileID: -8050211376107169930, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
         scale: {x: 1, y: 1}
         offset: {x: 0, y: 0}
@@ -72,14 +71,10 @@ ScriptedImporter:
         float: 0.5
       - name: _DetailNormalMapScale
         float: 1
-      - name: _DispOffset
-        float: 0.234
-      - name: _Displacement
-        float: 0.613
       - name: _DstBlend
         float: 0
       - name: _GlossMapScale
-        float: 0
+        float: 1
       - name: _Glossiness
         float: 0.5
       - name: _GlossyReflections
@@ -91,27 +86,17 @@ ScriptedImporter:
       - name: _OcclusionStrength
         float: 1
       - name: _Parallax
-        float: 0.050975
-      - name: _Phong
-        float: 0.5
-      - name: _ShadowLOD
-        float: 0.472
+        float: 0.02
       - name: _SmoothnessTextureChannel
         float: 0
       - name: _SpecularHighlights
         float: 1
       - name: _SrcBlend
         float: 1
-      - name: _Tess
-        float: 32
-      - name: _TessMode
-        float: 0
       - name: _UVSec
         float: 0
       - name: _ZWrite
         float: 1
-      - name: _maxDist
-        float: 317
       colors:
       - name: _Color
         color: {r: 1, g: 1, b: 1, a: 1}
@@ -164,14 +149,23 @@ ScriptedImporter:
       bNumerical: 0
       bLinear: 1
     - outputName: ambientOcclusion
-      identifier: AmbientOcclusion
+      identifier: AO
       usageName: ambientOcclusion
       channelStr: ambientOcclusion
-      label: AmbientOcclusion
+      label: AO
       usage: 5
       bImage: 1
       bNumerical: 0
       bLinear: 1
+    - outputName: emissive
+      identifier: Emission
+      usageName: emissive
+      channelStr: emissive
+      label: Emission
+      usage: 3
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
     texturePackingList:
     - targetName: baseColor
       components:
@@ -190,7 +184,7 @@ ScriptedImporter:
         to: 3
     - targetName: metallic
       components:
-      - sourceName: metallic
+      - sourceName: smoothness
         from: 0
         to: 3
     - targetName: height
@@ -203,28 +197,37 @@ ScriptedImporter:
       - sourceName: ambientOcclusion
         from: 0
         to: 3
+    - targetName: emissive
+      components:
+      - sourceName: emissive
+        from: 0
+        to: 3
     textureParameters:
-    - textureName: Ground_Rock - baseColor
+    - textureName: Stylzed_Water - baseColor
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Ground_Rock - normal
+    - textureName: Stylzed_Water - normal
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Ground_Rock - roughness
+    - textureName: Stylzed_Water - roughness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Ground_Rock - metallic
+    - textureName: Stylzed_Water - metallic
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Ground_Rock - height
+    - textureName: Stylzed_Water - height
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Ground_Rock - ambientOcclusion
+    - textureName: Stylzed_Water - ambientOcclusion
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: Stylzed_Water - emissive
       wrapMode: 0
       filterMode: 1
       aniso: 1
@@ -234,16 +237,17 @@ ScriptedImporter:
     - label: Default
       bOverride: 0
       bLockRatio: 1
-      textureWidth: 512
-      textureHeight: 512
+      textureWidth: 4096
+      textureHeight: 4096
       textureFormatMode: 0
       normalCompressed: 0
       bGenerateOnLoad: 1
-    material: {fileID: 1374163796127210600, guid: cd493b41945efd04483c6e26b7e17af2,
+    material: {fileID: 4113634456359150618, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
       type: 3}
     generatedTextures:
-    - {fileID: 8457996575198110948, guid: cd493b41945efd04483c6e26b7e17af2, type: 3}
-    - {fileID: -5091879754444565308, guid: cd493b41945efd04483c6e26b7e17af2, type: 3}
-    - {fileID: 7265186494207126316, guid: cd493b41945efd04483c6e26b7e17af2, type: 3}
-    - {fileID: -63422395854868029, guid: cd493b41945efd04483c6e26b7e17af2, type: 3}
-    - {fileID: 3573318486365521769, guid: cd493b41945efd04483c6e26b7e17af2, type: 3}
+    - {fileID: 605565028207252927, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
+    - {fileID: -3457045945436704207, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
+    - {fileID: 7915622488702412488, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
+    - {fileID: -8050211376107169930, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
+    - {fileID: -9004368879864583482, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
+    - {fileID: 3042589321245713476, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe, type: 3}
