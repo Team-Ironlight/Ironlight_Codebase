@@ -147,17 +147,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: PatrolState
-  DisplayMode: 1
-  UIStart: 0
-  UIEnd: 0
-  PathStatus: 2
-  Waypoints:
+  OnEnemyLostState: PatrolState
+  waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  patrol_For_This_Time: 15
-  PatrolFinishState: FleeState
-  walk_Speed: 2
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ShowWireSphere_Sensor: 1
+  minDistanceToPatrol: 5
+  maxDistanceToPatrol: 20
+  walk_Speed: 10
   run_Speed: 4
-  PathPending: 0
-  PathStale: 0
-  CurrentIndex: 0
+  FacingMaxAngle: 45

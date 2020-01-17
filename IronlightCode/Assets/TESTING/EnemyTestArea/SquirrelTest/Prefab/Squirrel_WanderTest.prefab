@@ -147,12 +147,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: WanderState
-  target: {fileID: 0}
-  minDistanceToTarget: 2
-  fov: 120
-  viewDistance: 10
-  wanderRadius: 20
-  OnEnemyMinDistanceState: WanderState
-  WanderFinishState: WanderState
-  walk_Speed: 2
+  OnEnemyLostState: FleeState
+  ShowWireSphere_Sensor: 1
+  minDistanceToWander: 5
+  maxDistanceToWander: 20
+  walk_Speed: 5
   run_Speed: 4
+  FacingMaxAngle: 45
+  wanderTimer: 15

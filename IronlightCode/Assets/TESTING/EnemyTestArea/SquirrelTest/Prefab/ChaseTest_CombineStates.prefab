@@ -136,7 +136,7 @@ MonoBehaviour:
   - {fileID: 6281945771414599139}
   - {fileID: 6281945771414599138}
   - {fileID: 6281945771414599141}
-  CurrentState: {fileID: 6281945771414599139}
+  CurrentState: {fileID: 6281945771414599141}
   isActive: 1
 --- !u!114 &6281945771414599139
 MonoBehaviour:
@@ -151,12 +151,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: ChaseState
-  target: {fileID: 0}
-  dampTime: 1.25
-  minDistanceToTarget: 1
   OnEnemyLostState: WanderState
-  OnEnemyMinDistanceState: FleeState
-  walk_Speed: 2
+  ShowWireSphere_Sensor: 1
+  minDistanceToChase: 10
+  maxDistanceToChase: 28.5
+  walk_Speed: 5
   run_Speed: 4
 --- !u!114 &6281945771414599138
 MonoBehaviour:
@@ -171,7 +170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: FleeState
-  target: {fileID: 0}
   minFleeTime: 2
   maxFleeTime: 5
   multiplyBy: 5
@@ -191,12 +189,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: WanderState
-  target: {fileID: 0}
-  minDistanceToTarget: 2
-  fov: 120
-  viewDistance: 10
-  wanderRadius: 7
-  OnEnemyMinDistanceState: WanderState
-  WanderFinishState: ChaseState
-  walk_Speed: 2
+  OnEnemyLostState: ChaseState
+  ShowWireSphere_Sensor: 1
+  minDistanceToWander: 20
+  maxDistanceToWander: 30
+  walk_Speed: 5
   run_Speed: 4
+  FacingMaxAngle: 45
+  wanderTimer: 15
