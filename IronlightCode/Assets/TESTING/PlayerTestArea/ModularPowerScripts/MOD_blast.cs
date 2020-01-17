@@ -115,7 +115,7 @@ public class MOD_blast : MonoBehaviour
     private void Charge()
     {
         //while key is held add to radius if it hasnt reached max radius
-        if (Input.GetKey(KeyCode.L) && !coroutineOn)
+        if (Input.GetKey(KeyCode.LeftShift) && !coroutineOn)
         {
             if (chargeCount < radiusMax)
             {
@@ -123,7 +123,7 @@ public class MOD_blast : MonoBehaviour
             }
         }
         //on key released call the blast coroutine with the blast radius calculated
-        if (Input.GetKeyUp(KeyCode.L))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
