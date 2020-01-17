@@ -57,13 +57,13 @@ public class MOD_beam : MonoBehaviour
         // Change this depending on how you want the attack to work
         if (!endAttack)
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 inputReceived = true;
                 StartAttack = true;
             }
         }
-        if (Input.GetKeyUp(KeyCode.K))
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             inputReceived = false;
             StartAttack = false;

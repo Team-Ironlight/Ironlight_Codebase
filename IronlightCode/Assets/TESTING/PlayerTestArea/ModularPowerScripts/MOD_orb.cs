@@ -15,7 +15,7 @@ public class MOD_orb : MonoBehaviour
     public GameObject GB_Bullet;
     [SerializeField] private float AttackCoolDown = 0.5f;
     private float AttackTimer;
-
+    public bool shotFired = false;
 
     // Initilization - Instantiate a set number of bullets
 
@@ -43,11 +43,12 @@ public class MOD_orb : MonoBehaviour
     void GetInput()
     {
         // Change this depending on how you want the attack to work
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             inputReceived = true;
             if (AttackTimer <= Time.time)
             {
+                shotFired = true;
                 // TODO Change Inputed Parameter to not just be camera forward :D
                 Shoot(transform.forward);
                 AttackTimer = Time.time + AttackCoolDown;
@@ -56,6 +57,7 @@ public class MOD_orb : MonoBehaviour
         }
         else
         {
+            shotFired = false;
             inputReceived = false;
         }
     }
