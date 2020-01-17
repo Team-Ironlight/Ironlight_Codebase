@@ -193,7 +193,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: -4.4419763e-16, w: -2.2737376e-13}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -303,6 +303,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &475255115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8010698632684900489, guid: e158102907c45fb43a1667f91003abec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8010698633582755185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &475255118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8010698632684900490, guid: e158102907c45fb43a1667f91003abec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8010698633582755185}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475255115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a087c7d5dce5b4fa1e97b34972210b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &475255119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8010698632684900492, guid: e158102907c45fb43a1667f91003abec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8010698633582755185}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475255115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5669eb039c4a5c4f9ff74203dbe9c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &475255120 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8010698632684900491, guid: e158102907c45fb43a1667f91003abec,
+    type: 3}
+  m_PrefabInstance: {fileID: 8010698633582755185}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475255115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af006780b98b8e64fa17ec636a07439c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &637752999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,5 +1046,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8010698632430914512, guid: e158102907c45fb43a1667f91003abec,
+        type: 3}
+      propertyPath: orbTest
+      value: 
+      objectReference: {fileID: 475255120}
+    - target: {fileID: 8010698632430914512, guid: e158102907c45fb43a1667f91003abec,
+        type: 3}
+      propertyPath: beamTest
+      value: 
+      objectReference: {fileID: 475255119}
+    - target: {fileID: 8010698632430914512, guid: e158102907c45fb43a1667f91003abec,
+        type: 3}
+      propertyPath: blastTest
+      value: 
+      objectReference: {fileID: 475255118}
+    - target: {fileID: 8010698632430914512, guid: e158102907c45fb43a1667f91003abec,
+        type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 475255115}
+    - target: {fileID: 8010698632684900490, guid: e158102907c45fb43a1667f91003abec,
+        type: 3}
+      propertyPath: ChargeVisual
+      value: 
+      objectReference: {fileID: 4112933801870157132, guid: 17eaf3ab46be4d94ebf828544e7045c8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e158102907c45fb43a1667f91003abec, type: 3}
