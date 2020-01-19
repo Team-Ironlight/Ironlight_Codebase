@@ -10,6 +10,10 @@ public class Enemies : MonoBehaviour
          // Access the Audio source.
     AudioSource MyAudioSource;
 
+        //bool checks if enemies are hit
+    public bool EnemyHit;
+
+
         // bool checks if enemies are attacking.
     public bool Squirrel_IsAttacking;
     public bool Squirrel_IsChasing;
@@ -22,6 +26,8 @@ public class Enemies : MonoBehaviour
     public bool Snake_IsAttacking;
     public bool Snake_IsIdling;
     
+        //EnemyHit
+    public AudioClip S_EnemyHit;
 
      // Squirrel Section
          // List of Audio clips  
@@ -49,6 +55,14 @@ public class Enemies : MonoBehaviour
  
     void Update()
     {
+
+        //General Enemy Section
+        if (EnemyHit)
+        {
+            MyAudioSource.Stop();
+            MyAudioSource.PlayOneShot(S_EnemyHit, 1f);
+        }
+
           // Squirrel Section
             // Attacking
         if (Squirrel_IsAttacking)
