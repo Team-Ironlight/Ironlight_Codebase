@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 40706267631260883}
   - component: {fileID: 40706267631260882}
   - component: {fileID: 40706267631260881}
+  - component: {fileID: 3055757755203141254}
   m_Layer: 0
   m_Name: Squirrel_AttackTest
   m_TagString: Enemy
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AvailableStates:
   - {fileID: 40706267631260881}
-  CurrentState: {fileID: 40706267631260881}
+  CurrentState: {fileID: 3055757755203141254}
   isActive: 1
 --- !u!114 &40706267631260881
 MonoBehaviour:
@@ -148,10 +149,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: AttackState
   target: {fileID: 0}
-  OnEnemyLostState: WanderState
-  OnEnemyChaseDistance: ChaseState
-  OnEnemyAttackDistance: AttackState
-  chase_Distance: 10.24
-  attack_Distance: 6
+  OnEnemyLostState: ChaseState
+  ShowWireSphere_Sensor: 1
+  maxDistanceToAttack: 9.8
+  minDistanceToAttack: 2
+  walk_Speed: 5
+  run_Speed: 4
+  FacingMaxAngle: 45
+  Ability: {fileID: 11400000, guid: d1d412f8f63964c49ab2997be427e89d, type: 2}
+--- !u!114 &3055757755203141254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40706267631260880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8390a16cf05258499e6c08649149355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: ChaseState
+  OnEnemyLostState: AttackState
+  ShowWireSphere_Sensor: 1
+  minDistanceToChase: 10
+  maxDistanceToChase: 20
   walk_Speed: 2
   run_Speed: 4
