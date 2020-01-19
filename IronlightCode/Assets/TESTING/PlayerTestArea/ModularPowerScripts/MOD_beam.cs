@@ -16,7 +16,8 @@ public class MOD_beam : MonoBehaviour
     [SerializeField] private float _fBeamSpeedGoing;
     [SerializeField] private float _fBeamSpeedClosing;
     [SerializeField] private int _iBeamRange;
-
+    bool hitLeaf;
+    public LayerMask layerMask;
     float blah = 0;
 
 
@@ -73,7 +74,18 @@ public class MOD_beam : MonoBehaviour
 
     private void beamgoing()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(gameObject.transform.position, Vector3.forward, out hit, 40f, layerMask))
+        {
+            hit.transform.SendMessage("RayHit");
+            hitLeaf = true;
+            print("Hit");
+        }
+        else
+        {
 
+            hitLeaf = false;
+        }
     }
 
     private void beamEnding()

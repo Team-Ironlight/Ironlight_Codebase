@@ -57,6 +57,7 @@ public class LightSource : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
+            print("Absorb");
             absorbLight = true;
         }
     }
