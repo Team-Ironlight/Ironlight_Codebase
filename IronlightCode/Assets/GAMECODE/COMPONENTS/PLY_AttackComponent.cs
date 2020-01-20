@@ -26,7 +26,7 @@ public class PLY_AttackComponent : MonoBehaviour
 
     public void LaunchOrb()
     {
-        orbAttack.Shoot();
+        //orbAttack.Shoot();
     }
 
     public void StartBeam()
