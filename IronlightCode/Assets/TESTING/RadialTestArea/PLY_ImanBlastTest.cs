@@ -22,7 +22,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
     [SerializeField] private GameObject ChargeVisual;
 
     private List<GameObject> enemiesDamaged = new List<GameObject>();
-    public bool drainSpirit = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -135,7 +135,6 @@ public class PLY_ImanBlastTest : MonoBehaviour
         {
             if (chargeCount < radiusMax)
             {
-                drainSpirit = true;
                 chargeCount += radiusChargeSpeed * Time.deltaTime;
                 Visual.transform.localScale = new Vector3(chargeCount, chargeCount, chargeCount) / 5;
             }
@@ -143,7 +142,6 @@ public class PLY_ImanBlastTest : MonoBehaviour
         //on key released call the blast coroutine with the blast radius calculated
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            drainSpirit = false;
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
             Destroy(Visual);
