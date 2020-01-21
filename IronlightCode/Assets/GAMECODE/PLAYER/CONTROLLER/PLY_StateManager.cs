@@ -37,7 +37,7 @@ public class PLY_StateManager : MonoBehaviour
     public PLY_MovementComponent movement;
     public PLY_AttackComponent attack;
 
-
+    public PLY_HealthComponent Health;
 
 
     // Initialize State Manager by connecting to necessary functions
@@ -122,6 +122,7 @@ public class PLY_StateManager : MonoBehaviour
     {
         // Initialize health component using corresponding values from PlayerStats script
         //attributes.Init(stats.maxHealthValue, stats.maxSpiritValue);
+        Health.Init(100, 1, 100);
     }
 
     #endregion
