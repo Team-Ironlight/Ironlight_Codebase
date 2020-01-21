@@ -12,9 +12,11 @@ public class PLY_HealthComponent : MonoBehaviour
     public float currentHealth;
     float maxHealth;
     public float defValue;
+    float maxMana;
+    public float CurrMana;
 
     // Code to Initialize Health Component
-    public void Init(int _maxHealth, float _defValue)
+    public void Init(int _maxHealth, float _defValue, float _MaxMana)
     {
         // Cache the _maxHealth value in a local variable
         maxHealth = _maxHealth;
@@ -25,6 +27,9 @@ public class PLY_HealthComponent : MonoBehaviour
         // Cache the _defValue in a local variable
         defValue = _defValue;
 
+        maxMana = _MaxMana;
+
+        CurrMana = maxMana;
     }
 
     // Code to Add Health 
@@ -57,6 +62,29 @@ public class PLY_HealthComponent : MonoBehaviour
         else
         {
             currentHealth -= damage;
+        }
+    }
+
+    public void SubManaInst(float value)
+    {
+        if ((CurrMana - value) <= 0)
+        {
+            CurrMana = 0;
+        }
+        else
+        {
+            CurrMana -= value;
+        }
+    }
+    public void SubManaTime(float value)
+    {
+        if ((CurrMana - value) <= 0)
+        {
+            CurrMana = 0;
+        }
+        else
+        {
+            CurrMana -= value * Time.deltaTime;
         }
     }
 }
