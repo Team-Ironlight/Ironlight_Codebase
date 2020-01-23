@@ -18,9 +18,11 @@ public class PLY_ImanBlastTest : MonoBehaviour
 
     private bool coroutineOn = false;
     private float chargeCount = 0f;
+    [SerializeField] private GameObject BlastVisual;
     [SerializeField] private GameObject ChargeVisual;
-    private List<GameObject> enemiesDamaged = new List<GameObject>();
 
+    private List<GameObject> enemiesDamaged = new List<GameObject>();
+    public bool drainSpirit = false;
     // Update is called once per frame
     void Update()
     {
@@ -34,18 +36,22 @@ public class PLY_ImanBlastTest : MonoBehaviour
         //initializing
         float count = 0.0f;
         bool damaged = false;
-        GameObject blast = Instantiate(ChargeVisual, transform.position, transform.rotation);
+        GameObject blast = Instantiate(BlastVisual, transform.position, transform.rotation);
+
         //loop for the blast
         while (count < x)
         {
             //increasing the size of the blast
             radius = count;
+
             //visual for blast
             blast.transform.localScale = new Vector3(radius, radius, radius) * 2;
+
             //get all colliders in the sphere
             foreach (Collider pcollider in Physics.OverlapSphere(transform.position, radius, enemiesLayer))
             {
                 IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
+
                 //check if gameobject is damagable
                 if (cIA != null)
                 {
@@ -58,13 +64,16 @@ public class PLY_ImanBlastTest : MonoBehaviour
                             break;
                         }
                     }
+
                     //if not damaged before
                     if (!damaged)
                     {
                         //do damage to the enemy
                         CalcDmg(pcollider.gameObject);
+
                         //push back the enemy
                         PushBack(pcollider.gameObject);
+
                         //add enemy to damagedenemies
                         enemiesDamaged.Add(pcollider.gameObject);
                     }
@@ -77,8 +86,11 @@ public class PLY_ImanBlastTest : MonoBehaviour
         }
         //reset variables to get ready for next blast
         coroutineOn = false;
+
         chargeCount = 0;
+
         Destroy(blast);
+
         enemiesDamaged.Clear();
         //radius = 0.01f;
     }
@@ -110,23 +122,32 @@ public class PLY_ImanBlastTest : MonoBehaviour
         }
     }
 
-
-    //function for managing inputs
+    GameObject Visual;
+    //function for managing inputsaw
     private void Charge()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Visual = Instantiate(ChargeVisual, transform.position, transform.rotation);
+        }
         //while key is held add to radius if it hasnt reached max radius
         if (Input.GetKey(KeyCode.Space) && !coroutineOn)
         {
             if (chargeCount < radiusMax)
             {
+                drainSpirit = true;
                 chargeCount += radiusChargeSpeed * Time.deltaTime;
+                Visual.transform.localScale = new Vector3(chargeCount, chargeCount, chargeCount) / 5;
             }
         }
         //on key released call the blast coroutine with the blast radius calculated
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            drainSpirit = false;
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
+            Destroy(Visual);
+            Visual = null;
         }
     }
 
