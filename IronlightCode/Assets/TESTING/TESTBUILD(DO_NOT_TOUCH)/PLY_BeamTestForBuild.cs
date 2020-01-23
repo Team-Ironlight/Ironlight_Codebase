@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class PLY_BeamTestForBuild : MonoBehaviour
 {
+	public gameLogic gameLogic;
+
     public bool inputReceived = false;
 
     public LineRenderer _line;
-
-	//Crystal bool
-	public bool Crystal1 = false;
-	public bool Crystal2 = false;
-	public bool Crystal3 = false;
 
 	//CameraObject
 	Vector3 CameraFace;
@@ -26,8 +23,8 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
     //beam
     public GameObject muzzle;
-	//public CapsuleCollider capsule;
-	//float LineWidth = 0.1f; // use the same as you set in the line renderer.
+	Vector3 beamDir;
+	Ray beamRay;
 	private float Distance;
 	Vector3 lineStartPosition;
 	Vector3 lineEndPosition;
@@ -40,17 +37,12 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
     float blah = 0;
 
-	RaycastHit hit;
 
     private void Start()
     {
         _line.SetPosition(0, Vector3.zero);
         _line.SetPosition(1, Vector3.zero);
 
-		//capsule = gameObject.AddComponent();
-		//capsule.radius = LineWidth / 2;
-		//capsule.center = Vector3.zero;
-		//capsule.direction = 2; // Z-axis for easier "LookAt" orientation
 	}
 
     private void Update()
@@ -65,12 +57,14 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
 		PlayerPos = new Vector3(PlayerTiny.transform.position.x, PlayerTiny.transform.position.y, PlayerTiny.transform.position.z);
 
+		beamDir = ((lineEndPosition - transform.position) / (lineEndPosition - transform.position).magnitude);
 
 		PlayerTiny.transform.LookAt(PlayerPos -(AimBeam - PlayerPos));
 
-        if(StartAttack)
+
+
+		if (StartAttack)
         {
-            beamgoing();
 
             if (_line.GetPosition(1).z <= _iBeamRange)
             {
@@ -78,71 +72,67 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
 				_line.SetPosition(1, lineStartPosition);
             }
+
+			//print("START" + lineStartPosition);
+			//print("START" + lineEndPosition);
+
+			beamgoing();
+
         }
-        if(endAttack)
+
+		if (endAttack)
         {
             beamEnding();
+
             if (_line.GetPosition(0).z >= _line.GetPosition(1).z)
             {
                 endAttack = false;
                 _line.SetPosition(0, Vector3.zero);
                 _line.SetPosition(1, Vector3.zero);
             }
+			//print("End" + lineStartPosition);
+			//print("End" + lineEndPosition);
         }
 
-		if (Physics.Raycast(transform.position, lineLength, out hit))
-		{
-			if (hit.collider)
-			{
-				print(hit.collider.gameObject.name);
-				//print(hit.collider.ToString());
-			}
+		RaycastHit hit;
 
-			if (hit.collider.gameObject.name.Contains("Crystal 1"))
+		if (Physics.Raycast(beamRay, out hit))
+		{
+
+			print("Ray " + hit.transform.gameObject.name);
+
+			if (hit.transform.gameObject.name.Contains("Crystal 1"))
 			{
 				//Output message
 				print("Crystal 1 detected");
-				Crystal1 = true;
+				gameLogic.Crystal1 = true;
 			}
 
-			if (hit.collider.gameObject.name.Contains("Crystal 2"))
+			if (hit.transform.gameObject.name.Contains("Crystal 2"))
 			{
 				//Output message
 				print("Crystal 2 detected");
-				Crystal2 = true;
+				gameLogic.Crystal2 = true;
 			}
 
-			if (hit.collider.gameObject.name.Contains("Crystal 3"))
+			if (hit.transform.gameObject.name.Contains("Crystal 3"))
 			{
 				//Output message
 				print("Crystal 3 detected");
-				Crystal3 = true;
+				gameLogic.Crystal3 = true;
 			}
 
-			//if(hit.transform.gameObject.name.Contains("Crystal1Core"))
-			//{
-			//	//Output message
-			//	print("Crystal 1 detected");
-			//	Crystal1 = true;
-			//}
-			//if (hit.transform.gameObject.name.Contains("Crystal2Core"))
-			//{
-			//	//Output message
-			//	print("Crystal 2 detected");
-			//	Crystal2 = true;
-			//}
-			//if (hit.transform.gameObject.name.Contains("Crystal3Core"))
-			//{
-			//	//Output message
-			//	print("Crystal 3 detected");
-			//	Crystal3 = true;
-			//}
 		}
 
-		//capsule.transform.position = lineStartPosition + (lineEndPosition - lineStartPosition) / 2;
-		//capsule.transform.LookAt(lineStartPosition);
-		//capsule.height = (lineEndPosition - lineStartPosition).magnitude;
+		//if(Physics.Linecast(lineStartPosition, lineEndPosition, out hit))
+		//{
+		//	if (hit.collider)
+		//	{
+		//		print("Line " + hit.collider.gameObject.name);
+		//		//print(hit.collider.ToString());
+		//	}
 
+		//}
 	}
 
     void GetInput()
@@ -178,8 +168,8 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
     private void beamgoing()
     {
-        
-    }
+		beamRay = new Ray(transform.position, beamDir);
+	}
 
     private void beamEnding()
     {
@@ -187,30 +177,5 @@ public class PLY_BeamTestForBuild : MonoBehaviour
 
 		_line.SetPosition(0, lineEndPosition);
     }
-
-	//private void OnTriggerEnter(Collider other)
-	//{
-	//	if (other.gameObject.name.Contains("Crystal1Core"))
-	//	{
-	//		//Output message
-	//		print("Crystal 1 detected");
-	//		Crystal1 = true;
-	//	}
-
-	//	if (other.gameObject.name.Contains("Crystal2Core"))
-	//	{
-	//		//Output message
-	//		print("Crystal 2 detected");
-	//		Crystal2 = true;
-	//	}
-
-	//	if (other.gameObject.name.Contains("Crystal3Core"))
-	//	{
-	//		//Output message
-	//		print("Crystal 3 detected");
-	//		Crystal3 = true;
-	//	}
-		
-	//}
 
 }
