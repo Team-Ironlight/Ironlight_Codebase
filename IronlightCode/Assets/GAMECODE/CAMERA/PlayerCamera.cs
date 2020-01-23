@@ -30,7 +30,7 @@ public class PlayerCamera : MonoBehaviour
     private float turnDampening = 10f;
     private float offSetUp = 0.6f;
     private float offSetLeft = 0f;
-    private float cameraDistance = 6f;
+    private float cameraDistance = 16f;
     private float cameraMinHeight = -20f;
     private float cameraMaxHeight = 90f;
 
