@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrystalTurner : MonoBehaviour
+public class gameLogic : MonoBehaviour
 {
+	//beam script
 	public PLY_BeamTestForBuild BeamBool;
 
-	//public Transform target;
-
-	//public int Num;
+	//Crystal bool
+	public bool Crystal1 = false;
+	public bool Crystal2 = false;
+	public bool Crystal3 = false;
 
 	//public float speed = 15f;
 
@@ -29,7 +31,7 @@ public class CrystalTurner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (BeamBool.Crystal1)
+		if (Crystal1)
 		{
 			//transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, speed);
 
@@ -39,7 +41,7 @@ public class CrystalTurner : MonoBehaviour
 
 		}
 
-		if (BeamBool.Crystal2)
+		if (Crystal2)
 		{
 			//transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, speed);
 
@@ -48,7 +50,7 @@ public class CrystalTurner : MonoBehaviour
 			PlatformRaised2.transform.position = Vector3.Lerp(PlatformRaised2.transform.position, new Vector3(1.5f, 0.5f, 12.24f), Time.deltaTime);
 		}
 
-		if (BeamBool.Crystal3)
+		if (Crystal3)
 		{
 			//transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, speed);
 
