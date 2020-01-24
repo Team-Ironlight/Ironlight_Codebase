@@ -12,9 +12,11 @@ public class PLY_HealthComponent : MonoBehaviour
     public float currentHealth;
     float maxHealth;
     public float defValue;
+    public float CurrSpirit;
+    float maxSpirit;
 
     // Code to Initialize Health Component
-    public void Init(int _maxHealth, float _defValue)
+    public void Init(int _maxHealth, float _defValue, int _maxSpirit)
     {
         // Cache the _maxHealth value in a local variable
         maxHealth = _maxHealth;
@@ -24,6 +26,9 @@ public class PLY_HealthComponent : MonoBehaviour
 
         // Cache the _defValue in a local variable
         defValue = _defValue;
+        maxSpirit = _maxSpirit;
+        CurrSpirit = maxSpirit;
+
 
     }
 
@@ -59,4 +64,40 @@ public class PLY_HealthComponent : MonoBehaviour
             currentHealth -= damage;
         }
     }
+
+    public void SubHealthTime(float value)
+    {
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+        }
+        else
+        {
+            currentHealth -= value * Time.deltaTime;
+        }
+    }
+    public void SubSpiritOrb(float value)
+    {
+        if (CurrSpirit<=0)
+        {
+            CurrSpirit = 0;
+        }
+        else
+        {
+            CurrSpirit -= value;
+        }
+    }
+
+    public void SubSpiritTime(float value)
+    {
+        if (CurrSpirit <= 0)
+        {
+            CurrSpirit = 0;
+        }
+        else
+        {
+            CurrSpirit -= value * Time.deltaTime;
+        }
+    }
+
 }

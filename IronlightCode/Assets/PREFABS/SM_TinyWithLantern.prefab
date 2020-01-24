@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 1488562857470706518}
   - component: {fileID: 1488562857470706517}
   - component: {fileID: 1488562857470706516}
+  - component: {fileID: 181824080}
   m_Layer: 0
   m_Name: SM_TinyWithLantern
   m_TagString: Untagged
@@ -488,7 +489,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488562857470706504}
-  m_LocalRotation: {x: -0, y: -0.9884638, z: -0, w: -0.15145758}
+  m_LocalRotation: {x: -0, y: -0.9884636, z: 0, w: -0.1514591}
   m_LocalPosition: {x: 0.4095, y: 1.2985, z: 0.116}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -578,6 +579,7 @@ MonoBehaviour:
   beamTest: {fileID: 0}
   blastTest: {fileID: 0}
   firePoint: {fileID: 0}
+  Spirit: {fileID: 181824080}
 --- !u!114 &1488562857470706519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +645,7 @@ MonoBehaviour:
   attributes: {fileID: 0}
   movement: {fileID: 0}
   attack: {fileID: 0}
+  Spirit: {fileID: 181824080}
 --- !u!114 &1488562857470706516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,6 +658,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7cece1b9a4e7548863409d51a48c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &181824080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488562857470706504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c443ff24bc79740b64e94fa4c7d4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  defValue: 0
+  CurrSpirit: 0
 --- !u!1 &1831744882968974199
 GameObject:
   m_ObjectHideFlags: 0

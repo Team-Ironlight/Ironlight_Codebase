@@ -55,10 +55,10 @@ public class PLY_InputHandler : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
 
         jump = Input.GetKeyDown(KeyCode.Z);
-        orb = Input.GetKeyDown(KeyCode.J);
-        beamStart = Input.GetKeyDown(KeyCode.K);
-        beamEnd = Input.GetKeyUp(KeyCode.K);
-        radial = Input.GetKeyUp(KeyCode.L);
+        orb = Input.GetKeyDown(KeyCode.Mouse1);
+        beamStart = Input.GetKeyDown(KeyCode.Mouse0);
+        beamEnd = Input.GetKeyUp(KeyCode.Mouse0);
+        radial = Input.GetKeyUp(KeyCode.LeftShift);
         dodge = Input.GetKeyDown(KeyCode.C);
     }
 

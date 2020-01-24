@@ -34,7 +34,7 @@ public class TextureSwap : MonoBehaviour
     IEnumerator Timer(float time)
     {
         Debug.Log("Start Timer");
-        Debug.Log(time);
+        //Debug.Log(time);
         //start timer
         float x = 0f;
         while(x < time)
