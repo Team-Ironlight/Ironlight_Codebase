@@ -9,13 +9,12 @@ public class TEST_PowerController : MonoBehaviour
     public PLY_ImanBlastTest blastTest;
     public GameObject firePoint;
 
-    public PLY_HealthComponent Spirit;
-
+    float Spirit; //Place holder for spiritBar
     // Start is called before the first frame update
     void Start()
     {
         firePoint = GameObject.FindGameObjectWithTag("Muzzle");
-
+        Spirit = 100;
     }
 
     // Update is called once per frame
@@ -29,48 +28,24 @@ public class TEST_PowerController : MonoBehaviour
     {
         if (orbTest.shotFired == true)
         {
-            if (Spirit.CurrMana > 0)
-            {
-                Spirit.SubManaInst(5);
-                print("Spirit Remaining: " + Spirit.CurrMana);
-            }
-            else if (Spirit.CurrMana <= 0)
-            {
-                Spirit.SubHealth(5);
-                print("Health Remaining: " + Spirit.currentHealth);
-            }
+            Spirit -= 5;
+            print("Spirit Remaining: " + Spirit);
         }
     }
     void BeamDrain()
     {
         if (beamTest.StartAttack == true)
         {
-            if (Spirit.CurrMana > 0)
-            {
-                Spirit.SubManaTime(2);
-                print("Spirit Remaining: " + Spirit.CurrMana);
-            }
-            else if (Spirit.CurrMana <= 0)
-            {
-                Spirit.SubHealth(5);
-                print("Health Remaining: " + Spirit.currentHealth);
-            }
+            Spirit -= 2 * Time.deltaTime;
+            print("Spirit Remaining: " + Spirit);
         }
     }
     void BlastDrain()
     {
         if(blastTest.drainSpirit == true)
         {
-            if (Spirit.CurrMana > 0)
-            {
-                Spirit.SubManaTime(5);
-                print("Spirit Remaining: " + Spirit.CurrMana);
-            }
-            else if (Spirit.CurrMana <= 0)
-            {
-                Spirit.SubHealth(5);
-                print("Health Remaining: " + Spirit.currentHealth);
-            }
+            Spirit -= 5 * Time.deltaTime;
+            print("Spirit Remaining: " + Spirit);
         }
 
     }
