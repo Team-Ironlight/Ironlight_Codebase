@@ -59,19 +59,19 @@ public class TEST_PowerController : MonoBehaviour
     }
     void BlastDrain()
     {
-        if(blastTest.drainSpirit == true)
-        {
-            if (Spirit.CurrSpirit > 0)
-            {
-                Spirit.SubSpiritTime(5);
-                print("Spirit Remaining: " + Spirit.CurrSpirit);
-            }
-            else if (Spirit.CurrSpirit <= 0)
-            {
-                Spirit.SubHealthTime(5);
-                print("Health Remaining: " + Spirit.currentHealth);
-            }
-        }
+        //if(blastTest.drainSpirit == true)
+        //{
+        //    if (Spirit.CurrSpirit > 0)
+        //    {
+        //        Spirit.SubSpiritTime(5);
+        //        print("Spirit Remaining: " + Spirit.CurrSpirit);
+        //    }
+        //    else if (Spirit.CurrSpirit <= 0)
+        //    {
+        //        Spirit.SubHealthTime(5);
+        //        print("Health Remaining: " + Spirit.currentHealth);
+        //    }
+        //}
 
     }
 }
