@@ -3,15 +3,18 @@
 // 
 // Programmer: Phil James
 // Date:   01/23/2020
+//
+// Description : This Sript will auto link to the UnitHealth script , all the declare variables on this script will reflect in the Inspector UnitHealth Script
+//
 // ----------------------------------------------------------------------------
 using System;
 
 [Serializable]
 public class FloatReference
 {
-    public bool UseConstant = true;
+    public bool UseConstant = true;                                         //by Default was set into True , you must assign value here Only if you dont wanna use Pluggable Variables
     public float ConstantValue;
-    public FloatVariable Variable;
+    public FloatVariable Variable;                                          //if you use Pluggable Variable, Turn off / uncheck the boolean UseConstant.
 
     public FloatReference()
     { }

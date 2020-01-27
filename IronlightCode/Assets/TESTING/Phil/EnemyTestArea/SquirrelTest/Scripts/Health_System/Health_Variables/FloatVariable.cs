@@ -3,6 +3,10 @@
 // 
 // Programmer: Phil James
 // Date:   01/23/2020
+// 
+// Description : This script will contain the Float Value , either for Health value / Speed value etc.  Example : meant for Health (Variable Name HP_Owl , HP_Moose , then assign the float Value)
+//              >> Pluggable Variables can be created thru(Assets>Create>Health System>New Variable)
+//
 // ----------------------------------------------------------------------------
 using UnityEngine;
 
@@ -10,7 +14,7 @@ using UnityEngine;
 public class FloatVariable : ScriptableObject
 {
 #if UNITY_EDITOR
-    [Multiline]
+    [Multiline]                                                                         //Forcing the inspector to allow us to use Multiline Input Box
     public string DeveloperDescription = "";
 #endif
     public float Value;
@@ -25,12 +29,12 @@ public class FloatVariable : ScriptableObject
         Value = value.Value;
     }
 
-    public void ApplyChange(float amount)
+    public void ApplyChange(float amount)                                               //This Function Call will be execute by the "UnitHealth" script
     {
         Value += amount;
     }
 
-    public void ApplyChange(FloatVariable amount)
+    public void ApplyChange(FloatVariable amount)                                       //This Function Call will be execute by the "UnitHealth" script
     {
         Value += amount.Value;
     }
