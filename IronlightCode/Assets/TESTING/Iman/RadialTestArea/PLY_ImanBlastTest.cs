@@ -124,12 +124,12 @@ public class PLY_ImanBlastTest : MonoBehaviour
     //function for managing inputsaw
     private void Charge()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Visual = Instantiate(ChargeVisual, transform.position, transform.rotation);
         }
         //while key is held add to radius if it hasnt reached max radius
-        if (Input.GetKey(KeyCode.Space) && !coroutineOn)
+        if (Input.GetKey(KeyCode.R) && !coroutineOn)
         {
             if (chargeCount < radiusMax)
             {
@@ -139,7 +139,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
             Visual.transform.position = transform.position;
         }
         //on key released call the blast coroutine with the blast radius calculated
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
