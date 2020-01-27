@@ -3,6 +3,9 @@
 // 
 // Programmer: Phil James
 // Date:   01/23/2020
+//
+// Description : Attached this Script to the Projectile weapon e.g ( beam projectile, blast projectile )
+//              in order to use this script , attache Trigger Component ex (Sphere Collider)  so that the UnitHealth Script will identify the variables attached on this script.
 // ----------------------------------------------------------------------------
 using UnityEngine;
 
