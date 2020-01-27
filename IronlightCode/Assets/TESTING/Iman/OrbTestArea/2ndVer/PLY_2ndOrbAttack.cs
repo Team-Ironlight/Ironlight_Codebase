@@ -12,8 +12,7 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     [SerializeField] private int MagezineSize = 10;
 
     //attack
-    public GameObject GB_Bullet;
-    public Camera Cam;
+    public GameObject GB_Bullet; 
     [SerializeField] private float AttackCoolDown = 0.5f;
     private float AttackTimer;
     [SerializeField] private float spreadFactor;
@@ -46,16 +45,15 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     void GetInput()
     {
         // Change this depending on how you want the attack to work
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             inputReceived = true;
             if (AttackTimer <= Time.time)
             {
                 // TODO Change Inputed Parameter to not just be camera forward :D
-                Shoot(Cam.transform.forward);
-                AttackTimer = Time.time + AttackCoolDown;
+                AttackTimer = Time.time + AttackCoolDown;               
             }
-
+            Shoot(transform.forward);
         }
         else
         {
