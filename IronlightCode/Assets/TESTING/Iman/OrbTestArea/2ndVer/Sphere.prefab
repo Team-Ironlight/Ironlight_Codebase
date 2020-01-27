@@ -210,7 +210,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  SeekEnemyRadius: 2
+  targettedRadius: 1
+  nonTargettedRadius: 2
   MaxSeekEnemyRange: 20
 --- !u!54 &-2645590823846175188
 Rigidbody:

@@ -83,7 +83,6 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         {
             radius = nonTargettedRadius;
         }
-
         RaycastHit hit;
         //create a spherecast to see whats infront of the player
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, MaxSeekEnemyRange, enemyLayer))
@@ -169,7 +168,7 @@ public class PLY_2ndBulletOrb : MonoBehaviour
     private void OnDrawGizmos()
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward * hitdis);
-        Gizmos.DrawWireSphere(transform.position + transform.forward * hitdis, 4);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * hitdis, nonTargettedRadius);
     }
     
 }
