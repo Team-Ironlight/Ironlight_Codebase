@@ -1,5 +1,9 @@
-﻿//Programmer : Phil James
-//Description :  Version 2 (January 16, 2020)
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   01/23/2020
+// ----------------------------------------------------------------------------
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,17 +11,24 @@ using UnityEngine.AI;
 using IronLight;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public class AttackState : StateMachine.BaseState
 {
     [Header("Target")]
     public Transform target;
+
+    [Header("Shared Components")]
+    public Rigidbody arcRigidBody;
+    public UnityEngine.AI.NavMeshAgent _navMeshAgent;            //reference to the navmesh agent.
+    public Animator _aniMator;
+
 
     [Header("Decision Making")]                                 //To Do:  Convert this to enum
     public string OnEnemyLostState = "ChaseState";             //If the Player run-away then do Default/assign State
 
     private string OnEnemyAttackDistance = "AttackState";        //If the Player within Attack Perimeter
 
-    private UnityEngine.AI.NavMeshAgent agent;                  //reference to the navmesh agent.
+   
 
     [Header("Sensor Color Red")]
     public bool ShowWireSphere_Sensor;
@@ -35,19 +46,41 @@ public class AttackState : StateMachine.BaseState
 
     [Header("FOV Radar Limits")]
     [SerializeField]
-    public float FacingMaxAngle = 45f;                        //Facing Angle allertness at Z axis
+    public float FacingMaxAngle = 45f;                                          //Facing Angle allertness at Z axis
                                
     [Range(0, 360)]
     private const float ArcSize = 10.0f;
-    private bool isInFov = false;                             //Field of View
+    private bool isInFov = false;                                               //Field of View
 
     [Header("Abilities")]
-    public AI_AbilitySequence Ability;
+    public bool multipleAttack;
+    public AI_CoroutineManager Ability1;                                        //TO DO : Change this to ArrayList
+    public AI_CoroutineManager Ability2;
+    public AI_CoroutineManager Ability3;
+    public AI_CoroutineManager Default_Ability;
 
+
+    [HideInInspector]public bool isCharging;
+    [HideInInspector]public float wait_Before_Attack = 2f;                    //Cooling Attack
+    private float attack_Timer;                                               //Cooling Attack
+
+    
+    private Vector3 fovLine1;                                                   //Local Variables
+    private Vector3 fovLine2;
+    private bool Bool_fovLine1;
+    private bool Bool_fovLine2;
+
+    [HideInInspector]public bool isOnAttackMode = false;
 
     public override void OnEnter()                                               // This is called before the first frame Tick()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        //Validation Check, to ensure all components below are not empty.
+        if(arcRigidBody == null) { Debug.LogWarning("Please assign the RigidBody on this Field."); return; }
+        if (_navMeshAgent == null) { Debug.LogWarning("Please assign the NavmeshAgent on this Field."); return; }
+        if (_aniMator == null) { Debug.LogWarning("Please assign the NavmeshAgent on this Field."); return; }
+
+
+        _navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();             //Initialized        
         target = GameObject.FindWithTag("Player").transform;
         Name = this.GetType().ToString();
     }
@@ -57,43 +90,37 @@ public class AttackState : StateMachine.BaseState
         isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToAttack);
         if (target != null)
         {
-
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-            // Turn the enemy facing to the Player
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                                Quaternion.LookRotation(dirToTarget),
-                                1.0f * Time.deltaTime);
-
-            Vector3 destination = transform.position + dirToTarget;
-
-
-            // Validate if the distance between the player and the enemy
-            // if the distance between enemy and player is less than attack distance
-            if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)          // Switch to <Attack State>
+            if (_navMeshAgent.enabled == true)
             {
+                Vector3 destination = Vector3.zero;
+
+                Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+                // Turn the enemy facing to the Player
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                                    Quaternion.LookRotation(dirToTarget),
+                                    1.0f * Time.deltaTime);
+
+                destination = transform.position + dirToTarget;
 
 
-                if (Vector3.Distance(transform.position, target.position) <= minDistanceToAttack)          // Switch to <Attack State>
+                _navMeshAgent.isStopped = false;
+
+                _navMeshAgent.speed = walk_Speed;
+
+                // Validate if the distance between the player and the enemy
+                // if the distance between enemy and player is less than attack distance
+                if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)          // Switch to <Attack State>
                 {
-                    agent.isStopped = true;
-                    StartCoroutine(Ability.Attack1_Coroutine(this));
+                    _navMeshAgent.SetDestination(destination);
+
                 }
-                else
-                {
-                    // tell nav agent that he can move
-                    agent.isStopped = false;
-                    agent.speed = walk_Speed;
 
-                    agent.SetDestination(destination);
-                }
-            }
-
-
+            } //End if (_navMeshAgent.enabled == true)
         }
     }
 
-    public override string CheckConditions()                                                       // Decisions has been made here
+    public override string CheckConditions()                                                                     // Decisions has been made here
     {
         if (target == null) { return ""; }
         
@@ -109,7 +136,23 @@ public class AttackState : StateMachine.BaseState
                     Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.red);
                     if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)
                     {
-                     
+
+                        if (Vector3.Distance(transform.position, target.position) >= minDistanceToAttack)           // Switch to <Attack State>
+                        {
+                            isCharging = target.GetComponent<PlayerController>().isCharging;
+
+                            StartCoroutine(coroutineTrigger(isCharging, multipleAttack));
+                            isOnAttackMode = true;
+                            if (isCharging)
+                            {
+                                return "PlayerIsCharging";                                                          // Tell the StateMachine allow us to Orbit
+                            }
+                            else
+                            {
+                                return "AttackMode";                                                                
+                            }
+                        }
+                        isOnAttackMode = false;
                         return OnEnemyAttackDistance;
                     }
                     else
@@ -132,7 +175,54 @@ public class AttackState : StateMachine.BaseState
         // TODO destroy Effects / Animation
     }
 
+    IEnumerator coroutineTrigger(bool isCharging, bool multiple)              //Synchronous Coroutine , Multiple Attack will do here
+    {
+        //*- Execute Orbit Ability
+        if (isCharging)
+        {
+            yield return StartCoroutine(Ability1.Rotate_Coroutine(this, minDistanceToAttack, maxDistanceToAttack, isCharging));
+            yield break;
+        }      
+        //yield return null;                               //return next frame
 
+        //*- Execute Swag Ability
+        attack_Timer += Time.deltaTime;                  // Cooling Attack
+        if (attack_Timer > wait_Before_Attack){
+            isCharging = target.GetComponent<PlayerController>().isCharging;
+
+            if (!isCharging) yield return StartCoroutine(Default_Ability.Swag_Coroutine(this, minDistanceToAttack, maxDistanceToAttack));
+
+            attack_Timer = 0f;
+        }
+
+        yield return null;                              //return next frame
+
+        //*- Execute Jump Attack
+        attack_Timer += Time.deltaTime;                    // Cooling Attack
+
+        if (attack_Timer > wait_Before_Attack)
+        {
+            isCharging = target.GetComponent<PlayerController>().isCharging;
+
+            if ((multiple) && (!isCharging)) yield return StartCoroutine(Ability2.Jump(this, 1f, minDistanceToAttack, maxDistanceToAttack));
+
+            attack_Timer = 0f;
+
+        }
+
+        yield return null;                              //return next frame
+
+
+        //*- Do Animation Behavior Stomp & Jumping, Camera Shake , Dust Particles etc.
+        if ((multiple) && (!isCharging))                               //if the player is in the SafeZone
+        {
+            _aniMator.enabled = true;
+            _aniMator.SetTrigger("introOne");
+            yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
+
+        yield break;                                    //turn off
+    }
 
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxAngle, float maxRadius)
@@ -192,6 +282,18 @@ public class AttackState : StateMachine.BaseState
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(transform.position, fovLine1);
             Gizmos.DrawRay(transform.position, fovLine2);
+            //----
+            Ray ray1 = new Ray(transform.position, fovLine1); RaycastHit hit1;                                          //Checking Left / Right if we hit something ?
+                  if (Physics.Raycast(ray1, out hit1, maxDistanceToAttack)) {
+                        Bool_fovLine1 = true;
+                  } else { Bool_fovLine1 = false; }
+
+            Ray ray2 = new Ray(transform.position, fovLine2); RaycastHit hit2;
+                 if (Physics.Raycast(ray2, out hit2, maxDistanceToAttack))  {
+                        Bool_fovLine2 = true;
+                  } else { Bool_fovLine1 = false; }
+
+            //----
 
             if (!isInFov)
                 Gizmos.color = Color.red;
@@ -205,3 +307,233 @@ public class AttackState : StateMachine.BaseState
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Programmer : Phil James Lapuz
+// Linked-in Profile : www.linkedin.com/in/philjameslapuz
+// Youtube Channel : Don Philifeh
