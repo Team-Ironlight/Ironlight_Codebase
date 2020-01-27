@@ -31,8 +31,8 @@ public class PLY_BeamTest : MonoBehaviour
         _line.SetPosition(0, Vector3.zero);
         _line.SetPosition(1, Vector3.zero);
 
-        LineStart = Vector3.zero;
-        LineEnd = Vector3.zero;
+        LineStart = transform.position;
+        LineEnd = transform.position;
 
         HittingObject = false;
     }
@@ -54,8 +54,8 @@ public class PLY_BeamTest : MonoBehaviour
                 _line.SetPosition(0, Vector3.zero);
                 _line.SetPosition(1, Vector3.zero);
 
-                LineStart = Vector3.zero;
-                LineEnd = Vector3.zero;
+                LineStart = transform.position;
+                LineEnd = transform.position;
             }
         }
         
@@ -66,13 +66,13 @@ public class PLY_BeamTest : MonoBehaviour
         // Change this depending on how you want the attack to work
         if (!endAttack)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 inputReceived = true;
                 StartAttack = true;
             }
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if(Input.GetKeyUp(KeyCode.T))
         {
             inputReceived = false;
             StartAttack = false;
