@@ -43,7 +43,7 @@ public class RotateCrystal : MonoBehaviour, IHit
     void Rotate()
     {
 
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             targetRot *= Quaternion.AngleAxis(45, Vector3.up);
             print("Rotate");
