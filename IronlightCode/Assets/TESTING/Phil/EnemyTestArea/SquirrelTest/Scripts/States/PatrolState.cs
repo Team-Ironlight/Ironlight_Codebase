@@ -1,5 +1,9 @@
-﻿//Programmer : Phil James
-//Description :  Version 2 (January 16, 2020)
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   01/23/2020
+// ----------------------------------------------------------------------------
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +12,7 @@ using IronLight;
 
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public class PatrolState : StateMachine.BaseState
 {
     [Header("Target")]
@@ -34,8 +39,11 @@ public class PatrolState : StateMachine.BaseState
     [Range(0f, 40f)]
     public float maxDistanceToPatrol = 20.0f;
 
-    private UnityEngine.AI.NavMeshAgent agent;                                  //reference to the navmesh agent.
-
+    [Header("Components")]
+    private UnityEngine.AI.NavMeshAgent _navMeshAgent;                          //reference to the navmesh agent.
+    private NavMeshPath _path;                                                  //meant for Calculate Path
+    private float _elapsedPath = 0.0f;                                          //Timer for updating the Calculate path
+    private Animator _aniMator;
 
     [Header("Movement")]
     public float walk_Speed = 2f;
@@ -43,7 +51,7 @@ public class PatrolState : StateMachine.BaseState
 
     [Header("FOV Radar Limits")]
     [SerializeField]
-    public float FacingMaxAngle = 45f;                                         //Facing Angle allertness at Z axis
+    public float FacingMaxAngle = 45f;                                           //Facing Angle allertness at Z axis
     private bool isInFov = false;                                                //Field of View
                                                                                  //Local Variables
   
@@ -52,11 +60,14 @@ public class PatrolState : StateMachine.BaseState
 
     public override void OnEnter()                                              // This is called before the first frame Tick()
     {
-        agent = GetComponent<NavMeshAgent>();
-
+        _navMeshAgent = GetComponent<NavMeshAgent>();                           // Initialized
+        _aniMator = GetComponent<Animator>();
         target = GameObject.FindWithTag("Player").transform;
 
-        Name = this.GetType().ToString();
+        Name = this.GetType().ToString();                                       // Naming the Class
+
+        _path = new NavMeshPath();                                              // Initialized these variables meant for Calculating the Path
+        _elapsedPath = 0.0f;                                    
     }
 
     public override void Tick()                                                 //Called every frame , Initiate by the StateMachine
@@ -67,38 +78,54 @@ public class PatrolState : StateMachine.BaseState
 
         if (target != null)
         {
+            if (_navMeshAgent.enabled != true) { return; }
+
+            // Draw the Calculated Path
+            //_elapsedPath += Time.deltaTime;                                                             // Lets Update the way to the goal every second
+            //if (_elapsedPath > 1.0f)
+            //{
+            //    _elapsedPath -= 1.0f;
+            //    NavMesh.CalculatePath(transform.position, dirToTarget, NavMesh.AllAreas, _path);
+            //}
+            //for (int i = 0; i < _path.corners.Length - 1; i++)
+            //    Debug.DrawLine(_path.corners[i], _path.corners[i + 1], Color.red);
+            //--------
+
             if (isAware)
             {
-                isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToPatrol);
+                
+                isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToPatrol);                    //Check the Field of View
 
-               dirToTarget = (target.position - transform.position).normalized;
+                dirToTarget = (target.position - transform.position).normalized;
 
                 // Turn the enemy facing to the Player
                 transform.rotation = Quaternion.Slerp(transform.rotation,
                                     Quaternion.LookRotation(dirToTarget),
                                     1.0f * Time.deltaTime);
 
-               destination = transform.position + dirToTarget;
-
-
-                // Validate if the distance between the player and the enemy
-                // if the distance between enemy and player is less than attack distance
-                if (Vector3.Distance(transform.position, target.position) <= maxDistanceToPatrol)          // Switch to <Attack State>
+                destination = transform.position + dirToTarget;
+                if (_navMeshAgent.enabled == true)
                 {
-                    // tell nav agent that he can move
-                    agent.isStopped = false;
-                    agent.speed = walk_Speed;
+                    // Validate if the distance between the player and the enemy
+                    // if the distance between enemy and player is less than attack distance
+                    if (Vector3.Distance(transform.position, target.position) <= maxDistanceToPatrol)          // Switch to <Attack State>
+                    {
+                        // tell nav agent that he can move
+                        _navMeshAgent.isStopped = false;
+                        _navMeshAgent.speed = walk_Speed;
 
-                    agent.SetDestination(destination);
-                }
-                else if (Vector3.Distance(transform.position, target.position) > maxDistanceToPatrol)
-                {
-                    agent.isStopped = true;
-                    isAware = false;
+                        _navMeshAgent.SetDestination(destination);
+                    }
+                    else if (Vector3.Distance(transform.position, target.position) > maxDistanceToPatrol)
+                    {
+                        _navMeshAgent.isStopped = true;
+                        isAware = false;
+                    }
                 }
             }
             else
             {
+               
                 patrolPoint = Patrol();
                 dirToTarget = (patrolPoint - transform.position).normalized;
 
@@ -109,20 +136,26 @@ public class PatrolState : StateMachine.BaseState
 
                 destination = transform.position + dirToTarget;
 
-                isInFov = inFOV(transform, agent.transform, FacingMaxAngle, maxDistanceToPatrol);
+                isInFov = inFOV(transform, _navMeshAgent.transform, FacingMaxAngle, maxDistanceToPatrol);                           //Check the Field of View
 
-                try
-                {
-                    agent.isStopped = false;
-                    agent.speed = walk_Speed;
+             
+                
+                    try
+                    {
+                        if (_navMeshAgent.enabled == true)
+                        {
+                            _navMeshAgent.isStopped = false;
+                            _navMeshAgent.speed = walk_Speed;
 
-                    agent.SetDestination(destination);
-                }
-                catch
-                {
-                }
+                            _navMeshAgent.SetDestination(destination);
+                        }
+                    }
+                    catch
+                    {
+                    }
+
+                
             }
-
         }
 
         
@@ -133,26 +166,39 @@ public class PatrolState : StateMachine.BaseState
     {
 
         if (target == null) { return ""; }
-
+     
         Collider[] overlapResults = new Collider[10];
         int numFound = Physics.OverlapSphereNonAlloc(transform.position, maxDistanceToPatrol, overlapResults);
-
+       
         for (int i = 0; i < numFound; i++)
         {
             if (overlapResults[i] != null)
             {
-                if (overlapResults[i].transform == target)
+                if (overlapResults[i].transform == target)                                                          // Check if we can
                 {
                     Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.red);
-                    if (Vector3.Distance(transform.position, target.position) < minDistanceToPatrol)
+                    if (Vector3.Distance(transform.position, target.position) >= maxDistanceToPatrol)
                     {
-                       
-                        return OnEnemyPatrolDistance;
+                     
+                        if (Vector3.Distance(transform.position, target.position) >= minDistanceToPatrol)           // Current State <Patrol State>
+                        {
+                          
+                            OnAware();                                      
+                          
+                            return OnEnemyPatrolDistance;
+                        }
+                      
+                     
                     }
-                    else
+                    else if (Vector3.Distance(transform.position, target.position) <= maxDistanceToPatrol)
                     {
-                        OnAware();
-                        return OnEnemyLostState;
+                    
+                        if (Vector3.Distance(transform.position, target.position) <= minDistanceToPatrol)           // Switch to <Attack State>
+                        {
+                          
+                            return OnEnemyLostState;                                                        
+                        }
+                       
                     }
 
                 }
@@ -215,6 +261,8 @@ public class PatrolState : StateMachine.BaseState
                 {
                     waypointIndex++;
                 }
+                _navMeshAgent.isStopped = false;
+                StartCoroutine(coroutineAnimator());
             }
         }
         else
@@ -225,7 +273,34 @@ public class PatrolState : StateMachine.BaseState
         
         return new Vector3(waypoints[waypointIndex].position.x, waypoints[waypointIndex].position.y, waypoints[waypointIndex].position.z);
     }
-    public static bool inFOV(Transform checkingObject, Transform target, float maxAngle, float maxRadius)
+    IEnumerator coroutineAnimator()
+    {
+        _aniMator.enabled = true;
+        _navMeshAgent.isStopped = true;
+        _navMeshAgent.enabled = false;
+       // _aniMator.SetTrigger("introOne");
+
+        Name = "PATROL_ANIMATE";
+        yield return new WaitForSeconds(1f);
+
+        _aniMator.SetTrigger("introOne");
+        //Tweak the name so that it allows you maintained Active NavAgent.
+        yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+      //  yield return null;
+
+      //  yield return new WaitForSeconds(2f);
+
+        Name = this.GetType().ToString();     //Get back the original Class name
+        //_navMeshAgent.enabled = true;
+        //_aniMator.enabled = false;
+
+
+        yield return null;                              //return next frame
+
+
+    }
+    public static bool inFOV(Transform checkingObject, Transform target, float maxAngle, float maxRadius)                                   
     {
         Collider[] overlaps = new Collider[10];
         int count = Physics.OverlapSphereNonAlloc(checkingObject.position, maxRadius, overlaps);
@@ -261,7 +336,7 @@ public class PatrolState : StateMachine.BaseState
         return false;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmos()                                                                                                 // Our WireSphere Guide Draw here
     {
         if (ShowWireSphere_Sensor)
         {
@@ -298,3 +373,197 @@ public class PatrolState : StateMachine.BaseState
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Programmer : Phil James Lapuz
+// Linked-in Profile : www.linkedin.com/in/philjameslapuz
+// Youtube Channel : Don Philifeh

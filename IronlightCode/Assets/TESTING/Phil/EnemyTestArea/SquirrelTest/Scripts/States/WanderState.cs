@@ -1,5 +1,9 @@
-﻿//Programmer : Phil James
-//Description :  Version 2 (January 16, 2020)
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   01/23/2020
+// ----------------------------------------------------------------------------
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,17 +25,18 @@ public class WanderState : StateMachine.BaseState
     private Vector3 wanderPoint;
    
 
-    [Header("Sensor Color Yellow.")]
+    [Header("Sensor Color Green.")]
     public bool ShowWireSphere_Sensor;
-    [Tooltip("Min - Yellow WireSphere.")]
+    [Tooltip("Min - Green WireSphere.")]
     [Range(0f, 20f)]
     public float minDistanceToWander = 5.0f;
-    [Tooltip("Max - Yellow WireSphere.")]
+    [Tooltip("Max - Green WireSphere.")]
     [Range(0f, 30f)]
     public float maxDistanceToWander = 20.0f;
 
-    private UnityEngine.AI.NavMeshAgent agent;                                  //reference to the navmesh agent.
-   
+    [Header("Components")]
+    private UnityEngine.AI.NavMeshAgent _navMeshAgent;                                        //reference to the navmesh agent.
+    private Animator _aniMator;
 
     [Header("Movement")]
     public float walk_Speed = 2f;
@@ -39,17 +44,17 @@ public class WanderState : StateMachine.BaseState
 
     [Header("FOV Radar Limits")]
     [SerializeField]
-    public float FacingMaxAngle = 45f;                                         //Facing Angle allertness at Z axis
+    public float FacingMaxAngle = 45f;                                           //Facing Angle allertness at Z axis
     private bool isInFov = false;                                                //Field of View
                                                                                  //Local Variables
                                                                                  //private Renderer renderer;                                                  //Temporary Variable
     private float timer;
     public float wanderTimer = 20f;
-
+    private bool _playerRunAway = false;
     public override void OnEnter()                                              // This is called before the first frame Tick()
     {
-        Name = this.GetType().ToString();
-        agent = GetComponent<NavMeshAgent>();
+        Name = this.GetType().ToString();                                       // Get the name of this Class
+        _navMeshAgent = GetComponent<NavMeshAgent>();
 
         target = GameObject.FindWithTag("Player").transform;
 
@@ -64,91 +69,108 @@ public class WanderState : StateMachine.BaseState
 
     public override void Tick()                                                 //Called every frame , Initiate by the StateMachine
     {
-   
-        if (wanderPoint != null)
+       
+
+        if (target != null)
         {
-
-            // tell nav agent that he can move
-            agent.isStopped = false;
-            agent.speed = walk_Speed;                                                   //Agent Speed
-            Vector3 dirToTarget = Vector3.zero;
-            Vector3 destination = Vector3.zero;
-
-            if (isAware)
+           
+            if (_navMeshAgent.enabled == true)
             {
-                isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToWander);
-
-                dirToTarget = (target.position + transform.position).normalized;
-
-                // Turn the enemy facing to the Player
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                                    Quaternion.LookRotation(dirToTarget),
-                                   1.0f * Time.deltaTime);
-
-                destination = transform.position + dirToTarget;
-
-                try
+                if (isAware)
                 {
-                    agent.SetDestination(destination);
+                   
+                    //isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToWander);
+
+                    Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+                    // Turn the enemy facing to the Player
+                    transform.rotation = Quaternion.Slerp(transform.rotation,
+                                        Quaternion.LookRotation(dirToTarget),
+                                        1.0f * Time.deltaTime);
+
+                    Vector3 destination = transform.position + dirToTarget;
+
+                    // Validate if the distance between the player and the enemy
+                    // if the distance between enemy and player is less than attack distance
+                    if ((Vector3.Distance(transform.position, target.position) <= maxDistanceToWander))
+                    {
+                        _navMeshAgent.isStopped = false;
+                        _navMeshAgent.speed = run_Speed;
+                        _navMeshAgent.SetDestination(destination);
+                    }
+                    else if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToWander))
+                    {
+                        //if the Player run away from the wander perimeter
+                        _playerRunAway = true;
+                    }
+
                 }
-                catch
+                else
                 {
-                }
+                    timer += Time.deltaTime;
 
+                    if (timer >= wanderTimer)
+                    {
+                        isInFov = inFOV(transform, _navMeshAgent.transform, FacingMaxAngle, maxDistanceToWander);
 
-            }
-            else
-            {
-                timer += Time.deltaTime;
+                        Vector3 newPos = RandomNavSphere(transform.position, maxDistanceToWander, -1);
+                        _navMeshAgent.SetDestination(newPos);
+                        timer = 0;
+                    }
 
-                if (timer >= wanderTimer)
-                {
-
-                    //Vector3 newPos = RandomNavSphere(transform.position, maxDistanceToWander, -1);
-
-                // dirToTarget = (wanderPoint - transform.position).normalized;
-                //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dirToTarget.x, 0, dirToTarget.z));    // flattens the vector3
-                //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 1f);
-
-                    //destination = transform.position + dirToTarget;
-                  
-                isInFov = inFOV(transform, agent.transform, FacingMaxAngle, maxDistanceToWander);
-
-               
-
-                try
-                {
-                    agent.SetDestination(wanderPoint);
-                }
-                catch
-                {
-                }
-
-                    timer = 0;
                 }
             }
         }
     }
 
-    public override string CheckConditions()                                        //Decisions has been made here
-    {
-                                                                                               
+    public override string CheckConditions()                                                        //Decisions has been made here
+    {                                                                                           
 
         if (target == null) { return ""; }
 
-        if(SearchForPlayer())
+        if(_playerRunAway)
         {
-            return OnEnemyLostState;
+            _playerRunAway = false;
+            return OnEnemyWanderDistance;
         }
-        else if (Vector3.Distance(transform.position, wanderPoint) < minDistanceToWander)            //  Has been reached ?
+
+        Collider[] overlapResults = new Collider[10];
+        int numFound = Physics.OverlapSphereNonAlloc(transform.position, maxDistanceToWander, overlapResults);
+
+        for (int i = 0; i < numFound; i++)
         {
-            wanderPoint = RandomWanderPoint();                                                       //  Generate Destination
+            if (overlapResults[i] != null)
+            {
+                if (overlapResults[i].transform == target)
+                {
+                    Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.yellow);
+                    if ((Vector3.Distance(transform.position, target.position) < maxDistanceToWander))
+                    {
+                      
+                        if (Vector3.Distance(transform.position, target.position) > minDistanceToWander)           // Current State <Patrol State>
+                        {
+                            OnAware();
+                            return "";
+                        }
+                        else
+                        {                    
+                            //Going to the minimum Distance , switch <Attack State>
+                            return OnEnemyLostState;
+                        }
 
-            return OnEnemyWanderDistance;                                                           //  Update the State
+                     
+                      
+                    }
+                
+                }
+
+            }
+
         }
-        else
-            return "";
 
+
+
+        return "";
     }
 
  
@@ -160,15 +182,32 @@ public class WanderState : StateMachine.BaseState
     public void OnAware()
     {
         isAware = true;
+      
+    }
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
+
+        randDirection += origin;
+
+        NavMeshHit navHit;
+
+        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+        return navHit.position;
     }
     public Vector3 RandomWanderPoint()
     {
+        //if (Vector3.Distance(transform.position, wanderPoint) < minDistanceToWander)            //  Has been reached ?
+        //{
         Vector3 randomPoint = (Random.insideUnitSphere * maxDistanceToWander) + transform.position;
 
 
         NavMeshHit navHit;
         NavMesh.SamplePosition(randomPoint, out navHit, maxDistanceToWander, UnityEngine.AI.NavMesh.AllAreas);  //-1
         
+
+
 
         return navHit.position;
     }
@@ -202,7 +241,7 @@ public class WanderState : StateMachine.BaseState
         }
         else
         {
-            agent.SetDestination(wanderPoint);
+            _navMeshAgent.SetDestination(wanderPoint);
         }
 
     }
@@ -252,11 +291,11 @@ public class WanderState : StateMachine.BaseState
                 Debug.LogWarning("Please assign less than value to the minDistanceToWander: " + gameObject.name);
             }
             //Minimum Distance WireSphere
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, minDistanceToWander);
 
             //Maximum Distance WireSphere
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, maxDistanceToWander);
 
             //Let us now Rotate the Vector in Horizontally by multiplying the Vector thru Quaternion
@@ -280,3 +319,243 @@ public class WanderState : StateMachine.BaseState
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Programmer : Phil James Lapuz
+// Linked-in Profile : www.linkedin.com/in/philjameslapuz
+// Youtube Channel : Don Philifeh
