@@ -41,7 +41,8 @@ public class CameraController : MonoBehaviour {
 
 	private bool pitchLock = false;
 
-	private void Start() {
+  
+    private void Start() {
 		if (lockCursor) {
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
@@ -51,7 +52,9 @@ public class CameraController : MonoBehaviour {
 
 	private void LateUpdate() {
 
-		CollisionCheck(target.position - transform.forward * distFromTarget);
+       
+
+        CollisionCheck(target.position - transform.forward * distFromTarget);
 		WallCheck ();
 
 
