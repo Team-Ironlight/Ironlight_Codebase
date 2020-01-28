@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] private SOCamera defaultCamera;
     private float mouseSensitivityMult = 1f;
-    private float turnDampening = 10f;
+    [SerializeField] private float turnDampening = 10f;
     private float offSetUp = 0.6f;
     private float offSetLeft = 0f;
     private float cameraDistance = 16f;
