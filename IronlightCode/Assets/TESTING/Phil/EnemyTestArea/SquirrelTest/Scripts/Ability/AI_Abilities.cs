@@ -76,10 +76,11 @@ public class AI_Abilities : AI_CoroutineManager
              t = time / duration;
 
             // Lerp between start position and end position and adjust height based on evaluation of t on Jump Curve
-            _playerAgent.transform.position = Vector3.Lerp(startPos, endPos, t) + (JumpCurve.Evaluate(t) * Vector3.up).normalized;
+            runner.transform.position = Vector3.Lerp(startPos, endPos, t) + (JumpCurve.Evaluate(t) * Vector3.up).normalized;
 
             // Accumulate time and yield each frame
             time += Time.deltaTime;
+
             yield return null;
 
         }
@@ -93,7 +94,7 @@ public class AI_Abilities : AI_CoroutineManager
         // NOTE : Added this for a bit of stability to make sure the
         //        Agent is EXACTLY on the end position of the off mesh
         //		  link before completeing the link.
-        //    _playerAgent.transform.position = endPos;
+        runner.transform.position = startPos;
 
         // All done so inform the agent it can resume control
         // navAgent.CompleteOffMeshLink();
@@ -120,8 +121,8 @@ public class AI_Abilities : AI_CoroutineManager
         //		  link before completeing the link.
         //    _playerAgent.transform.position = startPos;
         // runner.transform.position = Vector3.MoveTowards(runner.transform.position, startPos, Time.deltaTime * radiusSpeed);
-        // yield return null;
-        yield return new WaitForSeconds(1f);
+     //   yield return null;
+        yield return new WaitForSeconds(2f);
     }
 
 
@@ -187,23 +188,23 @@ public class AI_Abilities : AI_CoroutineManager
     //Development is In-Progress
     public override IEnumerator Jump_Coroutine(MonoBehaviour runner, float minDistanceToAttack, float maxDistanceToAttack)
     {
-      //  Debug.Log("Coroutine Jump Created.");
-       
-        target = GameObject.FindWithTag("Player").transform;
-        _playerAgent = runner.GetComponent<NavMeshAgent>();
-        _arcRigidBody = runner.GetComponent<Rigidbody>();
-        _arcRigidBody.isKinematic = false;
-        _playerAgent.enabled = false;
+        //  Debug.Log("Coroutine Jump Created.");
+
+        //target = GameObject.FindWithTag("Player").transform;
+        //_playerAgent = runner.GetComponent<NavMeshAgent>();
+        //_arcRigidBody = runner.GetComponent<Rigidbody>();
+        //_arcRigidBody.isKinematic = false;
+        //_playerAgent.enabled = false;
 
 
 
 
-                //if (Physics.Raycast(runner.transform.position, runner.transform.forward, out hit, 100f, damageLayer))
-                //{
-                //    point1 = hit.point;
-                //    point2 = hit.transform;
-                //    Launch();
-                //}
+        //if (Physics.Raycast(runner.transform.position, runner.transform.forward, out hit, 100f, damageLayer))
+        //{
+        //point1 = hit.point;
+        //point2 = hit.transform;
+        //Launch();
+        //}
 
 
         //if (debugPath)
@@ -211,22 +212,22 @@ public class AI_Abilities : AI_CoroutineManager
         //    DrawPath();
         //}
 
-        Vector3 moveDirection = new Vector3(0, 0, target.position.z);
+        //Vector3 moveDirection = new Vector3(0, 0, target.position.z);
 
-        Physics.gravity = Vector3.up * gravity;
-        _arcRigidBody.useGravity = true;
+        //Physics.gravity = Vector3.up * gravity;
+        //_arcRigidBody.useGravity = true;
 
-        _arcRigidBody.velocity = CalculateLaunchData().initialVelocity;
+        //_arcRigidBody.velocity = CalculateLaunchData().initialVelocity;
 
-        _arcRigidBody.AddForce(runner.transform.up * 11 + moveDirection, ForceMode.Force);
+        //_arcRigidBody.AddForce(runner.transform.up * 11 + moveDirection, ForceMode.Force);
 
 
 
 
         yield return new WaitForSeconds(1f);
-        _arcRigidBody.isKinematic = false;
-    //    runner.GetComponent<AttackState>().isOnAnimation = false;
-     //   Debug.Log("Ability Swag enables coroutineTrigger to run.");
+        //_arcRigidBody.isKinematic = false;
+        //    runner.GetComponent<AttackState>().isOnAnimation = false;
+        //   Debug.Log("Ability Swag enables coroutineTrigger to run.");
 
     }
 
@@ -348,7 +349,7 @@ public class AI_Abilities : AI_CoroutineManager
                  
         runner.transform.position = Vector3.MoveTowards(runner.transform.position, newPosition, Time.deltaTime * radiusSpeed);
 
-        yield return null;              
+        yield break;             
 
         //Debug.Log("Ability Swag enables coroutineTrigger to run.");
 
@@ -366,7 +367,7 @@ public class AI_Abilities : AI_CoroutineManager
 
 
             myCollisionRadius = runner.transform.GetComponent<CapsuleCollider>().radius;
-            targetCollisionRadius = target.transform.GetComponent<CapsuleCollider>().radius;
+           // targetCollisionRadius = target.transform.GetComponent<CapsuleCollider>().radius;
                
 
                 //Since we dont have Obstacle Avoidance Agent like NavAgent, then we have to suffer making our Own
@@ -416,7 +417,7 @@ public class AI_Abilities : AI_CoroutineManager
      
 
             //attack_Distance //Mathf.Pow(maxDistanceToAttack + myCollisionRadius + targetCollisionRadius, 2))
-            if (sqrDstToTarget < Mathf.Pow(maxDistanceToAttack + myCollisionRadius + targetCollisionRadius, 2))
+            if (sqrDstToTarget < Mathf.Pow(maxDistanceToAttack + myCollisionRadius + myCollisionRadius, 2))
             {
          
             //We need to Get the precise/latest Transform Position

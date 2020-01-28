@@ -186,7 +186,7 @@ public class AttackState : StateMachine.BaseState
         //yield return null;                               //return next frame
 
         //*- Execute Swag Ability
-        attack_Timer += Time.deltaTime;                  // Cooling Attack
+        attack_Timer += Time.deltaTime;                   // Cooling Attack
         if (attack_Timer > wait_Before_Attack){
             isCharging = target.GetComponent<PlayerController>().isCharging;
 
@@ -195,7 +195,7 @@ public class AttackState : StateMachine.BaseState
             attack_Timer = 0f;
         }
 
-        yield return null;                              //return next frame
+        yield return null;                                  //return next frame
 
         //*- Execute Jump Attack
         attack_Timer += Time.deltaTime;                    // Cooling Attack
@@ -210,14 +210,14 @@ public class AttackState : StateMachine.BaseState
 
         }
 
-        yield return null;                              //return next frame
+        yield return null;                                                              //return next frame
 
 
         //*- Do Animation Behavior Stomp & Jumping, Camera Shake , Dust Particles etc.
-        if ((multiple) && (!isCharging))                               //if the player is in the SafeZone
+        if ((multiple) && (!isCharging))                                                //Player is in the SafeZone
         {
             _aniMator.enabled = true;
-            _aniMator.SetTrigger("introOne");
+            _aniMator.SetTrigger("Jump");
             yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
         }
 
