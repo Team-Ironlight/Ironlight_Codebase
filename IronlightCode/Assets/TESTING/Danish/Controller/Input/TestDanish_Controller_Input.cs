@@ -128,7 +128,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
             ""id"": ""4533a6a6-403a-4bd5-b3a5-65f5f3daedff"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""951ef509-b195-4bd1-adbc-7ad5851968a8"",
                     ""expectedControlType"": """",
@@ -140,11 +140,11 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f899aac0-b295-444e-a677-ac622bb7faac"",
-                    ""path"": """",
-                    ""interactions"": """",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=1)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -160,7 +160,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         m_Traversal_Dash = m_Traversal.FindAction("Dash", throwIfNotFound: true);
         // Combat
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
-        m_Combat_Newaction = m_Combat.FindAction("New action", throwIfNotFound: true);
+        m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,12 +259,12 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     // Combat
     private readonly InputActionMap m_Combat;
     private ICombatActions m_CombatActionsCallbackInterface;
-    private readonly InputAction m_Combat_Newaction;
+    private readonly InputAction m_Combat_Attack;
     public struct CombatActions
     {
         private @TestDanish_Controller_Input m_Wrapper;
         public CombatActions(@TestDanish_Controller_Input wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Combat_Newaction;
+        public InputAction @Attack => m_Wrapper.m_Combat_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -274,16 +274,16 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_CombatActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnNewaction;
+                @Attack.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -296,6 +296,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     }
     public interface ICombatActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

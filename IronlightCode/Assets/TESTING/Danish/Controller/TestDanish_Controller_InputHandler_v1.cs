@@ -21,6 +21,9 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
     [Header("Jump Variables")]
     public bool jumpStart = false;
 
+    [Header("Combat Variables")]
+    public bool isAttacking = false;
+
 
 
     TestDanish_Controller_StateManager_v1 stateManager;
@@ -52,8 +55,10 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
         stateManager.moveVector = moveVector;
         stateManager.isMoving = isMoving;
         stateManager.isDashing = isDashing;
-        stateManager.dodgeVector = dashVector;
+        stateManager.dashVector = dashVector;
         stateManager.jump = jumpStart;
+
+        stateManager.isAttacking = isAttacking;
     }
 
 
@@ -82,9 +87,12 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
 
         controls.Traversal.Dash.started += Dash_started;
         controls.Traversal.Dash.performed += Dash_performed;
+
+
+        controls.Combat.Attack.started += Attack_started;
     }
 
-
+    
 
     private void OnDisable()
     {
@@ -98,6 +106,7 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
         controls.Traversal.Dash.started -= Dash_started;
         controls.Traversal.Dash.performed -= Dash_performed;
 
+        controls.Combat.Attack.started -= Attack_started;
 
         controls.Disable();
     }
@@ -121,7 +130,10 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
     #region Input Functions
 
 
-
+    private void Attack_started(InputAction.CallbackContext obj)
+    {
+        isAttacking = !isAttacking;
+    }
 
 
 
@@ -137,7 +149,7 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
     {
         Debug.Log("Dash Performed");
         isDashing = true;
-
+        //isDashing = false;
     }
 
     private void Jump_canceled(InputAction.CallbackContext obj)

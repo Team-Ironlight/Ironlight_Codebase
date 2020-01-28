@@ -28,6 +28,11 @@ public class TestDanish_CReadyState : TestDanish_CombatBaseState
     {
         Debug.Log("Ready State");
 
+        if (stateManager.isAttacking)
+        {
+            return typeof(TestDanish_CAttackState);
+        }
+
         return null;
     }
 }
