@@ -28,10 +28,17 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
     {
         Debug.Log("Move State");
 
+        if (stateManager.isDashing)
+        {
+            return typeof(TestDanish_TDashState);
+        }
+
         if (!stateManager.isMoving)
         {
             return typeof(TestDanish_TIdleState);
         }
+
+        stateManager.movement_V1.MoveObject(stateManager.moveVector);
 
         return null;
     }

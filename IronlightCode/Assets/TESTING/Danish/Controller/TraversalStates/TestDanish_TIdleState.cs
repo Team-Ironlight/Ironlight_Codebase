@@ -28,6 +28,11 @@ public class TestDanish_TIdleState : TestDanish_TraversalBaseState
     {
         Debug.Log("Idle State");
 
+        if (stateManager.isDashing)
+        {
+            return typeof(TestDanish_TDashState);
+        }
+
         if (stateManager.isMoving)
         {
             return typeof(TestDanish_TMoveState);
