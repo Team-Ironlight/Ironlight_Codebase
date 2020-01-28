@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Follower : MonoBehaviour
 {
-    [serializeField]
+    [SerializeField]
     private Transform[] routes;
 
     private int routeToGo;
@@ -37,12 +37,12 @@ public class Follower : MonoBehaviour
     {
         coroutineAllowed = false;
 
-        vector2 p0 = routes.[routeNumber].getChild(0).position;
-        vector2 p1 = routes.[routeNumber].getChild(1).position;
-        vector2 p2 = routes.[routeNumber].getChild(2).position;
-        vector2 p3 = routes.[routeNumber].getChild(3).position;
+		Vector2 p0 = routes[routeNumber].GetChild(0).position;
+		Vector2 p1 = routes[routeNumber].GetChild(1).position;
+		Vector2 p2 = routes[routeNumber].GetChild(2).position;
+		Vector2 p3 = routes[routeNumber].GetChild(3).position;
 
-        while (tParam < 1)
+		while (tParam < 1)
         {
             tParam += Time.deltaTime * speed;
 
