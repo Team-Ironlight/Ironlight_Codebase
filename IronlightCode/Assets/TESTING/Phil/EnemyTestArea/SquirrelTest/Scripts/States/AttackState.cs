@@ -139,7 +139,8 @@ public class AttackState : StateMachine.BaseState
 
                         if (Vector3.Distance(transform.position, target.position) >= minDistanceToAttack)           // Switch to <Attack State>
                         {
-                            isCharging = target.GetComponent<PlayerController>().isCharging;
+                            isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
+
 
                             StartCoroutine(coroutineTrigger(isCharging, multipleAttack));
                             isOnAttackMode = true;
@@ -186,39 +187,40 @@ public class AttackState : StateMachine.BaseState
         //yield return null;                               //return next frame
 
         //*- Execute Swag Ability
-        attack_Timer += Time.deltaTime;                  // Cooling Attack
+        attack_Timer += Time.deltaTime;                   // Cooling Attack
         if (attack_Timer > wait_Before_Attack){
-            isCharging = target.GetComponent<PlayerController>().isCharging;
+            isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
 
             if (!isCharging) yield return StartCoroutine(Default_Ability.Swag_Coroutine(this, minDistanceToAttack, maxDistanceToAttack));
 
             attack_Timer = 0f;
         }
 
-        yield return null;                              //return next frame
+        yield return null;                                  //return next frame
 
         //*- Execute Jump Attack
         attack_Timer += Time.deltaTime;                    // Cooling Attack
 
         if (attack_Timer > wait_Before_Attack)
         {
-            isCharging = target.GetComponent<PlayerController>().isCharging;
+            isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
 
             if ((multiple) && (!isCharging)) yield return StartCoroutine(Ability2.Jump(this, 1f, minDistanceToAttack, maxDistanceToAttack));
 
             attack_Timer = 0f;
-
+            yield return new WaitForSeconds(1f);
         }
 
-        yield return null;                              //return next frame
+        yield return null;                                                              //return next frame
 
 
         //*- Do Animation Behavior Stomp & Jumping, Camera Shake , Dust Particles etc.
-        if ((multiple) && (!isCharging))                               //if the player is in the SafeZone
+        if ((multiple) && (!isCharging))                                                //Player is in the SafeZone
         {
-            _aniMator.enabled = true;
-            _aniMator.SetTrigger("introOne");
+          //  _aniMator.enabled = true;
+            _aniMator.SetTrigger("Jump");
             yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            yield return new WaitForSeconds(1f);
         }
 
         yield break;                                    //turn off
