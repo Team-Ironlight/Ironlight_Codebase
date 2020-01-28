@@ -29,8 +29,8 @@ public class TestDanish_Controller_JumpState_v1 : TestDanish_Controller_BaseStat
 
     }
 
-    public override void CheckForNextState()
+    public override Type CheckForNextState()
     {
-        throw new NotImplementedException();
+        return GetType();
     }
 }

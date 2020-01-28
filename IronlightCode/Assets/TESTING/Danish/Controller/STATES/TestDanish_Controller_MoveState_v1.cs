@@ -50,6 +50,8 @@ public class TestDanish_Controller_MoveState_v1 : TestDanish_Controller_BaseStat
 
 
         stateManager.machine.SwitchToNewState(this.GetType());
+
+        return GetType();
     }
 
 
@@ -62,7 +64,7 @@ public class TestDanish_Controller_MoveState_v1 : TestDanish_Controller_BaseStat
         moveAmount.x = stateManager.moveVector.x;
         moveAmount.z = stateManager.moveVector.y;
 
-        moveAmount *= 0.001f;
+        moveAmount *= stateManager.moveSpeed;
         
 
         stateManager.playerObject.transform.position += moveAmount;

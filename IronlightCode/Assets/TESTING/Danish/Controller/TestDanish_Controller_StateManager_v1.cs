@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.Interactions;
 public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 {
     [Header("Movement Variables")]
+    public float moveSpeed = 0.005f;
     public Vector2 moveVector;
     public bool isMoving = false;
 
@@ -50,127 +51,7 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 
 
 
-    #region Input Initialization
 
-
-
-
-
-
-
-
-    private void OnEnable()
-    {
-        controls.Enable();
-
-        controls.Traversal.Movement.performed += Movement_performed;
-        controls.Traversal.Movement.canceled += Movement_canceled;
-
-        controls.Traversal.Jump.started += Jump_started;
-        controls.Traversal.Jump.performed += Jump_performed;
-        controls.Traversal.Jump.canceled += Jump_canceled;
-
-        controls.Traversal.Dash.started += Dash_started;
-        controls.Traversal.Dash.performed += Dash_performed;
-    }
-
-    
-
-    private void OnDisable()
-    {
-        controls.Traversal.Movement.performed -= Movement_performed;
-        controls.Traversal.Movement.canceled -= Movement_canceled;
-
-        controls.Traversal.Jump.started -= Jump_started;
-        controls.Traversal.Jump.performed -= Jump_performed;
-        controls.Traversal.Jump.canceled -= Jump_canceled;
-
-        controls.Traversal.Dash.started -= Dash_started;
-        controls.Traversal.Dash.performed -= Dash_performed;
-
-
-        controls.Disable();
-    }
-
-
-
-
-
-
-
-    #endregion
-
-
-
-
-
-
-
-
-
-    #region Input Functions
-
-
-
-
-
-
-
-    private void Dash_started(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Dash Started");
-
-        dodgeVector = moveVector;
-    }
-
-    private void Dash_performed(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Dash Performed");
-        isDashing = true;
-
-    }
-
-    private void Jump_canceled(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Jump Canceled Early");
-    }
-
-    private void Jump_started(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Jump Started");
-    }
-
-    private void Jump_performed(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Jump Performed");
-    }
-
-    private void Movement_performed(InputAction.CallbackContext ctx)
-    {
-        if (ctx.interaction is HoldInteraction)
-        {
-            isMoving = true;
-            moveVector = ctx.ReadValue<Vector2>();
-        }
-        else if(ctx.interaction is PressInteraction)
-        {
-            isMoving = false;
-            moveVector = Vector2.zero;
-        }
-
-    }
-
-    private void Movement_canceled(InputAction.CallbackContext obj)
-    {
-
-    }
-
-
-
-
-
-
-    #endregion
 
 
 

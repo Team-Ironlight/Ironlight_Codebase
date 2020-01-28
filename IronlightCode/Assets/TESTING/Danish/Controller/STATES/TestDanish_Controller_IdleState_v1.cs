@@ -44,6 +44,6 @@ public class TestDanish_Controller_IdleState_v1 : TestDanish_Controller_BaseStat
             stateManager.machine.SwitchToNewState(typeof(TestDanish_Controller_MoveState_v1));
         }
 
-        return this.GetType();
+        return GetType();
     }
 }
