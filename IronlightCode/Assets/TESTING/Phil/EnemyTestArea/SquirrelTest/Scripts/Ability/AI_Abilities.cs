@@ -64,7 +64,7 @@ public class AI_Abilities : AI_CoroutineManager
 
 
         // End position is fetched from OffMeshLink data and adjusted for baseoffset of agent
-        Vector3 endPos = target.transform.position + (1f * Vector3.up);
+        Vector3 endPos = target.transform.position + (0.2f * Vector3.up);
 
         // Used to keep track of time
         float time = 0.0f; float t = 0.0f;
@@ -94,7 +94,7 @@ public class AI_Abilities : AI_CoroutineManager
         // NOTE : Added this for a bit of stability to make sure the
         //        Agent is EXACTLY on the end position of the off mesh
         //		  link before completeing the link.
-        runner.transform.position = startPos;
+        runner.transform.position = endPos;
 
         // All done so inform the agent it can resume control
         // navAgent.CompleteOffMeshLink();
