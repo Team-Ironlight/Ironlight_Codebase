@@ -16,11 +16,13 @@ public class PLY_BeamTest : MonoBehaviour
     //beam
     public GameObject muzzle;
     private float Distance;
-    public bool endAttack;
-    public bool StartAttack;
+    [HideInInspector] public bool endAttack;
+    [HideInInspector] public bool StartAttack;
     [SerializeField] private float _fBeamSpeedGoing;
     [SerializeField] private float _fBeamSpeedClosing;
     [SerializeField] private int _iBeamRange;
+    private float BeamLengthGoing;
+    private float BeamLengthClosing;
 
     //linecast
     private RaycastHit LineCastHit;
@@ -28,11 +30,7 @@ public class PLY_BeamTest : MonoBehaviour
 
     private void Start()
     {
-        _line.SetPosition(0, Vector3.zero);
-        _line.SetPosition(1, Vector3.zero);
-
-        LineStart = transform.position;
-        LineEnd = transform.position;
+        BeamReset();
 
         HittingObject = false;
     }
@@ -41,21 +39,20 @@ public class PLY_BeamTest : MonoBehaviour
     {
         GetInput();
         BeamLineCast();
+        //function of the attack
         if(StartAttack)
         {
             beamgoing();
+            BeamPosUpdate();
         }
         if(endAttack)
         {
             beamEnding();
-            if (_line.GetPosition(0).z >= _line.GetPosition(1).z)
+            BeamPosUpdate();
+            if (Vector3.Distance(LineEnd, muzzle.transform.position) < Vector3.Distance(LineStart, muzzle.transform.position))
             {
                 endAttack = false;
-                _line.SetPosition(0, Vector3.zero);
-                _line.SetPosition(1, Vector3.zero);
-
-                LineStart = transform.position;
-                LineEnd = transform.position;
+                BeamReset();
             }
         }
         
@@ -79,24 +76,34 @@ public class PLY_BeamTest : MonoBehaviour
             endAttack = true;
         }
     }
+    //position the points in the world every frame
+    private void BeamPosUpdate()
+    {
+        //endpoint
+        _line.SetPosition(1, muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing));
+        LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
 
+        //startpoint
+        _line.SetPosition(0, muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing));
+        LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+    }
+    //add to end point distance
     private void beamgoing()
     {
         if (_line.GetPosition(1).z <= _iBeamRange && !HittingObject)
         {
-            _line.SetPosition(1, new Vector3(_line.GetPosition(1).x, _line.GetPosition(1).y, _line.GetPosition(1).z + _fBeamSpeedGoing * Time.deltaTime));
-            LineEnd = new Vector3(LineEnd.x, LineEnd.y, LineEnd.z + _fBeamSpeedGoing * Time.deltaTime);
+            BeamLengthGoing += _fBeamSpeedGoing * Time.deltaTime;
         }
     }
-
+    //add to start point distance
     private void beamEnding()
     {
-        _line.SetPosition(0, new Vector3(_line.GetPosition(0).x, _line.GetPosition(0).y, _line.GetPosition(0).z + _fBeamSpeedClosing * Time.deltaTime));
-        LineStart = new Vector3(LineStart.x, LineStart.y, LineStart.z + _fBeamSpeedClosing * Time.deltaTime);
+        BeamLengthClosing += _fBeamSpeedClosing * Time.deltaTime;
     }
-
+    //Function for linecast
     private void BeamLineCast()
     {
+        
         if(Physics.Linecast(LineStart, LineEnd,out LineCastHit))
         {
             //objects detects here add code
@@ -113,6 +120,19 @@ public class PLY_BeamTest : MonoBehaviour
             _line.SetPosition(1, LineCastHit.point);
             LineEnd = LineCastHit.point;
         }
+    }
+    //function to reset the beam
+    private void BeamReset()
+    {
+        //linerenderer reset
+        _line.SetPosition(0, muzzle.transform.position);
+        _line.SetPosition(1, muzzle.transform.position);
+        //linecast reset
+        LineStart = muzzle.transform.position;
+        LineEnd = muzzle.transform.position;
+        //length reset
+        BeamLengthGoing = 0;
+        BeamLengthClosing = 0;
     }
 
     private void OnDrawGizmos()
