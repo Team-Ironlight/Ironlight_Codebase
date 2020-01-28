@@ -94,9 +94,9 @@ public class AI_Abilities : AI_CoroutineManager
         // NOTE : Added this for a bit of stability to make sure the
         //        Agent is EXACTLY on the end position of the off mesh
         //		  link before completeing the link.
-        runner.transform.position = endPos;
-
-        // All done so inform the agent it can resume control
+        //      runner.transform.position = endPos;
+        runner.transform.position = startPos;
+       // All done so inform the agent it can resume control
         // navAgent.CompleteOffMeshLink();
 
         //time = 0.0f;
@@ -113,7 +113,8 @@ public class AI_Abilities : AI_CoroutineManager
         //    // Accumulate time and yield each frame
         //    time += Time.deltaTime;
 
-        //    yield return null;
+        //yield return null;
+
         //}
 
         // NOTE : Added this for a bit of stability to make sure the
@@ -121,8 +122,8 @@ public class AI_Abilities : AI_CoroutineManager
         //		  link before completeing the link.
         //    _playerAgent.transform.position = startPos;
         // runner.transform.position = Vector3.MoveTowards(runner.transform.position, startPos, Time.deltaTime * radiusSpeed);
-     //   yield return null;
-        yield return new WaitForSeconds(2f);
+        //   yield return null;
+        yield return new WaitForSeconds(1f);
     }
 
 
@@ -349,7 +350,7 @@ public class AI_Abilities : AI_CoroutineManager
                  
         runner.transform.position = Vector3.MoveTowards(runner.transform.position, newPosition, Time.deltaTime * radiusSpeed);
 
-        yield break;             
+        yield return null;
 
         //Debug.Log("Ability Swag enables coroutineTrigger to run.");
 

@@ -13,20 +13,40 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
     public bool isMoving = false;
 
     [Header("Dash Variables")]
-    public Vector2 dodgeVector;
+    public Vector2 dashVector;
     public bool isDashing = false;
+    public float dashDistance = 0.1f;
 
     [Header("Jump Variables")]
     public bool jump = false;
 
-    public string currentState = " ";
+    [Header("Combat Variables")]
+    public bool isAttacking = false;
+
+    public ChosenAttack currentAttack = ChosenAttack.ORB;
+
+    public string currentTraversalState = " ";
+    public string currentCombatState = " ";
 
     public GameObject playerObject;
     public GameObject modelHolder;
     public Rigidbody rigid;
+    public GameObject playerCamera;
     public TestDanish_Controller_TraversalStateMachine_v1 traversalMachine;
     public TestDanish_Controller_CombatlStateMachine_v1 combatMachine;
     TestDanish_Controller_Input controls;
+
+
+    public TestDanish_Components_Movement_v1 movement_V1;
+    public TestDanish_Components_Dash dash;
+
+
+    public enum ChosenAttack
+    {
+        ORB,
+        BEAM,
+        BLAST
+    }
 
 
     public void Init()
@@ -34,6 +54,11 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
         traversalMachine = gameObject.AddComponent<TestDanish_Controller_TraversalStateMachine_v1>();
         combatMachine = gameObject.AddComponent<TestDanish_Controller_CombatlStateMachine_v1>();
 
+        movement_V1 = new TestDanish_Components_Movement_v1();
+        movement_V1.Init(this);
+
+        dash = new TestDanish_Components_Dash();
+        dash.Init(this);
 
         controls = new TestDanish_Controller_Input();
 
@@ -43,7 +68,8 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 
     public void Tick()
     {
-        
+        currentCombatState = combatMachine.currentState.ToString();
+        currentTraversalState = traversalMachine.currentState.ToString();
     }
 
 
@@ -66,7 +92,8 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
         var states = new Dictionary<Type, TestDanish_TraversalBaseState>()
         {
             {typeof(TestDanish_TIdleState), new TestDanish_TIdleState(_Manager:this) },
-            {typeof(TestDanish_TMoveState), new TestDanish_TMoveState(_Manager:this) }
+            {typeof(TestDanish_TMoveState), new TestDanish_TMoveState(_Manager:this) },
+            {typeof(TestDanish_TDashState), new TestDanish_TDashState(_Manager:this) }
         };
 
         traversalMachine.SetStates(states);

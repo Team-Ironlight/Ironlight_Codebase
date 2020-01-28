@@ -211,6 +211,7 @@ namespace IronLight
             if (CurrentState.Name == "PATROL_ANIMATE") { _aniMator.enabled = true; _navMeshAgent.enabled = false; return; }
             if (CurrentState.Name == "CHASE_ANIMATE") { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
             if (CurrentState.Name == "WanderState") { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
+     
 
             //  Enabled/Disabled Agent
             if (isOnSafeMode) { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }

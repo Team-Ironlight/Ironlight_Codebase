@@ -51,6 +51,8 @@ public class WanderState : StateMachine.BaseState
     private float timer;
     public float wanderTimer = 20f;
     private bool _playerRunAway = false;
+    private bool _isMoving = false;
+ 
     public override void OnEnter()                                              // This is called before the first frame Tick()
     {
         Name = this.GetType().ToString();                                       // Get the name of this Class
@@ -78,7 +80,8 @@ public class WanderState : StateMachine.BaseState
             {
                 if (isAware)
                 {
-                   
+
+                  
                     //isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToWander);
 
                     Vector3 dirToTarget = (target.position - transform.position).normalized;
@@ -97,6 +100,7 @@ public class WanderState : StateMachine.BaseState
                         _navMeshAgent.isStopped = false;
                         _navMeshAgent.speed = run_Speed;
                         _navMeshAgent.SetDestination(destination);
+
                     }
                     else if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToWander))
                     {
@@ -111,6 +115,7 @@ public class WanderState : StateMachine.BaseState
 
                     if (timer >= wanderTimer)
                     {
+                 
                         isInFov = inFOV(transform, _navMeshAgent.transform, FacingMaxAngle, maxDistanceToWander);
 
                         Vector3 newPos = RandomNavSphere(transform.position, maxDistanceToWander, -1);
@@ -118,11 +123,38 @@ public class WanderState : StateMachine.BaseState
                         timer = 0;
                     }
 
+                    if (_navMeshAgent.velocity.sqrMagnitude > 0)
+                    {
+                        _isMoving = true;
+                    //    Name = "WanderState";
+                    }
+                    else
+                    {
+                   //     Name = "WANDER_ANIMATE";
+                   //     GetComponent<Animator>().enabled = true;
+                        _isMoving = false;
+                      //  StartCoroutine(coroutineTrigger());
+
+                                           
+
+                    }
+
                 }
             }
         }
     }
-
+    IEnumerator coroutineTrigger()                                                                  //if Not Moving , then do Animation
+    {
+        if (!_isMoving)
+        {
+          
+         
+            _aniMator.SetTrigger("Jump");
+            yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            yield return new WaitForSeconds(1f);
+        }
+        yield break;                                    //turn off
+    }
     public override string CheckConditions()                                                        //Decisions has been made here
     {                                                                                           
 
@@ -149,7 +181,9 @@ public class WanderState : StateMachine.BaseState
                       
                         if (Vector3.Distance(transform.position, target.position) > minDistanceToWander)           // Current State <Patrol State>
                         {
+                          
                             OnAware();
+
                             return "";
                         }
                         else
@@ -186,6 +220,8 @@ public class WanderState : StateMachine.BaseState
     }
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
+      
+
         Vector3 randDirection = Random.insideUnitSphere * dist;
 
         randDirection += origin;
