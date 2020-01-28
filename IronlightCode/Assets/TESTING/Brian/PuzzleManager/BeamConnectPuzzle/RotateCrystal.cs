@@ -8,6 +8,7 @@ public class RotateCrystal : MonoBehaviour, IHit
     public bool lineActive;
     public bool playerCanActivate;
     public float smoothRot = 1;
+    public float RayDistance = 5;
     Vector3 target;
     //private GameObject Crystal;
     private Quaternion targetRot;
@@ -54,7 +55,7 @@ public class RotateCrystal : MonoBehaviour, IHit
     public void HitWithLight(float pAmount)
     {
         RaycastHit hit;
-        if (Physics.Linecast(transform.position, transform.position + (transform.forward * 10), out hit, lm))
+        if (Physics.Linecast(transform.position, transform.position + (transform.forward * RayDistance), out hit, lm))
         {
             IHit hitThing = hit.transform.GetComponent<IHit>();
 
@@ -73,7 +74,7 @@ public class RotateCrystal : MonoBehaviour, IHit
 
         }
 
-        Debug.DrawLine(gameObject.transform.position, transform.position + (transform.forward * 10),Color.green);
+        Debug.DrawLine(gameObject.transform.position, transform.position + (transform.forward * RayDistance),Color.green);
     }
     public void EnterHitWithLight(float pAmount)
     {

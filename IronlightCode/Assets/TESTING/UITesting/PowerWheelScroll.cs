@@ -10,7 +10,7 @@ public class PowerWheelScroll : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		currentAngle = transform.eulerAngles;
+		// currentAngle = transform.eulerAngles;
 	}
 
     // Update is called once per frame
@@ -21,22 +21,26 @@ public class PowerWheelScroll : MonoBehaviour
 		{
 			print("CounterClockwise!");
 
-			currentAngle = new Vector3 (0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
+			// currentAngle = new Vector3 (0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
 
-			transform.eulerAngles = currentAngle;
+            Quaternion newRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); ;
+            newRotation *= Quaternion.Euler(0, 0, 360 * Input.mouseScrollDelta.y); // this add a 120 degrees Z rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 20 * Time.deltaTime);
+
+            // transform.eulerAngles = currentAngle;
 		}
 
 		if (Input.mouseScrollDelta.y<0)
 		{
 			print("Clockwise!");
 
-			currentAngle = new Vector3(0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
+			// currentAngle = new Vector3(0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
 
-			transform.eulerAngles = currentAngle;
+            Quaternion newRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); ;
+            newRotation *= Quaternion.Euler(0, 0, 120 * Input.mouseScrollDelta.y); // this add a 120 degrees Z rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 20 * Time.deltaTime);
+
+            // transform.eulerAngles = currentAngle;
 		}
-
-
-    }
-
-	
+    }	
 }
