@@ -49,7 +49,11 @@ public class PLY_ImanBlastTest : MonoBehaviour
             foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, enemiesLayer))
             {
                 IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
-
+                if (pcollider.gameObject.CompareTag("ActiveCrystal"))
+                {
+                    pcollider.GetComponent<ActivateCrystal>().activated = true;
+                    print("Blast Hit Crystal");
+                }
                 //check if gameobject is damagable
                 if (cIA != null)
                 {
