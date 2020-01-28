@@ -11,9 +11,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
     [SerializeField] private float radiusChargeSpeed = 1f;
     [SerializeField] private float BlastSpeedMultiplyer = 1f;
     [SerializeField] private float PushBackForce;
-    [SerializeField] private int bigDmg;
-    [SerializeField] private int medDmg;
-    [SerializeField] private int smallDmg;
+    [SerializeField] private int Damage;
     [SerializeField] private LayerMask enemiesLayer;
 
     private bool coroutineOn = false;
@@ -48,7 +46,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
             blast.transform.localScale = new Vector3(radius, radius, radius) * 2;
 
             //get all colliders in the sphere
-            foreach (Collider pcollider in Physics.OverlapSphere(transform.position, radius, enemiesLayer))
+            foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, enemiesLayer))
             {
                 IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
 
@@ -126,21 +124,22 @@ public class PLY_ImanBlastTest : MonoBehaviour
     //function for managing inputsaw
     private void Charge()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Visual = Instantiate(ChargeVisual, transform.position, transform.rotation);
         }
         //while key is held add to radius if it hasnt reached max radius
-        if (Input.GetKey(KeyCode.Space) && !coroutineOn)
+        if (Input.GetKey(KeyCode.R) && !coroutineOn)
         {
             if (chargeCount < radiusMax)
             {
                 chargeCount += radiusChargeSpeed * Time.deltaTime;
                 Visual.transform.localScale = new Vector3(chargeCount, chargeCount, chargeCount) / 5;
             }
+            Visual.transform.position = transform.position;
         }
         //on key released call the blast coroutine with the blast radius calculated
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             StartCoroutine(RadialAction(chargeCount));
             coroutineOn = true;
@@ -158,19 +157,19 @@ public class PLY_ImanBlastTest : MonoBehaviour
         //if close range
         if(dist <= radiusMax * (1f/3f))
         {
-            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(bigDmg, false);
+            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (3f / 3f), false);
             print("Big Damage");
         }
         //if medium range
         else if(dist <= radiusMax * (2f/3f))
         {
-            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(medDmg, false);
+            //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (2f / 3f), false);
             print("Medium Damage");
         }
         //if long range
         else if(dist <= radiusMax)
         {
-            // enemy.gameObject.GetComponent<IAttributes>().TakeDamage(smallDmg, false);
+            // enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (1f / 3f), false);
             print("Small Damage");
         }
     }

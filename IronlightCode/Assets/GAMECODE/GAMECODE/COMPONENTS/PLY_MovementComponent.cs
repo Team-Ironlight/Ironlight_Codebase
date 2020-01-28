@@ -23,7 +23,7 @@ public class PLY_MovementComponent : MonoBehaviour
         _vMoveDir.y = 0;
         _vMoveDir = _vMoveDir.normalized * _fMoveSpeed;
 
-        GetComponent<PHY_Physics>().AddHorizontalAcceleration(new Vector2(_vMoveDir.x, _vMoveDir.z));
+        //GetComponent<PHY_Physics>().AddHorizontalAcceleration(new Vector2(_vMoveDir.x, _vMoveDir.z));
 
         if (Input.GetButtonDown("Jump"))
             GetComponent<PHY_Physics>().SetVerticalForce(_fJumpForce);

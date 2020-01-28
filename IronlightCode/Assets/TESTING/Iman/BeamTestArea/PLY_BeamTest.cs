@@ -22,20 +22,25 @@ public class PLY_BeamTest : MonoBehaviour
     [SerializeField] private float _fBeamSpeedClosing;
     [SerializeField] private int _iBeamRange;
 
+    //linecast
+    private RaycastHit LineCastHit;
+    private bool HittingObject;
 
     private void Start()
     {
         _line.SetPosition(0, Vector3.zero);
         _line.SetPosition(1, Vector3.zero);
 
-        LineStart = Vector3.zero;
-        LineEnd = Vector3.zero;
+        LineStart = transform.position;
+        LineEnd = transform.position;
+
+        HittingObject = false;
     }
 
     private void Update()
     {
         GetInput();
-
+        BeamLineCast();
         if(StartAttack)
         {
             beamgoing();
@@ -49,8 +54,8 @@ public class PLY_BeamTest : MonoBehaviour
                 _line.SetPosition(0, Vector3.zero);
                 _line.SetPosition(1, Vector3.zero);
 
-                LineStart = Vector3.zero;
-                LineEnd = Vector3.zero;
+                LineStart = transform.position;
+                LineEnd = transform.position;
             }
         }
         
@@ -61,13 +66,13 @@ public class PLY_BeamTest : MonoBehaviour
         // Change this depending on how you want the attack to work
         if (!endAttack)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 inputReceived = true;
                 StartAttack = true;
             }
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if(Input.GetKeyUp(KeyCode.T))
         {
             inputReceived = false;
             StartAttack = false;
@@ -77,7 +82,7 @@ public class PLY_BeamTest : MonoBehaviour
 
     private void beamgoing()
     {
-        if (_line.GetPosition(1).z <= _iBeamRange)
+        if (_line.GetPosition(1).z <= _iBeamRange && !HittingObject)
         {
             _line.SetPosition(1, new Vector3(_line.GetPosition(1).x, _line.GetPosition(1).y, _line.GetPosition(1).z + _fBeamSpeedGoing * Time.deltaTime));
             LineEnd = new Vector3(LineEnd.x, LineEnd.y, LineEnd.z + _fBeamSpeedGoing * Time.deltaTime);
@@ -90,6 +95,25 @@ public class PLY_BeamTest : MonoBehaviour
         LineStart = new Vector3(LineStart.x, LineStart.y, LineStart.z + _fBeamSpeedClosing * Time.deltaTime);
     }
 
+    private void BeamLineCast()
+    {
+        if(Physics.Linecast(LineStart, LineEnd,out LineCastHit))
+        {
+            //objects detects here add code
+
+            HittingObject = true;
+        }
+        else
+        {
+            HittingObject = false;
+        }
+
+        if(HittingObject)
+        {
+            _line.SetPosition(1, LineCastHit.point);
+            LineEnd = LineCastHit.point;
+        }
+    }
 
     private void OnDrawGizmos()
     {

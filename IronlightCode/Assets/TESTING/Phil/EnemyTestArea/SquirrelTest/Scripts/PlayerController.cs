@@ -35,13 +35,13 @@ public class PlayerController : MonoBehaviour {
 	[Header("References")]
 	public SphereCollider sphereCol;
 
+   [SerializeField] public bool isCharging = true;
 
 
+    //Private Variables
 
-	//Private Variables
-
-	//Movement Vectors
-	private Vector3 velocity;
+    //Movement Vectors
+    private Vector3 velocity;
 	private Vector3 move;
 	private Vector3 vel;
 
