@@ -4,29 +4,39 @@ using UnityEngine;
 
 public class PowerWheelScroll : MonoBehaviour
 {
-	Vector3 rotationEuler;
 
-    // Start is called before the first frame update
-    void Start()
+	private Vector3 currentAngle;
+
+	// Start is called before the first frame update
+	void Start()
     {
-        
-    }
+		currentAngle = transform.eulerAngles;
+	}
 
     // Update is called once per frame
     void Update()
     {
-		transform.rotation = Quaternion.Euler(rotationEuler);
 
 		if (Input.mouseScrollDelta.y>0)
 		{
-			rotationEuler += Vector3.forward * 120 * Input.mouseScrollDelta.y;
+			print("CounterClockwise!");
+
+			currentAngle = new Vector3 (0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
+
+			transform.eulerAngles = currentAngle;
 		}
 
 		if (Input.mouseScrollDelta.y<0)
 		{
-			rotationEuler += Vector3.forward * 120 * Input.mouseScrollDelta.y;
+			print("Clockwise!");
+
+			currentAngle = new Vector3(0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
+
+			transform.eulerAngles = currentAngle;
 		}
 
 
     }
+
+	
 }
