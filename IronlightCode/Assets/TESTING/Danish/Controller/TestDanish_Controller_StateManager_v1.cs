@@ -24,17 +24,21 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
     public GameObject playerObject;
     public GameObject modelHolder;
     public Rigidbody rigid;
-    public TestDanish_Controller_StateMachine_v1 machine;
+    public TestDanish_Controller_TraversalStateMachine_v1 traversalMachine;
+    public TestDanish_Controller_CombatlStateMachine_v1 combatMachine;
     TestDanish_Controller_Input controls;
 
 
     public void Init()
     {
-        machine = GetComponent<TestDanish_Controller_StateMachine_v1>();
+        traversalMachine = gameObject.AddComponent<TestDanish_Controller_TraversalStateMachine_v1>();
+        combatMachine = gameObject.AddComponent<TestDanish_Controller_CombatlStateMachine_v1>();
+
 
         controls = new TestDanish_Controller_Input();
 
-        InitializeStateMachine();
+        InitializeCombatMachine();
+        InitializeTraversalMachine();
     }
 
     public void Tick()
@@ -57,17 +61,27 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 
     #region Setup Functions
 
-    void InitializeStateMachine()
+    void InitializeTraversalMachine()
     {
-        var states = new Dictionary<Type, TestDanish_Controller_BaseState_v1>()
+        var states = new Dictionary<Type, TestDanish_TraversalBaseState>()
         {
-            {typeof(TestDanish_Controller_IdleState_v1), new TestDanish_Controller_IdleState_v1(state:this) },
-            {typeof(TestDanish_Controller_MoveState_v1), new TestDanish_Controller_MoveState_v1(state:this) },
-            {typeof(TestDanish_Controller_JumpState_v1), new TestDanish_Controller_JumpState_v1(state:this) },
-            {typeof(TestDanish_Controller_DashState_v1), new TestDanish_Controller_DashState_v1(state:this) }
+            {typeof(TestDanish_TIdleState), new TestDanish_TIdleState(_Manager:this) },
+            {typeof(TestDanish_TMoveState), new TestDanish_TMoveState(_Manager:this) }
         };
 
-        machine.SetStates(states);
+        traversalMachine.SetStates(states);
+    
+    }
+    
+    void InitializeCombatMachine()
+    {
+        var states = new Dictionary<Type, TestDanish_CombatBaseState>()
+        {
+            {typeof(TestDanish_CReadyState), new TestDanish_CReadyState(_Manager:this) },
+            {typeof(TestDanish_CAttackState), new TestDanish_CAttackState(_Manager:this) }
+        };
+
+        combatMachine.SetStates(states);
     
     }
 
