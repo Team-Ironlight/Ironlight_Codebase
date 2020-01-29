@@ -63,13 +63,13 @@ public class PLY_BeamTest : MonoBehaviour
         // Change this depending on how you want the attack to work
         if (!endAttack)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.T) || Input.GetMouseButtonDown(0))
             {
                 inputReceived = true;
                 StartAttack = true;
             }
         }
-        if(Input.GetKeyUp(KeyCode.T))
+        if(Input.GetKeyUp(KeyCode.T) || Input.GetMouseButtonUp(0))
         {
             inputReceived = false;
             StartAttack = false;
