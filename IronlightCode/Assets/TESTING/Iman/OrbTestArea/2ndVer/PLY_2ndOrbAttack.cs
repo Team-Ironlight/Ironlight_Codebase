@@ -51,7 +51,7 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     void GetInput()
     {
         // Change this depending on how you want the attack to work
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             inputReceived = true;
             if (AttackTimer <= Time.time)
