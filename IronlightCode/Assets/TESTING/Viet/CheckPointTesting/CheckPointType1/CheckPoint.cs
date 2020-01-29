@@ -20,33 +20,37 @@ public class CheckPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        teleportToCheckPoint();
-    }
-
-    void teleportToCheckPoint()
-    {
+        //teleportToCheckPoint();
         if (dead == true)
         {
             if (currentCheck != null)
             {
+                print("Revive!");
                 transform.position = currentCheck;
             }
             else
             {
+                print("Reset");
                 transform.position = new Vector3(0, 0, 0);
             }
             dead = false;
         }
     }
 
+    //void teleportToCheckPoint()
+    //{
+    //}
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "CheckPoint")
         {
+            print("Checkpoint reached: " + currentCheck.ToString());
             currentCheck = other.gameObject.transform.position;
         }
         if (other.tag == "KillPlane")
         {
+            print("Death");
             dead = true;
         }
     }
