@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PLY_MovementComponent : MonoBehaviour
 {
+    public OnGroundChecker ogc;
     public Vector2 vMoveInput = Vector3.zero;
     private Vector3 _vMoveDir = Vector3.zero;
     [SerializeField] private float _fMoveSpeed;
