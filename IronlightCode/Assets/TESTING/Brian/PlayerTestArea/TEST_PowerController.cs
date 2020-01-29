@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TEST_PowerController : MonoBehaviour
 {
-    public MOD_orb orbTest;
-    public MOD_beam beamTest;
+    public PLY_2ndOrbAttack orbTest;
+    public PLY_BeamTest beamTest;
     public PLY_ImanBlastTest blastTest;
     public GameObject firePoint;
 
@@ -26,7 +26,7 @@ public class TEST_PowerController : MonoBehaviour
     }
     void OrbDrain()
     {
-        if (orbTest.shotFired == true)
+        if (orbTest.Orbshoot == true)
         {
             if (Spirit.CurrSpirit> 0)
             {
