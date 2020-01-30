@@ -33,6 +33,8 @@ public class PLY_BeamTest : MonoBehaviour
         BeamReset();
 
         HittingObject = false;
+
+        _line.transform.position = muzzle.transform.position;
     }
 
     private void Update()
@@ -80,12 +82,20 @@ public class PLY_BeamTest : MonoBehaviour
     private void BeamPosUpdate()
     {
         //endpoint
-        _line.SetPosition(1, muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing));
+        _line.SetPosition(1,muzzle.transform.forward * BeamLengthGoing);
         LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
 
         //startpoint
-        _line.SetPosition(0, muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing));
-        LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+        if (BeamLengthClosing == 0)
+        {
+            _line.SetPosition(0, muzzle.transform.position);
+            LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+        }
+        else
+        {
+            _line.SetPosition(0, muzzle.transform.forward * BeamLengthClosing);
+            LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+        }
     }
     //add to end point distance
     private void beamgoing()
@@ -128,6 +138,7 @@ public class PLY_BeamTest : MonoBehaviour
         _line.SetPosition(0, muzzle.transform.position);
         _line.SetPosition(1, muzzle.transform.position);
         //linecast reset
+
         LineStart = muzzle.transform.position;
         LineEnd = muzzle.transform.position;
         //length reset
