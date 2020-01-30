@@ -7,7 +7,7 @@ public class PLY_BeamTest : MonoBehaviour
     public bool inputReceived = false;
 
     //linerenderer
-    public LineRenderer _line;
+    [SerializeField] private LineRenderer LineRenderer;
 
     //LineCast
     private Vector3 LineStart;
@@ -23,10 +23,13 @@ public class PLY_BeamTest : MonoBehaviour
     [SerializeField] private int _iBeamRange;
     private float BeamLengthGoing;
     private float BeamLengthClosing;
+    private Vector3 PosBeforeRelease;
+    private Vector3 DirBeforeRelease;
 
     //linecast
     private RaycastHit LineCastHit;
     private bool HittingObject;
+
 
     private void Start()
     {
@@ -34,7 +37,7 @@ public class PLY_BeamTest : MonoBehaviour
 
         HittingObject = false;
 
-        _line.transform.position = muzzle.transform.position;
+        LineRenderer.gameObject.transform.position = Vector3.zero;
     }
 
     private void Update()
@@ -81,26 +84,35 @@ public class PLY_BeamTest : MonoBehaviour
     //position the points in the world every frame
     private void BeamPosUpdate()
     {
-        //endpoint
-        _line.SetPosition(1,muzzle.transform.forward * BeamLengthGoing);
-        LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
 
-        //startpoint
-        if (BeamLengthClosing == 0)
+        //while key is pressed
+        if (StartAttack)
         {
-            _line.SetPosition(0, muzzle.transform.position);
-            LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+            //update the end position of the beam
+            LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
+            LineRenderer.SetPosition(1, LineEnd);
+
+            //set start position to muzzle
+            LineStart = muzzle.transform.position ;
+            LineRenderer.SetPosition(0, LineStart);
+            //save the last position and direction before reelease
+            PosBeforeRelease = muzzle.transform.position;
+            DirBeforeRelease = muzzle.transform.forward;
         }
-        else
+        //when key is released
+        if (endAttack)
         {
-            _line.SetPosition(0, muzzle.transform.forward * BeamLengthClosing);
-            LineStart = muzzle.transform.position + (muzzle.transform.forward * BeamLengthClosing);
+            //update start position after release
+            LineStart = PosBeforeRelease + (DirBeforeRelease * BeamLengthClosing);
+            LineRenderer.SetPosition(0, LineStart);
         }
+        //set the position of the game object always to center so it doesnt create offset problems
+        LineRenderer.gameObject.transform.position = Vector3.zero;
     }
     //add to end point distance
     private void beamgoing()
     {
-        if (_line.GetPosition(1).z <= _iBeamRange && !HittingObject)
+        if (BeamLengthGoing <= _iBeamRange && !HittingObject)
         {
             BeamLengthGoing += _fBeamSpeedGoing * Time.deltaTime;
         }
@@ -127,20 +139,19 @@ public class PLY_BeamTest : MonoBehaviour
 
         if(HittingObject)
         {
-            _line.SetPosition(1, LineCastHit.point);
+            LineRenderer.SetPosition(1, LineCastHit.point);
             LineEnd = LineCastHit.point;
         }
     }
     //function to reset the beam
     private void BeamReset()
     {
-        //linerenderer reset
-        _line.SetPosition(0, muzzle.transform.position);
-        _line.SetPosition(1, muzzle.transform.position);
         //linecast reset
-
         LineStart = muzzle.transform.position;
         LineEnd = muzzle.transform.position;
+        //linerenderer reset
+        LineRenderer.SetPosition(0, LineStart);
+        LineRenderer.SetPosition(1, LineEnd);
         //length reset
         BeamLengthGoing = 0;
         BeamLengthClosing = 0;
