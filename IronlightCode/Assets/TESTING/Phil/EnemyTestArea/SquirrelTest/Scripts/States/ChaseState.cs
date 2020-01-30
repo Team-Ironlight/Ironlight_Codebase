@@ -39,13 +39,20 @@ public class ChaseState : StateMachine.BaseState
     [Header("Components")]
     private UnityEngine.AI.NavMeshAgent _navMeshAgent;                   //reference to the navmesh agent.
     private Animator _aniMator;
+    private AI_AbilityManager _executeAbility;
 
     public override void  OnEnter()                                      // This is called before the first frame Tick()
     {
         _navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         _aniMator = GetComponent<Animator>();
+        _executeAbility = GetComponent<AI_AbilityManager>();
+
         target = GameObject.FindWithTag("Player").transform;
         Name = this.GetType().ToString();
+
+        _executeAbility.Set_MaxDistance = maxDistanceToChase;
+        _executeAbility.Set_MinDistance = minDistanceToChase;
+
     }
 	public override void  Tick()                                         //Called every frame , Initiate by the StateMachine
     {
@@ -62,23 +69,28 @@ public class ChaseState : StateMachine.BaseState
                                         Quaternion.LookRotation(dirToTarget),
                                         1.0f * Time.deltaTime);
 
-                    Vector3 destination = transform.position + dirToTarget;
+                    Vector3 destination = target.position + dirToTarget;
 
                     // Validate if the distance between the player and the enemy
                     // if the distance between enemy and player is less than attack distance
+                    _executeAbility.enabled = false;
+
                     if ((Vector3.Distance(transform.position, target.position) <= maxDistanceToChase))
                     {
                                              
-                        _navMeshAgent.isStopped = false;
+                        _navMeshAgent.isStopped = false;                    //Tell the Agent to move
                         _navMeshAgent.speed = run_Speed;
 
                         _navMeshAgent.SetDestination(destination);
                     
                     }
-                    else if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToChase))
+                    else if ((Vector3.Distance(transform.position, target.position) >= minDistanceToChase))
                     {
+                        _navMeshAgent.isStopped = true;                     //Stop the agent when the player already outside the perimeter
                         _playerRunAway = true;
                     }
+
+
                 }
             }
         }
@@ -87,15 +99,18 @@ public class ChaseState : StateMachine.BaseState
 	{
         if (target == null) {  return "";  }
 
+
+
         if (_playerRunAway)
         {
-            _aniMator.enabled = true;
-            _navMeshAgent.enabled = false;
+          
             _playerRunAway = false;
-            return "ChaseState";
+
+            _executeAbility.enabled = true;
+            return OnEnemyChaseDistance;
         }
 
-        Collider[] overlapResults = new Collider[10];
+        Collider[] overlapResults = new Collider[100];
         int numFound = Physics.OverlapSphereNonAlloc(transform.position, maxDistanceToChase, overlapResults);
             
         for (int i = 0; i < numFound; i++)
@@ -104,47 +119,22 @@ public class ChaseState : StateMachine.BaseState
             {              
                 if (overlapResults[i].transform == target)
                 {
-                    Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.yellow);
-                    //if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToChase))
-                    //{
-                    //    if (Vector3.Distance(transform.position, target.position) >= minDistanceToChase)           // Current State <Patrol State>
-                    //    {
-                    //        OnAware();
-                    //        Name = "CHASE_ANIMATE";
-                    //        return OnEnemyChaseDistance;
-                    //    }
-
-                    //}
-                    //else if (Vector3.Distance(transform.position, target.position) <= maxDistanceToChase)
-                    //{
-                    //    if (Vector3.Distance(transform.position, target.position) <= minDistanceToChase)           // Switch to <Attack State>
-                    //    {
-                    //        Name = this.GetType().ToString();
-                    //        _aniMator.enabled = true;
-                    //        return OnEnemyLostState;
-                    //    }
-
-                    //}
-
-                    if ((Vector3.Distance(transform.position, target.position) < maxDistanceToChase))
+                    if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToChase))              //Chase State
                     {
-
-                        if (Vector3.Distance(transform.position, target.position) > minDistanceToChase)           // Current State <Patrol State>
-                        {
-                            OnAware();
-                            Name = "CHASE_ANIMATE";
-                            return OnEnemyChaseDistance;
-                        }
-                        else
-                        {
-                            Name = this.GetType().ToString();
-                            _aniMator.enabled = true;
-                            return OnEnemyLostState;
-                        }
-
-
-
+                     
+                        OnAware();
+                        return OnEnemyChaseDistance;
                     }
+                    else if (Vector3.Distance(transform.position, target.position) <= minDistanceToChase)           // Switch to <Attack State>
+                    {
+                    
+                       // _navMeshAgent.isStopped = true;
+                        return OnEnemyLostState;
+                    }
+
+
+                    Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.yellow);
+
                 }
 
             }
