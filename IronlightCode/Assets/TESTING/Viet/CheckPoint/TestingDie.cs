@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestingDie : MonoBehaviour
 {
 
-    public CheckPoint2 Dead;
+    public CheckPoint Dead;
     public bool die;
 
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class TestingDie : MonoBehaviour
     {
         if (die == true)
         {
-            transform.position = CheckPoint2.GetActiveCheckPointPosition();
+            transform.position = CheckPoint.currentCheck;
             die = false;
         }
     }
