@@ -6,6 +6,8 @@ public class PLY_Dash : MonoBehaviour
 {
     [SerializeField] private float dashForce;
     [SerializeField] private float dashDuration;
+    [SerializeField] private float DashCooldown;
+    private float CDTimer;
     [HideInInspector] public bool InputRecievced;
 
     private Rigidbody rb;
@@ -26,8 +28,12 @@ public class PLY_Dash : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            StartCoroutine(Dash());
-            InputRecievced = true;
+            if (CDTimer < Time.time)
+            {
+                StartCoroutine(Dash());
+                InputRecievced = true;
+                CDTimer = Time.time + DashCooldown;
+            }
         }
         else
         {
