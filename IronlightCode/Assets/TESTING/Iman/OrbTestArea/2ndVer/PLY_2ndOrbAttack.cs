@@ -10,6 +10,10 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     [SerializeField] private GameObject Magezine;
     [SerializeField] private GameObject Muzzle;
 
+    //bool check
+
+    public bool Orbshoot;
+
     List<GameObject> bulletPool = new List<GameObject>();
     [SerializeField] private int MagezineSize = 10;
 
@@ -47,7 +51,7 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     void GetInput()
     {
         // Change this depending on how you want the attack to work
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             inputReceived = true;
             if (AttackTimer <= Time.time)
@@ -55,13 +59,23 @@ public class PLY_2ndOrbAttack : MonoBehaviour
                 // TODO Change Inputed Parameter to not just be camera forward :D
                 AttackTimer = Time.time + AttackCoolDown;               
             }
-            Shoot(transform.forward);
+
+            Orbshoot = true;
+
+            if (Orbshoot)
+            {
+                Shoot(transform.forward);
+            }
         }
         else
         {
+
+            Orbshoot = false;
             inputReceived = false;
         }
     }
+
+    
 
     // Code to perform attack
     public void Shoot(Vector3 pDir)

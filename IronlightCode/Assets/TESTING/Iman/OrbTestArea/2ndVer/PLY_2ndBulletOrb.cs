@@ -89,7 +89,6 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         {
             EnemyToChase = hit.transform.gameObject;
             hitdis = hit.distance;
-
         }
         else
         {

@@ -8,10 +8,24 @@ public class PLY_MovementComponent : MonoBehaviour
     private Vector3 _vMoveDir = Vector3.zero;
     [SerializeField] private float _fMoveSpeed;
     [SerializeField] private float _fJumpForce;
+    float distToGround;
+    [Range(0.1f,0.8f)]
+    public float groundThreshHold = 0.8f;
+    bool IsGrounded;
+
+    private void Start()
+    {
+        distToGround = GetComponent<Collider>().bounds.extents.y;
+    }
 
     private void Update()
     {
         CalculateMoveDir();
+        IsGrounded = Physics.Raycast(transform.position, Vector3.down, distToGround + groundThreshHold);
+        if (IsGrounded)
+        {
+            print("grounded...");
+        }
     }
 
     public void CalculateMoveDir()
@@ -25,7 +39,7 @@ public class PLY_MovementComponent : MonoBehaviour
 
         //GetComponent<PHY_Physics>().AddHorizontalAcceleration(new Vector2(_vMoveDir.x, _vMoveDir.z));
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump")&& IsGrounded)
             GetComponent<PHY_Physics>().SetVerticalForce(_fJumpForce);
     }
 

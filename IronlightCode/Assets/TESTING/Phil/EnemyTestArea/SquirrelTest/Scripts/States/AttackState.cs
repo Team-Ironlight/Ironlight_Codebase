@@ -12,6 +12,7 @@ using IronLight;
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AI_AbilityManager))]
 public class AttackState : StateMachine.BaseState
 {
     [Header("Target")]
@@ -27,8 +28,8 @@ public class AttackState : StateMachine.BaseState
     public string OnEnemyLostState = "ChaseState";             //If the Player run-away then do Default/assign State
 
     private string OnEnemyAttackDistance = "AttackState";        //If the Player within Attack Perimeter
+    private bool _playerRunAway = false;
 
-   
 
     [Header("Sensor Color Red")]
     public bool ShowWireSphere_Sensor;
@@ -58,11 +59,13 @@ public class AttackState : StateMachine.BaseState
     public AI_CoroutineManager Ability2;
     public AI_CoroutineManager Ability3;
     public AI_CoroutineManager Default_Ability;
+    private AI_AbilityManager _executeAbility;
 
 
     [HideInInspector]public bool isCharging;
     [HideInInspector]public float wait_Before_Attack = 2f;                    //Cooling Attack
     private float attack_Timer;                                               //Cooling Attack
+
 
     
     private Vector3 fovLine1;                                                   //Local Variables
@@ -78,11 +81,15 @@ public class AttackState : StateMachine.BaseState
         if(arcRigidBody == null) { Debug.LogWarning("Please assign the RigidBody on this Field."); return; }
         if (_navMeshAgent == null) { Debug.LogWarning("Please assign the NavmeshAgent on this Field."); return; }
         if (_aniMator == null) { Debug.LogWarning("Please assign the NavmeshAgent on this Field."); return; }
-
-
+        
+        
         _navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();             //Initialized        
+        _executeAbility = GetComponent<AI_AbilityManager>();
         target = GameObject.FindWithTag("Player").transform;
         Name = this.GetType().ToString();
+
+        _executeAbility.Set_MaxDistance = maxDistanceToAttack;
+        _executeAbility.Set_MinDistance = minDistanceToAttack;
     }
 
     public override void Tick()                                                  //Called every frame , Initiate by the StateMachine
@@ -90,6 +97,7 @@ public class AttackState : StateMachine.BaseState
         isInFov = inFOV(transform, target, FacingMaxAngle, maxDistanceToAttack);
         if (target != null)
         {
+
             if (_navMeshAgent.enabled == true)
             {
                 Vector3 destination = Vector3.zero;
@@ -103,17 +111,30 @@ public class AttackState : StateMachine.BaseState
 
                 destination = transform.position + dirToTarget;
 
-
-                _navMeshAgent.isStopped = false;
-
-                _navMeshAgent.speed = walk_Speed;
+                
 
                 // Validate if the distance between the player and the enemy
                 // if the distance between enemy and player is less than attack distance
-                if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)          // Switch to <Attack State>
+                if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)          //  <Attack State>
                 {
+                    _navMeshAgent.isStopped = false;
+
+                    _navMeshAgent.speed = walk_Speed;
                     _navMeshAgent.SetDestination(destination);
 
+                    isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
+                    if(isCharging)
+                    {
+                        _executeAbility.enabled = false;
+                        StartCoroutine(coroutineTrigger(isCharging, multipleAttack));
+                      
+                    }
+
+                }
+                else if ((Vector3.Distance(transform.position, target.position) >= minDistanceToAttack))
+                {
+                    _navMeshAgent.isStopped = true;                     //Stop the agent when the player already outside the perimeter
+                    _playerRunAway = true;
                 }
 
             } //End if (_navMeshAgent.enabled == true)
@@ -123,8 +144,17 @@ public class AttackState : StateMachine.BaseState
     public override string CheckConditions()                                                                     // Decisions has been made here
     {
         if (target == null) { return ""; }
-        
-        Collider[] overlapResults = new Collider[10];
+
+        if (_playerRunAway)                                                                                     // ToDo: SetBack to the Previous allocated Location
+        {
+
+            _playerRunAway = false;
+
+          
+            return OnEnemyLostState;
+        }
+
+        Collider[] overlapResults = new Collider[20];
         int numFound = Physics.OverlapSphereNonAlloc(transform.position, maxDistanceToAttack, overlapResults);
 
         for (int i = 0; i < numFound; i++)
@@ -133,33 +163,18 @@ public class AttackState : StateMachine.BaseState
             {
                 if (overlapResults[i].transform == target)
                 {
-                    Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.red);
-                    if (Vector3.Distance(transform.position, target.position) <= maxDistanceToAttack)
+
+                    if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToAttack))
                     {
-
-                        if (Vector3.Distance(transform.position, target.position) >= minDistanceToAttack)           // Switch to <Attack State>
-                        {
-                            isCharging = target.GetComponent<PlayerController>().isCharging;
-
-                            StartCoroutine(coroutineTrigger(isCharging, multipleAttack));
-                            isOnAttackMode = true;
-                            if (isCharging)
-                            {
-                                return "PlayerIsCharging";                                                          // Tell the StateMachine allow us to Orbit
-                            }
-                            else
-                            {
-                                return "AttackMode";                                                                
-                            }
-                        }
-                        isOnAttackMode = false;
+                      
                         return OnEnemyAttackDistance;
                     }
-                    else
+                    else if (Vector3.Distance(transform.position, target.position) <= minDistanceToAttack)           // Switch to <Attack State>
                     {
-                     
-                        return OnEnemyLostState;
+                       
+                         return OnEnemyLostState;
                     }
+
 
                 }
             }
@@ -175,51 +190,53 @@ public class AttackState : StateMachine.BaseState
         // TODO destroy Effects / Animation
     }
 
+   
     IEnumerator coroutineTrigger(bool isCharging, bool multiple)              //Synchronous Coroutine , Multiple Attack will do here
     {
+
         //*- Execute Orbit Ability
         if (isCharging)
         {
+            _executeAbility.enabled = false;
             yield return StartCoroutine(Ability1.Rotate_Coroutine(this, minDistanceToAttack, maxDistanceToAttack, isCharging));
-            yield break;
-        }      
-        //yield return null;                               //return next frame
+            _executeAbility.enabled = true;
+            yield break;    //turn off
+        }
+
+
+        isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
 
         //*- Execute Swag Ability
-        attack_Timer += Time.deltaTime;                  // Cooling Attack
-        if (attack_Timer > wait_Before_Attack){
-            isCharging = target.GetComponent<PlayerController>().isCharging;
-
+        attack_Timer += Time.deltaTime;                   // Cooling Attack
+        if (attack_Timer > wait_Before_Attack)
+        {
             if (!isCharging) yield return StartCoroutine(Default_Ability.Swag_Coroutine(this, minDistanceToAttack, maxDistanceToAttack));
 
             attack_Timer = 0f;
+            yield return null;                              //return next frame
         }
 
-        yield return null;                              //return next frame
+   
+        yield return null;                                  //return next frame
+
+
 
         //*- Execute Jump Attack
-        attack_Timer += Time.deltaTime;                    // Cooling Attack
+        //attack_Timer += Time.deltaTime;                    // Cooling Attack
 
-        if (attack_Timer > wait_Before_Attack)
-        {
-            isCharging = target.GetComponent<PlayerController>().isCharging;
+        //if (attack_Timer > wait_Before_Attack)
+        //{
+        //    isCharging = target.GetComponentInChildren<LightCharging>().isCharging;
 
-            if ((multiple) && (!isCharging)) yield return StartCoroutine(Ability2.Jump(this, 1f, minDistanceToAttack, maxDistanceToAttack));
+        //    if ((multiple) && (!isCharging)) yield return StartCoroutine(Ability2.Jump(this, 1f, minDistanceToAttack, maxDistanceToAttack));
+                 
+        //        attack_Timer = 0f;
+        
+        //    yield return null;                             //return next frame
+        //}
 
-            attack_Timer = 0f;
-
-        }
-
-        yield return null;                              //return next frame
 
 
-        //*- Do Animation Behavior Stomp & Jumping, Camera Shake , Dust Particles etc.
-        if ((multiple) && (!isCharging))                               //if the player is in the SafeZone
-        {
-            _aniMator.enabled = true;
-            _aniMator.SetTrigger("introOne");
-            yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-        }
 
         yield break;                                    //turn off
     }
@@ -227,7 +244,7 @@ public class AttackState : StateMachine.BaseState
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxAngle, float maxRadius)
     {
-        Collider[] overlaps = new Collider[10];
+        Collider[] overlaps = new Collider[100];  //assuming we are surrounded of 100 colliders e.g(mesh collider,sphere, cabsule, box, etc.)
         int count = Physics.OverlapSphereNonAlloc(checkingObject.position, maxRadius, overlaps);
 
         for (int i = 0; i < count + 1; i++)
@@ -284,21 +301,29 @@ public class AttackState : StateMachine.BaseState
             Gizmos.DrawRay(transform.position, fovLine2);
             //----
             Ray ray1 = new Ray(transform.position, fovLine1); RaycastHit hit1;                                          //Checking Left / Right if we hit something ?
-                  if (Physics.Raycast(ray1, out hit1, maxDistanceToAttack)) {
-                        Bool_fovLine1 = true;
-                  } else { Bool_fovLine1 = false; }
+            if (Physics.Raycast(ray1, out hit1, maxDistanceToAttack)) {
+                Bool_fovLine1 = true;
+            } else { Bool_fovLine1 = false; }
 
             Ray ray2 = new Ray(transform.position, fovLine2); RaycastHit hit2;
-                 if (Physics.Raycast(ray2, out hit2, maxDistanceToAttack))  {
-                        Bool_fovLine2 = true;
-                  } else { Bool_fovLine1 = false; }
+            if (Physics.Raycast(ray2, out hit2, maxDistanceToAttack)) {
+                Bool_fovLine2 = true;
+            } else { Bool_fovLine1 = false; }
 
             //----
 
             if (!isInFov)
+            {
                 Gizmos.color = Color.red;
+                // transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, target.transform.localEulerAngles.y, transform.localEulerAngles.z);
+             
+            }
             else
+            {
                 Gizmos.color = Color.green;
+                
+            }
+            transform.LookAt(target);
             Gizmos.DrawRay(transform.position, (target.position - transform.position).normalized * maxDistanceToAttack);
 
             Gizmos.color = Color.black;

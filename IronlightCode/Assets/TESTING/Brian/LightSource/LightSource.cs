@@ -8,6 +8,9 @@ public class LightSource : MonoBehaviour
     float StartLightIntensity;
     float currLightIntensity;
     public float LightDepleted;
+
+    public float RateOfDepletion = 3f;
+
     private Light spotLight;
     [SerializeField]
     bool absorbLight = false;
@@ -37,7 +40,7 @@ public class LightSource : MonoBehaviour
         if (currLightIntensity > LightDepleted)
         {
             print("Absorb");
-            spotLight.intensity -= Time.deltaTime*3;
+            spotLight.intensity -= Time.deltaTime*RateOfDepletion;
             //StartLightIntensity -= Time.deltaTime * 2;
             //PlayerHealth.currentHealth += Time.deltaTime;
         }
@@ -59,12 +62,14 @@ public class LightSource : MonoBehaviour
         {
             print("Absorb");
             absorbLight = true;
+            other.GetComponent<LightCharging>().isCharging = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            other.GetComponent<LightCharging>().isCharging = false;
             absorbLight = false;
         }
     }

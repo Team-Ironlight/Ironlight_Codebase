@@ -153,23 +153,6 @@ namespace IronLight
                 string stateId = CurrentState.CheckConditions();
                 if (stateId.Length > 0)
                 {
-                    // Managing Flag between AttackMode & SafeMode
-                    if (stateId == "AttackMode")
-                    {
-                       // Debug.Log("AttackMode");
-                        isOnAttackMode = true;
-                        return;
-                    }
-                    else if (stateId == "PlayerIsCharging")                           // Player is in SafeZone , to allow the AI to Orbit 
-                    {
-                     //   Debug.Log("PlayerIsCharging");
-                        isOnSafeMode = true;
-                    }
-                    else
-                    {
-                        isOnAttackMode = false;
-                        isOnSafeMode = false;
-                    }
 
                     foreach (BaseState s in AvailableStates)                          //Let us Update the States   
                     {
@@ -204,16 +187,11 @@ namespace IronLight
             this.isActive = isActive;
         }
 
+
+        // To Do: This is for next version, to cater Animation using Animator
         public void AgentEventHandler()                                            // Our Event function call for the animator
         {
-            //TO DO : Put a Switch Case Statement here, to manage all the States and other Workaround functionalities
-            if (CurrentState.Name == "PatrolState") { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
-            if (CurrentState.Name == "PATROL_ANIMATE") { _aniMator.enabled = true; _navMeshAgent.enabled = false; return; }
-            if (CurrentState.Name == "CHASE_ANIMATE") { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
-            if (CurrentState.Name == "WanderState") { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
 
-            //  Enabled/Disabled Agent
-            if (isOnSafeMode) { _aniMator.enabled = false; _navMeshAgent.enabled = true; return; }
 
             if (!isOnAnimation)
             {
