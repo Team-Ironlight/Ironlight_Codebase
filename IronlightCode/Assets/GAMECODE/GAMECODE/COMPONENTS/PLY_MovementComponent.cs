@@ -14,6 +14,8 @@ public class PLY_MovementComponent : MonoBehaviour
     public bool GroundCheck;
     public bool IsGrounded;
 
+    public Animator anim;
+
     private void Start()
     {
         distToGround = GetComponent<Collider>().bounds.extents.y;
@@ -22,16 +24,41 @@ public class PLY_MovementComponent : MonoBehaviour
     private void Update()
     {
         CalculateMoveDir();
-        GroundCheck = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distToGround + groundThreshHold);
-        if (GroundCheck && hit.collider.gameObject.layer == 10)
+        //      GroundCheck = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distToGround + groundThreshHold);
+        //      if (GroundCheck && hit.collider.gameObject.layer == 10)
+        //      {
+        //	IsGrounded = true;
+        //          print("grounded...");
+        //      }
+        //else
+        //{
+        //	IsGrounded = false;
+        //}
+
+        IsGrounded = CheckIfGrounded();
+
+        anim.SetBool("Grounded", IsGrounded);
+    }
+
+    bool CheckIfGrounded()
+    {
+        bool result = false;
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, distToGround + groundThreshHold))
         {
-			IsGrounded = true;
-            print("grounded...");
+            if(hit.collider.gameObject.layer == 10)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.Log(hit.collider.gameObject.layer);
+            }
         }
-		else
-		{
-			IsGrounded = false;
-		}
+
+        return false;
     }
 
     public void CalculateMoveDir()

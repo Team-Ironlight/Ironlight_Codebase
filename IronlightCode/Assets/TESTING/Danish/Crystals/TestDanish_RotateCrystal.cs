@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestDanish_RotateCrystal : MonoBehaviour
+public class TestDanish_RotateCrystal : MonoBehaviour, IHit
 {
     public LayerMask lm;
     public bool lineActive;
@@ -12,6 +12,8 @@ public class TestDanish_RotateCrystal : MonoBehaviour
     public LineRenderer _line;
     public Transform startPoint;
     public Transform CrystalFace;
+
+    public Collider collider;
 
     Vector3 target;
 
@@ -24,8 +26,8 @@ public class TestDanish_RotateCrystal : MonoBehaviour
     void Start()
     {
         //Crystal = GetComponentInParent<GameObject>();
-        targetRot = transform.parent.rotation;
-        _line = GetComponentInChildren<LineRenderer>();
+        targetRot = CrystalFace.rotation;
+        _line.gameObject.SetActive(true);
 
         _line.SetPosition(0, startPoint.position);
         _line.SetPosition(1, startPoint.position);
@@ -33,6 +35,9 @@ public class TestDanish_RotateCrystal : MonoBehaviour
 
     void Update()
     {
+        
+        _line.SetPosition(0, startPoint.position);
+
         if (playerCanActivate)
         {
             Rotate();
@@ -46,6 +51,9 @@ public class TestDanish_RotateCrystal : MonoBehaviour
         {
             _line.SetPosition(1, startPoint.position);
         }
+
+
+
     }
     //private void OnDrawGizmos()
     //{
@@ -63,7 +71,7 @@ public class TestDanish_RotateCrystal : MonoBehaviour
             targetRot *= Quaternion.AngleAxis(45, Vector3.up);
             print("Rotate");
         }
-        transform.parent.rotation = Quaternion.Lerp(transform.parent.rotation, targetRot, 10 * smoothRot * Time.deltaTime);
+        CrystalFace.rotation = Quaternion.Lerp(CrystalFace.rotation, targetRot, 10 * smoothRot * Time.deltaTime);
     }
 
     public void HitWithLight(float pAmount)
@@ -103,18 +111,20 @@ public class TestDanish_RotateCrystal : MonoBehaviour
     public void ExitHitWithLight()
     { }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerCanActivate = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerCanActivate = false;
-        }
-    }
+    
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        playerCanActivate = true;
+    //    }
+    //}
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        playerCanActivate = false;
+    //    }
+    //}
 }
