@@ -805,7 +805,6 @@ GameObject:
   - component: {fileID: 6931071452516390116}
   - component: {fileID: 7833544460301521173}
   - component: {fileID: 7833544460301521192}
-  - component: {fileID: 7833544460301521194}
   - component: {fileID: 7833544460301521197}
   - component: {fileID: 4675862594102262975}
   - component: {fileID: 4675862594102262973}
@@ -891,6 +890,7 @@ MonoBehaviour:
   _fMoveSpeed: 0
   _fJumpForce: 4
   groundThreshHold: 0.8
+  IsGrounded: 0
 --- !u!114 &7833544460301521192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,18 +916,6 @@ MonoBehaviour:
   raycastExtraMult: 0
   raycastMult: 0
   coefficientOfFriction: 2
---- !u!114 &7833544460301521194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2276492888539408692}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f80b5158b2b35f4fac417056bd0fae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7833544460301521197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,11 +1058,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
+  maxHealth: 0
   defValue: 100
   CurrSpirit: 100
+  maxSpirit: 0
   HPBar: {fileID: 0}
   SpiritBar: {fileID: 0}
+  HPGlowColor: {r: 0, g: 0, b: 0, a: 0}
   HPGlow: {fileID: 0}
+  SpiritGlowColor: {r: 0, g: 0, b: 0, a: 0}
   SpiritGlow: {fileID: 0}
 --- !u!114 &4855004242302103327
 MonoBehaviour:
