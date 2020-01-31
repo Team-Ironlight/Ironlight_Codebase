@@ -11,7 +11,6 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     [SerializeField] private GameObject Muzzle;
 
     //bool check
-
     public bool Orbshoot;
 
     List<GameObject> bulletPool = new List<GameObject>();
@@ -24,6 +23,11 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     [SerializeField] private float spreadFactor;
     [SerializeField] private float _yMaxSpread;
 
+    //orbSize
+    [SerializeField] private float MaxOrbScale;
+    [SerializeField] private float MinOrbScale;
+    [SerializeField] private float OrbScaleSpeed;
+    private float OrbScale;
 
     // Initilization - Instantiate a set number of bullets
 
@@ -41,6 +45,7 @@ public class PLY_2ndOrbAttack : MonoBehaviour
             bulletPool.Add(GB_Clone);
         }
         AttackTimer = Time.time;
+        OrbScale = MinOrbScale;
     }
 
     private void Update()
@@ -56,29 +61,45 @@ public class PLY_2ndOrbAttack : MonoBehaviour
             inputReceived = true;
             if (AttackTimer <= Time.time)
             {
-                // TODO Change Inputed Parameter to not just be camera forward :D
-                AttackTimer = Time.time + AttackCoolDown;               
-            }
-
-            Orbshoot = true;
-
-            if (Orbshoot)
-            {
-                Shoot(transform.forward);
+                StartCoroutine("OrbCharge");
             }
         }
         else
         {
-
             Orbshoot = false;
             inputReceived = false;
         }
+
+        if (Input.GetKeyUp(KeyCode.E) || Input.GetMouseButtonUp(0))
+        {
+            if (AttackTimer <= Time.time)
+            {
+                StopCoroutine("OrbCharge");
+                // TODO Change Inputed Parameter to not just be camera forward :D
+                AttackTimer = Time.time + AttackCoolDown;
+                Orbshoot = true;
+                if (Orbshoot)
+                {
+                    Shoot(transform.forward , OrbScale);
+                    print(OrbScale);
+                }
+                OrbScale = MinOrbScale;
+            }
+        }
+
     }
 
-    
+    IEnumerator OrbCharge()
+    {
+        while(OrbScale < MaxOrbScale)
+        {
+            OrbScale += OrbScaleSpeed * Time.deltaTime;
+            yield return null;
+        }
+    }
 
     // Code to perform attack
-    public void Shoot(Vector3 pDir)
+    public void Shoot(Vector3 pDir, float orbScale)
     {
         GameObject clone = null;
         //loop to find the first deactive bullet in the pool
@@ -93,6 +114,8 @@ public class PLY_2ndOrbAttack : MonoBehaviour
         }
         if (clone != null)
         {
+            clone.transform.localScale = new Vector3(orbScale, orbScale, orbScale);
+
             Vector3 shootDirection = pDir;
             //add spread in x-axis
             shootDirection.x += Random.Range(-spreadFactor, spreadFactor);
