@@ -59,7 +59,8 @@ public class PLY_HealthComponent : MonoBehaviour
     public void SubHealth(float value)
     {
         // Calculate damage amount by multiplying value by defValue
-        float damage = value * defValue;
+        //float damage = value * defValue;
+        float damage = value;
 
         // If currentHealth minus value is less than 0, set it to 0
         if ((currentHealth - damage) < 0)
