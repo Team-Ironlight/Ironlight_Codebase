@@ -37,6 +37,7 @@ public class WanderState : StateMachine.BaseState
     [Header("Components")]
     private UnityEngine.AI.NavMeshAgent _navMeshAgent;                                        //reference to the navmesh agent.
     private Animator _aniMator;
+    private AI_AbilityManager _executeAbility;
 
     [Header("Movement")]
     public float walk_Speed = 2f;
@@ -57,7 +58,7 @@ public class WanderState : StateMachine.BaseState
     {
         Name = this.GetType().ToString();                                       // Get the name of this Class
         _navMeshAgent = GetComponent<NavMeshAgent>();
-
+        _executeAbility = GetComponent<AI_AbilityManager>();
         target = GameObject.FindWithTag("Player").transform;
 
      
@@ -93,17 +94,20 @@ public class WanderState : StateMachine.BaseState
 
                     Vector3 destination = transform.position + dirToTarget;
 
+                  //  _executeAbility.enabled = false;
                     // Validate if the distance between the player and the enemy
                     // if the distance between enemy and player is less than attack distance
                     if ((Vector3.Distance(transform.position, target.position) <= maxDistanceToWander))
                     {
+                      
                         _navMeshAgent.isStopped = false;
                         _navMeshAgent.speed = run_Speed;
                         _navMeshAgent.SetDestination(destination);
 
                     }
-                    else if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToWander))
+                    else if ((Vector3.Distance(transform.position, target.position) >= minDistanceToWander))
                     {
+                       
                         //if the Player run away from the wander perimeter
                         _playerRunAway = true;
                     }
@@ -113,13 +117,19 @@ public class WanderState : StateMachine.BaseState
                 {
                     timer += Time.deltaTime;
 
+                
                     if (timer >= wanderTimer)
                     {
                  
                         isInFov = inFOV(transform, _navMeshAgent.transform, FacingMaxAngle, maxDistanceToWander);
 
-                        Vector3 newPos = RandomNavSphere(transform.position, maxDistanceToWander, -1);
-                        _navMeshAgent.SetDestination(newPos);
+                    
+                        if ((!_navMeshAgent.isPathStale) && (_navMeshAgent.remainingDistance == 0) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
+                        {
+                            Vector3 newPos = RandomNavSphere(transform.position, maxDistanceToWander, -1);
+                           
+                                    _navMeshAgent.SetDestination(newPos);
+                        }
                         timer = 0;
                     }
 
@@ -147,8 +157,7 @@ public class WanderState : StateMachine.BaseState
     {
         if (!_isMoving)
         {
-          
-         
+                   
             _aniMator.SetTrigger("Jump");
             yield return new WaitForSeconds(_aniMator.GetCurrentAnimatorStateInfo(0).length + _aniMator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             yield return new WaitForSeconds(1f);
@@ -166,7 +175,7 @@ public class WanderState : StateMachine.BaseState
             return OnEnemyWanderDistance;
         }
 
-        Collider[] overlapResults = new Collider[10];
+        Collider[] overlapResults = new Collider[50];
         int numFound = Physics.OverlapSphereNonAlloc(transform.position, maxDistanceToWander, overlapResults);
 
         for (int i = 0; i < numFound; i++)
@@ -175,27 +184,30 @@ public class WanderState : StateMachine.BaseState
             {
                 if (overlapResults[i].transform == target)
                 {
+
+         
+
                     Debug.DrawLine(transform.position, overlapResults[i].transform.position, Color.yellow);
                     if ((Vector3.Distance(transform.position, target.position) < maxDistanceToWander))
                     {
-                      
+
                         if (Vector3.Distance(transform.position, target.position) > minDistanceToWander)           // Current State <Patrol State>
                         {
-                          
+
                             OnAware();
 
                             return "";
                         }
                         else
-                        {                    
+                        {
                             //Going to the minimum Distance , switch <Attack State>
                             return OnEnemyLostState;
                         }
 
-                     
-                      
+
+
                     }
-                
+
                 }
 
             }
@@ -284,7 +296,7 @@ public class WanderState : StateMachine.BaseState
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxAngle, float maxRadius)
     {
-        Collider[] overlaps = new Collider[10];
+        Collider[] overlaps = new Collider[50];
         int count = Physics.OverlapSphereNonAlloc(checkingObject.position, maxRadius, overlaps);
 
         for (int i = 0; i < count + 1; i++)
