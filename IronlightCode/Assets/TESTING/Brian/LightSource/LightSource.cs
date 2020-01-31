@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightSource : MonoBehaviour
 {
-    PLY_HealthComponent PlayerHealth;
+    public PLY_HealthComponent PlayerHealth;
     float StartLightIntensity;
     float currLightIntensity;
     public float LightDepleted;
@@ -42,7 +42,7 @@ public class LightSource : MonoBehaviour
             print("Absorb");
             spotLight.intensity -= Time.deltaTime*RateOfDepletion;
             //StartLightIntensity -= Time.deltaTime * 2;
-            //PlayerHealth.currentHealth += Time.deltaTime;
+
         }
     }
 
@@ -55,15 +55,25 @@ public class LightSource : MonoBehaviour
         }
                  
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
 
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && spotLight.intensity!=0)
         {
-            print("Absorb");
+            print("Absorbing");
+            PlayerHealth.currentHealth += 5 * Time.deltaTime;
+            PlayerHealth.CurrSpirit += 5 * Time.deltaTime;
             absorbLight = true;
             other.GetComponent<LightCharging>().isCharging = true;
-        }
+			if (PlayerHealth.currentHealth > PlayerHealth.maxHealth)
+			{
+				PlayerHealth.currentHealth = PlayerHealth.maxHealth;
+			}
+			if (PlayerHealth.CurrSpirit > PlayerHealth.maxSpirit)
+			{
+				PlayerHealth.CurrSpirit = PlayerHealth.maxSpirit;
+			}
+		}
     }
     private void OnTriggerExit(Collider other)
     {

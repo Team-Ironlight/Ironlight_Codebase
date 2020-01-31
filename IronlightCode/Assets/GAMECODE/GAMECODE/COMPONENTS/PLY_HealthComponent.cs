@@ -1,6 +1,7 @@
 ﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PLY_HealthComponent : MonoBehaviour
 {
@@ -10,10 +11,17 @@ public class PLY_HealthComponent : MonoBehaviour
 
     [Header("Variables")]
     public float currentHealth;
-    float maxHealth;
+    public float maxHealth;
     public float defValue;
     public float CurrSpirit;
-    float maxSpirit;
+    public float maxSpirit;
+
+	public Image HPBar;
+	public Image SpiritBar;
+	public Color HPGlowColor;
+	public Image HPGlow;
+	public Color SpiritGlowColor;
+	public Image SpiritGlow;
 
     // Code to Initialize Health Component
     public void Init(int _maxHealth, float _defValue, int _maxSpirit)
@@ -51,7 +59,8 @@ public class PLY_HealthComponent : MonoBehaviour
     public void SubHealth(float value)
     {
         // Calculate damage amount by multiplying value by defValue
-        float damage = value * defValue;
+        //float damage = value * defValue;
+        float damage = value;
 
         // If currentHealth minus value is less than 0, set it to 0
         if ((currentHealth - damage) < 0)
@@ -70,6 +79,7 @@ public class PLY_HealthComponent : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+			print("Tiny Dead!");
         }
         else
         {
@@ -99,5 +109,20 @@ public class PLY_HealthComponent : MonoBehaviour
             CurrSpirit -= value * Time.deltaTime;
         }
     }
+
+	void Start()
+	{
+		HPGlowColor = HPGlow.color;
+		SpiritGlowColor = SpiritGlow.color;
+	}
+
+	void Update()
+	{
+		
+		HPBar.fillAmount = currentHealth / maxHealth;
+		HPGlowColor.a = HPBar.fillAmount;
+		SpiritBar.fillAmount = CurrSpirit / maxSpirit;
+		SpiritGlowColor.a = SpiritBar.fillAmount;
+	}
 
 }

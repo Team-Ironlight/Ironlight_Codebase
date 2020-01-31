@@ -29,32 +29,45 @@ public class TEST_PowerController : MonoBehaviour
     void Update()
     {
 
-        if (pwrscrl.activeAbility == 0)
-        {
-            print("Orb On!");
-            orbTest.enabled = true;
-            beamTest.enabled = false;
-            blastTest.enabled = false;
-        }
-        else if (pwrscrl.activeAbility == 1)
-        {
-            print("Beam On!");
-            orbTest.enabled = false;
-            beamTest.enabled = true;
-            blastTest.enabled = false;
-        }
-        else if (pwrscrl.activeAbility == 2)
-        {
-            print("Blast On!");
-            orbTest.enabled = false;
-            beamTest.enabled = false;
-            blastTest.enabled = true;
-        }
+        //if (pwrscrl.activeAbility == 0)
+        //{
+            
+        //}
+        //else if (pwrscrl.activeAbility == 1)
+        //{
+        //}
+        //else if (pwrscrl.activeAbility == 2)
+        //{
+        //}
 
+		switch (pwrscrl.activeAbility)
+		{
+			case 0:
+				print("Ability 1!");
+				print("Orb On!");
+				orbTest.enabled = true;
+				beamTest.enabled = false;
+				blastTest.enabled = false;
+				OrbDrain();
+				break;
+			case 1:
+				print("Ability 2!");
+				print("Beam On!");
+				orbTest.enabled = false;
+				beamTest.enabled = true;
+				blastTest.enabled = false;
+				BeamDrain();
+				break;
+			case 2:
+				print("Ability 3!");
+				print("Blast On!");
+				orbTest.enabled = false;
+				beamTest.enabled = false;
+				blastTest.enabled = true;
+				BlastDrain();
+				break;
+		}
 
-        OrbDrain();
-        BeamDrain();
-        BlastDrain();
 
     }
     void OrbDrain()
@@ -92,19 +105,19 @@ public class TEST_PowerController : MonoBehaviour
     }
     void BlastDrain()
     {
-        //if(blastTest.drainSpirit == true)
-        //{
-        //    if (Spirit.CurrSpirit > 0)
-        //    {
-        //        Spirit.SubSpiritTime(5);
-        //        print("Spirit Remaining: " + Spirit.CurrSpirit);
-        //    }
-        //    else if (Spirit.CurrSpirit <= 0)
-        //    {
-        //        Spirit.SubHealthTime(5);
-        //        print("Health Remaining: " + Spirit.currentHealth);
-        //    }
-        //}
+		if (blastTest.inputReceived == true)
+		{
+			if (Spirit.CurrSpirit > 0)
+			{
+				Spirit.SubSpiritTime(5);
+				print("Spirit Remaining: " + Spirit.CurrSpirit);
+			}
+			else if (Spirit.CurrSpirit <= 0)
+			{
+				Spirit.SubHealthTime(5);
+				print("Health Remaining: " + Spirit.currentHealth);
+			}
+		}
 
-    }
+	}
 }
