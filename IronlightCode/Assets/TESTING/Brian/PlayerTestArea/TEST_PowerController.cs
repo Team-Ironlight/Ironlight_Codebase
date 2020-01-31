@@ -84,7 +84,6 @@ public class TEST_PowerController : MonoBehaviour
                 Spirit.SubHealth(5);
                 print("Health Remaining: " + Spirit.currentHealth);
             }
-
         }
     }
     void BeamDrain()
