@@ -85436,6 +85436,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4194904892976003644}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2711433052381893398 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5136038860666074717, guid: d9c18b3cea01c794884d684ddde17b7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194904892976003644}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2822525331690885544
 Transform:
   m_ObjectHideFlags: 0
@@ -85680,6 +85686,11 @@ PrefabInstance:
       propertyPath: groundThreshHold
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7833544460301521173, guid: d9c18b3cea01c794884d684ddde17b7f,
+        type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 2711433052381893398}
     - target: {fileID: 4855004242302103327, guid: d9c18b3cea01c794884d684ddde17b7f,
         type: 3}
       propertyPath: isCharging
