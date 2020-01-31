@@ -9538,6 +9538,7 @@ GameObject:
   - component: {fileID: 5688367182035278894}
   - component: {fileID: 4270156795564692180}
   - component: {fileID: -2645590823846175188}
+  - component: {fileID: 8392326531138743673}
   m_Layer: 10
   m_Name: Sphere
   m_TagString: Orb
@@ -9615,7 +9616,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9029452412997840157}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -9642,7 +9643,7 @@ MonoBehaviour:
   SeekRotateSpeed: 3
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   targettedRadius: 2
   nonTargettedRadius: 1
   MaxSeekEnemyRange: 20
@@ -9662,3 +9663,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8392326531138743673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029452412997840157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccb4c8abb1a58143a6f3b1f9cfeac06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c71641dc6d178404ebe26f478ea767c9, type: 2}
