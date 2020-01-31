@@ -6,6 +6,7 @@ public class PowerWheelScroll : MonoBehaviour
 {
 
 	float scrollCount = 0f;
+	public float scrollSpeed = 5;
     public float activeAbility = 0;
 
 	// Start is called before the first frame update
@@ -42,20 +43,6 @@ public class PowerWheelScroll : MonoBehaviour
         activeAbility = Mathf.Abs(scrollCount % 3);
         print(activeAbility);
 
-        switch (activeAbility)
-		{
-			case 0:
-				print("Ability 1!");
-				break;
-			case 1:
-				print("Ability 2!");
-				break;
-			case 2:
-				print("Ability 3!");
-				break;
-		}
-
-
 	}
 
 
@@ -63,7 +50,7 @@ public class PowerWheelScroll : MonoBehaviour
 	{
 
 		Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
-		for (float t = 0f; t <= 1f; t += 5 * Time.deltaTime)
+		for (float t = 0f; t <= 1f; t += scrollSpeed * Time.deltaTime)
 		{
 			transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
 			yield return null;
