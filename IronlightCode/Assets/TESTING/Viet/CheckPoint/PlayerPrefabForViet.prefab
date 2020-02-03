@@ -1765,7 +1765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063459277778864911}
   m_Layer: 0
-  m_Name: PlayerPrefabFromBrian
+  m_Name: PlayerPrefabForViet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3461,6 +3461,7 @@ GameObject:
   - component: {fileID: 4063459278213326380}
   - component: {fileID: 6021144357585966384}
   - component: {fileID: 4314516943257580936}
+  - component: {fileID: 1010349566113453727}
   m_Layer: 0
   m_Name: SM_Tiny
   m_TagString: Player
@@ -3539,6 +3540,7 @@ MonoBehaviour:
   groundThreshHold: 0.5
   GroundCheck: 0
   IsGrounded: 0
+  anim: {fileID: 0}
 --- !u!114 &1456379844369288127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,6 +3735,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCharging: 0
+--- !u!114 &1010349566113453727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428675313991938979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0c05bfc8283234aafd789e76f76197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dead: {fileID: 0}
+  die: 0
 --- !u!1 &7469282042894239512
 GameObject:
   m_ObjectHideFlags: 0
