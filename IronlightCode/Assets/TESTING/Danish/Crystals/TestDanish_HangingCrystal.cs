@@ -51,7 +51,7 @@ public class TestDanish_HangingCrystal : MonoBehaviour
 
             _line.SetPosition(1, modifiedEnd);
         }
-        else if (Physics.Linecast(start, end, out hit, lm))
+        else if(Physics.Linecast(start, end, out hit, lm)) 
         {
             IHit hitThing = hit.transform.GetComponent<IHit>();
 
@@ -59,12 +59,13 @@ public class TestDanish_HangingCrystal : MonoBehaviour
             {
                 Debug.Log("Found a thing");
                 hitThing.HitWithLight(0);
+
                 
-                _line.SetPosition(1, end);
             }
+            _line.SetPosition(1, end);
+            Debug.DrawLine(start, end, Color.green);
         }
 
-        Debug.DrawLine(start, end, Color.green);
     }
 
 
