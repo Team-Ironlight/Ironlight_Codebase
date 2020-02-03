@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!143 &110560652
 CharacterController:
   m_ObjectHideFlags: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 372755970}
   - component: {fileID: 372755969}
   - component: {fileID: 372755967}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: KillPlane
   m_TagString: KillPlane
   m_Icon: {fileID: 0}
@@ -398,6 +398,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &450765715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7428675313991938979, guid: 24c70c1e11d51a248818c8312b55caf5,
+    type: 3}
+  m_PrefabInstance: {fileID: 808910489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &450765730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450765715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0c05bfc8283234aafd789e76f76197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dead: {fileID: 0}
+  die: 0
 --- !u!1001 &808910489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -410,6 +430,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefabForViet
       objectReference: {fileID: 0}
+    - target: {fileID: 4063459277778864910, guid: 24c70c1e11d51a248818c8312b55caf5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -418,7 +443,7 @@ PrefabInstance:
     - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.798
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
         type: 3}
@@ -465,6 +490,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4063459277778864911, guid: 24c70c1e11d51a248818c8312b55caf5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456379844369288066, guid: 24c70c1e11d51a248818c8312b55caf5,
+        type: 3}
+      propertyPath: _fMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24c70c1e11d51a248818c8312b55caf5, type: 3}
 --- !u!1 &935510927
@@ -480,7 +525,7 @@ GameObject:
   - component: {fileID: 935510929}
   - component: {fileID: 935510928}
   - component: {fileID: 935510932}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
@@ -677,7 +722,7 @@ GameObject:
   - component: {fileID: 1265588576}
   - component: {fileID: 1265588575}
   - component: {fileID: 1265588579}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint1
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
@@ -858,7 +903,7 @@ Transform:
   m_GameObject: {fileID: 1512045289}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.97, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1.27323, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -876,7 +921,7 @@ GameObject:
   - component: {fileID: 1841647154}
   - component: {fileID: 1841647153}
   - component: {fileID: 1841647157}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint2
   m_TagString: CheckPoint
   m_Icon: {fileID: 0}
