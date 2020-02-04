@@ -132,8 +132,7 @@ namespace IronLight
         [HideInInspector] public bool isOnAnimation = false;
         [HideInInspector] private bool isOnAttackMode = false;
         [HideInInspector] private bool isOnSafeMode = false;
-      
-        private string stateId;
+
         void Start()
         {
             _navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();        // Initialize all the Components
@@ -151,7 +150,7 @@ namespace IronLight
             if (isActive == true && CurrentState != null)                       // Precaution Check
             {
                 CurrentState.Tick();                                            // called once per frame
-                 stateId = CurrentState.CheckConditions();
+                string stateId = CurrentState.CheckConditions();
                 if (stateId.Length > 0)
                 {
 
