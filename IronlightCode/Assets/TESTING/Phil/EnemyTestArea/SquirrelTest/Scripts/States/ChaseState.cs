@@ -86,7 +86,7 @@ public class ChaseState : StateMachine.BaseState
                     }
                     else if ((Vector3.Distance(transform.position, target.position) >= minDistanceToChase))
                     {
-                        _navMeshAgent.isStopped = true;                     //Stop the agent when the player already outside the perimeter
+                     
                         _playerRunAway = true;
                     }
 
@@ -99,14 +99,10 @@ public class ChaseState : StateMachine.BaseState
 	{
         if (target == null) {  return "";  }
 
-
-
         if (_playerRunAway)
         {
-          
+            isAware = false;
             _playerRunAway = false;
-
-            _executeAbility.enabled = true;
             return OnEnemyChaseDistance;
         }
 
@@ -121,14 +117,11 @@ public class ChaseState : StateMachine.BaseState
                 {
                     if ((Vector3.Distance(transform.position, target.position) >= maxDistanceToChase))              //Chase State
                     {
-                     
                         OnAware();
-                        return OnEnemyChaseDistance;
+                        return "";
                     }
                     else if (Vector3.Distance(transform.position, target.position) <= minDistanceToChase)           // Switch to <Attack State>
                     {
-                    
-                       // _navMeshAgent.isStopped = true;
                         return OnEnemyLostState;
                     }
 
@@ -163,6 +156,8 @@ public class ChaseState : StateMachine.BaseState
             //Maximum Distance WireSphere
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, maxDistanceToChase);
+
+            transform.LookAt(target);
         }
     }
 }

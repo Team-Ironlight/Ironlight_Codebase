@@ -7,6 +7,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using IronLight;
 
 public enum AbilityLinkMoveMethod
 {
@@ -22,7 +23,8 @@ public class AI_AbilityManager : MonoBehaviour
 {
     [Header("Target")]
     private Transform target;
-    public bool isCharging =false;
+    private StateMachine mCurrentBaseState;
+    private bool isCharging =false;
 
     public AbilityLinkMoveMethod m_Method = AbilityLinkMoveMethod.Parabola;
     public AbilityLinkMoveMethod old_Method;
@@ -41,11 +43,15 @@ public class AI_AbilityManager : MonoBehaviour
     //Local Variable
     private float _gMinDistance; // field
     private float _gMaxDistance; // field
+    private string mCurrentState;
+    private bool mHopping;
 
     IEnumerator Start()
     {
         target = GameObject.FindWithTag("Player").transform;
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        mCurrentBaseState = GetComponent<StateMachine>();
+
         agent.autoTraverseOffMeshLink = false;
         startPos = Vector3.zero;
 
@@ -53,8 +59,21 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if ((!agent.isPathStale) && (!agent.pathPending) && (agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
             {
+                mCurrentState = mCurrentBaseState.CurrentState.Name;
+             
+                switch (mCurrentState)                                      //Info : we need Pounce movement but only for specific States
+                {
+                    case "WanderState":
+                        mHopping = true;
+                        break;
+                    case "ChaseState":
+                        mHopping = true;
+                        break;
+                    default:
+                        mHopping = false;
+                        break;
+                }
 
-               
 
                 isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
                 m_Method = (attacks[Random.Range(0, attacks.Length)]);
@@ -62,12 +81,10 @@ public class AI_AbilityManager : MonoBehaviour
 
                 if(old_Method != m_Method) 
                 {
-
-
                     if (m_Method == AbilityLinkMoveMethod.Swag)
                         yield return StartCoroutine(Swag(agent));
                     else if (m_Method == AbilityLinkMoveMethod.Parabola)
-                        yield return StartCoroutine(Parabola(agent, 2.0f, 0.5f));
+                        yield return StartCoroutine(Parabola(agent, 1.0f, 1f));
                     else if (m_Method == AbilityLinkMoveMethod.Curve)
                         yield return StartCoroutine(Curve(agent, 0.5f));
 
@@ -120,16 +137,18 @@ public class AI_AbilityManager : MonoBehaviour
     IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
     {
         startPos = agent.transform.position;
-           
-        if (isCharging) {  yield break; }                                                               // Force to stop
+      
         
+     //  if ((isCharging) || (!mHopping)) {  yield break; }                                                               // Force to stop
+        
+        if(!mHopping) { yield break; }                                                                                   // Hopping /pouncing code below is only for specific States, not all states can exeucte the code below
 
         Vector3 endPos = agent.pathEndPosition + Vector3.up;// * agent.baseOffset;
 
-        if (Vector3.Distance(agent.transform.position, agent.pathEndPosition) <= _gMaxDistance)
+        if (Vector3.Distance(agent.transform.position, agent.pathEndPosition) <= _gMaxDistance)                           //Precaution check - Player is on perimeter  
         {
             float normalizedTime = 0.0f;
-            while (normalizedTime < 1.0f)
+            while (normalizedTime < 1f)
             {
                 float yOffset = height * 2f * (normalizedTime - normalizedTime * normalizedTime);
                 agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
