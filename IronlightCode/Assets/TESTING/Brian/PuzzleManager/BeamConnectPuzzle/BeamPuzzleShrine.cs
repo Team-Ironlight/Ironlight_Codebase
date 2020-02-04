@@ -9,10 +9,6 @@ public class BeamPuzzleShrine : MonoBehaviour, IHit
     public GameObject Plat3;
     public GameObject Plat4;
     // Start is called before the first frame update
-
-    public bool LinkActive = false;
-    public Transform crystalPos;
-
     void Start()
     {
         Plat1.SetActive(false);
@@ -24,17 +20,14 @@ public class BeamPuzzleShrine : MonoBehaviour, IHit
     // Update is called once per frame
     void Update()
     {
-        if (LinkActive)
-        {
-            Plat1.SetActive(true);
-            Plat2.SetActive(true);
-            Plat3.SetActive(true);
-            Plat4.SetActive(true);
-        }
+        
     }
     public void HitWithLight(float pAmount)
     {
-        LinkActive = true;
+        Plat1.SetActive(true);
+        Plat2.SetActive(true);
+        Plat3.SetActive(true);
+        Plat4.SetActive(true);
         Debug.Log("HIT");
     }
     public void EnterHitWithLight(float pAmount)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestingDie : MonoBehaviour
 {
 
-    public CheckPoint Dead; //Where are we even using this?
+    public CheckPoint Dead;
     public bool die;
 
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class TestingDie : MonoBehaviour
     {
         if (die == true)
         {
-            transform.position = CheckPoint.currentCheck;// if CheckPoint is being called like this then what did you call at the top?
+            transform.position = CheckPoint.currentCheck;
             die = false;
         }
     }
