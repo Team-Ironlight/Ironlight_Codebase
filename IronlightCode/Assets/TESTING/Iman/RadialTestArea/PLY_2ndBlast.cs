@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLY_ImanBlastTest : MonoBehaviour
+public class PLY_2ndBlast : MonoBehaviour
 {
     //blast
     public bool inputReceived = false;
@@ -19,7 +19,6 @@ public class PLY_ImanBlastTest : MonoBehaviour
     [SerializeField] private GameObject BlastVisual;
     [SerializeField] private GameObject ChargeVisual;
 
-    private List<GameObject> enemiesDamaged = new List<GameObject>();
 
     // Update is called once per frame
     void Update()
@@ -36,59 +35,37 @@ public class PLY_ImanBlastTest : MonoBehaviour
     {
         //initializing
         float count = 0.0f;
-        bool damaged = false;
         GameObject blast = Instantiate(BlastVisual, transform.position, transform.rotation);
 
-        //loop for the blast
-        while (count < x)
+        //increasing the size of the blast
+        radius = x;
+
+        //visual for blast
+        blast.transform.localScale = new Vector3(radius, radius, radius) * 2;
+
+        //get all colliders in the sphere
+        foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, enemiesLayer))
         {
-            //increasing the size of the blast
-            radius = count;
-
-            //visual for blast
-            blast.transform.localScale = new Vector3(radius, radius, radius) * 2;
-
-            //get all colliders in the sphere
-            foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, enemiesLayer))
+            IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
+            if (pcollider.gameObject.CompareTag("ActiveCrystal"))
             {
-                IAttributes cIA = pcollider.gameObject.GetComponent<IAttributes>();
-                if (pcollider.gameObject.CompareTag("ActiveCrystal"))
-                {
-                    pcollider.GetComponent<ActivateCrystal>().activated = true;
-                    print("Blast Hit Crystal");
-                }
-                //check if gameobject is damagable
-                if (cIA != null)
-                {
-                    //loop to check if the object was damaged before
-                    for(int i = 0; i < enemiesDamaged.Count;i++)
-                    {
-                        if(enemiesDamaged[i].gameObject == pcollider.gameObject)
-                        {
-                            damaged = true;
-                            break;
-                        }
-                    }
-
-                    //if not damaged before
-                    if (!damaged)
-                    {
-                        //do damage to the enemy
-                        CalcDmg(pcollider.gameObject);
-
-                        //push back the enemy
-                        PushBack(pcollider.gameObject);
-
-                        //add enemy to damagedenemies
-                        enemiesDamaged.Add(pcollider.gameObject);
-                    }
-                }
-                damaged = false;
+                pcollider.GetComponent<ActivateCrystal>().activated = true;
+                print("Blast Hit Crystal");
             }
-            count += Time.deltaTime * BlastSpeedMultiplyer;
+            //check if gameobject is damagable
+            if (cIA != null)
+            {
+                //do damage to the enemy
+                CalcDmg(pcollider.gameObject);
 
-            yield return null;
+                //push back the enemy
+                PushBack(pcollider.gameObject);
+            }
         }
+        count += Time.deltaTime * BlastSpeedMultiplyer;
+
+        yield return null;
+
         //reset variables to get ready for next blast
         coroutineOn = false;
         print("Switch");
@@ -96,9 +73,6 @@ public class PLY_ImanBlastTest : MonoBehaviour
         chargeCount = 0;
 
         Destroy(blast);
-
-        enemiesDamaged.Clear();
-        //radius = 0.01f;
     }
 
 
@@ -178,19 +152,19 @@ public class PLY_ImanBlastTest : MonoBehaviour
         //get distance between player and the enemy
         float dist = Vector3.Distance(enemy.transform.position, transform.position);
         //if close range
-        if(dist <= radiusMax * (1f/3f))
+        if (dist <= radiusMax * (1f / 3f))
         {
             //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (3f / 3f), false);
             print("Big Damage");
         }
         //if medium range
-        else if(dist <= radiusMax * (2f/3f))
+        else if (dist <= radiusMax * (2f / 3f))
         {
             //enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (2f / 3f), false);
             print("Medium Damage");
         }
         //if long range
-        else if(dist <= radiusMax)
+        else if (dist <= radiusMax)
         {
             // enemy.gameObject.GetComponent<IAttributes>().TakeDamage(Damage * (1f / 3f), false);
             print("Small Damage");
