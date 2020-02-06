@@ -150,13 +150,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReceived: 1
-  _pool: {fileID: 986515650}
+  Magezine: {fileID: 986515650}
+  Muzzle: {fileID: 257889496}
+  Orbshoot: 0
   MagezineSize: 20
   GB_Bullet: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
     type: 3}
   AttackCoolDown: 0
   spreadFactor: 0.1
   _yMaxSpread: 0.03
+  MaxOrbScale: 3
+  MinOrbScale: 0.2
+  OrbScaleSpeed: 0.6
 --- !u!4 &257889498
 Transform:
   m_ObjectHideFlags: 0

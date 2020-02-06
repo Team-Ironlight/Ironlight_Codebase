@@ -133,7 +133,7 @@ public class AttackState : StateMachine.BaseState
                 }
                 else if ((Vector3.Distance(transform.position, target.position) >= minDistanceToAttack))
                 {
-                    _navMeshAgent.isStopped = true;                     //Stop the agent when the player already outside the perimeter
+                  //  _navMeshAgent.isStopped = true;                     //Stop the agent when the player already outside the perimeter
                     _playerRunAway = true;
                 }
 
@@ -323,7 +323,7 @@ public class AttackState : StateMachine.BaseState
                 Gizmos.color = Color.green;
                 
             }
-            transform.LookAt(target);
+           // transform.LookAt(target);
             Gizmos.DrawRay(transform.position, (target.position - transform.position).normalized * maxDistanceToAttack);
 
             Gizmos.color = Color.black;

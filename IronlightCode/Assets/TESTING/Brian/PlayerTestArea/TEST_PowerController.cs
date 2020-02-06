@@ -7,7 +7,9 @@ public class TEST_PowerController : MonoBehaviour
     public PLY_2ndOrbAttack orbTest;
     public PLY_BeamTest beamTest;
     public PLY_ImanBlastTest blastTest;
+    public PLY_Dash DashTest;
     public GameObject firePoint;
+
 
     public PowerWheelScroll pwrscrl;
 
@@ -18,6 +20,7 @@ public class TEST_PowerController : MonoBehaviour
         orbTest = gameObject.GetComponent<PLY_2ndOrbAttack>();
         beamTest = gameObject.GetComponent<PLY_BeamTest>();
         blastTest = gameObject.GetComponent<PLY_ImanBlastTest>();
+        DashTest = gameObject.GetComponent<PLY_Dash>();
         orbTest.enabled = false;
         beamTest.enabled = false;
         blastTest.enabled = false;
@@ -84,7 +87,6 @@ public class TEST_PowerController : MonoBehaviour
                 Spirit.SubHealth(5);
                 print("Health Remaining: " + Spirit.currentHealth);
             }
-
         }
     }
     void BeamDrain()
@@ -118,6 +120,22 @@ public class TEST_PowerController : MonoBehaviour
 				print("Health Remaining: " + Spirit.currentHealth);
 			}
 		}
-
 	}
+
+    void DashDrain()
+    {
+        if (DashTest.InputRecievced == true)
+        {
+            if (Spirit.CurrSpirit > 0)
+            {
+                Spirit.SubSpiritOrb(5);
+                print("Spirit Remaining: " + Spirit.CurrSpirit);
+            }
+            else if (Spirit.CurrSpirit <= 0)
+            {
+                Spirit.SubHealth(5);
+                print("Health Remaining: " + Spirit.currentHealth);
+            }
+        }
+    }
 }

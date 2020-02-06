@@ -405,7 +405,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8780140789363450182}
-  m_LocalRotation: {x: -0.016986558, y: 0.6009506, z: 0.012776016, w: 0.79900354}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -416,7 +416,7 @@ Transform:
   - {fileID: 1438099764221695746}
   m_Father: {fileID: 7353623549866888876}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -2.436, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2380162977718304303
 Animator:
   serializedVersion: 3
@@ -445,7 +445,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8780140789363450182}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -518,7 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d0dec922a0b2c4d897936f59c55afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCharging: 0
   m_Method: 1
   old_Method: 0
   attacks: 030000000200000001000000

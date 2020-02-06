@@ -11,7 +11,10 @@ public class PLY_MovementComponent : MonoBehaviour
     float distToGround;
     [Range(0.1f,0.8f)]
     public float groundThreshHold = 0.8f;
-    bool IsGrounded;
+    public bool GroundCheck;
+    public bool IsGrounded;
+
+    public Animator anim;
 
     private void Start()
     {
@@ -21,11 +24,41 @@ public class PLY_MovementComponent : MonoBehaviour
     private void Update()
     {
         CalculateMoveDir();
-        IsGrounded = Physics.Raycast(transform.position, Vector3.down, distToGround + groundThreshHold);
-        if (IsGrounded)
+        //      GroundCheck = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, distToGround + groundThreshHold);
+        //      if (GroundCheck && hit.collider.gameObject.layer == 10)
+        //      {
+        //	IsGrounded = true;
+        //          print("grounded...");
+        //      }
+        //else
+        //{
+        //	IsGrounded = false;
+        //}
+
+        IsGrounded = CheckIfGrounded();
+
+        anim.SetBool("Grounded", IsGrounded);
+    }
+
+    bool CheckIfGrounded()
+    {
+        bool result = false;
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, distToGround + groundThreshHold))
         {
-            print("grounded...");
+            if(hit.collider.gameObject.layer == 10)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.Log(hit.collider.gameObject.layer);
+            }
         }
+
+        return false;
     }
 
     public void CalculateMoveDir()
