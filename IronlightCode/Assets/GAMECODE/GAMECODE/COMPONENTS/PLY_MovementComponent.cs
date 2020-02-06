@@ -16,9 +16,16 @@ public class PLY_MovementComponent : MonoBehaviour
 
     public Animator anim;
 
+    public float coyoteTime;
+    [SerializeField]
+    float currCTime;
+
+    [SerializeField]
+    int jumpCount;
     private void Start()
     {
         distToGround = GetComponent<Collider>().bounds.extents.y;
+        currCTime = coyoteTime;
     }
 
     private void Update()
@@ -34,15 +41,21 @@ public class PLY_MovementComponent : MonoBehaviour
         //{
         //	IsGrounded = false;
         //}
-
         IsGrounded = CheckIfGrounded();
+        if (CheckIfGrounded()== false)
+        {
+            SubCTime();
+        }
+
+
 
         anim.SetBool("Grounded", IsGrounded);
     }
 
     bool CheckIfGrounded()
     {
-        bool result = false;
+        //bool result = false;
+
 
         RaycastHit hit;
 
@@ -50,14 +63,17 @@ public class PLY_MovementComponent : MonoBehaviour
         {
             if(hit.collider.gameObject.layer == 10)
             {
+                jumpCount = 0;
+                currCTime = coyoteTime;
                 return true;
             }
             else
             {
                 Debug.Log(hit.collider.gameObject.layer);
+     
             }
         }
-
+       
         return false;
     }
 
@@ -72,13 +88,22 @@ public class PLY_MovementComponent : MonoBehaviour
 
         //GetComponent<PHY_Physics>().AddHorizontalAcceleration(new Vector2(_vMoveDir.x, _vMoveDir.z));
 
-        if (Input.GetButtonDown("Jump")&& IsGrounded)
+        if (Input.GetButtonDown("Jump") && currCTime > 0 && jumpCount ==0)
+        {
+            jumpCount++;
+            print("jump count is " + jumpCount);
             GetComponent<PHY_Physics>().SetVerticalForce(_fJumpForce);
+
+        }
     }
 
     private void OnDisable()
     {
         // Switch to idle
         GetComponent<PHY_Physics>().AddHorizontalAcceleration(Vector2.zero);
+    }
+    void SubCTime()
+    {
+        currCTime -= Time.deltaTime;
     }
 }
