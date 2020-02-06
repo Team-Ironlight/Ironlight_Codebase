@@ -24,7 +24,10 @@ public class PLY_ImanBlastTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Charge();
+        if (!coroutineOn)
+        {
+            Charge();
+        }
     }
 
 
@@ -88,6 +91,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
         }
         //reset variables to get ready for next blast
         coroutineOn = false;
+        print("Switch");
 
         chargeCount = 0;
 
