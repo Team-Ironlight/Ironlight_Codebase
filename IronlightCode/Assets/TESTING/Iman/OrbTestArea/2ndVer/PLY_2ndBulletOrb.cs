@@ -29,9 +29,6 @@ public class PLY_2ndBulletOrb : MonoBehaviour
     public void StartOrb(Vector3 pDir)
     {
 
-        //activate bullet
-        gameObject.SetActive(true);
-
         transform.forward = pDir;
 
         rigid = GetComponent<Rigidbody>();
@@ -118,8 +115,8 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         yield return new WaitForSeconds(_iDisableTimer);
         gameObject.SetActive(false);
 
-        //set velocity to 0
-        rigid.velocity = Vector3.zero;
+        //set moving to false
+        Moving = false;
 
         EnemyToChase = null;
     }
@@ -132,8 +129,8 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         //deactivate object
         gameObject.SetActive(false);
 
-        //set velocity to 0
-        rigid.velocity = Vector3.zero;
+        //set moving to false
+        Moving = false;
 
         //set chasing enemy to null
         EnemyToChase = null;
