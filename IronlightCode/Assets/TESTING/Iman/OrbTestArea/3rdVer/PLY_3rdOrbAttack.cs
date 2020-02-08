@@ -66,7 +66,6 @@ public class PLY_3rdOrbAttack : MonoBehaviour
             if (AttackTimer <= Time.time)
             {
                 GetBullet();
-                print(CurrentOrb.GetComponent<Rigidbody>().velocity);
                 StartCoroutine("OrbCharge");
             }
         }

@@ -26,8 +26,10 @@ public class PLY_Dash : MonoBehaviour
 
     private void GetInput()
     {
+        //input check
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            //timer check
             if (CDTimer < Time.time)
             {
                 StartCoroutine(Dash());
@@ -43,10 +45,11 @@ public class PLY_Dash : MonoBehaviour
 
     IEnumerator Dash()
     {
+        //add force for certain amount of time
         rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(dashDuration);
-
+        //set velocity to 0 after dash is over
         rb.velocity = Vector3.zero;
     }
 }
