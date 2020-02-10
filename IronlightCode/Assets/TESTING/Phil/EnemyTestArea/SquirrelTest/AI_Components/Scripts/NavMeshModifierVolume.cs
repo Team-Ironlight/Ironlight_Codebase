@@ -1,3 +1,8 @@
+// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   02/8/2020
 using System.Collections.Generic;
 
 namespace UnityEngine.AI
