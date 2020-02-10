@@ -12,6 +12,8 @@ public class PLY_BeamTest : MonoBehaviour
     //LineCast
     private Vector3 LineStart;
     private Vector3 LineEnd;
+    private RaycastHit LineCastHit;
+    private bool HittingObject;
 
     //beam
     public GameObject muzzle;
@@ -25,12 +27,7 @@ public class PLY_BeamTest : MonoBehaviour
     private float BeamLengthClosing;
     private Vector3 PosBeforeRelease;
     private Vector3 DirBeforeRelease;
-
-    //linecast
-    private RaycastHit LineCastHit;
-    private bool HittingObject;
-
-
+    
     private void Start()
     {
         BeamReset();
@@ -42,8 +39,8 @@ public class PLY_BeamTest : MonoBehaviour
 
     private void Update()
     {
-        GetInput();
         BeamLineCast();
+        GetInput();
         //function of the attack
         if(StartAttack)
         {
@@ -54,6 +51,7 @@ public class PLY_BeamTest : MonoBehaviour
         {
             beamEnding();
             BeamPosUpdate();
+            //if start point distance from start is larger than end point distance from start
             if (Vector3.Distance(LineEnd, muzzle.transform.position) < Vector3.Distance(LineStart, muzzle.transform.position))
             {
                 endAttack = false;
@@ -81,6 +79,7 @@ public class PLY_BeamTest : MonoBehaviour
             endAttack = true;
         }
     }
+
     //position the points in the world every frame
     private void BeamPosUpdate()
     {
@@ -88,9 +87,12 @@ public class PLY_BeamTest : MonoBehaviour
         //while key is pressed
         if (StartAttack)
         {
-            //update the end position of the beam
-            LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
-            LineRenderer.SetPosition(1, LineEnd);
+            if (!HittingObject)
+            {
+                //update the end position of the beam
+                LineEnd = muzzle.transform.position + (muzzle.transform.forward * BeamLengthGoing);
+                LineRenderer.SetPosition(1, LineEnd);
+            }
 
             //set start position to muzzle
             LineStart = muzzle.transform.position ;
@@ -109,6 +111,7 @@ public class PLY_BeamTest : MonoBehaviour
         //set the position of the game object always to center so it doesnt create offset problems
         LineRenderer.gameObject.transform.position = Vector3.zero;
     }
+
     //add to end point distance
     private void beamgoing()
     {
@@ -117,19 +120,19 @@ public class PLY_BeamTest : MonoBehaviour
             BeamLengthGoing += _fBeamSpeedGoing * Time.deltaTime;
         }
     }
+
     //add to start point distance
     private void beamEnding()
     {
         BeamLengthClosing += _fBeamSpeedClosing * Time.deltaTime;
     }
+
     //Function for linecast
     private void BeamLineCast()
     {
-        
         if(Physics.Linecast(LineStart, LineEnd,out LineCastHit))
         {
             //objects detects here add code
-
             HittingObject = true;
         }
         else
@@ -137,12 +140,17 @@ public class PLY_BeamTest : MonoBehaviour
             HittingObject = false;
         }
 
+        //end pos of beam when hitting object
         if(HittingObject)
         {
-            LineRenderer.SetPosition(1, LineCastHit.point);
-            LineEnd = LineCastHit.point;
+            //calc dist between start and object hit
+            float Dist = Vector3.Distance(LineCastHit.point, muzzle.transform.position);
+            //set end pos
+            LineEnd = muzzle.transform.position + (muzzle.transform.forward * Dist);
+            LineRenderer.SetPosition(1, LineEnd);
         }
     }
+
     //function to reset the beam
     private void BeamReset()
     {
