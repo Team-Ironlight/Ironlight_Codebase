@@ -12,15 +12,14 @@ public class Follower : MonoBehaviour
 
     private Vector2 objectPos;
 
-    private float speed;
+    public float speed; // Change the speed of the follower
 
     private bool coroutineAllowed;
 
     void Start()
     {
         routeToGo = 0;
-        tParam = 0f;
-        speed = 0.5f;       // Change the speed of the follower
+        tParam = 0f;    
         coroutineAllowed = true;
     }
 
