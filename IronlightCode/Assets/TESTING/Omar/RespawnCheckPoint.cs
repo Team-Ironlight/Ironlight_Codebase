@@ -6,5 +6,10 @@ public class RespawnCheckPoint : MonoBehaviour
 {
 
     public Transform lastCheckPoint;
-    
+    public Transform StartPoint;
+    private void Start()
+    {
+        lastCheckPoint = StartPoint;
+    }
+
 }
