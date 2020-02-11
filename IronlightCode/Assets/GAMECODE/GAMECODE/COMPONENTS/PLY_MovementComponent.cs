@@ -61,7 +61,7 @@ public class PLY_MovementComponent : MonoBehaviour
 
         if(Physics.Raycast(transform.position, Vector3.down, out hit, distToGround + groundThreshHold))
         {
-            if(hit.collider.gameObject.layer == 10)
+            if(hit.collider.gameObject.layer == 10|| hit.collider.gameObject.layer == 12)
             {
                 jumpCount = 0;
                 currCTime = coyoteTime;
