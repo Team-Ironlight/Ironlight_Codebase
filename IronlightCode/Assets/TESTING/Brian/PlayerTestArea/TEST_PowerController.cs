@@ -4,26 +4,15 @@ using UnityEngine;
 
 public class TEST_PowerController : MonoBehaviour
 {
-    public PLY_2ndOrbAttack orbTest;
-    public PLY_BeamTest beamTest;
+    public MOD_orb orbTest;
+    public MOD_beam beamTest;
     public PLY_ImanBlastTest blastTest;
-    public PLY_Dash DashTest;
     public GameObject firePoint;
-
-
-    public PowerWheelScroll pwrscrl;
 
     public PLY_HealthComponent Spirit; //Place holder for spiritBar
     // Start is called before the first frame update
     void Start()
     {
-        orbTest = gameObject.GetComponent<PLY_2ndOrbAttack>();
-        beamTest = gameObject.GetComponent<PLY_BeamTest>();
-        blastTest = gameObject.GetComponent<PLY_ImanBlastTest>();
-        DashTest = gameObject.GetComponent<PLY_Dash>();
-        orbTest.enabled = false;
-        beamTest.enabled = false;
-        blastTest.enabled = false;
         firePoint = GameObject.FindGameObjectWithTag("Muzzle");
 
     }
@@ -31,51 +20,13 @@ public class TEST_PowerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if (pwrscrl.activeAbility == 0)
-        //{
-            
-        //}
-        //else if (pwrscrl.activeAbility == 1)
-        //{
-        //}
-        //else if (pwrscrl.activeAbility == 2)
-        //{
-        //}
-
-		switch (pwrscrl.activeAbility)
-		{
-			case 0:
-				print("Ability 1!");
-				print("Orb On!");
-				orbTest.enabled = true;
-				beamTest.enabled = false;
-				blastTest.enabled = false;
-				OrbDrain();
-				break;
-			case 1:
-				print("Ability 2!");
-				print("Beam On!");
-				orbTest.enabled = false;
-				beamTest.enabled = true;
-				blastTest.enabled = false;
-				BeamDrain();
-				break;
-			case 2:
-				print("Ability 3!");
-				print("Blast On!");
-				orbTest.enabled = false;
-				beamTest.enabled = false;
-				blastTest.enabled = true;
-				BlastDrain();
-				break;
-		}
-
-
+        OrbDrain();
+        BeamDrain();
+        BlastDrain();
     }
     void OrbDrain()
     {
-        if (orbTest.Orbshoot == true)
+        if (orbTest.shotFired == true)
         {
             if (Spirit.CurrSpirit> 0)
             {
@@ -87,6 +38,7 @@ public class TEST_PowerController : MonoBehaviour
                 Spirit.SubHealth(5);
                 print("Health Remaining: " + Spirit.currentHealth);
             }
+
         }
     }
     void BeamDrain()
@@ -107,35 +59,19 @@ public class TEST_PowerController : MonoBehaviour
     }
     void BlastDrain()
     {
-		if (blastTest.inputReceived == true)
-		{
-			if (Spirit.CurrSpirit > 0)
-			{
-				Spirit.SubSpiritTime(5);
-				print("Spirit Remaining: " + Spirit.CurrSpirit);
-			}
-			else if (Spirit.CurrSpirit <= 0)
-			{
-				Spirit.SubHealthTime(5);
-				print("Health Remaining: " + Spirit.currentHealth);
-			}
-		}
-	}
+        //if(blastTest.drainSpirit == true)
+        //{
+        //    if (Spirit.CurrSpirit > 0)
+        //    {
+        //        Spirit.SubSpiritTime(5);
+        //        print("Spirit Remaining: " + Spirit.CurrSpirit);
+        //    }
+        //    else if (Spirit.CurrSpirit <= 0)
+        //    {
+        //        Spirit.SubHealthTime(5);
+        //        print("Health Remaining: " + Spirit.currentHealth);
+        //    }
+        //}
 
-    void DashDrain()
-    {
-        if (DashTest.InputRecievced == true)
-        {
-            if (Spirit.CurrSpirit > 0)
-            {
-                Spirit.SubSpiritOrb(5);
-                print("Spirit Remaining: " + Spirit.CurrSpirit);
-            }
-            else if (Spirit.CurrSpirit <= 0)
-            {
-                Spirit.SubHealth(5);
-                print("Health Remaining: " + Spirit.currentHealth);
-            }
-        }
     }
 }

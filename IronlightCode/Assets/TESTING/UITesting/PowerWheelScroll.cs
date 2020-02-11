@@ -5,9 +5,7 @@ using UnityEngine;
 public class PowerWheelScroll : MonoBehaviour
 {
 
-	float scrollCount = 0f;
-	public float scrollSpeed = 5;
-    public float activeAbility = 0;
+	private Vector3 currentAngle;
 
 	// Start is called before the first frame update
 	void Start()
@@ -19,44 +17,30 @@ public class PowerWheelScroll : MonoBehaviour
     void Update()
     {
 
-
 		if (Input.mouseScrollDelta.y>0)
 		{
 			print("CounterClockwise!");
 
-			scrollCount += 1;
+			// currentAngle = new Vector3 (0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
 
-			StartCoroutine(RotateWheel());
+            Quaternion newRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); ;
+            newRotation *= Quaternion.Euler(0, 0, 360 * Input.mouseScrollDelta.y); // this add a 120 degrees Z rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 20 * Time.deltaTime);
 
+            // transform.eulerAngles = currentAngle;
 		}
 
 		if (Input.mouseScrollDelta.y<0)
 		{
 			print("Clockwise!");
 
-			scrollCount -= 1;
+			// currentAngle = new Vector3(0, 0, Mathf.LerpAngle(currentAngle.z, currentAngle.z + 120 * Input.mouseScrollDelta.y, Time.deltaTime));
 
-			StartCoroutine(RotateWheel());
+            Quaternion newRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); ;
+            newRotation *= Quaternion.Euler(0, 0, 120 * Input.mouseScrollDelta.y); // this add a 120 degrees Z rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 20 * Time.deltaTime);
 
+            // transform.eulerAngles = currentAngle;
 		}
-
-        activeAbility = Mathf.Abs(scrollCount % 3);
-        print(activeAbility);
-
-	}
-
-
-	IEnumerator RotateWheel()
-	{
-
-		Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
-		for (float t = 0f; t <= 1f; t += scrollSpeed * Time.deltaTime)
-		{
-			transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
-			yield return null;
-		}
-
-	}
-
-
+    }	
 }

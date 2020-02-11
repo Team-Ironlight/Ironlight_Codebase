@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class LightSource : MonoBehaviour
 {
-    public PLY_HealthComponent PlayerHealth;
+    PLY_HealthComponent PlayerHealth;
     float StartLightIntensity;
     float currLightIntensity;
     public float LightDepleted;
-
-    public float RateOfDepletion = 3f;
-
     private Light spotLight;
     [SerializeField]
     bool absorbLight = false;
@@ -40,9 +37,9 @@ public class LightSource : MonoBehaviour
         if (currLightIntensity > LightDepleted)
         {
             print("Absorb");
-            spotLight.intensity -= Time.deltaTime*RateOfDepletion;
+            spotLight.intensity -= Time.deltaTime*3;
             //StartLightIntensity -= Time.deltaTime * 2;
-
+            //PlayerHealth.currentHealth += Time.deltaTime;
         }
     }
 
@@ -55,31 +52,19 @@ public class LightSource : MonoBehaviour
         }
                  
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.CompareTag("Player") && spotLight.intensity!=0)
+        if (other.gameObject.CompareTag("Player"))
         {
-            print("Absorbing");
-            PlayerHealth.currentHealth += 5 * Time.deltaTime;
-            PlayerHealth.CurrSpirit += 5 * Time.deltaTime;
+            print("Absorb");
             absorbLight = true;
-            other.GetComponent<LightCharging>().isCharging = true;
-			if (PlayerHealth.currentHealth > PlayerHealth.maxHealth)
-			{
-				PlayerHealth.currentHealth = PlayerHealth.maxHealth;
-			}
-			if (PlayerHealth.CurrSpirit > PlayerHealth.maxSpirit)
-			{
-				PlayerHealth.CurrSpirit = PlayerHealth.maxSpirit;
-			}
-		}
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<LightCharging>().isCharging = false;
             absorbLight = false;
         }
     }

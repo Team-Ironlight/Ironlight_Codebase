@@ -24,12 +24,14 @@ public class PLY_2ndBulletOrb : MonoBehaviour
     [SerializeField] private float targettedRadius = 2;
     [SerializeField] private float nonTargettedRadius = 1;
     [SerializeField] private float MaxSeekEnemyRange = 20;
-    private float hitdis;
 
-    //call when orb get shot
+
     public void StartOrb(Vector3 pDir)
     {
-        //give direction
+
+        //activate bullet
+        gameObject.SetActive(true);
+
         transform.forward = pDir;
 
         rigid = GetComponent<Rigidbody>();
@@ -40,39 +42,39 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         StartCoroutine("BulletDisable");
     }
 
-
-    //public void EnemyToSeek(GameObject closestEnemy)
-    //{
-    //    if(closestEnemy != null)
-    //    {
-    //        EnemyToChase = closestEnemy;
-    //    }
-    //}
+    public void EnemyToSeek(GameObject closestEnemy)
+    {
+        if(closestEnemy != null)
+        {
+            EnemyToChase = closestEnemy;
+        }
+    }
 
     private void Update()
     {
         SeekEnemy();
-        //if there is an enemy to chase
         if (EnemyToChase != null)
         {
-            //find the enemies direction
             Vector3 direction = EnemyToChase.transform.position - transform.position;
-            //rotate towards it
             gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * SeekRotateSpeed);
+
+
+
+            //rigid.velocity = direction.normalized * _iSpeed * Time.deltaTime;
+
+            print("chasing " + EnemyToChase);
         }
-        //if moving
         if(Moving)
         {
-            //move the bullet
             transform.position +=transform.forward * _iSpeed * Time.deltaTime;
         }
     }
 
-    //function to find enemy to chase
+    float hitdis;
     private void SeekEnemy()
     {
         float radius = 0;
-        //set the seek radius 
+
         if(EnemyToChase != null)
         {
             radius = targettedRadius;
@@ -81,13 +83,13 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         {
             radius = nonTargettedRadius;
         }
-
         RaycastHit hit;
         //create a spherecast to see whats infront of the player
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, MaxSeekEnemyRange, enemyLayer))
         {
             EnemyToChase = hit.transform.gameObject;
             hitdis = hit.distance;
+
         }
         else
         {
@@ -117,8 +119,8 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         yield return new WaitForSeconds(_iDisableTimer);
         gameObject.SetActive(false);
 
-        //set moving to false
-        Moving = false;
+        //set velocity to 0
+        rigid.velocity = Vector3.zero;
 
         EnemyToChase = null;
     }
@@ -131,8 +133,8 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         //deactivate object
         gameObject.SetActive(false);
 
-        //set moving to false
-        Moving = false;
+        //set velocity to 0
+        rigid.velocity = Vector3.zero;
 
         //set chasing enemy to null
         EnemyToChase = null;
