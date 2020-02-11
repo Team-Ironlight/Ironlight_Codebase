@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckSwitch : MonoBehaviour
+public class ChecKSwitch : MonoBehaviour
 {
     private bool newCheckPoint = false;
 
