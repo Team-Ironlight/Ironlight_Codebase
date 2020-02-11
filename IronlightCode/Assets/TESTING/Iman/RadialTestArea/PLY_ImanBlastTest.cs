@@ -24,7 +24,10 @@ public class PLY_ImanBlastTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Charge();
+        if (!coroutineOn)
+        {
+            Charge();
+        }
     }
 
 
@@ -88,6 +91,7 @@ public class PLY_ImanBlastTest : MonoBehaviour
         }
         //reset variables to get ready for next blast
         coroutineOn = false;
+        print("Switch");
 
         chargeCount = 0;
 
@@ -128,30 +132,45 @@ public class PLY_ImanBlastTest : MonoBehaviour
     //function for managing inputsaw
     private void Charge()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+
+        if (Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(0))
         {
-            Visual = Instantiate(ChargeVisual, transform.position, transform.rotation);
+            KeyPressed();
         }
         //while key is held add to radius if it hasnt reached max radius
-        if (Input.GetKey(KeyCode.R) && !coroutineOn)
+        if ((Input.GetKey(KeyCode.R) || Input.GetMouseButton(0)) && !coroutineOn)
         {
-            if (chargeCount < radiusMax)
-            {
-                chargeCount += radiusChargeSpeed * Time.deltaTime;
-                Visual.transform.localScale = new Vector3(chargeCount, chargeCount, chargeCount) / 5;
-            }
-            Visual.transform.position = transform.position;
+            KeyHeld();
         }
         //on key released call the blast coroutine with the blast radius calculated
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyUp(KeyCode.R) || Input.GetMouseButtonUp(0))
         {
-            StartCoroutine(RadialAction(chargeCount));
-            coroutineOn = true;
-            Destroy(Visual);
-            Visual = null;
+            KeyReleased();
         }
     }
-
+    //for when key is pressed
+    public void KeyPressed()
+    {
+        Visual = Instantiate(ChargeVisual, transform.position, transform.rotation);
+    }
+    // for when key is held
+    public void KeyHeld()
+    {
+        if (chargeCount < radiusMax)
+        {
+            chargeCount += radiusChargeSpeed * Time.deltaTime;
+            Visual.transform.localScale = new Vector3(chargeCount, chargeCount, chargeCount) / 5;
+        }
+        Visual.transform.position = transform.position;
+    }
+    // for when key is released
+    public void KeyReleased()
+    {
+        StartCoroutine(RadialAction(chargeCount));
+        coroutineOn = true;
+        Destroy(Visual);
+        Visual = null;
+    }
 
     //function to do damage based on distance from the player
     private void CalcDmg(GameObject enemy)

@@ -9,9 +9,11 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     //object pool
     [SerializeField] private GameObject Magezine;
     [SerializeField] private GameObject Muzzle;
-
     List<GameObject> bulletPool = new List<GameObject>();
     [SerializeField] private int MagezineSize = 10;
+
+    //bool check
+    public bool Orbshoot;
 
     //attack
     public GameObject GB_Bullet; 
@@ -19,7 +21,6 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     private float AttackTimer;
     [SerializeField] private float spreadFactor;
     [SerializeField] private float _yMaxSpread;
-
 
     // Initilization - Instantiate a set number of bullets
 
@@ -47,18 +48,22 @@ public class PLY_2ndOrbAttack : MonoBehaviour
     void GetInput()
     {
         // Change this depending on how you want the attack to work
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
-            inputReceived = true;
+            //if timer is up call shoot function
             if (AttackTimer <= Time.time)
             {
-                // TODO Change Inputed Parameter to not just be camera forward :D
-                AttackTimer = Time.time + AttackCoolDown;               
+                AttackTimer = Time.time + AttackCoolDown;
+                Orbshoot = true;
+                if (Orbshoot)
+                {
+                    Shoot(transform.forward);
+                }
             }
-            Shoot(transform.forward);
         }
         else
         {
+            Orbshoot = false;
             inputReceived = false;
         }
     }
@@ -79,6 +84,7 @@ public class PLY_2ndOrbAttack : MonoBehaviour
         }
         if (clone != null)
         {
+            //add the orb direction
             Vector3 shootDirection = pDir;
             //add spread in x-axis
             shootDirection.x += Random.Range(-spreadFactor, spreadFactor);
