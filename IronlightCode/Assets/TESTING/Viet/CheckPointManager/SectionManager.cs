@@ -4,67 +4,35 @@ using UnityEngine;
 
 public class SectionManager : MonoBehaviour
 {
-    public List<GameObject> enemyList = new List<GameObject>();
-    public List<GameObject> deadEnemyList = new List<GameObject>();
-
-    
-    //public List<listItem> enemies = new List<listItem>();
-    //public GameObject startingCheckpoint;
-    //public GameObject endCheckpoint;
+    public List<GameObject> enemyList = new List<GameObject>(); //List of enemy alive
+    public List<GameObject> deadEnemyList = new List<GameObject>(); //List of dead enemy
 
     public bool endCheckActive = false;
     public bool resetPlayer = false;
 
-
-    //public struct listItem
-    //{
-    //    public GameObject enemyObj;
-    //    public bool isDead;
-    //}
-
-    private void Start()
-    {
-        //addToEnemiesList(enemyList);
-    }
-
-
+  
     void Update()
     {
-        CheckActivationState();
+        CheckActivationState(); //Always check enemy alive or dead
 
-        if (resetPlayer)
+        if (resetPlayer == true)
         {
             ResetPlayer();
         }
     }
 
 
-    //void addToEnemiesList(List<GameObject> list) 
-    //{
-    //    for (int i = 0; i < list.Count; i++)
-    //    {
-    //        listItem temp = new listItem();
-
-    //        temp.enemyObj = list[i];
-    //        temp.isDead = false;
-
-    //        Debug.Log(temp);
-
-    //        enemies.Add(temp);
-    //    }
-    //}
-
-    void CheckActivationState()
+    void CheckActivationState() //Check enemy is dead or alive
     {
         for (int i = 0; i < enemyList.Count; i++)
         {
-            if (enemyList[i].activeSelf)
+            if (enemyList[i].activeSelf) //Alive, continue
             {
                 continue;
             }
             else
             {
-                if (!deadEnemyList.Contains(enemyList[i]))
+                if (!deadEnemyList.Contains(enemyList[i])) //Is dead, add them to the dead list
                 {
                     deadEnemyList.Add(enemyList[i]);
                 }
@@ -76,10 +44,9 @@ public class SectionManager : MonoBehaviour
         }
     }
 
-
     void ResetPlayer()
     {
-        if (!endCheckActive)
+        if (!endCheckActive) //Player didn't hit new checkpoint, respawn player and remove all enemy in the dead list and active them.
         {
             deadEnemyList.Clear();
 
@@ -95,7 +62,7 @@ public class SectionManager : MonoBehaviour
                 }
             }
         }
-        else if (endCheckActive)
+        else if (endCheckActive) //Player hit new checkpoint, respawn player at new checkpoint and keep dead enemy disable.
         {
             for (int i = 0; i < enemyList.Count; i++)
             {
