@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateCrystal : MonoBehaviour, IHit
+public class RotateCrystal : MonoBehaviour, ICrystal
 {
     public LayerMask lm;
     public bool lineActive;
@@ -12,7 +12,7 @@ public class RotateCrystal : MonoBehaviour, IHit
     Vector3 target;
     //private GameObject Crystal;
     private Quaternion targetRot;
-    IHit lastHitThing;
+    public ICrystal lastHitThing;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +30,7 @@ public class RotateCrystal : MonoBehaviour, IHit
         }
         if (lineActive)
         {
-            HitWithLight(0);
+            isActivated();
         }
     }
     //private void OnDrawGizmos()
@@ -52,37 +52,6 @@ public class RotateCrystal : MonoBehaviour, IHit
         transform.parent.rotation = Quaternion.Lerp(transform.parent.rotation, targetRot, 10 * smoothRot * Time.deltaTime);
     }
 
-    public void HitWithLight(float pAmount)
-    {
-        RaycastHit hit;
-        if (Physics.Linecast(transform.position, transform.position + (transform.forward * RayDistance), out hit, lm))
-        {
-            IHit hitThing = hit.transform.GetComponent<IHit>();
-
-            if (hitThing != null)
-            {
-                hitThing.HitWithLight(0);
-                //if (hitThing != lastHitThing)
-                //{
-                //    hitThing.EnterHitWithLight(0);
-                //    lastHitThing.ExitHitWithLight();
-
-                //}
-            }
-            print("Draw a line");
-            //hitThing = lastHitThing;
-
-        }
-
-        Debug.DrawLine(gameObject.transform.position, transform.position + (transform.forward * RayDistance),Color.green);
-    }
-    public void EnterHitWithLight(float pAmount)
-    {
-     
-    }
-    public void ExitHitWithLight()
-    { }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
@@ -96,5 +65,30 @@ public class RotateCrystal : MonoBehaviour, IHit
         {
             playerCanActivate = false;
         }
+    }
+    public void isActivated()
+    {
+
+        RaycastHit hit;
+        if (Physics.Linecast(transform.position, transform.position + (transform.forward * RayDistance), out hit, lm))
+        {
+            ICrystal hitThing = hit.transform.GetComponent<ICrystal>();
+
+            if (hitThing != null)
+            {
+                hitThing.isActivated();
+                //if (hitThing != lastHitThing)
+                //{
+                ////    hitThing.EnterHitWithLight(0);
+                ////    lastHitThing.ExitHitWithLight();
+
+                //}
+            }
+            print("Draw a line");
+            //hitThing = lastHitThing;
+
+        }
+
+        Debug.DrawLine(gameObject.transform.position, transform.position + (transform.forward * RayDistance),Color.green);
     }
 }

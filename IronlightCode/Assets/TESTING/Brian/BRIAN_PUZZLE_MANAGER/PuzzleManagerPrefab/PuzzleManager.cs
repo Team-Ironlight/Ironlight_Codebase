@@ -14,6 +14,8 @@ public class PuzzleManager : MonoBehaviour
     public List<GameObject> nodeObjs = new List<GameObject>();
     public List<GameObject> NodeTransform = new List<GameObject>();
     public CrystalObjPooler ObjPool;
+    public IGoal puzzleGoal;
+    RotateCrystal on;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,8 @@ public class PuzzleManager : MonoBehaviour
         //
         //    print(puzzle.NodeCount)
         //}
+
+
         //This places the Rotate crystals at the position of the empty game objects in the scene
         // the objects are placed in the reverse order of the empty game objects
         if (puzzle.CurrType == PuzzleSO.PuzzleType.ConnectBeam)
@@ -31,6 +35,7 @@ public class PuzzleManager : MonoBehaviour
 
             for (int i = 0; i < CrystalTransform.Length; i++)
             {
+
                 GameObject Temp = ObjPool.RotCrytalsPrefab[i].gameObject;
 
                 Temp.SetActive(true);
@@ -38,6 +43,11 @@ public class PuzzleManager : MonoBehaviour
                 Temp.transform.SetPositionAndRotation(CrystalTransform[i].transform.position, CrystalTransform[i].transform.rotation);
 
                 nodeObjs.Add(Temp);
+                if (i == 0)
+                { 
+                    on = Temp.GetComponent<RotateCrystal>();
+                    on.lineActive = true;
+                }
             }
 
         }
@@ -67,4 +77,5 @@ public class PuzzleManager : MonoBehaviour
     {
 
     }
+
 }
