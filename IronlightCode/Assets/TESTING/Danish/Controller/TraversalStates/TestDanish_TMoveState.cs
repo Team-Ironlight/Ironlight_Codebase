@@ -16,7 +16,7 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
         tDanish_Move_Component = stateManager.tDanish_Move;
     }
 
-
+    
 
     public override void OnEnter()
     {
