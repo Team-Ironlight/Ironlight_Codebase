@@ -13,10 +13,11 @@ public class SectionManager : MonoBehaviour
   
     void Update()
     {
-        CheckActivationState(); //Always check enemy alive or dead
+        CheckActivationState(); //check enemy alive or dead
 
         if (resetPlayer == true)
         {
+            
             ResetPlayer();
         }
     }
