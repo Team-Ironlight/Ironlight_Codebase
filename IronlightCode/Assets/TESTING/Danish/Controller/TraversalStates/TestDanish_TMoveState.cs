@@ -12,7 +12,7 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
         stateManager = _Manager;
     }
 
-
+    
 
     public override void OnEnter()
     {
