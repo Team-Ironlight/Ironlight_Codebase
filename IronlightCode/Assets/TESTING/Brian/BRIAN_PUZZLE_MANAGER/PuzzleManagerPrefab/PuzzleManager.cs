@@ -43,6 +43,8 @@ public class PuzzleManager : MonoBehaviour
                 Temp.transform.SetPositionAndRotation(CrystalTransform[i].transform.position, CrystalTransform[i].transform.rotation);
 
                 nodeObjs.Add(Temp);
+
+                //This automatically sets the last crystal to active on start so there is always one crystal to start working from
                 if (i == 0)
                 { 
                     on = Temp.GetComponent<RotateCrystal>();
