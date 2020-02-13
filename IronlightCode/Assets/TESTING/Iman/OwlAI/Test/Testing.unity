@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395803770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: -5.11, y: 5, z: -9.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -360,6 +360,8 @@ MonoBehaviour:
   Player: {fileID: 395803770}
   YPos: 3
   GroundPos: 4
+  startPos: {x: 0, y: 0, z: 0}
+  SweepEndPos: {x: 0, y: 0, z: 0}
 --- !u!135 &528559622
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -426,14 +428,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528559620}
-  m_LocalRotation: {x: -0, y: -0.16988178, z: -0, w: 0.9854645}
-  m_LocalPosition: {x: -23.99, y: 0.53, z: -8.09}
+  m_LocalRotation: {x: -0.00021331926, y: -0.13423893, z: 0.001016909, w: 0.99094844}
+  m_LocalPosition: {x: -23.99, y: 5, z: -8.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 501880324}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: -19.562, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.009000001, y: -15.429001, z: 0.119}
 --- !u!1 &1110761822
 GameObject:
   m_ObjectHideFlags: 0
