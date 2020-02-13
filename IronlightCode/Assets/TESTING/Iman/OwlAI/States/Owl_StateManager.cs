@@ -9,18 +9,21 @@ public class Owl_StateManager : MonoBehaviour
     public float MovementSpeed =3;
     public float RotationSpeed =4;
     private Rigidbody rb;
+    public GameObject TurnObject;
 
     [Header("Patrol Variables")]
     public GameObject[] WayPoints;
     [HideInInspector] public int CurrentWP;
 
+    [Header("Agro Variables")]
+    public float YPos;
+    public float GroundPos;
+
     [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
     [HideInInspector] public float DisBetwnPLY;
 
-    [Header("Combat Variables")]
 
-    public GameObject playerCamera;
     public Iman_StateMachine StateMachine;
 
     public void Init()
@@ -44,7 +47,8 @@ public class Owl_StateManager : MonoBehaviour
     {
         var states = new Dictionary<Type, ImanBaseState>()
         {
-            {typeof(Owl_PatrolState), new Owl_PatrolState(_Manager:this) }
+            {typeof(Owl_PatrolState), new Owl_PatrolState(_Manager:this) },
+            {typeof(Owl_AgroState), new Owl_AgroState(_Manager:this) }
         };
 
         StateMachine.SetStates(states);

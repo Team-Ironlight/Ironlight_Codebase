@@ -40,7 +40,10 @@ public class Owl_PatrolState : ImanBaseState
         var direction = stateManager.WayPoints[stateManager.CurrentWP].transform.position - stateManager.transform.position;
         stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
         //move forward
-        stateManager.transform.Translate(0, 0, Time.deltaTime * 4f);
+        stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+
+        //rotation
+        //stateManager.TurnObject.transform.eulerAngles = Vector3.forward * (90 * Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime));
 
         //if player in close distance go to follow state
         //if (Vector3.Distance(stateManager.PLY_Transform.position, stateManager.transform.position) < 10.0f)

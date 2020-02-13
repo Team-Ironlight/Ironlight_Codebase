@@ -148,6 +148,8 @@ public class PLY_BeamTest : MonoBehaviour
             //set end pos
             LineEnd = muzzle.transform.position + (muzzle.transform.forward * Dist);
             LineRenderer.SetPosition(1, LineEnd);
+            //set beam distance
+            BeamLengthGoing = Dist;
         }
     }
 
