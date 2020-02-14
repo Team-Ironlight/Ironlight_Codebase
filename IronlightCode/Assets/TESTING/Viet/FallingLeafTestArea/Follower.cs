@@ -10,7 +10,7 @@ public class Follower : MonoBehaviour
 
     private float tParam;
 
-    private Vector2 objectPos;
+    private Vector3 objectPos;
 
     public float speed; // Change the speed of the follower
 
@@ -35,10 +35,10 @@ public class Follower : MonoBehaviour
     {
         coroutineAllowed = false;
 
-		Vector2 p0 = routes[routeNumber].GetChild(0).position;
-		Vector2 p1 = routes[routeNumber].GetChild(1).position;
-		Vector2 p2 = routes[routeNumber].GetChild(2).position;
-		Vector2 p3 = routes[routeNumber].GetChild(3).position;
+		Vector3 p0 = routes[routeNumber].GetChild(0).position;
+		Vector3 p1 = routes[routeNumber].GetChild(1).position;
+		Vector3 p2 = routes[routeNumber].GetChild(2).position;
+		Vector3 p3 = routes[routeNumber].GetChild(3).position;
 
 		while (tParam < 1)
         {
