@@ -1,11 +1,23 @@
-﻿using UnityEngine;
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James    /  Alteration dates below
+// Date:   01/20/2020       Version 1
+// Date:   01/29/2020       Version 2
+// Date:   02/12/2020       Version 3
+// ----------------------------------------------------------------------------
+using UnityEngine;
 using System.Collections;
 using IronLight;
 
 [System.Serializable]
+[CreateAssetMenu(menuName = "AI System - by DonPhilifeh/AI States/New RandomState")]
 public class RandomState : StateMachine.BaseState
 {
-
+#if UNITY_EDITOR
+    [TextArea]
+    public string Informative_comments;
+#endif
     public Vector3 Center = Vector2.zero;
     private Vector3 newPos = Vector2.zero;
     public float JumpTimeMax = 5.0f;
@@ -26,24 +38,26 @@ public class RandomState : StateMachine.BaseState
     public float maxStateTime = 5.0f;
     private float StateTime = 0.0f;
 
-    public override void   OnEnter()
+    public StateMachine behaviour { get; protected set; }
+
+    public override void   OnEnter(MonoBehaviour runner)
 	{
        // StateTime = Random.Range(minStateTime, maxStateTime);
     }
-	public override void   Tick()
+	public override void   Tick(MonoBehaviour runner)
 	{
         curTime += Time.deltaTime;
         StateTime -= Time.deltaTime;
-        if (curTime >= jumpTime || Vector3.Distance(transform.position, this.transform.position) <= JumpMinDist)
+        if (curTime >= jumpTime || Vector3.Distance(behaviour.transform.position, behaviour.transform.position) <= JumpMinDist)
         {
             jumpTime = Random.Range(JumpTimeMin, JumpTimeMax);
             curTime = 0.0f;
             newPos = (useCenter ? Center : newPos) + (Random.insideUnitSphere * JumpRadius);
-            newPos.z = this.transform.position.z;
-            this.transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, dampTime);
+            newPos.z = behaviour.transform.position.z;
+            behaviour.transform.position = Vector3.SmoothDamp(behaviour.transform.position, newPos, ref velocity, dampTime);
         }
     }
-	public override string CheckConditions()
+	public override string CheckConditions(MonoBehaviour runner)
 	{
         if (StateTime <= 0.0f)
         {
@@ -52,7 +66,7 @@ public class RandomState : StateMachine.BaseState
         return "";
 
     }
-	public override void   OnExit()
+	public override void   OnExit(MonoBehaviour runner)
 	{
 		//To Do Destroy effects  / Animation
 	}
