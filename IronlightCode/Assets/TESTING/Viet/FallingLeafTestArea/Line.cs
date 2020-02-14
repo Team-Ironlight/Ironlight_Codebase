@@ -5,7 +5,7 @@ public class Line : MonoBehaviour
     [SerializeField]
     private Transform[] controlPoints;
 
-    private Vector2 gizmosPosition;
+    private Vector3 gizmosPosition;
 
     private void OnDrawGizmos()
     {
@@ -20,9 +20,9 @@ public class Line : MonoBehaviour
         }
 
 
-        Gizmos.DrawLine(new Vector2(controlPoints[0].position.x, controlPoints[0].position.y), 
-            new Vector2(controlPoints[1].position.x, controlPoints[1].position.y));
-        Gizmos.DrawLine(new Vector2(controlPoints[2].position.x, controlPoints[2].position.y), 
-            new Vector2(controlPoints[3].position.x, controlPoints[3].position.y));
+        Gizmos.DrawLine(new Vector3(controlPoints[0].position.x, controlPoints[0].position.y, controlPoints[0].position.z), 
+            new Vector3(controlPoints[1].position.x, controlPoints[1].position.y, controlPoints[1].position.z));
+        Gizmos.DrawLine(new Vector3(controlPoints[2].position.x, controlPoints[2].position.y, controlPoints[2].position.z), 
+            new Vector3(controlPoints[3].position.x, controlPoints[3].position.y, controlPoints[3].position.z));
     }
 }
