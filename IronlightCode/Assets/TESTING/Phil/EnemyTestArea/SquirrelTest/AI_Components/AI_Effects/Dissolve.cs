@@ -45,14 +45,14 @@ using UnityEngine;
             m_Timer = 0;
 
             m_StartTime = Time.time + Random.Range(minStartTime, maxStartTime);
-            m_EndTime = m_StartTime + dissolveTime + m_ParticleSystem.main.startLifetime.constant;
-        }
+            m_EndTime = dissolveTime + m_ParticleSystem.main.startLifetime.constant;
+    }
 
         void Update()
         {
             if (Time.time >= m_StartTime)
             {
-                float cutoff = 0;
+                float cutoff = 0; bool flag = false;
 
                 for (int i = 0; i < m_Renderer.Length; i++)
                 {
@@ -60,19 +60,24 @@ using UnityEngine;
                     cutoff = Mathf.Clamp01(m_Timer / dissolveTime);
                     m_PropertyBlock.SetFloat(k_CutoffName, cutoff);
                     m_Renderer[i].SetPropertyBlock(m_PropertyBlock);
+
+                     if(i >= m_Renderer.Length - 1){flag = true;}
                 }
 
-
                 m_Emission.rateOverTimeMultiplier = curve.Evaluate(cutoff) * m_EmissionRate;
+        
 
+                if (flag)
+                {
+                    squirrelObject.SetActive(false);
+
+                }
 
                 m_Timer += Time.deltaTime;
+
+          
             }
 
-            if (Time.time >= m_EndTime)
-            {
-                Destroy(squirrelObject);
-            }
         }
     }
 

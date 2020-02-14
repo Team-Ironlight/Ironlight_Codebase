@@ -1,4 +1,9 @@
-﻿ // Upgrade NOTE: upgraded instancing buffer 'Props' to new syntax.
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   02/12/2020       Version 3
+// ----------------------------------------------------------------------------
 
 Shader "Custom/Firefly" {
 	Properties {
