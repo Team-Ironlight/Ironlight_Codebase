@@ -9,7 +9,8 @@ public class Owl_StateManager : MonoBehaviour
     public float MovementSpeed =3;
     public float RotationSpeed =4;
     private Rigidbody rb;
-    public GameObject TurnObject;
+    public float BankRotIntensity;
+    public float BankRotSpeed;
 
     [Header("Patrol Variables")]
     public GameObject[] WayPoints;
@@ -20,11 +21,16 @@ public class Owl_StateManager : MonoBehaviour
     public float GroundPos;
 
     [Header("Player related Variables")]
+    public float SweepMoveSpeed;
+    public float SweepRotateSpeed;
+
+    [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
     [HideInInspector] public float DisBetwnPLY;
 
 
     public Iman_StateMachine StateMachine;
+    public GameObject TurnObject;
 
     public void Init()
     {
