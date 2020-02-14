@@ -36,10 +36,11 @@ public class UnitHealth : MonoBehaviour
 
     private void Start()
     {
+        //Initialize
         mDissolveComponent = GetComponent<Dissolve>();
         mStateMachine = GetComponent<StateMachine>();
         mAbilityManager = GetComponent<AI_AbilityManager>();
-     //   OnDissolve = GetComponentInChildren<ParticleSystem>();
+  
 
         if (ResetHP)
             HP.SetValue(StartingHP);
@@ -56,12 +57,10 @@ public class UnitHealth : MonoBehaviour
 
         if (HP.Value <= 0.0f)
         {
-
-
             DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
 
-            OnDeath();                                                       //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
+            OnDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
             if (ResetHP)
                 HP.SetValue(StartingHP);
         }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42cac201d4fcbc4689750c20c6c0375, type: 3}
+  m_Name: FleeState
+  m_EditorClassIdentifier: 
+  Name: FleeState
+  Informative_comments: 'Version 3 - 2/14/2020
+
+    You can create new States at the menu(Assets/Create/AI System/AI States).
+
+
+    Programmer : Phil James
+
+'
+  minFleeTime: 2
+  maxFleeTime: 5
+  multiplyBy: 0
+  OnFleeTimerUp: FleeState
+  minDistanceToRunAway: 1
+  OnEnemyMinDistanceFlee: FleeState

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeamPuzzleShrine : MonoBehaviour, IHit
+public class BeamPuzzleShrine : MonoBehaviour, IHit, ICrystal
 {
     public GameObject Plat1;
     public GameObject Plat2;
@@ -34,11 +34,17 @@ public class BeamPuzzleShrine : MonoBehaviour, IHit
     }
     public void HitWithLight(float pAmount)
     {
-        LinkActive = true;
-        Debug.Log("HIT");
+        //LinkActive = true;
+        //Debug.Log("HIT");
     }
     public void EnterHitWithLight(float pAmount)
     { }
     public void ExitHitWithLight()
     { }
+
+    public void isActivated()
+    {
+        LinkActive = true;
+        Debug.Log("HIT");
+    }
 }
