@@ -57,7 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81f3d0b3bd3a435a961e7bdf3edf491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHealth: {fileID: 0}
   LightDepleted: 0
+  RateOfDepletion: 4
   absorbLight: 0
 --- !u!1 &5228136284296452554
 GameObject:
@@ -85,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 5228136284296452554}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -48.05571, y: -115.76, z: -143.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8474567, y: 0.8474572, z: 0.847457}
   m_Children:
   - {fileID: 5228136283561711370}
   m_Father: {fileID: 0}
