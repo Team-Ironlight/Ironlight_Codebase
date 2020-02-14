@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4798900700045520}
   - component: {fileID: 198127765109773748}
   - component: {fileID: 199794440496261982}
+  - component: {fileID: 1133427083610714327}
   m_Layer: 0
   m_Name: Glass
   m_TagString: Untagged
@@ -4777,6 +4778,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1133427083610714327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506520735364548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492e95663e5121241a42f088bf39a106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deadTime: 1
 --- !u!1 &1797708646136300
 GameObject:
   m_ObjectHideFlags: 0
