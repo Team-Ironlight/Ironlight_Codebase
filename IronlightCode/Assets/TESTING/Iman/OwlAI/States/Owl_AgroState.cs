@@ -31,7 +31,7 @@ public class Owl_AgroState : ImanBaseState
 
     public override Type Tick()
     {
-        calculateDist();
+        calculateAgroPos();
         //if owl havent reached position yet
         if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.1)
         {
@@ -73,7 +73,7 @@ public class Owl_AgroState : ImanBaseState
     }
 
     //calculated the position Owl needs to get to
-    private void calculateDist()
+    private void calculateAgroPos()
     {
         //get pos of owl
         var OwlPos = stateManager.transform.position;

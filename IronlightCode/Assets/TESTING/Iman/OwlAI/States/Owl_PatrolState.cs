@@ -21,6 +21,7 @@ public class Owl_PatrolState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Owl Patrol State");
+        stateManager.FindWaypoint();
     }
 
     public override void OnExit()

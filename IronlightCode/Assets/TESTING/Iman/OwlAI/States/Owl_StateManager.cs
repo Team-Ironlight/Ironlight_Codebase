@@ -43,14 +43,16 @@ public class Owl_StateManager : MonoBehaviour
         PLY_Transform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         StateMachine = GetComponent<Iman_StateMachine>();
         SweepAttack = false;
+        FindWaypoint();
 
         InitializeTraversalMachine();
     }
 
     public void Tick()
     {
+        //distance between owl and the player
         DisBetwnPLY = Vector3.Distance(PLY_Transform.position, transform.position);
-        print(DisBetwnPLY);
+        //print(DisBetwnPLY);
     }
 
     //BankRotation calculation
@@ -66,6 +68,19 @@ public class Owl_StateManager : MonoBehaviour
         TurnObject.transform.localRotation = Quaternion.Slerp(TurnObject.transform.localRotation, Quaternion.Euler(rot), BankRotSpeed * Time.deltaTime);
     }
 
+    //function to find the closest waypoint
+    public void FindWaypoint()
+    {
+        //shuffle through all waypoints
+        for (int i = 0; i < WayPoints.Length; i++)
+        {
+            //find the closest waypoint and set it to current waypoint
+            if (Vector3.Distance(WayPoints[i].transform.position, transform.position) < Vector3.Distance(WayPoints[CurrentWP].transform.position, transform.position))
+            {
+                CurrentWP = i;
+            }
+        }
+    }
 
     #region Setup Functions
 
