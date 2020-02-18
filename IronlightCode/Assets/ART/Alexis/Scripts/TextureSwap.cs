@@ -4,7 +4,7 @@ using UnityEngine;
 
 //Rob
 //Allow a material to swap amoungst different textures at a uniform speed
-public class TextureSwap : MonoBehaviour
+public class TextureSwapRob : MonoBehaviour
 {
     [SerializeField] Texture[] textures = new Texture[3];
     [Range(0.01f, 1f)] [SerializeField] private float textureSpeed = 1f;
