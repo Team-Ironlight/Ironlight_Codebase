@@ -155,11 +155,16 @@ public class TestDanish_Controller_InputHandler_v1 : MonoBehaviour
     private void Jump_canceled(InputAction.CallbackContext obj)
     {
         Debug.Log("Jump Canceled Early");
+        if(obj.interaction is HoldInteraction)
+        {
+            jumpStart = false;
+        }
     }
 
     private void Jump_started(InputAction.CallbackContext obj)
     {
         Debug.Log("Jump Started");
+        jumpStart = true;
     }
 
     private void Jump_performed(InputAction.CallbackContext obj)

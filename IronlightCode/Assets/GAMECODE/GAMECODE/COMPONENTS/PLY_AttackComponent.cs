@@ -6,7 +6,7 @@ public class PLY_AttackComponent : MonoBehaviour
 {
     PLY_OrbTest orbAttack;
     PLY_BeamTest beamAttack;
-    PLY_RadialTest radialAttack;
+    PLY_ImanBlastTest radialAttack;
     GameObject muzzle;
 
     // Start is called before the first frame update
@@ -15,7 +15,7 @@ public class PLY_AttackComponent : MonoBehaviour
         muzzle = GameObject.FindGameObjectWithTag("Muzzle");
         orbAttack = muzzle.GetComponent<PLY_OrbTest>();
         beamAttack = muzzle.GetComponent<PLY_BeamTest>();
-        radialAttack = muzzle.GetComponent<PLY_RadialTest>();
+        radialAttack = muzzle.GetComponent<PLY_ImanBlastTest>();
     }
 
     // Update is called once per frame
@@ -42,6 +42,6 @@ public class PLY_AttackComponent : MonoBehaviour
 
     public void LaunchRadial()
     {
-        radialAttack.TestPulse();
+        //radialAttack.TestPulse();
     }
 }

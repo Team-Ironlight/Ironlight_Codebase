@@ -19,6 +19,7 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 
     [Header("Jump Variables")]
     public bool jump = false;
+    public float jumpHeight = 0;
 
     [Header("Combat Variables")]
     public bool isAttacking = false;
@@ -36,7 +37,8 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
     public TestDanish_Controller_CombatlStateMachine_v1 combatMachine;
     TestDanish_Controller_Input controls;
 
-
+    public tDanish_Move_Component tDanish_Move;
+    public tDanish_Jump_Component tDanish_Jump;
     public TestDanish_Components_Movement_v1 movement_V1;
     public TestDanish_Components_Dash dash;
 
@@ -54,8 +56,14 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
         traversalMachine = gameObject.AddComponent<TestDanish_Controller_TraversalStateMachine_v1>();
         combatMachine = gameObject.AddComponent<TestDanish_Controller_CombatlStateMachine_v1>();
 
-        movement_V1 = new TestDanish_Components_Movement_v1();
-        movement_V1.Init(this);
+        tDanish_Move = new tDanish_Move_Component();
+        tDanish_Move.Init(this);
+
+        tDanish_Jump = new tDanish_Jump_Component();
+        tDanish_Jump.Init(this);
+
+        //movement_V1 = new TestDanish_Components_Movement_v1();
+        //movement_V1.Init(this);
 
         dash = new TestDanish_Components_Dash();
         dash.Init(this);
@@ -68,8 +76,11 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
 
     public void Tick()
     {
-        currentCombatState = combatMachine.currentState.ToString();
-        currentTraversalState = traversalMachine.currentState.ToString();
+        if(combatMachine != null && traversalMachine != null)
+        {
+            currentCombatState = combatMachine.currentState?.ToString();
+            currentTraversalState = traversalMachine.currentState?.ToString();
+        }
     }
 
 
@@ -93,7 +104,8 @@ public class TestDanish_Controller_StateManager_v1 : MonoBehaviour
         {
             {typeof(TestDanish_TIdleState), new TestDanish_TIdleState(_Manager:this) },
             {typeof(TestDanish_TMoveState), new TestDanish_TMoveState(_Manager:this) },
-            {typeof(TestDanish_TDashState), new TestDanish_TDashState(_Manager:this) }
+            {typeof(TestDanish_TDashState), new TestDanish_TDashState(_Manager:this) },
+            {typeof(TestDanish_TJumpState), new TestDanish_TJumpState (_Manager:this) }
         };
 
         traversalMachine.SetStates(states);

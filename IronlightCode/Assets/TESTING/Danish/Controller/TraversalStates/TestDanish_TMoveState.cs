@@ -7,12 +7,16 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
 {
     TestDanish_Controller_StateManager_v1 stateManager;
 
+    tDanish_Move_Component tDanish_Move_Component;
+
+
     public TestDanish_TMoveState(TestDanish_Controller_StateManager_v1 _Manager) : base(_Manager.gameObject)
     {
         stateManager = _Manager;
+        tDanish_Move_Component = stateManager.tDanish_Move;
     }
 
-
+    
 
     public override void OnEnter()
     {
@@ -28,6 +32,11 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
     {
         Debug.Log("Move State");
 
+        if (stateManager.jump)
+        {
+            return typeof(TestDanish_TJumpState);
+        }
+
         if (stateManager.isDashing)
         {
             return typeof(TestDanish_TDashState);
@@ -38,7 +47,9 @@ public class TestDanish_TMoveState : TestDanish_TraversalBaseState
             return typeof(TestDanish_TIdleState);
         }
 
-        stateManager.movement_V1.MoveObject(stateManager.moveVector);
+        //stateManager.movement_V1.MoveObject(stateManager.moveVector);
+
+        tDanish_Move_Component.Tick();
 
         return null;
     }
