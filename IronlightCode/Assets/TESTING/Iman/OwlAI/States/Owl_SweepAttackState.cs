@@ -11,6 +11,10 @@ public class Owl_SweepAttackState : ImanBaseState
     private Vector3 SweepPlayerPos;
     private Vector3 SweepTarget;
 
+    //bankRotation
+    private float Y1;
+    private float Y2;
+
     public Owl_SweepAttackState(Owl_StateManager _Manager) : base(_Manager.gameObject)
     {
         stateManager = _Manager;
@@ -21,7 +25,7 @@ public class Owl_SweepAttackState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Owl Sweep Attack State");
-        calculateAttackPositions();
+        calculateSweepAttackPositions();
     }
 
     public override void OnExit()
@@ -37,24 +41,25 @@ public class Owl_SweepAttackState : ImanBaseState
             SweepTarget = SweepEndPos;
         }
         var direction = SweepTarget - stateManager.transform.position;
+        Y1 = stateManager.transform.eulerAngles.y;
         stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.SweepRotateSpeed * Time.deltaTime);
+        Y2 = stateManager.transform.eulerAngles.y;
         //move forward
         stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.SweepMoveSpeed);
 
-        //if player in close distance go to follow state
-        //if (Vector3.Distance(stateManager.PLY_Transform.position, stateManager.transform.position) < 10.0f)
-        //{
-        //    return typeof(TestDanish_TDashState);
-        //}
+        //bank rot
+        stateManager.BankRotationCalc(Y1, Y2);
 
+        //when reached end attack pos switch to agro state
         if (Vector3.Distance(SweepEndPos, stateManager.transform.position) < 0.4)
         {
-            //change state
+            stateManager.SweepAttack = false;
+            return typeof(Owl_AgroState);
         }
         return null;
     }
 
-    private void calculateAttackPositions()
+    private void calculateSweepAttackPositions()
     {
         //End owl Pos
         var PPos = stateManager.PLY_Transform.position;
