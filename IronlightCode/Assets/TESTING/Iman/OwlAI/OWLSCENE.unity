@@ -523,7 +523,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 8315d29c41b8bc54daa65d451a98a1cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8315d29c41b8bc54daa65d451a98a1cd,
         type: 3}
@@ -580,8 +580,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 8315d29c41b8bc54daa65d451a98a1cd,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1f2b117f4a4e329458b60bfd4f223155, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8315d29c41b8bc54daa65d451a98a1cd, type: 3}
+--- !u!1 &837571545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 8315d29c41b8bc54daa65d451a98a1cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 835823301}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &975886192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 8315d29c41b8bc54daa65d451a98a1cd,
@@ -691,7 +702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 3
   RotationSpeed: 2
-  BankRotIntensity: -10
+  BankRotIntensity: -20
   BankRotSpeed: 10
   WayPoints:
   - {fileID: 461619434}
@@ -702,13 +713,13 @@ MonoBehaviour:
   YPos: 3
   GroundPos: 4
   DistToPatrol: 15
-  SweepMoveSpeed: 0
-  SweepRotateSpeed: 0
+  SweepMoveSpeed: 5
+  SweepRotateSpeed: 7
   SweepAttack: 0
   PLY_Transform: {fileID: 0}
   DisBetwnPLY: 0
   StateMachine: {fileID: 1072923549}
-  TurnObject: {fileID: 1156056313}
+  TurnObject: {fileID: 837571545}
 --- !u!1 &1156056313
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1156056314
 Transform:
   m_ObjectHideFlags: 0
