@@ -11,6 +11,8 @@ public class Owl_SweepAttackState : ImanBaseState
     private Vector3 SweepPlayerPos;
     private Vector3 SweepTarget;
 
+    float timer;
+
     //bankRotation
     private float Y1;
     private float Y2;
@@ -26,6 +28,7 @@ public class Owl_SweepAttackState : ImanBaseState
     {
         Debug.Log("Entering Owl Sweep Attack State");
         calculateSweepAttackPositions();
+        timer = 1000000000;
     }
 
     public override void OnExit()
@@ -39,6 +42,7 @@ public class Owl_SweepAttackState : ImanBaseState
         if (Vector3.Distance(SweepPlayerPos, stateManager.transform.position) < 0.1)
         {
             SweepTarget = SweepEndPos;
+            timer = Time.time + 3;
         }
         var direction = SweepTarget - stateManager.transform.position;
         Y1 = stateManager.transform.eulerAngles.y;
@@ -51,7 +55,8 @@ public class Owl_SweepAttackState : ImanBaseState
         stateManager.BankRotationCalc(Y1, Y2);
 
         //when reached end attack pos switch to agro state
-        if (Vector3.Distance(SweepEndPos, stateManager.transform.position) < 0.4)
+        //if (Vector3.Distance(SweepEndPos, stateManager.transform.position) < 0.6)
+        if(timer < Time.time)
         {
             stateManager.SweepAttack = false;
             return typeof(Owl_AgroState);
