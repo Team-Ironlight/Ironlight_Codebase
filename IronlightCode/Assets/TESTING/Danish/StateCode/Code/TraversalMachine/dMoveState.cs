@@ -16,11 +16,14 @@ namespace Danish.StateCode
         public float backwardSpeed = 1f;
         public float straffeSpeed = 1f;
         public float generalSpeed = 5f;
+        public float rotationSpeed = 15f;
 
 
         private dStateManager Manager;
         private Rigidbody m_Rigid;
         private Animator m_Anim;
+
+        private Vector3 camForward;
         private Vector3 m_ConvertedVector;
         private Vector3 m_NewPosition;
 
@@ -55,6 +58,12 @@ namespace Danish.StateCode
 
         public override Type Tick()
         {
+            if (Manager.jump)
+            {
+                Manager.jump = false;
+                return typeof(dJumpState);
+            }
+
             if(Manager.moveVector == Vector2.zero)
             {
                 return typeof(dIdleState);
@@ -62,17 +71,36 @@ namespace Danish.StateCode
 
             Debug.Log("In Move State");
 
+            camForward = Manager.CameraHolder.forward;
+
             m_ConvertedVector = ConvertMoveVector(Manager.moveVector);
 
             m_NewPosition = CalculateNewPosition(m_ConvertedVector);
 
+
             UpdateAnimator(Manager.moveVector);
+
+            RotatePlayerToCameraForward(Manager.objTransform, Manager.CameraHolder);
+            
             MoveToNewPosition(m_NewPosition);
 
 
             return null;
         }
 
+
+        void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
+        {
+            Quaternion currentObjRot = toRotate.rotation;
+            Quaternion cameraRot = camera.rotation;
+
+
+            cameraRot.x = 0;
+            cameraRot.z = 0;
+
+            Manager.objTransform.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
+
+        }
 
 
         Vector3 ConvertMoveVector(Vector2 inputVector)
@@ -93,9 +121,15 @@ namespace Danish.StateCode
         Vector3 CalculateNewPosition(Vector3 vector)
         {
             Vector3 offset = Vector3.zero;
+            Vector3 forward = Vector3.zero;
+            Vector3 right = Vector3.zero;
             Vector3 newPos = Vector3.zero;
 
-            offset = vector * Time.deltaTime;
+            forward = Manager.objTransform.forward * vector.z;
+            right = Manager.objTransform.right * vector.x;
+
+            offset = (forward + right) * Time.deltaTime;
+
             newPos = m_Rigid.position + offset;
 
             return newPos;

@@ -64,6 +64,8 @@ namespace Danish.StateCode
 
 
             _stateManager.isAttacking = _isAttacking;
+            _stateManager.jump = _isJumping;
+            _isJumping = false;
         }
 
 
@@ -170,6 +172,7 @@ namespace Danish.StateCode
 
         private void Jump_performed(InputAction.CallbackContext obj)
         {
+            _isJumping = true;
             Debug.Log("Jump Performed");
         }
 
@@ -186,7 +189,7 @@ namespace Danish.StateCode
             // move vector is reset to wait for the next update
             else if (ctx.interaction is PressInteraction)
             {
-                //_MoveVector = Vector2.zero;
+                _MoveVector = Vector2.zero;
             }
 
         }

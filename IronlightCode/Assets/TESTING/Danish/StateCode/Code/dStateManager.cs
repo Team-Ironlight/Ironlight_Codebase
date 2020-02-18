@@ -76,7 +76,10 @@ namespace Danish.StateCode
             var states = new Dictionary<Type, dTraversalBaseState>()
             {
                 {typeof(dMoveState), new dMoveState(_stateManager:this) },
-                {typeof(dIdleState), new dIdleState(_stateManager:this) }
+                {typeof(dIdleState), new dIdleState(_stateManager:this) },
+                {typeof(dJumpState), new dJumpState(_stateManager:this) },
+                {typeof(dRising), new dRising(_stateManager:this) },
+                {typeof(dFalling), new dFalling(_stateManager:this) }
             };
 
             TraversalMachine.SetStates(states);

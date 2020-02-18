@@ -20,7 +20,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c138788f-f399-43ef-9fe5-fcc27529e108"",
                     ""expectedControlType"": """",
                     ""processors"": """",
