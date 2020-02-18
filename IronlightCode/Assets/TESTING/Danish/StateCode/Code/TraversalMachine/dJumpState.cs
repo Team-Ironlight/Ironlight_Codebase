@@ -29,7 +29,7 @@ namespace Danish.StateCode
 
         public override void OnEnter()
         {
-            m_Velocity *= 5;
+            m_Velocity *= 10;
             m_Rigid.velocity = m_Velocity;
             
         }
@@ -46,28 +46,29 @@ namespace Danish.StateCode
 
             if (m_Grounded)
             {
-
+                return typeof(dIdleState);
             }
             else
             {
+                m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (9.8f * Time.deltaTime), m_Rigid.velocity.z);
 
+                //if(m_Rigid.velocity.y > 0)
+                //{
+                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y * 0.5f, m_Rigid.velocity.z);
+                //}
+                //else if(m_Rigid.velocity.y <= 0)
+                //{
+                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (0.2f * Time.deltaTime), m_Rigid.velocity.z);
+                //}
             }
 
-            if(m_Rigid.velocity.y > 0)
-            {
-                m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y * 0.5f, m_Rigid.velocity.z);
-            }
-            else if(m_Rigid.velocity.y < 0)
-            {
-                m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - Time.deltaTime, m_Rigid.velocity.z);
-                m_Grounded = OnGroundCheck();
-            }
+            m_Grounded = OnGroundCheck();
 
 
-            Manager.rigidbody.velocity = (m_Velocity * 4);
+            //Manager.rigidbody.velocity = (m_Velocity * 4);
             Debug.Log(Manager.rigidbody.velocity);
 
-            return typeof(dRising);
+            return null;
         }
 
 
@@ -75,8 +76,9 @@ namespace Danish.StateCode
         bool OnGroundCheck()
         {
             Vector3 start = MainManager.objTransform.position;
-            Vector3 end = start + (Vector3.down);
+            Vector3 end = start + (Vector3.down * 0.1f);
 
+            Debug.DrawLine(start, end, Color.red);
             RaycastHit hit;
             if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
             {
@@ -86,6 +88,7 @@ namespace Danish.StateCode
             {
                 return false;
             }
+
         }
     }
 }
