@@ -120,6 +120,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &222332482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 222332483}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &222332483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222332482}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1072923547}
+  m_Father: {fileID: 342990683}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &342990682
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1192552333}
-  - {fileID: 1072923547}
+  - {fileID: 222332483}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -534,14 +565,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072923546}
-  m_LocalRotation: {x: -0, y: 0.028882422, z: -0, w: 0.9995828}
+  m_LocalRotation: {x: -0, y: -0, z: -0.022592966, w: 0.99974483}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1156056314}
-  m_Father: {fileID: 342990683}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 3.3100002, z: 0}
+  m_Father: {fileID: 222332483}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.5890002}
 --- !u!114 &1072923548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,7 +611,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 3
   RotationSpeed: 2
-  TurnObject: {fileID: 1156056313}
+  BankRotIntensity: -10
+  BankRotSpeed: 10
   WayPoints:
   - {fileID: 461619434}
   - {fileID: 496254816}
@@ -588,9 +620,12 @@ MonoBehaviour:
   CurrentWP: 0
   YPos: 3
   GroundPos: 4
+  SweepMoveSpeed: 0
+  SweepRotateSpeed: 0
   PLY_Transform: {fileID: 0}
   DisBetwnPLY: 0
   StateMachine: {fileID: 1072923549}
+  TurnObject: {fileID: 1156056313}
 --- !u!1 &1156056313
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,14 +652,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156056313}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0024956055, w: 0.99999696}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1943311093}
   m_Father: {fileID: 1072923547}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.286}
 --- !u!135 &1156056317
 SphereCollider:
   m_ObjectHideFlags: 0
