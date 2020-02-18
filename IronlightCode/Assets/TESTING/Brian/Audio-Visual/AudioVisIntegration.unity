@@ -645,6 +645,37 @@ Transform:
   m_Father: {fileID: 2096292357}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &627957213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6030189104191634922, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &627957215 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7979354721462895868, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &627957217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627957213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f0d130a6e0541bc8d1fc0057bb7110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 2
+  timeStep: 0.1
+  timeToBeat: 0.04
+  restSmoothTime: 2
+  rend: {fileID: 627957215}
+  beatColour: {x: 1, y: 0, z: 0, w: 1}
+  restColour: {x: 1, y: 0, z: 0, w: 0.7}
 --- !u!1 &725781723
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +807,30 @@ MonoBehaviour:
   rend: {fileID: 725781726}
   beatColour: {x: 1, y: 0.5, z: 2, w: 1}
   restColour: {x: 0, y: 0, z: 1, w: 1}
+--- !u!1 &1130245705 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7255631482019946148, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1130245709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130245705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d0a16c105804dbf990f72afb24d1c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 2
+  timeStep: 0.1
+  timeToBeat: 0.04
+  restSmoothTime: 2
+  beatSize: {x: 3, y: 3, z: 3}
+  restSize: {x: 1, y: 1, z: 1}
 --- !u!1001 &1186658785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -798,6 +853,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5914555658782070879, guid: 41be1a78682a35648ba0f38fdba39761,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6233384392158841098, guid: 41be1a78682a35648ba0f38fdba39761,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 38e48b1d3931f904dbf6a5fe9b50b023, type: 2}
     - target: {fileID: -4216859302048453862, guid: 41be1a78682a35648ba0f38fdba39761,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -858,11 +923,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 499e4719374f5fc40a3c9a17c97e3e71, type: 2}
-    - target: {fileID: 6233384392158841098, guid: 41be1a78682a35648ba0f38fdba39761,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 38e48b1d3931f904dbf6a5fe9b50b023, type: 2}
     - target: {fileID: -7979354721462895868, guid: 41be1a78682a35648ba0f38fdba39761,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1263,7 +1323,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 94e32c7c2a7754e77aeb0cb3b1c8975d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4c6b930de1e4c4129a2047d6fe382711, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1363,6 +1423,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1616541801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5914555658782070879, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1616541803 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5121109609348101231, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1616541805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616541801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f0d130a6e0541bc8d1fc0057bb7110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 2
+  timeStep: 0.5
+  timeToBeat: 0.07
+  restSmoothTime: 2
+  rend: {fileID: 1616541803}
+  beatColour: {x: 1, y: 0, z: 0, w: 1}
+  restColour: {x: 1, y: 0, z: 0, w: 1}
 --- !u!1 &1651312381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,6 +1793,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1186658785}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &1835459760 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5812814926498980104, guid: 41be1a78682a35648ba0f38fdba39761,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186658785}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1835459762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1709,7 +1806,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835459758}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32d0a16c105804dbf990f72afb24d1c4, type: 3}
   m_Name: 
@@ -1718,8 +1815,27 @@ MonoBehaviour:
   timeStep: 0.1
   timeToBeat: 0.02
   restSmoothTime: 2
-  beatSize: {x: 1.5, y: 1.5, z: 1.5}
-  restSize: {x: 1, y: 1, z: 1}
+  beatSize: {x: 3, y: 3, z: 3}
+  restSize: {x: 2.5, y: 2.5, z: 2.5}
+--- !u!114 &1835459763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835459758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f0d130a6e0541bc8d1fc0057bb7110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 2
+  timeStep: 0.1
+  timeToBeat: 0.02
+  restSmoothTime: 2
+  rend: {fileID: 1835459760}
+  beatColour: {x: 1, y: 0.39, z: 0.1, w: 1}
+  restColour: {x: 0.18, y: 0.05, z: 0.09, w: 1}
 --- !u!1 &1848132294
 GameObject:
   m_ObjectHideFlags: 0
