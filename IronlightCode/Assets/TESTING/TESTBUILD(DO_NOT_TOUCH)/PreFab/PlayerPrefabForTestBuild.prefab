@@ -999,9 +999,6 @@ MonoBehaviour:
   raycastExtraLength: 0.27
   raycastExtraMult: 0
   raycastMult: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   coefficientOfFriction: 2
 --- !u!114 &7833544460301521197
 MonoBehaviour:
@@ -1183,8 +1180,8 @@ MonoBehaviour:
   GB_Bullet: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
     type: 3}
   AttackCoolDown: 0.5
-  spreadFactor: 0
-  _yMaxSpread: 0
+  spreadFactor: 0.5
+  _yMaxSpread: 0.03
   MaxOrbScale: 0.5
   MinOrbScale: 0.1
   OrbScaleSpeed: 0.1

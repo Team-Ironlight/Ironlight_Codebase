@@ -31,9 +31,7 @@ public class UnitHealth : MonoBehaviour
     private AI_AbilityManager mAbilityManager;
     
     public GameObject particleDissolve;
-    [Header("CheckPoint System Tiny")]
-    public Transform startPos;
-    public GameObject respchkpnt;
+
 
 
     private void Start()
@@ -57,26 +55,14 @@ public class UnitHealth : MonoBehaviour
             DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
         }
 
-        if(respchkpnt!=null)
-        {
-           // respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint = this.transform;
-        }
         if (HP.Value <= 0.0f)
         {
             DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
-            if (other.gameObject.CompareTag("Player"))
-            {
-                other.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
-            }
-            else
-            {
-               
-                OnDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
-            }
 
-            //if (ResetHP)
-            //    HP.SetValue(StartingHP);
+            OnDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
+            if (ResetHP)
+                HP.SetValue(StartingHP);
         }
         //else                                                                        //Lets do damage Hit Effect  
         //{
@@ -97,9 +83,7 @@ public class UnitHealth : MonoBehaviour
 
     }
 
-  
-
-    }
+}
 
 
 

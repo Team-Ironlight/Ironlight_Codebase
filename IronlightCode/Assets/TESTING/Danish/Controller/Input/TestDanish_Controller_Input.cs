@@ -20,7 +20,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c138788f-f399-43ef-9fe5-fcc27529e108"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -47,7 +47,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 {
                     ""name"": ""WASD"",
                     ""id"": ""773ca573-5e69-44d7-931e-7351e8edf2c5"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(normalize=false)"",
                     ""interactions"": ""Hold(duration=0.01),Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
