@@ -139,7 +139,7 @@ public class AI_AbilityManager : MonoBehaviour
                     }
                     else
                     {
-                            particleTrail.Stop();
+                        particleTrail.Stop();
                     }
                 }
                 else
@@ -193,20 +193,6 @@ public class AI_AbilityManager : MonoBehaviour
                 SwagcoolDownTimer = SwagcoolDown;
 
             }
-
-            if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
-            {
-                float _mOldSpeed = agent.speed; float percent = 0;
-                while (percent <= 3f)
-                {
-                    percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;
-                    agent.speed = _agentRunSpeed;
-                    agent.destination = Vector3.Lerp(attackPosition, startPos, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
-                    old_Method = AbilityLinkMoveMethod.Swag;
-                    yield return null;
-                }
-                agent.speed = _mOldSpeed;
-            }
         }
 
         mAttack = false;
@@ -230,18 +216,6 @@ public class AI_AbilityManager : MonoBehaviour
         if (Physics.Raycast(agent.transform.position, Vector3.down, out hit, 2f, mask))                                     // Let's use Physics to verify
         {
                if(runDustEffect !=null){ StartCoroutine(runDustEffect.DustCoroutine(this)); }
-        }
-
-        if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
-        {
-            while (normalizedTime < 1f)
-            {
-                particleTrail.Stop(); normalizedTime += Time.deltaTime;
-                float yOffset = height * (normalizedTime - normalizedTime * normalizedTime);
-                transform.position = Vector3.Lerp(endPos,startPos, normalizedTime) + yOffset * Vector3.up;
-                old_Method = AbilityLinkMoveMethod.Parabola;
-                yield return null;
-            }
         }
         yield return null;
     }
@@ -275,30 +249,12 @@ public class AI_AbilityManager : MonoBehaviour
                 {
                     if (runSplatterEffect != null)
                     { StartCoroutine(runSplatterEffect.GlassCoroutine(this)); }
-
-                }
-
-
-                if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
-                {
-                    normalizedTime = 0.0f;
-                    while (normalizedTime < 1f)
-                    {
-                        particleTrail.Stop();
-                        float yOffset = m_Curve.Evaluate(normalizedTime);
-                        agent.transform.position = Vector3.Lerp(endPos, startPos, normalizedTime) + yOffset * Vector3.up;
-                        normalizedTime += Time.deltaTime / duration;
-
-                        old_Method = AbilityLinkMoveMethod.Curve;
-                        yield return null;
-                    }
-
                 }
             }
         }
 
 
-     //   Debug.Log("curve");
+      //  Debug.Log("curve");
         yield return null;
     }
    

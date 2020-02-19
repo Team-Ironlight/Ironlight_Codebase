@@ -45,7 +45,7 @@ public class ChaseState : StateMachine.BaseState
     private float _maxDistanceToChase;
     private float _minDistanceToChase;
 
-    public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
+    public override void  OnEnter(MonoBehaviour runner)                                         // This is called before the first frame
     {
         _mRunner = runner;
         _mTarget = GameObject.FindWithTag("Player").transform;
