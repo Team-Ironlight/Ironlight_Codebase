@@ -17,7 +17,6 @@ public class PHY_Physics : MonoBehaviour
     [SerializeField] [Range(0, 4f)] private float raycastExtraLength;
     [SerializeField] private float raycastExtraMult;
     [SerializeField] private float raycastMult;
-    [SerializeField] public LayerMask layerMask;
 
     [SerializeField] private float coefficientOfFriction = 0.4f;
 
@@ -96,7 +95,7 @@ public class PHY_Physics : MonoBehaviour
     private void CalculateNormals()
     {
         RaycastHit hit;
-        if (_fVerticalVelocity <= 0 && Physics.Raycast(transform.position + raycastStartOffset, Vector3.down, out hit, raycastLength, layerMask))
+        if (_fVerticalVelocity <= 0 && Physics.Raycast(transform.position + raycastStartOffset, Vector3.down, out hit, raycastLength))
         {
             CalculateVerticalNormal(hit);
             _vVelocity += _vVerticalNormal;
