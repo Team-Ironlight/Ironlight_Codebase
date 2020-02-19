@@ -64,7 +64,7 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         if(Moving)
         {
             //move the bullet
-            transform.position +=transform.forward * _iSpeed * Time.deltaTime;
+            transform.position += transform.forward * _iSpeed * Time.deltaTime;
         }
     }
 

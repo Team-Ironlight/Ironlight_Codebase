@@ -46,6 +46,7 @@ public class PLY_3rdOrbAttack : MonoBehaviour
             //add to the object pool
             bulletPool.Add(GB_Clone);
         }
+
         //initialize the variables
         AttackTimer = Time.time;
         OrbScale = MinOrbScale;
