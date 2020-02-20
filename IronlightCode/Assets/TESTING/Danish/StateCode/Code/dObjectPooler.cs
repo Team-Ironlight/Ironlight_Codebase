@@ -67,6 +67,7 @@ namespace Danish.Tools
                 return null;
 
             }
+
             GameObject objToSpawn = m_PoolDictionary[tag].Dequeue();
 
             objToSpawn.SetActive(true);
@@ -74,7 +75,7 @@ namespace Danish.Tools
             objToSpawn.transform.position = position;
             objToSpawn.transform.rotation = rotation;
 
-            //objToSpawn.GetComponent<BasicBullet>().StartMotion(objToSpawn.transform.forward);
+            
 
             m_PoolDictionary[tag].Enqueue(objToSpawn);
 
