@@ -16,6 +16,7 @@ namespace Danish.StateCode
 
         private bool m_Grounded = false;
         private dJumpComponent JumpHandler = null;
+        private dMoveComponent FloatHandler = null;
 
         public float jumpStartSpeed = 7;
 
@@ -31,12 +32,15 @@ namespace Danish.StateCode
             m_Rigid = Manager.rigidbody;
 
             JumpHandler = Manager.dJump;
+
+            FloatHandler = Manager.dFloat;
+            FloatHandler.Init(MainManager.objTransform, Manager.CameraHolder, Manager.rigidbody, 0.8f);
         }
 
         public override void OnEnter()
         {
             JumpHandler.Init(MainManager.moveVector, m_Rigid);
-
+            //FloatHandler.Init(MainManager.objTransform, Manager.CameraHolder, Manager.rigidbody, 0.8f);
             
         }
 
@@ -55,6 +59,7 @@ namespace Danish.StateCode
             if (!m_Grounded)
             {
                 JumpHandler.Tick();
+                FloatHandler.Tick(Manager.moveVector);
             }
             else
             {

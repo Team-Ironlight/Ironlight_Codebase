@@ -27,8 +27,9 @@ namespace Danish.Components
         private Vector3 m_NewPosition;
 
 
-        public void Init(Transform playerTransform, Transform camHolder, Rigidbody rigid)
+        public void Init(Transform playerTransform, Transform camHolder, Rigidbody rigid, float moveFactor)
         {
+            generalSpeed *= moveFactor;
             _playerTransform = playerTransform;
             _cameraHolder = camHolder;
             m_Rigid = rigid;
@@ -72,6 +73,7 @@ namespace Danish.Components
             inputVector = inputVector.normalized;
 
             converted = new Vector3(inputVector.x, 0f, inputVector.y);
+
             converted *= generalSpeed;
 
             return converted;

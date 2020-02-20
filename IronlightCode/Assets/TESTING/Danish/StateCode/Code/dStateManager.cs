@@ -42,6 +42,7 @@ namespace Danish.StateCode
         public dJumpComponent dJump = null;
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
+        public dMoveComponent dFloat = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera)
         {
@@ -62,6 +63,7 @@ namespace Danish.StateCode
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
             dMove = new dMoveComponent();
+            dFloat = new dMoveComponent();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();

@@ -46,6 +46,7 @@ namespace Danish.StateCode
             m_Anim = Manager.animator;
 
             MoveHandler = Manager.dMove;
+            MoveHandler.Init(Manager.objTransform, Manager.CameraHolder, Manager.rigidbody, 1);
         }
 
         public override void FixedTick()
@@ -59,7 +60,6 @@ namespace Danish.StateCode
             Manager.isMoving = true;
             m_Anim.SetBool("Moving", true);
 
-            MoveHandler.Init(Manager.objTransform, Manager.CameraHolder, Manager.rigidbody);
         }
 
         public override void OnExit()
