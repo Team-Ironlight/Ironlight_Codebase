@@ -48,7 +48,7 @@ namespace Danish.StateCode
             if (_stateManager == null)
             {
                 _stateManager = new dStateManager();
-                Debug.Log("INIT THE MANAGER");
+                //Debug.Log("INIT THE MANAGER");
             }
             return _stateManager;
         }
@@ -56,7 +56,7 @@ namespace Danish.StateCode
 
         void UpdateStateValues()
         {
-            Debug.Log("Updating Values");
+            //Debug.Log("Updating Values");
 
             _stateManager.moveVector = _MoveVector;
             _stateManager.dashVector = _DashVector;
@@ -64,8 +64,19 @@ namespace Danish.StateCode
 
 
             _stateManager.isAttacking = _isAttacking;
-            _stateManager.jump = _isJumping;
-            _isJumping = false;
+
+            if (_isJumping)
+            {
+                _stateManager.jump = _isJumping;
+                _isJumping = false;
+
+            }
+
+            if (_isDashing)
+            {
+                _stateManager.isDashing = _isDashing;
+                _isDashing = false;
+            }
         }
 
 
@@ -145,21 +156,21 @@ namespace Danish.StateCode
 
         private void Dash_started(InputAction.CallbackContext obj)
         {
-            Debug.Log("Dash Started");
+            //Debug.Log("Dash Started");
 
             _DashVector = _MoveVector;
         }
 
         private void Dash_performed(InputAction.CallbackContext obj)
         {
-            Debug.Log("Dash Performed");
+            //Debug.Log("Dash Performed");
             _isDashing = true;
             //isDashing = false;
         }
 
         private void Jump_canceled(InputAction.CallbackContext obj)
         {
-            Debug.Log("Jump Canceled Early");
+            //Debug.Log("Jump Canceled Early");
             if (obj.interaction is HoldInteraction)
             {
             }
@@ -167,13 +178,13 @@ namespace Danish.StateCode
 
         private void Jump_started(InputAction.CallbackContext obj)
         {
-            Debug.Log("Jump Started");
+            //Debug.Log("Jump Started");
         }
 
         private void Jump_performed(InputAction.CallbackContext obj)
         {
             _isJumping = true;
-            Debug.Log("Jump Performed");
+            //Debug.Log("Jump Performed");
         }
 
         private void Movement_performed(InputAction.CallbackContext ctx)

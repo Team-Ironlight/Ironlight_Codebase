@@ -32,7 +32,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""id"": ""8230ee4b-40b2-4bf8-a4c0-3a9f68602d60"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=1)""
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Dash"",
@@ -40,7 +40,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""id"": ""bf93ff86-3acd-4247-b4ba-6a0d675081e2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -10,10 +11,13 @@ namespace Danish.StateCode
     {
         private dStateManager Manager;
 
-        private Vector3 jumpDirection = Vector3.zero;
         private Rigidbody m_Rigid;
         private Vector3 m_Velocity = Vector3.up;
+
         private bool m_Grounded = false;
+        private dJumpComponent JumpHandler = null;
+
+        public float jumpStartSpeed = 7;
 
         public dJumpState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -25,70 +29,64 @@ namespace Danish.StateCode
             }
 
             m_Rigid = Manager.rigidbody;
+
+            JumpHandler = Manager.dJump;
         }
 
         public override void OnEnter()
         {
-            m_Velocity *= 10;
-            m_Rigid.velocity = m_Velocity;
+            JumpHandler.Init(MainManager.moveVector, m_Rigid);
+
             
         }
 
         public override void OnExit()
         {
-            jumpDirection = Vector3.zero;
-            m_Velocity = Vector3.up;
+            JumpHandler.ResetValues();
+            m_Grounded = false;
         }
 
         public override Type Tick()
         {
             Debug.Log("Start Jump");
 
-            if (m_Grounded)
+            m_Grounded = JumpHandler.GroundCheck();
+
+            if (!m_Grounded)
             {
-                return typeof(dIdleState);
+                JumpHandler.Tick();
             }
             else
             {
-                m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (9.8f * Time.deltaTime), m_Rigid.velocity.z);
-
-                //if(m_Rigid.velocity.y > 0)
-                //{
-                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y * 0.5f, m_Rigid.velocity.z);
-                //}
-                //else if(m_Rigid.velocity.y <= 0)
-                //{
-                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (0.2f * Time.deltaTime), m_Rigid.velocity.z);
-                //}
+                return typeof(dIdleState);
             }
-
-            m_Grounded = OnGroundCheck();
-
-
-            //Manager.rigidbody.velocity = (m_Velocity * 4);
-            Debug.Log(Manager.rigidbody.velocity);
 
             return null;
         }
 
-
-
-        bool OnGroundCheck()
+        public override void FixedTick()
         {
-            Vector3 start = MainManager.objTransform.position;
-            Vector3 end = start + (Vector3.down * 0.1f);
-
-            Debug.DrawLine(start, end, Color.red);
-            RaycastHit hit;
-            if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            throw new NotImplementedException();
         }
+
+
+
+        //bool OnGroundCheck()
+        //{
+        //    Vector3 start = MainManager.objTransform.position;
+        //    Vector3 end = start + (Vector3.down * 0.5f);
+
+        //    Debug.DrawLine(start, end, Color.red);
+        //    RaycastHit hit;
+        //    if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+
+        //}
     }
 }

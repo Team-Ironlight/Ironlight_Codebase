@@ -12,6 +12,8 @@ namespace Danish
     )]
     public class StateController : MonoBehaviour
     {
+        public Vector3 playerVelocity = Vector3.zero;
+
         [Header("Movement Speeds")]
         public float forwardSpeed = 1f;
         public float backwardSpeed = 1f;
@@ -52,6 +54,8 @@ namespace Danish
         void Update()
         {
             parentManager.Tick();
+
+            playerVelocity = parentRigidbody.velocity;
         }
 
 

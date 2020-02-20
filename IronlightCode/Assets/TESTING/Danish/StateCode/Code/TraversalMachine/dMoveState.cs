@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -10,22 +11,27 @@ namespace Danish.StateCode
 
     public class dMoveState : dTraversalBaseState
     {
-
-        [Header("Speeds")]
-        public float forwardSpeed = 1f;
-        public float backwardSpeed = 1f;
-        public float straffeSpeed = 1f;
-        public float generalSpeed = 5f;
-        public float rotationSpeed = 15f;
-
-
         private dStateManager Manager;
         private Rigidbody m_Rigid;
         private Animator m_Anim;
 
-        private Vector3 camForward;
-        private Vector3 m_ConvertedVector;
-        private Vector3 m_NewPosition;
+        private dMoveComponent MoveHandler = null;
+
+
+        //[Header("Speeds")]
+        //public float forwardSpeed = 1f;
+        //public float backwardSpeed = 1f;
+        //public float straffeSpeed = 1f;
+        //public float generalSpeed = 5f;
+        //public float rotationSpeed = 15f;
+
+
+        //private dStateManager Manager;
+        //private Rigidbody m_Rigid;
+
+        //private Vector3 camForward;
+        //private Vector3 m_ConvertedVector;
+        //private Vector3 m_NewPosition;
 
         public dMoveState(dStateManager _stateManager) : base (_stateManager.obj)
         {
@@ -38,20 +44,27 @@ namespace Danish.StateCode
 
             m_Rigid = Manager.rigidbody;
             m_Anim = Manager.animator;
+
+            MoveHandler = Manager.dMove;
         }
 
-        
+        public override void FixedTick()
+        {
+            throw new NotImplementedException();
+        }
 
         public override void OnEnter()
         {
-            Debug.Log("Entering Move State");
+            //Debug.Log("Entering Move State");
             Manager.isMoving = true;
             m_Anim.SetBool("Moving", true);
+
+            MoveHandler.Init(Manager.objTransform, Manager.CameraHolder, Manager.rigidbody);
         }
 
         public override void OnExit()
         {
-            Debug.Log("Exiting Move State");
+            //Debug.Log("Exiting Move State");
             Manager.isMoving = false;
             m_Anim.SetBool("Moving", false);
         }
@@ -64,6 +77,12 @@ namespace Danish.StateCode
                 return typeof(dJumpState);
             }
 
+            if (Manager.isDashing)
+            {
+                Manager.isDashing = false;
+                return typeof(dDashState);
+            }
+
             if(Manager.moveVector == Vector2.zero)
             {
                 return typeof(dIdleState);
@@ -71,74 +90,76 @@ namespace Danish.StateCode
 
             Debug.Log("In Move State");
 
-            camForward = Manager.CameraHolder.forward;
+            MoveHandler.Tick(Manager.moveVector);
 
-            m_ConvertedVector = ConvertMoveVector(Manager.moveVector);
+            //camForward = Manager.CameraHolder.forward;
 
-            m_NewPosition = CalculateNewPosition(m_ConvertedVector);
+            //m_ConvertedVector = ConvertMoveVector(Manager.moveVector);
 
+            //m_NewPosition = CalculateNewPosition(m_ConvertedVector);
+
+
+
+            //RotatePlayerToCameraForward(Manager.objTransform, Manager.CameraHolder);
+            
+            //MoveToNewPosition(m_NewPosition);
 
             UpdateAnimator(Manager.moveVector);
-
-            RotatePlayerToCameraForward(Manager.objTransform, Manager.CameraHolder);
-            
-            MoveToNewPosition(m_NewPosition);
-
 
             return null;
         }
 
 
-        void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
-        {
-            Quaternion currentObjRot = toRotate.rotation;
-            Quaternion cameraRot = camera.rotation;
+        //void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
+        //{
+        //    Quaternion currentObjRot = toRotate.rotation;
+        //    Quaternion cameraRot = camera.rotation;
 
 
-            cameraRot.x = 0;
-            cameraRot.z = 0;
+        //    cameraRot.x = 0;
+        //    cameraRot.z = 0;
 
-            Manager.objTransform.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
+        //    Manager.objTransform.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
 
-        }
+        //}
 
 
-        Vector3 ConvertMoveVector(Vector2 inputVector)
-        {
-            Vector3 converted = Vector3.zero;
+        //Vector3 ConvertMoveVector(Vector2 inputVector)
+        //{
+        //    Vector3 converted = Vector3.zero;
 
-            inputVector.x *= straffeSpeed;
-            inputVector.y *= forwardSpeed;
+        //    inputVector.x *= straffeSpeed;
+        //    inputVector.y *= forwardSpeed;
 
-            inputVector = inputVector.normalized;
+        //    inputVector = inputVector.normalized;
 
-            converted = new Vector3(inputVector.x, 0f, inputVector.y);
-            converted *= generalSpeed;
+        //    converted = new Vector3(inputVector.x, 0f, inputVector.y);
+        //    converted *= generalSpeed;
 
-            return converted;
-        }
+        //    return converted;
+        //}
 
-        Vector3 CalculateNewPosition(Vector3 vector)
-        {
-            Vector3 offset = Vector3.zero;
-            Vector3 forward = Vector3.zero;
-            Vector3 right = Vector3.zero;
-            Vector3 newPos = Vector3.zero;
+        //Vector3 CalculateNewPosition(Vector3 vector)
+        //{
+        //    Vector3 offset = Vector3.zero;
+        //    Vector3 forward = Vector3.zero;
+        //    Vector3 right = Vector3.zero;
+        //    Vector3 newPos = Vector3.zero;
 
-            forward = Manager.objTransform.forward * vector.z;
-            right = Manager.objTransform.right * vector.x;
+        //    forward = Manager.objTransform.forward * vector.z;
+        //    right = Manager.objTransform.right * vector.x;
 
-            offset = (forward + right) * Time.deltaTime;
+        //    offset = (forward + right) * Time.deltaTime;
 
-            newPos = m_Rigid.position + offset;
+        //    newPos = m_Rigid.position + offset;
 
-            return newPos;
-        }
+        //    return newPos;
+        //}
 
-        void MoveToNewPosition(Vector3 vector)
-        {
-            m_Rigid.MovePosition(vector);
-        }
+        //void MoveToNewPosition(Vector3 vector)
+        //{
+        //    m_Rigid.MovePosition(vector);
+        //}
 
         void UpdateAnimator(Vector2 vector)
         {

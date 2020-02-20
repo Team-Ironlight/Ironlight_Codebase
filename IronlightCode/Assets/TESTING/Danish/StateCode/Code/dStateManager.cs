@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
+using Danish.Components;
 
 
 namespace Danish.StateCode
@@ -35,9 +36,16 @@ namespace Danish.StateCode
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
 
+
+
+        // Temporary Component Reference
+        public dJumpComponent dJump = null;
+        public dDashComponent dDash = null;
+        public dMoveComponent dMove = null;
+
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera)
         {
-            Debug.Log("Initialize State Manager");
+            //Debug.Log("Initialize State Manager");
 
 
             obj = parentObj;
@@ -51,6 +59,10 @@ namespace Danish.StateCode
 
             CameraHolder = parentCamera;
 
+            dJump = new dJumpComponent();
+            dDash = new dDashComponent();
+            dMove = new dMoveComponent();
+
             InitializeTraversalMachine();
             InitializeCombatMachine();
             
@@ -61,7 +73,7 @@ namespace Danish.StateCode
             TraversalMachine.Tick();
             CombatMachine.Tick();
 
-            Debug.Log("ticking State Manager");
+            //Debug.Log("ticking State Manager");
         }
 
 
@@ -78,8 +90,7 @@ namespace Danish.StateCode
                 {typeof(dMoveState), new dMoveState(_stateManager:this) },
                 {typeof(dIdleState), new dIdleState(_stateManager:this) },
                 {typeof(dJumpState), new dJumpState(_stateManager:this) },
-                {typeof(dRising), new dRising(_stateManager:this) },
-                {typeof(dFalling), new dFalling(_stateManager:this) }
+                {typeof(dDashState), new dDashState(_stateManager:this) }
             };
 
             TraversalMachine.SetStates(states);
