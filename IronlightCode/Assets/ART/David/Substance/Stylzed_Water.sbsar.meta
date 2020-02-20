@@ -20,7 +20,7 @@ ScriptedImporter:
     materialProperties:
       shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
       shaderKeywords: _EMISSION _MAINTEX _METALLICGLOSSMAP _NORMALMAP _OCCLUSIONMAP
-        _PARALLAXMAP
+        _PARALLAXMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
       lightmapFlags: 1
       texEnvs:
       - name: _BumpMap
@@ -30,7 +30,7 @@ ScriptedImporter:
         offset: {x: 0, y: 0}
       - name: _DetailAlbedoMap
         texture: {instanceID: 0}
-        scale: {x: 10, y: 10}
+        scale: {x: 30, y: 30}
         offset: {x: 0, y: 0}
       - name: _DetailMask
         texture: {instanceID: 0}
@@ -43,12 +43,12 @@ ScriptedImporter:
       - name: _EmissionMap
         texture: {fileID: 3042589321245713476, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
-        scale: {x: 10, y: 10}
+        scale: {x: 30, y: 30}
         offset: {x: 0, y: 0}
       - name: _MainTex
         texture: {fileID: 605565028207252927, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
           type: 3}
-        scale: {x: 10, y: 10}
+        scale: {x: 30, y: 30}
         offset: {x: 0, y: 0}
       - name: _MetallicGlossMap
         texture: {fileID: 7915622488702412488, guid: 3bf8ac93e01c7104fa2e7a2c405f48fe,
@@ -75,7 +75,7 @@ ScriptedImporter:
       - name: _DstBlend
         float: 0
       - name: _GlossMapScale
-        float: 0.389
+        float: 0.906
       - name: _Glossiness
         float: 0.5
       - name: _GlossyReflections
@@ -89,7 +89,7 @@ ScriptedImporter:
       - name: _Parallax
         float: 0.08
       - name: _SmoothnessTextureChannel
-        float: 0
+        float: 1
       - name: _SpecularHighlights
         float: 1
       - name: _SrcBlend
