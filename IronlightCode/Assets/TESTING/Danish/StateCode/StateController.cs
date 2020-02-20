@@ -58,6 +58,11 @@ namespace Danish
             playerVelocity = parentRigidbody.velocity;
         }
 
+        private void FixedUpdate()
+        {
+            parentManager.FixedTick();
+        }
+
 
         void UpdateFixedValues()
         {

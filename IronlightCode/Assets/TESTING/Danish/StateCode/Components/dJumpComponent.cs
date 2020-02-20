@@ -37,7 +37,7 @@ namespace Danish.Components
             rigidbody.velocity = velocity;
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             velocity += GravityModifier * Physics.gravity * Time.deltaTime;
 

@@ -14,7 +14,7 @@ namespace Danish.Components
         public float backwardSpeed = 1f;
         public float straffeSpeed = 1f;
         public float generalSpeed = 5f;
-        public float rotationSpeed = 15f;
+        //public float rotationSpeed = 15f;
 
 
         private dStateManager Manager;
@@ -35,9 +35,9 @@ namespace Danish.Components
             m_Rigid = rigid;
         }
 
-        public void Tick(Vector2 _moveVector)
+        public void FixedTick(Vector2 _moveVector)
         {
-            RotatePlayerToCameraForward(_playerTransform, _cameraHolder);
+            //RotatePlayerToCameraForward(_playerTransform, _cameraHolder);
 
             m_ConvertedVector = ConvertMoveVector(_moveVector);
 
@@ -49,18 +49,18 @@ namespace Danish.Components
         }
 
 
-        void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
-        {
-            Quaternion currentObjRot = toRotate.rotation;
-            Quaternion cameraRot = camera.rotation;
+        //void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
+        //{
+        //    Quaternion currentObjRot = toRotate.rotation;
+        //    Quaternion cameraRot = camera.rotation;
 
 
-            cameraRot.x = 0;
-            cameraRot.z = 0;
+        //    cameraRot.x = 0;
+        //    cameraRot.z = 0;
 
-            toRotate.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
+        //    toRotate.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
 
-        }
+        //}
 
 
         Vector3 ConvertMoveVector(Vector2 inputVector)

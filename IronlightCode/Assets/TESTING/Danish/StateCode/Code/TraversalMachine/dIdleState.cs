@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -11,6 +11,7 @@ namespace Danish.StateCode
     {
 
         private dStateManager Manager;
+        private dRotationUpdater rotationUpdater = null;
 
         public dIdleState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -20,6 +21,9 @@ namespace Danish.StateCode
             {
                 Manager = base.MainManager;
             }
+
+            rotationUpdater = new dRotationUpdater();
+            rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
         }
 
         public override void FixedTick()
@@ -58,6 +62,8 @@ namespace Danish.StateCode
             {
                 return typeof(dMoveState);
             }
+
+            //rotationUpdater.Tick();
 
 
             return null;

@@ -17,6 +17,7 @@ namespace Danish.StateCode
         private bool m_Grounded = false;
         private dJumpComponent JumpHandler = null;
         private dMoveComponent FloatHandler = null;
+        private dRotationUpdater rotationUpdater = null;
 
         public float jumpStartSpeed = 7;
 
@@ -35,6 +36,9 @@ namespace Danish.StateCode
 
             FloatHandler = Manager.dFloat;
             FloatHandler.Init(MainManager.objTransform, Manager.CameraHolder, Manager.rigidbody, 0.8f);
+
+            rotationUpdater = new dRotationUpdater();
+            rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
         }
 
         public override void OnEnter()
@@ -54,14 +58,11 @@ namespace Danish.StateCode
         {
             Debug.Log("Start Jump");
 
+            rotationUpdater.Tick();
+
             m_Grounded = JumpHandler.GroundCheck();
 
-            if (!m_Grounded)
-            {
-                JumpHandler.Tick();
-                FloatHandler.Tick(Manager.moveVector);
-            }
-            else
+            if (m_Grounded)
             {
                 return typeof(dIdleState);
             }
@@ -71,7 +72,8 @@ namespace Danish.StateCode
 
         public override void FixedTick()
         {
-            throw new NotImplementedException();
+            JumpHandler.FixedTick();
+            FloatHandler.FixedTick(Manager.moveVector);
         }
 
 

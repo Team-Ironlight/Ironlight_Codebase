@@ -78,6 +78,11 @@ namespace Danish.StateCode
             //Debug.Log("ticking State Manager");
         }
 
+        public void FixedTick()
+        {
+            TraversalMachine.FixedTick();
+        }
+
 
 
         void InitializeTraversalMachine()

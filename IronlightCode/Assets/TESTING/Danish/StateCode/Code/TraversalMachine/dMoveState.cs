@@ -16,6 +16,7 @@ namespace Danish.StateCode
         private Animator m_Anim;
 
         private dMoveComponent MoveHandler = null;
+        private dRotationUpdater rotationUpdater = null;
 
 
         //[Header("Speeds")]
@@ -47,12 +48,11 @@ namespace Danish.StateCode
 
             MoveHandler = Manager.dMove;
             MoveHandler.Init(Manager.objTransform, Manager.CameraHolder, Manager.rigidbody, 1);
+
+            rotationUpdater = new dRotationUpdater();
+            rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
         }
 
-        public override void FixedTick()
-        {
-            throw new NotImplementedException();
-        }
 
         public override void OnEnter()
         {
@@ -67,6 +67,11 @@ namespace Danish.StateCode
             //Debug.Log("Exiting Move State");
             Manager.isMoving = false;
             m_Anim.SetBool("Moving", false);
+        }
+
+        public override void FixedTick()
+        {
+            MoveHandler.FixedTick(Manager.moveVector);
         }
 
         public override Type Tick()
@@ -90,76 +95,14 @@ namespace Danish.StateCode
 
             Debug.Log("In Move State");
 
-            MoveHandler.Tick(Manager.moveVector);
-
-            //camForward = Manager.CameraHolder.forward;
-
-            //m_ConvertedVector = ConvertMoveVector(Manager.moveVector);
-
-            //m_NewPosition = CalculateNewPosition(m_ConvertedVector);
-
-
-
-            //RotatePlayerToCameraForward(Manager.objTransform, Manager.CameraHolder);
-            
-            //MoveToNewPosition(m_NewPosition);
+            rotationUpdater.Tick();
+            //MoveHandler.Tick(Manager.moveVector);
 
             UpdateAnimator(Manager.moveVector);
 
             return null;
         }
 
-
-        //void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
-        //{
-        //    Quaternion currentObjRot = toRotate.rotation;
-        //    Quaternion cameraRot = camera.rotation;
-
-
-        //    cameraRot.x = 0;
-        //    cameraRot.z = 0;
-
-        //    Manager.objTransform.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
-
-        //}
-
-
-        //Vector3 ConvertMoveVector(Vector2 inputVector)
-        //{
-        //    Vector3 converted = Vector3.zero;
-
-        //    inputVector.x *= straffeSpeed;
-        //    inputVector.y *= forwardSpeed;
-
-        //    inputVector = inputVector.normalized;
-
-        //    converted = new Vector3(inputVector.x, 0f, inputVector.y);
-        //    converted *= generalSpeed;
-
-        //    return converted;
-        //}
-
-        //Vector3 CalculateNewPosition(Vector3 vector)
-        //{
-        //    Vector3 offset = Vector3.zero;
-        //    Vector3 forward = Vector3.zero;
-        //    Vector3 right = Vector3.zero;
-        //    Vector3 newPos = Vector3.zero;
-
-        //    forward = Manager.objTransform.forward * vector.z;
-        //    right = Manager.objTransform.right * vector.x;
-
-        //    offset = (forward + right) * Time.deltaTime;
-
-        //    newPos = m_Rigid.position + offset;
-
-        //    return newPos;
-        //}
-
-        //void MoveToNewPosition(Vector3 vector)
-        //{
-        //    m_Rigid.MovePosition(vector);
-        //}
 
         void UpdateAnimator(Vector2 vector)
         {
