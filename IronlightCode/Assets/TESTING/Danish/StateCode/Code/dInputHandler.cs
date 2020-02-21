@@ -54,6 +54,7 @@ namespace Danish.StateCode
                 _stateManager = new dStateManager();
                 //Debug.Log("INIT THE MANAGER");
             }
+
             return _stateManager;
         }
 

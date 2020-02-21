@@ -26,6 +26,7 @@ namespace Danish
         public StateCode.dInputHandler parentInput = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
+
         public Transform parentCamera = null;
         public Transform parentMuzzle = null;
 
@@ -56,7 +57,7 @@ namespace Danish
         {
             parentManager.Tick();
 
-            playerVelocity = parentRigidbody.velocity;
+            //playerVelocity = parentRigidbody.velocity;
         }
 
         private void FixedUpdate()

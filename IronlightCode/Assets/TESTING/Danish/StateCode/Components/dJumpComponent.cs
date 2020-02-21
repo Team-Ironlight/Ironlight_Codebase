@@ -46,9 +46,6 @@ namespace Danish.Components
 
 
             rigidbody.velocity = velocity;
-
-
-
         }
 
         public void ResetValues()

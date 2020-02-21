@@ -13,8 +13,8 @@ namespace Danish.Components
         public float forwardSpeed = 1f;
         public float backwardSpeed = 1f;
         public float straffeSpeed = 1f;
-        public float generalSpeed = 5f;
-        //public float rotationSpeed = 15f;
+        public float generalSpeed = 3f;
+        public float GravityModifier = 2;
 
 
         private dStateManager Manager;
@@ -25,7 +25,9 @@ namespace Danish.Components
         private Vector3 camForward;
         private Vector3 m_ConvertedVector;
         private Vector3 m_NewPosition;
+        private Vector3 velocity;
 
+        private bool isGrounded = false;
 
         public void Init(Transform playerTransform, Transform camHolder, Rigidbody rigid, float moveFactor)
         {
@@ -38,6 +40,18 @@ namespace Danish.Components
         public void FixedTick(Vector2 _moveVector)
         {
             //RotatePlayerToCameraForward(_playerTransform, _cameraHolder);
+            isGrounded = GroundCheck();
+
+            if (!isGrounded)
+            {
+                ApplyGravity();
+            }
+            else
+            {
+                velocity.y = 0;
+                m_Rigid.velocity = velocity;
+            }
+
 
             m_ConvertedVector = ConvertMoveVector(_moveVector);
 
@@ -99,6 +113,28 @@ namespace Danish.Components
         void MoveToNewPosition(Vector3 vector)
         {
             m_Rigid.MovePosition(vector);
+        }
+
+        public void ApplyGravity()
+        {
+            velocity += GravityModifier * Physics.gravity * Time.deltaTime;
+
+
+            m_Rigid.velocity = velocity;
+        }
+
+        public bool GroundCheck()
+        {
+            RaycastHit hit;
+            if (m_Rigid.SweepTest(Vector3.down, out hit, 0.1f))
+            {
+                //Debug.Log("Sweep confirmed");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

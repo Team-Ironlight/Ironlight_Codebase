@@ -38,6 +38,7 @@ namespace Danish.StateCode
         public dObjectPooler pooler = null;
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
+
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
 
