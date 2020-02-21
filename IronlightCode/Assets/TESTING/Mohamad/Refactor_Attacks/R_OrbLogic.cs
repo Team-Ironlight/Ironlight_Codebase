@@ -9,35 +9,36 @@ namespace Sharmout.attacks
         public float _iSpeed = 5;
         public float _iDamageAmount = 0;
         public float _DisableTimer = 3;
-        //public Transform transform;
+        public Transform parentObj;
+
+        Coroutine currentCo = null;
         
-        // Start Function
-        void Init(GameObject Bullet, Vector3 pDir)
-        {
-            //give direction
-            //transform = Bullet.transform;
-
-            //transform.forward = pDir;
-        }
-
-        private void OnEnable()
-        {
-            Debug.Log("Bitch is enabled");
-            StartCoroutine("BuletDisble");
-        }
-
-        private void OnDisable()
-        {
-            Debug.Log("Bitch is disabled and fucked");
-        }
-
-        // Update Function
-        void Update()
+        // Start Function, not used right now
+        void Init()
         {
             
+        }
+
+        // Start a coroutine to disable the bullet after a set amount of time when the object is enabled
+        private void OnEnable()
+        {             
+            currentCo = StartCoroutine("BuletDisble");
+        }
+
+        // Stop the coroutine when object is disabled
+        private void OnDisable()
+        {
+            StopCoroutine(currentCo);
+            currentCo = null;
+        }
+
+        void Update()
+        {
+            // move gameobject forward by a set speed
             transform.position += transform.forward * _iSpeed * Time.deltaTime;
         }
 
+        // wait for a set amount of time and then set the gameobject to inactive
         private IEnumerator BuletDisble()
         {
             yield return new WaitForSeconds(_DisableTimer);

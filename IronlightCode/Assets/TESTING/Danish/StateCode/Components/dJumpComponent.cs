@@ -21,7 +21,7 @@ namespace Danish.Components
             Vector3 convertedVector = new Vector3(moveDirection.x, 0, moveDirection.y);
             convertedVector = convertedVector.normalized;
 
-            Debug.Log(convertedVector);
+            //Debug.Log(convertedVector);
 
             jumpDirection += convertedVector;
 
@@ -63,7 +63,7 @@ namespace Danish.Components
             RaycastHit hit;
             if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
             {
-                Debug.Log("Sweep confirmed");
+                //Debug.Log("Sweep confirmed");
                 return true;
             }
             else

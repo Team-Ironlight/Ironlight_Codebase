@@ -27,6 +27,7 @@ namespace Danish
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
         public Transform parentCamera = null;
+        public Transform parentMuzzle = null;
 
         private void Reset()
         {
@@ -43,7 +44,7 @@ namespace Danish
         {
             parentManager = parentInput.Init();
 
-            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera);
+            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
         }
 
         void Start()

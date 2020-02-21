@@ -28,7 +28,7 @@ namespace Danish.StateCode
 
         public override void FixedTick()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void OnEnter()
@@ -43,7 +43,7 @@ namespace Danish.StateCode
 
         public override Type Tick()
         {
-            Debug.Log("In Idle State");
+            //Debug.Log("In Idle State");
 
             if (Manager.jump)
             {

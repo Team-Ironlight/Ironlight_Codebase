@@ -85,7 +85,6 @@ namespace Danish.StateCode
 
         public override void FixedTick()
         {
-            throw new NotImplementedException();
         }
     }
 }

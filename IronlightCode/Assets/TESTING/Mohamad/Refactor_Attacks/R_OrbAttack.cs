@@ -8,42 +8,49 @@ namespace Sharmout.attacks
 {
     public class R_OrbAttack
     {
-        // get a reference to magazine holder or object pool
-        // TODO - create a function to shoot a bullet
-        // TODO - create a attack cooldown
-
-
-        // TODO - Create a separate script to handle bullet logic
-        // TODO - create a coroutine to disable bullet
-
+        // reference to the muzzle transform to get firePosition and rotation
         Transform muzzleRef = null;
-        Vector3 fireDirection = Vector3.zero;
-        //dObjectPooler OrbPool = null;
+        Vector3 firePosition = Vector3.zero;
+        Quaternion bulletRotation = Quaternion.Euler(Vector3.zero);
+
+        // reference to the object pool of the orb bullet prefabs
+        dObjectPooler OrbPool = null;
+
+        // tag name of pool containing orb bullets
         string poolTag = " ";
+
+        
 
 
         // Initialization function for this attack
-        public void Start_bitch(dStateManager _manager)
+        public void Init(Transform _muzzle, dObjectPooler _pooler)
         {
-            // muzzleRef = _manager.muzzleObjTransform;
-
-            //OrbPool = _manager.pooler;
-
-            fireDirection = _manager.objTransform.forward;
-
-
+            // set references
+            muzzleRef = _muzzle;
+            OrbPool = _pooler;
         }
 
-        public void Go_bitch(dObjectPooler pool, string tagName, Transform muzzle)
-        {
-            GameObject objToShoot = pool.SpawnFromPool(tagName, muzzle.position, Quaternion.Euler(muzzle.forward));
+        //public void Tick(dObjectPooler pool, string tagName, Transform muzzle)
+        //{
+
             
+        //}
+
+        // function to shoot orb
+        public void Shoot()
+        {
+            GetOrbToShoot();
         }
 
-        void Shoot()
+        // gets a orb bullet from the pool and gives it the firePosition and rotation
+        GameObject GetOrbToShoot()
         {
-            //GameObject objToShoot = OrbPool.SpawnFromPool(poolTag, muzzleRef.position, Quaternion.Euler(fireDirection));
+            firePosition = muzzleRef.position;
+            bulletRotation = muzzleRef.rotation;
+
+            return OrbPool.SpawnFromPool("Orb", firePosition, bulletRotation);
         }
+
 
     }
 }

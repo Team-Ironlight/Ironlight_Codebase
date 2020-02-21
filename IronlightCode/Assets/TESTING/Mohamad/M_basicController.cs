@@ -40,7 +40,7 @@ namespace Sharmout
             if (fire)
             {
                 
-                orbAttack.Go_bitch(pooler, tagName, this.transform);
+                //orbAttack.Tick(pooler, tagName, this.transform);
                 fire = false;
             }
         }

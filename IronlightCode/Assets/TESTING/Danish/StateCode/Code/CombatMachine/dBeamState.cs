@@ -2,53 +2,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Danish.AttackCode;
-using Danish.Tools;
+using Sharmout.attacks;
 
 namespace Danish.StateCode
 {
-
-
-    public class dLaunchState : dCombatBaseState
+    public class dBeamState : dCombatBaseState
     {
         private dStateManager Manager;
-        private dOrbAttack orbAttack;
-        private dObjectPooler Pooler;
+        private R_BeamAttack beamComponent = null;
 
-        public dLaunchState(dStateManager _stateManager) : base(_stateManager.obj)
+
+        public dBeamState(dStateManager _stateManager) : base(_stateManager.obj)
         {
             base.MainManager = _stateManager;
 
-            if (Manager != base.MainManager)
+            if(Manager != base.MainManager)
             {
                 Manager = base.MainManager;
             }
 
-            orbAttack = new dOrbAttack();
-
-            Pooler = Manager.pooler;
+            beamComponent = Manager.rBeam;
+            beamComponent.Init(Manager.Muzzle); 
         }
-
 
         public override void OnEnter()
         {
-            orbAttack.Init(Manager);
+
         }
 
         public override void OnExit()
         {
+
         }
 
         public override Type Tick()
         {
-            Debug.Log("Launch  State");
+            Debug.Log("Beam State");
 
-            if (!Manager.isAttacking)
+            if (!Manager.launchBeam)
             {
                 return typeof(dReadyState);
             }
-
-            orbAttack.Shoot(Pooler);
 
             return null;
         }

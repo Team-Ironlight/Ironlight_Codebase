@@ -28,6 +28,10 @@ namespace Danish.StateCode
         public bool _isJumping = false;
         public bool _isAttacking = false;
 
+        public bool _orbAttack = false;
+        public bool _beamAttack = false;
+        public bool _blastAttack = false;
+
 
 
         private void Update()
@@ -77,6 +81,15 @@ namespace Danish.StateCode
                 _stateManager.isDashing = _isDashing;
                 _isDashing = false;
             }
+
+            if (_orbAttack)
+            {
+                _stateManager.launchOrb = _orbAttack;
+                _orbAttack = false;
+            }
+
+            _stateManager.launchBeam = _beamAttack;
+            _stateManager.launchBlast = _blastAttack;
         }
 
 
@@ -107,9 +120,18 @@ namespace Danish.StateCode
 
 
             controls.Combat.Attack.started += Attack_started;
+
+            controls.Combat.OrbTest.performed += OrbTest_performed;
+
+            controls.Combat.BeamTest.started += BeamTest_started;
+            controls.Combat.BeamTest.performed += BeamTest_performed;
+
+            controls.Combat.BlastTest.started += BlastTest_started;
+            controls.Combat.BlastTest.performed += BlastTest_performed;
+            controls.Combat.BlastTest.canceled += BlastTest_canceled;
         }
 
-
+        
 
         private void OnDisable()
         {
@@ -124,6 +146,15 @@ namespace Danish.StateCode
             controls.Traversal.Dash.performed -= Dash_performed;
 
             controls.Combat.Attack.started -= Attack_started;
+
+            controls.Combat.OrbTest.performed -= OrbTest_performed;
+            
+            controls.Combat.BeamTest.started -= BeamTest_started;
+            controls.Combat.BeamTest.performed -= BeamTest_performed;
+
+            controls.Combat.BlastTest.started -= BlastTest_started;
+            controls.Combat.BlastTest.performed -= BlastTest_performed;
+            controls.Combat.BlastTest.canceled -= BlastTest_canceled;
 
             controls.Disable();
         }
@@ -151,6 +182,34 @@ namespace Danish.StateCode
         {
         }
 
+        private void OrbTest_performed(InputAction.CallbackContext ctx)
+        {
+            _orbAttack = true;
+        }
+
+        private void BeamTest_started(InputAction.CallbackContext ctx)
+        {
+            _beamAttack = true;
+        }
+
+        private void BeamTest_performed(InputAction.CallbackContext ctx)
+        {
+            _beamAttack = false;
+        }
+
+        private void BlastTest_started(InputAction.CallbackContext obj)
+        {
+            _blastAttack = true;
+        }
+        private void BlastTest_performed(InputAction.CallbackContext obj)
+        {
+            _blastAttack = false;
+        }
+
+        private void BlastTest_canceled(InputAction.CallbackContext obj)
+        {
+            _blastAttack = false;
+        }
 
 
 

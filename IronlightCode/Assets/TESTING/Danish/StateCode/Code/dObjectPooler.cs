@@ -14,7 +14,8 @@ namespace Danish.Tools
             public string tag;
             public GameObject prefab;
             public int size;
-            public Vector3 scale;
+            public float scale;
+            public Transform parentObj;
         }
 
 
@@ -44,9 +45,9 @@ namespace Danish.Tools
 
                 for (int i = 0; i < pool.size; i++)
                 {
-                    GameObject obj = Instantiate(pool.prefab, transform);
+                    GameObject obj = Instantiate(pool.prefab, pool.parentObj);
 
-                    obj.transform.localScale = pool.scale;
+                    obj.transform.localScale *= pool.scale;
 
                     obj.SetActive(false);
 
@@ -61,6 +62,8 @@ namespace Danish.Tools
 
         public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
         {
+            GameObject objToSpawn = null;
+
             if (!m_PoolDictionary.ContainsKey(tag))
             {
                 Debug.Log("Object not found");
@@ -68,19 +71,42 @@ namespace Danish.Tools
 
             }
 
-            GameObject objToSpawn = m_PoolDictionary[tag].Dequeue();
+            for (int i = 0; i < m_PoolDictionary[tag].Count; i++)
+            {
+                objToSpawn = m_PoolDictionary[tag].Dequeue();
 
-            objToSpawn.SetActive(true);
-            objToSpawn.transform.parent = null;
-            objToSpawn.transform.position = position;
-            objToSpawn.transform.rotation = rotation;
+                if (objToSpawn.activeSelf)
+                {
+                    m_PoolDictionary[tag].Enqueue(objToSpawn);
+                    objToSpawn = null;
+                    continue;
+                }
+                else if(!objToSpawn.activeSelf)
+                {
+                    objToSpawn.SetActive(true);
+                    //objToSpawn.transform.parent = null;
+                    objToSpawn.transform.position = position;
+                    objToSpawn.transform.rotation = rotation;
+                    m_PoolDictionary[tag].Enqueue(objToSpawn);
+                    break;
+                }
+
+            }
+
+            return objToSpawn;
+
+            //objToSpawn.SetActive(true);
+            ////objToSpawn.transform.parent = null;
+            //objToSpawn.transform.position = position;
+            //objToSpawn.transform.rotation = rotation;
 
             
 
-            m_PoolDictionary[tag].Enqueue(objToSpawn);
+            //m_PoolDictionary[tag].Enqueue(objToSpawn);
 
 
-            return objToSpawn;
+            //return objToSpawn;
         }
+
     }
 }
