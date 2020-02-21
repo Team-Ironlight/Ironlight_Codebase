@@ -42,12 +42,14 @@ namespace Danish.Components
             //RotatePlayerToCameraForward(_playerTransform, _cameraHolder);
             isGrounded = GroundCheck();
 
-            if (isGrounded)
+            if (!isGrounded)
+            {
+                ApplyGravity();
+            }
+            else
             {
                 velocity.y = 0;
                 m_Rigid.velocity = velocity;
-
-                ApplyGravity();
             }
 
 
@@ -126,16 +128,9 @@ namespace Danish.Components
             RaycastHit hit;
             if (m_Rigid.SweepTest(Vector3.down, out hit, 0.1f))
             {
-                if(hit.distance > 0.04f)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                //Debug.Log("Sweep confirmed");
+                return true;
             }
-
             else
             {
                 return false;
