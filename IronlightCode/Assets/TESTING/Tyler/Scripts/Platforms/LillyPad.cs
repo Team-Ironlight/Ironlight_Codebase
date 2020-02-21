@@ -39,7 +39,6 @@ public class LillyPad : MonoBehaviour
     {
         if(collider.tag == "Player")
         {
-            StopCoroutine(FallAfterDelay());
             StartCoroutine(RiseDelay());
         }
     }
@@ -95,15 +94,6 @@ public class LillyPad : MonoBehaviour
        }
 
     }
-
-
-
-
-
-
-
-
-
 
     IEnumerator FallAfterDelay()
     {
