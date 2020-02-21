@@ -11905,6 +11905,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1173069019475530559, guid: f7069fc51ecf22c41b2c039dbcd58cd0,
+        type: 3}
+      propertyPath: runSplatterEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 803c6c02d9360e54193a679fba573e3e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7069fc51ecf22c41b2c039dbcd58cd0, type: 3}
 --- !u!1 &201630161
@@ -41099,6 +41105,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6401773839682957083, guid: 0914a34b05dec654a8919b83ac2c9d34,
+        type: 3}
+      propertyPath: runSplatterEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 803c6c02d9360e54193a679fba573e3e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0914a34b05dec654a8919b83ac2c9d34, type: 3}
 --- !u!1 &693591986
@@ -95023,6 +95035,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5231373260966411839, guid: f30007b05a97f5f47945120116e287b1,
+        type: 3}
+      propertyPath: ShowAttack_Sensor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231373260966411839, guid: f30007b05a97f5f47945120116e287b1,
+        type: 3}
+      propertyPath: ShowChase_Sensor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231373260966411836, guid: f30007b05a97f5f47945120116e287b1,
+        type: 3}
+      propertyPath: runSplatterEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 803c6c02d9360e54193a679fba573e3e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f30007b05a97f5f47945120116e287b1, type: 3}
 --- !u!1 &1618255088
@@ -126368,7 +126396,6 @@ GameObject:
   - component: {fileID: 5925722769956914194}
   - component: {fileID: 5925722769956914205}
   - component: {fileID: 5925722769956914208}
-  - component: {fileID: 5925722769956914209}
   - component: {fileID: 4655332715154789358}
   m_Layer: 12
   m_Name: TemporaryPlayer
@@ -126411,22 +126438,6 @@ MonoBehaviour:
   Vertical:
     Positive: 119
     Negative: 115
---- !u!114 &5925722769956914209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5925722769956914206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bccb4c8abb1a58143a6f3b1f9cfeac06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageAmount:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 19a5d44c74e708547a6f4583a025057e, type: 2}
 --- !u!1 &6485774053357054916
 GameObject:
   m_ObjectHideFlags: 0
