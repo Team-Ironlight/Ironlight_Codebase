@@ -10,7 +10,6 @@ public class Owl_PatrolState : ImanBaseState
     //bankRotation
     private float Y1;
     private float Y2;
-    private float ZChange;
 
     public Owl_PatrolState(Owl_StateManager _Manager) : base(_Manager.gameObject)
     {
@@ -22,6 +21,7 @@ public class Owl_PatrolState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Owl Patrol State");
+        stateManager.FindWaypoint();
     }
 
     public override void OnExit()
@@ -49,19 +49,14 @@ public class Owl_PatrolState : ImanBaseState
         //move forward
         stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
 
-        //BankRotation
-        ZChange = Y2 - Y1;
-        ZChange *= stateManager.BankRotIntensity;
-        var rot = new Vector3(0, 0, ZChange);
-        stateManager.TurnObject.transform.localRotation = Quaternion.Slerp(stateManager.TurnObject.transform.localRotation, Quaternion.Euler(rot), stateManager.BankRotSpeed * Time.deltaTime);
-
-       
+        //bank rotation
+        stateManager.BankRotationCalc(Y1, Y2);
 
         //if player in close distance go to follow state
-        //if (Vector3.Distance(stateManager.PLY_Transform.position, stateManager.transform.position) < 10.0f)
-        //{
-        //    return typeof(TestDanish_TDashState);
-        //}
+        if (stateManager.DisBetwnPLY < stateManager.DistToAgro)
+        {
+            return typeof(Owl_AgroState);
+        }
 
         return null;
     }

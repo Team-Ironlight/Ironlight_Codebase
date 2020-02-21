@@ -5,11 +5,20 @@ using UnityEngine;
 public class CheckPointSphere : MonoBehaviour
 {
    public GameObject systemGo;
-   private void OnTriggerEnter(Collider other)
+    public GameObject Effect;
+    private bool Flag;
+    private void OnTriggerEnter(Collider other)
    {
+
        if(other.gameObject.CompareTag("Player"))
        {
+            if(!Flag)
+            {
+            Instantiate(Effect, this.transform.position, this.transform.rotation);
+                Flag = true;
+            }
             systemGo.GetComponent<RespawnCheckPoint>().lastCheckPoint = this.transform;
-	   }
+
+        }
    }
 }
