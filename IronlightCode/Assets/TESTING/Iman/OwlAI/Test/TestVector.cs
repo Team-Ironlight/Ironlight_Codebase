@@ -52,7 +52,7 @@ namespace Iman.Owl
                 {
                     Target = SweepEndPos;
                 }
-                if (Vector3.Distance(SweepEndPos, transform.position) < 0.01)
+                if (Vector3.Distance(SweepEndPos, transform.position) < 0.7)
                 {
                     Attack = false;
                 }

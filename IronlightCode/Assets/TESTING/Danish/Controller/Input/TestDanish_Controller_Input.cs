@@ -20,7 +20,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c138788f-f399-43ef-9fe5-fcc27529e108"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -32,7 +32,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""id"": ""8230ee4b-40b2-4bf8-a4c0-3a9f68602d60"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=1)""
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Dash"",
@@ -40,14 +40,14 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""id"": ""bf93ff86-3acd-4247-b4ba-6a0d675081e2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": ""WASD"",
                     ""id"": ""773ca573-5e69-44d7-931e-7351e8edf2c5"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(normalize=false)"",
                     ""interactions"": ""Hold(duration=0.01),Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
@@ -134,6 +134,30 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""OrbTest"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e0ea812-aa0f-4475-a9a4-e5ed9bdf73aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""BeamTest"",
+                    ""type"": ""Button"",
+                    ""id"": ""af6eb16e-077d-4a4e-ad50-f53901441795"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""BlastTest"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a8a575e-244c-4ac9-ac94-e0ec41045968"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -145,6 +169,39 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5bf2e27-170e-4a99-9b94-ca4ee32b037b"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OrbTest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eecc40b5-8913-412b-beec-c30489e9d117"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BeamTest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6fcb9edb-bd00-408a-9b3e-fa84c9884f2a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Hold(duration=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BlastTest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -161,6 +218,9 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         // Combat
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
+        m_Combat_OrbTest = m_Combat.FindAction("OrbTest", throwIfNotFound: true);
+        m_Combat_BeamTest = m_Combat.FindAction("BeamTest", throwIfNotFound: true);
+        m_Combat_BlastTest = m_Combat.FindAction("BlastTest", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,11 +320,17 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Combat;
     private ICombatActions m_CombatActionsCallbackInterface;
     private readonly InputAction m_Combat_Attack;
+    private readonly InputAction m_Combat_OrbTest;
+    private readonly InputAction m_Combat_BeamTest;
+    private readonly InputAction m_Combat_BlastTest;
     public struct CombatActions
     {
         private @TestDanish_Controller_Input m_Wrapper;
         public CombatActions(@TestDanish_Controller_Input wrapper) { m_Wrapper = wrapper; }
         public InputAction @Attack => m_Wrapper.m_Combat_Attack;
+        public InputAction @OrbTest => m_Wrapper.m_Combat_OrbTest;
+        public InputAction @BeamTest => m_Wrapper.m_Combat_BeamTest;
+        public InputAction @BlastTest => m_Wrapper.m_Combat_BlastTest;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -277,6 +343,15 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnAttack;
+                @OrbTest.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnOrbTest;
+                @OrbTest.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnOrbTest;
+                @OrbTest.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnOrbTest;
+                @BeamTest.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnBeamTest;
+                @BeamTest.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnBeamTest;
+                @BeamTest.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnBeamTest;
+                @BlastTest.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
+                @BlastTest.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
+                @BlastTest.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -284,6 +359,15 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @OrbTest.started += instance.OnOrbTest;
+                @OrbTest.performed += instance.OnOrbTest;
+                @OrbTest.canceled += instance.OnOrbTest;
+                @BeamTest.started += instance.OnBeamTest;
+                @BeamTest.performed += instance.OnBeamTest;
+                @BeamTest.canceled += instance.OnBeamTest;
+                @BlastTest.started += instance.OnBlastTest;
+                @BlastTest.performed += instance.OnBlastTest;
+                @BlastTest.canceled += instance.OnBlastTest;
             }
         }
     }
@@ -297,5 +381,8 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     public interface ICombatActions
     {
         void OnAttack(InputAction.CallbackContext context);
+        void OnOrbTest(InputAction.CallbackContext context);
+        void OnBeamTest(InputAction.CallbackContext context);
+        void OnBlastTest(InputAction.CallbackContext context);
     }
 }

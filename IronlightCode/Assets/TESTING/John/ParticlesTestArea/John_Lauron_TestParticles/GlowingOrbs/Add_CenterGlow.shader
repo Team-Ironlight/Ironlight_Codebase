@@ -1,90 +1,37 @@
-Shader "EGA/Particles/Add_CenterGlow" {
-    Properties {
-        _MainTex ("MainTex", 2D) = "white" {}
-        _Noise ("Noise", 2D) = "white" {}
-        _TintColor ("Color", Color) = (0.5,0.5,0.5,1)
-        _Emission ("Emission", Float ) = 2
-        _SpeedMainTexUVNoiseZW ("Speed MainTex U/V + Noise Z/W", Vector) = (0,0,0,0)
-        [MaterialToggle] _Usedepth ("Use depth?", Float ) = 0
-        _Depthpower ("Depth power", Float ) = 1
-        [MaterialToggle] _Usecenterglow ("Use center glow?", Float ) = 0
-        _Mask ("Mask", 2D) = "white" {}
-    }
-    SubShader {
-        Tags {
-            "IgnoreProjector"="True"
-            "Queue"="Transparent"
-            "RenderType"="Transparent"
-			"PreviewType"="Plane"
-        }
-        Pass {
-            Name "FORWARD"
-            Tags {
-                "LightMode"="ForwardBase"
-            }
-            Blend One One
-            Cull Off
-            ZWrite Off
-            
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
-			#pragma multi_compile_particles
-            uniform sampler2D _CameraDepthTexture;
-            uniform sampler2D _MainTex; uniform float4 _MainTex_ST;
-            uniform float4 _TintColor;
-            uniform sampler2D _Mask; uniform float4 _Mask_ST;
-            uniform float _Emission;
-            uniform fixed _Usecenterglow;
-            uniform sampler2D _Noise; uniform float4 _Noise_ST;
-            uniform float4 _SpeedMainTexUVNoiseZW;
-            uniform float _Depthpower;
-            uniform fixed _Usedepth;
-            struct VertexInput {
-                float4 vertex : POSITION;
-                float4 texcoord0 : TEXCOORD0;
-                float4 vertexColor : COLOR;
-            };
-            struct VertexOutput {
-                float4 pos : SV_POSITION;
-                float4 uv0 : TEXCOORD0;
-                float4 vertexColor : COLOR;
-                float4 projPos : TEXCOORD1;
-                UNITY_FOG_COORDS(2)
-            };
-            VertexOutput vert (VertexInput v) {
-                VertexOutput o = (VertexOutput)0;
-                o.uv0 = v.texcoord0;
-                o.vertexColor = v.vertexColor;
-                o.pos = UnityObjectToClipPos( v.vertex );
-                UNITY_TRANSFER_FOG(o,o.pos);
-                o.projPos = ComputeScreenPos (o.pos);
-                COMPUTE_EYEDEPTH(o.projPos.z);
-                return o;
-            }
-            float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
-                float isFrontFace = ( facing >= 0 ? 1 : 0 );
-                float faceSign = ( facing >= 0 ? 1 : -1 );
-                float sceneZ = max(0,LinearEyeDepth (UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos)))) - _ProjectionParams.g);
-                float partZ = max(0,i.projPos.z - _ProjectionParams.g);
-                float2 ttt = (((_Time.g*float2(_SpeedMainTexUVNoiseZW.r,_SpeedMainTexUVNoiseZW.g))+i.uv0));
-                float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(ttt, _MainTex));
-                float2 tt = (((_Time.g*float2(_SpeedMainTexUVNoiseZW.b,_SpeedMainTexUVNoiseZW.a))+i.uv0));
-                float4 _Noise_var = tex2D(_Noise,TRANSFORM_TEX(tt, _Noise));
-                float3 mainglow = ((_MainTex_var.rgb*_Noise_var.rgb)*i.vertexColor.rgb*_TintColor.rgb);
-                float4 _Mask_var = tex2D(_Mask,TRANSFORM_TEX(i.uv0, _Mask));
-                float3 lp = (lerp( mainglow, (mainglow*saturate((_Mask_var.rgb*saturate((_Mask_var.rgb-(i.uv0.b*-1.0+1.0)))))), _Usecenterglow )*_MainTex_var.a*i.vertexColor.a*_TintColor.a*_Noise_var.a);
-				#ifdef SOFTPARTICLES_ON
-					float fade = saturate ((sceneZ-partZ)/_Depthpower);
-					lp *= lerp(1, fade, _Usedepth);
-				#endif
-                float3 emissive = lp*_Emission;
-                fixed4 finalRGBA = fixed4(emissive,1);
-                UNITY_APPLY_FOG_COLOR(i.fogCoord, finalRGBA, fixed4(0,0,0,1));
-                return finalRGBA;
-            }
-            ENDCG
-        }
-    }
+// Made with Amplify Shader Editor
+// Available at the Unity Asset Store - http://u3d.as/y3X 
+Shader "John/Particles/Add_CenterGlow"
+{
+	Properties
+	{
+		[HideInInspector] __dirty( "", Int ) = 1
+	}
+
+	SubShader
+	{
+		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
+		Cull Back
+		CGPROGRAM
+		#pragma target 3.0
+		#pragma surface surf Standard keepalpha addshadow fullforwardshadows 
+		struct Input
+		{
+			half filler;
+		};
+
+		void surf( Input i , inout SurfaceOutputStandard o )
+		{
+			o.Alpha = 1;
+		}
+
+		ENDCG
+	}
+	Fallback "Diffuse"
+	CustomEditor "ASEMaterialInspector"
 }
+/*ASEBEGIN
+Version=16400
+-1920;0;1920;1019;960;510;1;True;True
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;John/Particles/Add_CenterGlow;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+ASEEND*/
+//CHKSM=62C0ED2AA9EE450542A059B0A760B513BEEE628B

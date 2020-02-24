@@ -122,7 +122,18 @@ public class AttackState : StateMachine.BaseState
                 {
                     _navMeshAgent.isStopped = false;                                                                                                                        // To tell the agent can move now
                     _navMeshAgent.speed = walk_Speed;
-                    _navMeshAgent.SetDestination(destination);                                                                       
+                    //if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToAttack)                                                                  //maintain in  <Attack State>
+                    //{
+                    //    Debug.Log("same Position");
+                  //  _navMeshAgent.SetDestination(Vector3.Reflect(runner.transform.position, Vector3.right));
+                    //  _navMeshAgent.SetDestination(destination);
+
+                    //}
+                    //else
+                    //{
+                    _navMeshAgent.SetDestination(destination);
+                    //}
+                                                                                        
                     isCharging = _mTarget.GetComponentInChildren<LightCharging>().isCharging;
                         if (isCharging)
                         { runner.StartCoroutine(coroutineTrigger(isCharging,runner)); }
@@ -153,8 +164,8 @@ public class AttackState : StateMachine.BaseState
                 if (overlapResults[i].transform == _mTarget)
                 {
                     if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToAttack))
-                    {                   
-                        return OnEnemyAttackDistance;
+                    {
+                         return OnEnemyAttackDistance;
                     }
                     else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToAttack)           // Switch to <Attack State>
                     {                       
