@@ -12,6 +12,7 @@ namespace ROFO
         public GameObject line2;
         public GameObject line3;
         public GameObject line4;
+        public GameObject line5;
      
         // Start is called before the first frame update
         void Start()
@@ -20,6 +21,7 @@ namespace ROFO
             line2.gameObject.SetActive(false);
             line3.gameObject.SetActive(false);
             line4.gameObject.SetActive(false);
+            line5.gameObject.SetActive(false);
         }
 
         // Update is called once per frame
@@ -31,6 +33,7 @@ namespace ROFO
                 line2.gameObject.SetActive(true);
                 line3.gameObject.SetActive(true);
                 line4.gameObject.SetActive(true);
+                line5.gameObject.SetActive(true);
             }
         }
     }
