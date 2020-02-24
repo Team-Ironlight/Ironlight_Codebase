@@ -7,26 +7,41 @@ public class Owl_StateManager : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float MovementSpeed =3;
+    private float OGMovementSpeed;
     public float RotationSpeed =4;
     private Rigidbody rb;
     public float BankRotIntensity;
     public float BankRotSpeed;
     private float ZChange;
 
+    private float startTime;
+
     [Header("Patrol Variables")]
     public GameObject[] WayPoints;
     [HideInInspector] public int CurrentWP;
     public float DistToAgro;
 
-    [Header("Agro Variables")]
-    public float YPos;
-    public float GroundPos;
-    public float DistToPatrol;
-
+    [Header("sweep Agro Variables")]
+    public float Sweep_YPos;
+    public float Sweep_GroundPos;
+    public float DistToPatrol;  
+    
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
     public float SweepRotateSpeed;
     public bool SweepAttack;
+
+    [Header("Wind Agro Variables")]
+    public float Wind_YPos;
+    public float Wind_GroundPos;
+
+    [Header("Wind Attack Variables")]
+    public float SphereRadius;
+    public float MaxRange;
+    public float WindAttackDuration;
+    public LayerMask Windinteractable;
+    public bool WindAttack;
+
 
     [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
@@ -43,7 +58,11 @@ public class Owl_StateManager : MonoBehaviour
         PLY_Transform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         StateMachine = GetComponent<Iman_StateMachine>();
         SweepAttack = false;
+        WindAttack = false;
         FindWaypoint();
+        OGMovementSpeed = MovementSpeed;
+
+        startTime = Time.time;
 
         InitializeTraversalMachine();
     }
@@ -82,6 +101,27 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
+    public void SlowingDown(Vector3 Target)
+    {
+        if (Vector3.Distance(Target, transform.position) < 0.3)
+        {
+           // MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, 3);
+
+            // Set our position as a fraction of the distance between the markers.
+            MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, (Vector3.Distance(Target, transform.position)/0.3f));
+        }
+        else
+        {
+            MovementSpeed = OGMovementSpeed;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, SphereRadius);
+    }
+
     #region Setup Functions
 
     void InitializeTraversalMachine()
@@ -89,6 +129,9 @@ public class Owl_StateManager : MonoBehaviour
         var states = new Dictionary<Type, ImanBaseState>()
         {
             {typeof(Owl_PatrolState), new Owl_PatrolState(_Manager:this) },
+            {typeof(Owl_ChooseAttackState), new Owl_ChooseAttackState(_Manager:this) },
+            {typeof(Owl_WindAgroState), new Owl_WindAgroState(_Manager:this) },
+            {typeof(Owl_WindAttackState), new Owl_WindAttackState(_Manager:this) },
             {typeof(Owl_AgroState), new Owl_AgroState(_Manager:this) },
             {typeof(Owl_SweepAttackState), new Owl_SweepAttackState(_Manager:this) }
         };

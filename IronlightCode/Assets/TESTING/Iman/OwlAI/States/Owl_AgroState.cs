@@ -21,19 +21,20 @@ public class Owl_AgroState : ImanBaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering Owl Agro State");
+        Debug.Log("Entering Sweep Agro State");
     }
 
     public override void OnExit()
     {
-        Debug.Log("Exiting Owl Agro State");
+        Debug.Log("Exiting Sweep Agro State");
     }
 
     public override Type Tick()
     {
         calculateAgroPos();
+        //stateManager.SlowingDown(AgroPos);
         //if owl havent reached position yet
-        if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.1)
+        if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
         {
             //get direction between point and owl
             var direction = AgroPos - stateManager.transform.position;
@@ -53,6 +54,8 @@ public class Owl_AgroState : ImanBaseState
             Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
             Y2 = stateManager.transform.eulerAngles.y;
+            //move forward
+            //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
         }
 
         //bank rotation
@@ -82,10 +85,10 @@ public class Owl_AgroState : ImanBaseState
         //get direction to the player
         AgroPos = -(stateManager.PLY_Transform.position - OwlPos);
         //normalize the direction and add the distant away from the player
-        AgroPos = AgroPos.normalized * stateManager.GroundPos;
+        AgroPos = AgroPos.normalized * stateManager.Sweep_GroundPos;
         //add to players position
         AgroPos = AgroPos + stateManager.PLY_Transform.position;
         //add y displacement
-        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.YPos;
+        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.Sweep_YPos;
     }
 }
