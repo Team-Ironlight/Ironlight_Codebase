@@ -6,7 +6,6 @@ public class imanStateRunner : MonoBehaviour
 {
     Owl_StateManager stateManager;
 
-
     // Start is called before the first frame update
     void Start()
     {
