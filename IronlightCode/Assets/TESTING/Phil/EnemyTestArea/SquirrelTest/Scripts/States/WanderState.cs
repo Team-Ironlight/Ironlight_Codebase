@@ -69,6 +69,10 @@ public class WanderState : StateMachine.BaseState
         _maxDistanceToWander = runner.GetComponent<StateMachine>().Get_MaxDistanceWander;
         _minDistanceToWander = runner.GetComponent<StateMachine>().Get_MinDistanceWander;
 
+        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>() )
+      
+            Application.Quit();
+
         _updateMinMax.Set_MaxDistance = _maxDistanceToWander;
         _updateMinMax.Set_MinDistance = _minDistanceToWander;
 
@@ -78,6 +82,10 @@ public class WanderState : StateMachine.BaseState
 
     public override void Tick(MonoBehaviour runner)                                                             //Called every frame , Initiate by the StateMachine
     {
+        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>())
+
+            Application.Quit();
+
         if (_mTarget != null)
         {
             if (_navMeshAgent.enabled == true)
@@ -165,38 +173,38 @@ public class WanderState : StateMachine.BaseState
             return OnEnemyWanderDistance;
         }
 
-        //Collider[] overlapResults = new Collider[50];
-        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
+        Collider[] overlapResults = new Collider[500];
+        int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
 
-        //for (int i = 0; i < numFound; i++)
-        //{
-        //    if (overlapResults[i] != null)
-        //    {
-        //        if (overlapResults[i].transform == _mTarget)
-        //        {
-        // Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
-        if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
+        for (int i = 0; i < numFound; i++)
         {
-            if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
+            if (overlapResults[i] != null)
             {
-                OnAware();
-                return "";
-            }
-            else
-            {
-                //Going to the minimum Distance , switch <Attack State>
-                return OnEnemyLostState;
+                if (overlapResults[i].transform == _mTarget)
+                {
+                    // Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+                    if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
+                    {
+                        if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
+                        {
+                            OnAware();
+                            return "";
+                        }
+                        else
+                        {
+                            //Going to the minimum Distance , switch <Attack State>
+                            return OnEnemyLostState;
+                        }
+
+                    }
+
+                }
+
             }
 
         }
 
-        //        }
-
-        //    }
-
-        //}
-
-        //overlapResults = new Collider[0];
+        overlapResults = new Collider[0];
 
         return "";
     }
