@@ -98,7 +98,7 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
             {
-                mCurrentState = mCurrentBaseState.CurrentState.Name;
+                //mCurrentState = mCurrentBaseState.CurrentState.Name;
                 if (mCurrentState == null) { yield break; }
 
                 isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check

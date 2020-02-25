@@ -124,7 +124,7 @@ namespace IronLight
 
         public BaseState[] AvailableStates;                                     // Container for BaseState
         [Header("State On Real Time.")]
-        public BaseState CurrentState;                                          // Current BaseState
+        public ChaseStateNew CurrentState;                                          // Current BaseState
        
 
         [Header("Flag and Decisions.")]
@@ -148,10 +148,12 @@ namespace IronLight
             _aniMator = GetComponent<Animator>();
             _arcRigidBody = GetComponent<Rigidbody>();
             _mTarget = GameObject.FindWithTag("Player").transform;
-
+            CurrentState = gameObject.AddComponent<ChaseStateNew>();
             if (CurrentState != null)                                           // Precaution Check - If Empty Do Nothing , this save memory calls
             {
-                CurrentState.OnEnter(this);                                         // This is called before the first frame
+                //CurrentState.OnEnter(this);                                         // This is called before the first frame
+
+                //CurrentState = gameObject.AddComponent<ChaseStateNew>();
             }
         }
 
@@ -161,8 +163,11 @@ namespace IronLight
 
             if (isActive == true && CurrentState != null)                       // Precaution Check - if return Empty Do Nothing this save Memory ussage
             {
-                 CurrentState.Tick(this);                                       // called once per frame
-                 stateId = CurrentState.CheckConditions(this);
+                 //CurrentState.Tick(this);                                       // called once per frame
+
+                //gameObject.AddComponent<ChaseStateNew>();
+
+                 /*stateId = CurrentState.CheckConditions(this);
                 if (stateId.Length > 0)                                         // If Empty Do Nothing, save Memory calls
                 {
                     foreach (BaseState s in AvailableStates)                    // Let us Update the States   
@@ -176,7 +181,7 @@ namespace IronLight
                         }
                     }
 
-                }
+                }*/
 
             }
         }
@@ -187,10 +192,10 @@ namespace IronLight
                 return;
             if (CurrentState != null)
             {
-                CurrentState.OnExit(this);
+                CurrentState.OnExit();
             }
-            CurrentState = state;
-            CurrentState.OnEnter(this);
+            //CurrentState = state;
+            //CurrentState.OnEnter();
         }
 
         public void SetActive(bool isActive)                                        // Update the Flag for this Class
