@@ -339,7 +339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480041918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: 2.51, z: -15.11}
+  m_LocalPosition: {x: 9.09, y: 2.51, z: -12.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -877,21 +877,12 @@ MonoBehaviour:
   - {fileID: 982593813}
   CurrentWP: 0
   DistToAgro: 10
-  Sweep_YPos: 3
-  Sweep_GroundPos: 4
+  YPos: 3
+  GroundPos: 4
   DistToPatrol: 15
   SweepMoveSpeed: 5
-  SweepRotateSpeed: 6
+  SweepRotateSpeed: 2
   SweepAttack: 0
-  Wind_YPos: 0.8
-  Wind_GroundPos: 3
-  SphereRadius: 1
-  MaxRange: 4
-  WindAttackDuration: 3
-  Windinteractable:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  WindAttack: 0
   PLY_Transform: {fileID: 0}
   DisBetwnPLY: 0
   StateMachine: {fileID: 1072923549}
@@ -977,21 +968,12 @@ MonoBehaviour:
   - {fileID: 1835714025}
   CurrentWP: 0
   DistToAgro: 10
-  Sweep_YPos: 0
-  Sweep_GroundPos: 0
+  YPos: 3
+  GroundPos: 4
   DistToPatrol: 15
   SweepMoveSpeed: 5
   SweepRotateSpeed: 7
   SweepAttack: 0
-  Wind_YPos: 0
-  Wind_GroundPos: 0
-  SphereRadius: 0
-  MaxRange: 0
-  WindAttackDuration: 0
-  Windinteractable:
-    serializedVersion: 2
-    m_Bits: 0
-  WindAttack: 0
   PLY_Transform: {fileID: 0}
   DisBetwnPLY: 0
   StateMachine: {fileID: 1130698107}

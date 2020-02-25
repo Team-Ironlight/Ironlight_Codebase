@@ -55,7 +55,7 @@ public class Owl_PatrolState : ImanBaseState
         //if player in close distance go to follow state
         if (stateManager.DisBetwnPLY < stateManager.DistToAgro)
         {
-            return typeof(Owl_ChooseAttackState);
+            return typeof(Owl_AgroState);
         }
 
         return null;
