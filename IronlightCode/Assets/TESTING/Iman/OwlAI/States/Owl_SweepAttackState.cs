@@ -29,11 +29,13 @@ public class Owl_SweepAttackState : ImanBaseState
         Debug.Log("Entering Owl Sweep Attack State");
         calculateSweepAttackPositions();
         timer = 1000000000;
+        
     }
 
     public override void OnExit()
     {
         Debug.Log("Exiting Owl Sweep Attack State");
+        stateManager.SweepRotateSpeed = 6;
     }
 
     public override Type Tick()
@@ -42,6 +44,7 @@ public class Owl_SweepAttackState : ImanBaseState
         if (Vector3.Distance(SweepPlayerPos, stateManager.transform.position) < 0.1)
         {
             SweepTarget = SweepEndPos;
+            stateManager.SweepRotateSpeed = 2;
             timer = Time.time + 3;
         }
         var direction = SweepTarget - stateManager.transform.position;
@@ -59,7 +62,7 @@ public class Owl_SweepAttackState : ImanBaseState
         if(timer < Time.time)
         {
             stateManager.SweepAttack = false;
-            return typeof(Owl_AgroState);
+            return typeof(Owl_ChooseAttackState);
         }
         return null;
     }
@@ -69,8 +72,8 @@ public class Owl_SweepAttackState : ImanBaseState
         //End owl Pos
         var PPos = stateManager.PLY_Transform.position;
         PPos.y = stateManager.transform.position.y;
-        SweepEndPos = ((PPos - stateManager.transform.position).normalized * stateManager.GroundPos) + stateManager.PLY_Transform.position;
-        SweepEndPos.y = stateManager.PLY_Transform.position.y + stateManager.YPos;
+        SweepEndPos = ((PPos - stateManager.transform.position).normalized * stateManager.Sweep_GroundPos) + stateManager.PLY_Transform.position;
+        SweepEndPos.y = stateManager.PLY_Transform.position.y + stateManager.Sweep_YPos;
 
         //PlayerPos
         SweepPlayerPos = stateManager.PLY_Transform.position;
