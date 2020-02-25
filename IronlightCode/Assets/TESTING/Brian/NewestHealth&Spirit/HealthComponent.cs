@@ -1,47 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public class HealthComponent 
+
+namespace brian.Components
 {
-    public float maxHealth = 100;
-
-    [SerializeField]
-    public float currHealth;
-
-
-
-    public void Init()
+    [System.Serializable]
+    public class HealthComponent
     {
-        currHealth = maxHealth;
-    }
-    public float addHealth(float val)
-    {
-        float result = 0;
-        if (currHealth + val >= maxHealth)
+        public float maxHealth = 100;
+
+        [SerializeField]
+        public float currHealth;
+
+
+
+        public void Init()
         {
-            result = (currHealth + val) - maxHealth; 
             currHealth = maxHealth;
         }
-        else
+        public float addHealth(float val)
         {
-            currHealth += val;
-        }
+            float result = 0;
+            if (currHealth + val >= maxHealth)
+            {
+                result = (currHealth + val) - maxHealth;
+                currHealth = maxHealth;
+            }
+            else
+            {
+                currHealth += val;
+            }
 
-        return result;
-       
-        // print("current health is " + HealthVal.currHealth);
-    }
-    public void subHealth(float val)
-    {
-        if (currHealth - val <= 0)
-        {
-            currHealth = 0;
+            return result;
+
+            // print("current health is " + HealthVal.currHealth);
         }
-        else
+        public void subHealth(float val)
         {
-            currHealth -= val;
+            if (currHealth - val <= 0)
+            {
+                currHealth = 0;
+            }
+            else
+            {
+                currHealth -= val;
+            }
+            // print("current health is " + HealthVal.currHealth);
         }
-        // print("current health is " + HealthVal.currHealth);
     }
 }
