@@ -15,6 +15,7 @@ namespace Danish.Components
 		Color rayColor;
 		RaycastHit hit;
 		public float addedDist = 0.2f;
+		float SpeedOfLeafMoving;
 		//End of Wasiq's input
 
 		private Rigidbody m_Rigid;
@@ -62,8 +63,15 @@ namespace Danish.Components
 			{
 				Debug.Log("LineCast hit Ground!");
 				rayColor = Color.green;
+
+				//To be moved to proper place...
+				if (hit.collider.gameObject.layer == 14)
+				{
+
+					//transform.position = Vector3.MoveTowards(transform.position, hit.collider.gameObject.transform.position, SpeedOfLeafMoving);
+				}
+
 				return true;
-				//hit.collider.gameObject.GetComponent<LillyPad>().falllillypad();
 			}
 			else
 			{
