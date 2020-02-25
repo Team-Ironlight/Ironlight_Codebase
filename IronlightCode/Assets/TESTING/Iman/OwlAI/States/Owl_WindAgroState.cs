@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Owl_AgroState : ImanBaseState
+public class Owl_WindAgroState : ImanBaseState
 {
     Owl_StateManager stateManager;
 
@@ -12,7 +12,7 @@ public class Owl_AgroState : ImanBaseState
     private float Y1;
     private float Y2;
 
-    public Owl_AgroState(Owl_StateManager _Manager) : base(_Manager.gameObject)
+    public Owl_WindAgroState(Owl_StateManager _Manager) : base(_Manager.gameObject)
     {
         stateManager = _Manager;
     }
@@ -21,12 +21,12 @@ public class Owl_AgroState : ImanBaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering Sweep Agro State");
+        Debug.Log("Entering Wind Agro State");
     }
 
     public override void OnExit()
     {
-        Debug.Log("Exiting Sweep Agro State");
+        Debug.Log("Exiting Wind Agro State");
     }
 
     public override Type Tick()
@@ -49,9 +49,7 @@ public class Owl_AgroState : ImanBaseState
         else
         {
             //get direction to player
-            var PPos = stateManager.PLY_Transform.position;
-            PPos.y = stateManager.transform.position.y;
-            var direction = PPos - stateManager.transform.position;
+            var direction = stateManager.PLY_Transform.position - stateManager.transform.position;
             //rotate
             Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
@@ -69,9 +67,9 @@ public class Owl_AgroState : ImanBaseState
             return typeof(Owl_PatrolState);
         }
 
-        if(stateManager.SweepAttack)
+        if (stateManager.WindAttack)
         {
-            return typeof(Owl_SweepAttackState);
+            return typeof(Owl_WindAttackState);
         }
 
         return null;
@@ -87,10 +85,10 @@ public class Owl_AgroState : ImanBaseState
         //get direction to the player
         AgroPos = -(stateManager.PLY_Transform.position - OwlPos);
         //normalize the direction and add the distant away from the player
-        AgroPos = AgroPos.normalized * stateManager.Sweep_GroundPos;
+        AgroPos = AgroPos.normalized * stateManager.Wind_GroundPos;
         //add to players position
         AgroPos = AgroPos + stateManager.PLY_Transform.position;
         //add y displacement
-        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.Sweep_YPos;
+        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.Wind_YPos;
     }
 }
