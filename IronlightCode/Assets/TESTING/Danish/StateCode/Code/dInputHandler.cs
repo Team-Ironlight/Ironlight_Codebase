@@ -70,11 +70,14 @@ namespace Danish.StateCode
 
             _stateManager.isAttacking = _isAttacking;
 
-            if (_isJumping)
+            if (_isJumping && !_stateManager.currentlyJumping)
             {
                 _stateManager.jump = _isJumping;
                 _isJumping = false;
-
+            }
+            else
+            {
+                _isJumping = false;
             }
 
             if (_isDashing)

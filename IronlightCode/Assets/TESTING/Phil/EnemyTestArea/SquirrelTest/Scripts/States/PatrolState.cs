@@ -65,9 +65,6 @@ public class PatrolState : StateMachine.BaseState
         _aniMator = runner.GetComponent<Animator>();
         target = GameObject.FindWithTag("Player").transform;
 
-        if (!target)
-            Application.Quit();
-
         Name = this.GetType().ToString();                                                           // Naming the Class
         _path = new NavMeshPath();                                                                  // Initialized these variables meant for Calculating the Path
         _elapsedPath = 0.0f;                                    
