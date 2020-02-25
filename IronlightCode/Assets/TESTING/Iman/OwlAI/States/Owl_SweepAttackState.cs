@@ -29,11 +29,13 @@ public class Owl_SweepAttackState : ImanBaseState
         Debug.Log("Entering Owl Sweep Attack State");
         calculateSweepAttackPositions();
         timer = 1000000000;
+        
     }
 
     public override void OnExit()
     {
         Debug.Log("Exiting Owl Sweep Attack State");
+        stateManager.SweepRotateSpeed = 6;
     }
 
     public override Type Tick()
@@ -42,6 +44,7 @@ public class Owl_SweepAttackState : ImanBaseState
         if (Vector3.Distance(SweepPlayerPos, stateManager.transform.position) < 0.1)
         {
             SweepTarget = SweepEndPos;
+            stateManager.SweepRotateSpeed = 2;
             timer = Time.time + 3;
         }
         var direction = SweepTarget - stateManager.transform.position;

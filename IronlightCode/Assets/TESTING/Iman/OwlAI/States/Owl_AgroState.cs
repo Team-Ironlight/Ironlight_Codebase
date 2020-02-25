@@ -49,7 +49,9 @@ public class Owl_AgroState : ImanBaseState
         else
         {
             //get direction to player
-            var direction = stateManager.PLY_Transform.position - stateManager.transform.position;
+            var PPos = stateManager.PLY_Transform.position;
+            PPos.y = stateManager.transform.position.y;
+            var direction = PPos - stateManager.transform.position;
             //rotate
             Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
