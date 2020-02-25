@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeathBed : MonoBehaviour
 {
     
-    public Transform startPos;
+    
     public GameObject respchkpnt;
 
    private void OnTriggerEnter(Collider other)

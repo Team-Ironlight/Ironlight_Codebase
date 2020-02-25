@@ -28,7 +28,15 @@ namespace Danish.StateCode
         public bool _isJumping = false;
         public bool _isAttacking = false;
 
+        public bool _orbAttack = false;
+        public bool _beamAttack = false;
+        public bool _blastAttack = false;
 
+        private void Awake()
+        {
+            controls = new TestDanish_Controller_Input();
+
+        }
 
         private void Update()
         {
@@ -43,20 +51,21 @@ namespace Danish.StateCode
 
         public dStateManager Init()
         {
-            controls = new TestDanish_Controller_Input();
+          
 
             if (_stateManager == null)
             {
                 _stateManager = new dStateManager();
-                Debug.Log("INIT THE MANAGER");
+                //Debug.Log("INIT THE MANAGER");
             }
+
             return _stateManager;
         }
 
 
         void UpdateStateValues()
         {
-            Debug.Log("Updating Values");
+            //Debug.Log("Updating Values");
 
             _stateManager.moveVector = _MoveVector;
             _stateManager.dashVector = _DashVector;
@@ -64,8 +73,31 @@ namespace Danish.StateCode
 
 
             _stateManager.isAttacking = _isAttacking;
-            _stateManager.jump = _isJumping;
-            _isJumping = false;
+
+            if (_isJumping && !_stateManager.currentlyJumping)
+            {
+                _stateManager.jump = _isJumping;
+                _isJumping = false;
+            }
+            else
+            {
+                _isJumping = false;
+            }
+
+            if (_isDashing)
+            {
+                _stateManager.isDashing = _isDashing;
+                _isDashing = false;
+            }
+
+            if (_orbAttack)
+            {
+                _stateManager.launchOrb = _orbAttack;
+                _orbAttack = false;
+            }
+
+            _stateManager.launchBeam = _beamAttack;
+            _stateManager.launchBlast = _blastAttack;
         }
 
 
@@ -96,9 +128,18 @@ namespace Danish.StateCode
 
 
             controls.Combat.Attack.started += Attack_started;
+
+            controls.Combat.OrbTest.performed += OrbTest_performed;
+
+            controls.Combat.BeamTest.started += BeamTest_started;
+            controls.Combat.BeamTest.performed += BeamTest_performed;
+
+            controls.Combat.BlastTest.started += BlastTest_started;
+            controls.Combat.BlastTest.performed += BlastTest_performed;
+            controls.Combat.BlastTest.canceled += BlastTest_canceled;
         }
 
-
+        
 
         private void OnDisable()
         {
@@ -113,6 +154,15 @@ namespace Danish.StateCode
             controls.Traversal.Dash.performed -= Dash_performed;
 
             controls.Combat.Attack.started -= Attack_started;
+
+            controls.Combat.OrbTest.performed -= OrbTest_performed;
+            
+            controls.Combat.BeamTest.started -= BeamTest_started;
+            controls.Combat.BeamTest.performed -= BeamTest_performed;
+
+            controls.Combat.BlastTest.started -= BlastTest_started;
+            controls.Combat.BlastTest.performed -= BlastTest_performed;
+            controls.Combat.BlastTest.canceled -= BlastTest_canceled;
 
             controls.Disable();
         }
@@ -140,26 +190,54 @@ namespace Danish.StateCode
         {
         }
 
+        private void OrbTest_performed(InputAction.CallbackContext ctx)
+        {
+            _orbAttack = true;
+        }
+
+        private void BeamTest_started(InputAction.CallbackContext ctx)
+        {
+            _beamAttack = true;
+        }
+
+        private void BeamTest_performed(InputAction.CallbackContext ctx)
+        {
+            _beamAttack = false;
+        }
+
+        private void BlastTest_started(InputAction.CallbackContext obj)
+        {
+            _blastAttack = true;
+        }
+        private void BlastTest_performed(InputAction.CallbackContext obj)
+        {
+            _blastAttack = false;
+        }
+
+        private void BlastTest_canceled(InputAction.CallbackContext obj)
+        {
+            _blastAttack = false;
+        }
 
 
 
         private void Dash_started(InputAction.CallbackContext obj)
         {
-            Debug.Log("Dash Started");
+            //Debug.Log("Dash Started");
 
             _DashVector = _MoveVector;
         }
 
         private void Dash_performed(InputAction.CallbackContext obj)
         {
-            Debug.Log("Dash Performed");
+            //Debug.Log("Dash Performed");
             _isDashing = true;
             //isDashing = false;
         }
 
         private void Jump_canceled(InputAction.CallbackContext obj)
         {
-            Debug.Log("Jump Canceled Early");
+            //Debug.Log("Jump Canceled Early");
             if (obj.interaction is HoldInteraction)
             {
             }
@@ -167,13 +245,13 @@ namespace Danish.StateCode
 
         private void Jump_started(InputAction.CallbackContext obj)
         {
-            Debug.Log("Jump Started");
+            //Debug.Log("Jump Started");
         }
 
         private void Jump_performed(InputAction.CallbackContext obj)
         {
             _isJumping = true;
-            Debug.Log("Jump Performed");
+            //Debug.Log("Jump Performed");
         }
 
         private void Movement_performed(InputAction.CallbackContext ctx)
