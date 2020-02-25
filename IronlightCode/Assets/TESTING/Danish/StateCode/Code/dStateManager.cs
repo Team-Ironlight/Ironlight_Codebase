@@ -29,6 +29,8 @@ namespace Danish.StateCode
         public bool launchBeam = false;
         public bool launchBlast = false;
 
+        [Header("Interaction Variables")]
+        public bool isCrystal = false;
 
         public GameObject obj;
         public Transform objTransform;
