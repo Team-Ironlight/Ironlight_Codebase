@@ -34,7 +34,7 @@ public class Owl_WindAttackState : ImanBaseState
     {
         var direction = WindPlayerPos - stateManager.transform.position;
         stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.SweepRotateSpeed * Time.deltaTime);
-        if(Physics.SphereCast(stateManager.transform.position, stateManager.SphereRadius, direction, out hit, stateManager.MaxRange, stateManager.Windinteractable))
+        if(Physics.SphereCast(stateManager.transform.position, stateManager.SphereRadius, direction.normalized , out hit, stateManager.MaxRange, stateManager.Windinteractable))
         {
             if(hit.transform.gameObject.CompareTag("Player"))
             {
