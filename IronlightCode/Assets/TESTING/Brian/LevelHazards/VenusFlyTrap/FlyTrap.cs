@@ -12,10 +12,12 @@ public class FlyTrap : MonoBehaviour
     float LeftLeafRot;
     public float trapSpeed= 20;
     public float multiplyer = 10;
-
+    public GameObject DeathTrigger;
+    public float DeathAngle;
     // Start is called before the first frame update
     void Start()
     {
+        DeathTrigger.SetActive(false);
        // warning = true;
     }
     // Update is called once per frame
@@ -65,10 +67,15 @@ public class FlyTrap : MonoBehaviour
 
             rightLeaf.transform.Rotate(Vector3.right * Time.deltaTime * -trapSpeed * multiplyer);
             leftLeaf.transform.Rotate(Vector3.right * Time.deltaTime*trapSpeed *multiplyer);
+            if (leftLeaf.transform.eulerAngles.x > DeathAngle)
+            {
+                DeathTrigger.SetActive(true);
+            }
         }
     }
     void trapReturn()
     {
+        DeathTrigger.SetActive(false);
         rightLeaf.transform.Rotate(Vector3.right * Time.deltaTime * trapSpeed);
         leftLeaf.transform.Rotate(Vector3.right * Time.deltaTime * -trapSpeed);
     }
