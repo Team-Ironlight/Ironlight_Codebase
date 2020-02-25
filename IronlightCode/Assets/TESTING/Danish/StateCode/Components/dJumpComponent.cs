@@ -41,7 +41,7 @@ namespace Danish.Components
         {
             velocity += GravityModifier * Physics.gravity * Time.deltaTime;
 
-            //velocity.x = targetVelocity.x;
+            velocity.x = targetVelocity.x;
 
 
 

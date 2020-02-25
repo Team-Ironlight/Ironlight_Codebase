@@ -91,7 +91,7 @@ namespace Danish.StateCode
         public override void FixedTick()
         {
             JumpHandler.FixedTick();
-            physics.FixedTick();
+            //physics.FixedTick();
 
             if (!jumpStarted)
                 jumpStarted = true;
@@ -100,23 +100,5 @@ namespace Danish.StateCode
         }
 
 
-
-        //bool OnGroundCheck()
-        //{
-        //    Vector3 start = MainManager.objTransform.position;
-        //    Vector3 end = start + (Vector3.down * 0.5f);
-
-        //    Debug.DrawLine(start, end, Color.red);
-        //    RaycastHit hit;
-        //    if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-
-        //}
     }
 }
