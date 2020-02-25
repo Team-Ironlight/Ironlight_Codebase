@@ -41,7 +41,7 @@ namespace Danish.Components
         {
             velocity += GravityModifier * Physics.gravity * Time.deltaTime;
 
-            //velocity.x = targetVelocity.x;
+            velocity.x = targetVelocity.x;
 
 
 
@@ -55,18 +55,18 @@ namespace Danish.Components
         }
 
 
-        //public bool GroundCheck()
-        //{
-        //    RaycastHit hit;
-        //    if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
-        //    {
-        //        //Debug.Log("Sweep confirmed");
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        public bool GroundCheck()
+        {
+            RaycastHit hit;
+            if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
+            {
+                //Debug.Log("Sweep confirmed");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

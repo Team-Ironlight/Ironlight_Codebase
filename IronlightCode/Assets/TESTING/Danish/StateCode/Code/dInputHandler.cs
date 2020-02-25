@@ -32,11 +32,7 @@ namespace Danish.StateCode
         public bool _beamAttack = false;
         public bool _blastAttack = false;
 
-        private void Awake()
-        {
-            controls = new TestDanish_Controller_Input();
 
-        }
 
         private void Update()
         {
@@ -51,7 +47,7 @@ namespace Danish.StateCode
 
         public dStateManager Init()
         {
-          
+            controls = new TestDanish_Controller_Input();
 
             if (_stateManager == null)
             {
@@ -74,14 +70,11 @@ namespace Danish.StateCode
 
             _stateManager.isAttacking = _isAttacking;
 
-            if (_isJumping && !_stateManager.currentlyJumping)
+            if (_isJumping)
             {
                 _stateManager.jump = _isJumping;
                 _isJumping = false;
-            }
-            else
-            {
-                _isJumping = false;
+
             }
 
             if (_isDashing)

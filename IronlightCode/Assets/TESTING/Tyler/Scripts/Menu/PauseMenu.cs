@@ -12,22 +12,23 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-
-
-
-        if (Input.GetKeyDown(KeyCode.P))
+        if (!GameIsPaused)
         {
-            if (GameIsPaused)
+
+
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Resume();
+                if (GameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
-            else
-            {
-                Pause();
-            }
+
         }
-
-
     }
 
 
@@ -60,5 +61,9 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+
+
+
+   
 
 }

@@ -12,7 +12,6 @@ namespace Danish.StateCode
 
         private dStateManager Manager;
         private dRotationUpdater rotationUpdater = null;
-        private dPhysicsComponent physicsComponent = null;
 
         public dIdleState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -25,14 +24,11 @@ namespace Danish.StateCode
 
             rotationUpdater = new dRotationUpdater();
             rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
-
-            physicsComponent = Manager.dPhysics;
-            physicsComponent.Init(Manager.rigidbody, 0.5f);
         }
 
         public override void FixedTick()
         {
-            physicsComponent.FixedTick();
+
         }
 
         public override void OnEnter()
@@ -67,8 +63,7 @@ namespace Danish.StateCode
                 return typeof(dMoveState);
             }
 
-            //rotationUpdater.Tick();
-            physicsComponent.Tick();
+            rotationUpdater.Tick();
 
 
             return null;

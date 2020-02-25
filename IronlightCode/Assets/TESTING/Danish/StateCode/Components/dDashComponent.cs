@@ -11,7 +11,7 @@ namespace Danish.Components
 
         private Vector3 velocity = Vector3.zero;
 
-        private float FrictionMultiplier = 20;
+        private float FrictionMultiplier = 40;
 
         public void Init(Vector3 playerForward, Rigidbody rigid)
         {
