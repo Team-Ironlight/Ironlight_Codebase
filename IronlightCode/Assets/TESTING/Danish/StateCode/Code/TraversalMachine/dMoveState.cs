@@ -17,6 +17,7 @@ namespace Danish.StateCode
 
         private dMoveComponent MoveHandler = null;
         private dRotationUpdater rotationUpdater = null;
+        private dPhysicsComponent physics = null;
 
 
         //[Header("Speeds")]
@@ -51,6 +52,9 @@ namespace Danish.StateCode
 
             rotationUpdater = new dRotationUpdater();
             rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
+
+            physics = Manager.dPhysics;
+            physics.Init(m_Rigid, 0.5f);
         }
 
 
@@ -72,11 +76,12 @@ namespace Danish.StateCode
         public override void FixedTick()
         {
             MoveHandler.FixedTick(Manager.moveVector);
+            physics.FixedTick();
         }
 
         public override Type Tick()
         {
-            if (Manager.jump)
+            if (Manager.jump && physics.isGrounded)
             {
                 Manager.jump = false;
                 return typeof(dJumpState);
@@ -96,6 +101,7 @@ namespace Danish.StateCode
             Debug.Log("In Move State");
 
             rotationUpdater.Tick();
+            physics.Tick();
             //MoveHandler.Tick(Manager.moveVector);
 
             UpdateAnimator(Manager.moveVector);
