@@ -45,7 +45,7 @@ public class ChaseState : StateMachine.BaseState
     private float _maxDistanceToChase;
     private float _minDistanceToChase;
 
-    public override void  OnEnter(MonoBehaviour runner)                                         // This is called before the first frame
+    public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
     {
         _mRunner = runner;
         _mTarget = GameObject.FindWithTag("Player").transform;
@@ -106,32 +106,32 @@ public class ChaseState : StateMachine.BaseState
             return OnEnemyChaseDistance;
         }
 
-        Collider[] overlapResults = new Collider[50];
-        int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToChase, overlapResults);
-            
-        for (int i = 0; i < numFound; i++)
+        //Collider[] overlapResults = new Collider[50];
+        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToChase, overlapResults);
+
+        //for (int i = 0; i < numFound; i++)
+        //{
+        //    if (overlapResults[i] != null)
+        //    {              
+        //        if (overlapResults[i].transform == _mTarget)
+        //        {
+        if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
         {
-            if (overlapResults[i] != null)
-            {              
-                if (overlapResults[i].transform == _mTarget)
-                {
-                    if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
-                    {
-                        OnAware();
-                        return "";
-                    }
-                    else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToChase)           // Switch to <Attack State>
-                    {
-                        return OnEnemyLostState;
-                    }
-                  //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
-
-                }
-
-            }
-         
+            OnAware();
+            return "";
         }
-        overlapResults = new Collider[0];
+        else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToChase)           // Switch to <Attack State>
+        {
+            return OnEnemyLostState;
+        }
+        //          //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+
+        //        }
+
+        //    }
+
+        //}
+        //overlapResults = new Collider[0];
 
         return "";                                                                                                              // Return empty String so that the StateMachine bypass validation check, and retained the current states, This saves memory calls
     }

@@ -149,7 +149,7 @@ MonoBehaviour:
   timeToBeat: 0.05
   restSmoothTime: 10
   rend: {fileID: 1003186}
-  beatColour: {x: 2.02, y: 1.85, z: 0, w: 0.54}
+  beatColour: {x: 1.36, y: 1.9, z: 0, w: 0.54}
   restColour: {x: 0.24, y: 0.06, z: 0.38, w: 1}
 --- !u!114 &1003185
 MonoBehaviour:
@@ -1664,6 +1664,7 @@ GameObject:
   - component: {fileID: 1728353683}
   - component: {fileID: 1728353685}
   - component: {fileID: 1728353684}
+  - component: {fileID: 1728353686}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -1702,8 +1703,8 @@ MonoBehaviour:
   timeToBeat: 0.01
   restSmoothTime: 0.5
   Intensity: {fileID: 1728353685}
-  beatBright: 1
-  restBright: 0.5
+  beatBright: 1.5
+  restBright: 1
 --- !u!108 &1728353685
 Light:
   m_ObjectHideFlags: 0
@@ -1764,6 +1765,25 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1728353686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728353682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9684a427f0b84c24b28b77d2bccd1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 1.5
+  timeStep: 0
+  timeToBeat: 0.01
+  restSmoothTime: 1
+  light: {fileID: 1728353685}
+  beatColour: {x: 1.64, y: 0.62, z: 0.76, w: 1}
+  restColour: {x: 1, y: 0.49, z: 0, w: 1}
 --- !u!1 &1771070652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1922,8 +1942,8 @@ MonoBehaviour:
   timeToBeat: 0.02
   restSmoothTime: 2
   rend: {fileID: 1835459760}
-  beatColour: {x: 1, y: 0.39, z: 0.1, w: 1}
-  restColour: {x: 0.18, y: 0.05, z: 0.09, w: 1}
+  beatColour: {x: 2.14, y: 0.58, z: 0, w: 1}
+  restColour: {x: 0.18, y: 0, z: 0.09, w: 1}
 --- !u!1 &1848132294
 GameObject:
   m_ObjectHideFlags: 0
