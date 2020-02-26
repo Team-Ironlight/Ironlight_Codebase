@@ -6,6 +6,15 @@ public class PLY_BeamTest : MonoBehaviour
 {
     public bool inputReceived = false;
 
+    //beam visual here
+    [SerializeField] private GameObject BeamStartVisual;
+    [SerializeField] private GameObject BeamLoopVisual;
+    [SerializeField] private GameObject BeamEndVisual;
+    private GameObject beamStart;
+    private GameObject beamGoing;
+    private GameObject beamEnd;
+
+
     //linerenderer
     [SerializeField] private LineRenderer LineRenderer;
 
@@ -32,6 +41,7 @@ public class PLY_BeamTest : MonoBehaviour
     {
         BeamReset();
 
+
         HittingObject = false;
 
         LineRenderer.gameObject.transform.position = Vector3.zero;
@@ -39,6 +49,21 @@ public class PLY_BeamTest : MonoBehaviour
 
     private void Update()
     {
+        if (beamStart!=null)
+        {
+            beamStart.transform.position = transform.position;
+            beamStart.transform.rotation = transform.rotation;
+        }
+        if (beamGoing!=null)
+        {
+            beamGoing.transform.position = transform.position;
+            beamGoing.transform.rotation = transform.rotation;
+        }
+        if (beamEnd!=null)
+        {
+            beamEnd.transform.position = transform.position;
+            beamEnd.transform.rotation = transform.rotation;
+        }
         BeamLineCast();
         GetInput();
         //function of the attack
@@ -68,15 +93,19 @@ public class PLY_BeamTest : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.T) || Input.GetMouseButtonDown(0))
             {
+                beamStart = Instantiate(BeamStartVisual, transform.position, transform.rotation);
                 inputReceived = true;
                 StartAttack = true;
+                beamGoing = Instantiate(BeamLoopVisual, transform.position, transform.rotation);
             }
         }
         if(Input.GetKeyUp(KeyCode.T) || Input.GetMouseButtonUp(0))
         {
+            Destroy(beamGoing);
             inputReceived = false;
             StartAttack = false;
             endAttack = true;
+            beamEnd = Instantiate(BeamEndVisual, transform.position, transform.rotation);
         }
     }
 
