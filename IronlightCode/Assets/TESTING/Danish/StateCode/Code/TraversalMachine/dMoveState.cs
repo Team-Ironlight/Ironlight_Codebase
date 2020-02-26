@@ -17,7 +17,7 @@ namespace Danish.StateCode
 
         private dMoveComponent MoveHandler = null;
         private dRotationUpdater rotationUpdater = null;
-
+        private dCrystalTrigger crystalTrigger = null;
 
         //[Header("Speeds")]
         //public float forwardSpeed = 1f;
@@ -51,6 +51,9 @@ namespace Danish.StateCode
 
             rotationUpdater = new dRotationUpdater();
             rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
+
+
+            crystalTrigger = new dCrystalTrigger();
         }
 
 
@@ -76,6 +79,11 @@ namespace Danish.StateCode
 
         public override Type Tick()
         {
+
+            crystalTrigger.Tick(Manager.isCrystal);
+            Manager.isCrystal = false;
+
+
             if (Manager.jump)
             {
                 Manager.jump = false;
