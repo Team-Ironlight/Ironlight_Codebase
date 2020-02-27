@@ -9,11 +9,12 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using TMPro;                            //Debugging Purposes
 using IronLight;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "AI System - by DonPhilifeh/AI States/New ChaseState")]
-public class ChaseState : StateMachine.BaseState
+public class ChaseState : Phil_StateMa.BaseState
 {
 #if UNITY_EDITOR
     [TextArea]
@@ -23,7 +24,7 @@ public class ChaseState : StateMachine.BaseState
     [Header("Target")]
 	private Transform _mTarget;
     [Header("Decision Making")]
-    public string OnEnemyLostState = "FleeState";                                               //To Do:  Convert this to enum
+    public string OnEnemyLostState = "ChaseState";                                               //To Do:  Convert this to enum
     private string OnEnemyChaseDistance = "ChaseState";                                         //To Do:  Convert this to enum
     private bool isAware = false;
     private bool _playerRunAway = false;
@@ -45,6 +46,8 @@ public class ChaseState : StateMachine.BaseState
     private float _maxDistanceToChase;
     private float _minDistanceToChase;
 
+
+
     public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
     {
         _mRunner = runner;
@@ -55,11 +58,7 @@ public class ChaseState : StateMachine.BaseState
         
         Name = this.GetType().ToString();
 
-        _maxDistanceToChase = runner.GetComponent<StateMachine>().Get_MaxDistanceChase;
-        _minDistanceToChase = runner.GetComponent<StateMachine>().Get_MinDistanceChase;
 
-        _updateMinMax.Set_MaxDistance = _maxDistanceToChase;
-        _updateMinMax.Set_MinDistance = _minDistanceToChase;
     }
 	public override void  Tick(MonoBehaviour runner)                                                                 //Called every frame after the first frame, Initiate by the StateMachine
     {
@@ -67,6 +66,13 @@ public class ChaseState : StateMachine.BaseState
         {
             if(_navMeshAgent.enabled ==true)
             {
+
+                _maxDistanceToChase = runner.GetComponent<Phil_StateMa>().Get_MaxDistanceChase;
+                _minDistanceToChase = runner.GetComponent<Phil_StateMa>().Get_MinDistanceChase;
+
+                _updateMinMax.Set_MaxDistance = _maxDistanceToChase;
+                _updateMinMax.Set_MinDistance = _minDistanceToChase;
+
                 if (isAware)
                 {
                     Vector3 dirToTarget = (_mTarget.position - runner.transform.position).normalized;
@@ -112,11 +118,12 @@ public class ChaseState : StateMachine.BaseState
         //for (int i = 0; i < numFound; i++)
         //{
         //    if (overlapResults[i] != null)
-        //    {              
-        //        if (overlapResults[i].transform == _mTarget)
+        //    {
+        //        if (overlapResults[i].transform == _mTarget.parent)
         //        {
         if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
         {
+          
             OnAware();
             return "";
         }
@@ -124,7 +131,7 @@ public class ChaseState : StateMachine.BaseState
         {
             return OnEnemyLostState;
         }
-        //          //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+        //            //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
 
         //        }
 

@@ -11,6 +11,7 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Runtime.InteropServices;
 using IronLight;
+using TMPro;
 
 public enum AbilityLinkMoveMethod
 {
@@ -31,7 +32,7 @@ public class AI_AbilityManager : MonoBehaviour
 
     [Header("Target")]
     private Transform target;
-    [HideInInspector] private StateMachine mCurrentBaseState;
+    [HideInInspector] private Phil_StateMa mCurrentBaseState;
     private bool isCharging =false;
 
     public AbilityLinkMoveMethod m_Method = AbilityLinkMoveMethod.Parabola;
@@ -78,19 +79,19 @@ public class AI_AbilityManager : MonoBehaviour
 
 
     private NavMeshAgent _navMeshAgent;
-
+    public TMP_Text tester;
     IEnumerator Start()
     {
         target = GameObject.FindWithTag("Player").transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        mCurrentBaseState = GetComponent<StateMachine>();
+     
 
         _abSorb = this.gameObject.transform.GetChild(8).gameObject;                                             //Assigns the first child of the eight child of the Game Object this particle is attached to.      
         particleTrail = GetComponentInChildren<ParticleSystem>();
 
         _navMeshAgent.autoTraverseOffMeshLink = false;
         startPos = Vector3.zero;
-
+      
 
         //Synchronous Coroutine
 
@@ -98,37 +99,65 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
             {
-                mCurrentState = mCurrentBaseState.CurrentState.Name;
-                if (mCurrentState == null) { yield break; }
-
-                isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
+                mCurrentBaseState = GetComponent<Phil_StateMa>();
                
-                switch (mCurrentState)                                                                          //Info : we need Pounce movement, but only for specific States
+                mCurrentState = mCurrentBaseState.CurrentState.Name;
+                //  tester.text = "Coroutine 1";
+
+                //  if (mCurrentBaseState.CurrentState.Name == "") { yield break; }
+
+
+                //  isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
+
+                //switch (mCurrentBaseState.CurrentState.Name)                                                                          //Info : we need Pounce movement, but only for specific States
+                //{
+                //    case "WanderState":
+                //        mHopping = true;
+                //        break;
+                //    case "ChaseState":
+                //        mHopping = true;
+                //        break;
+                //    case "AttackState":
+                //        mAttack = true;
+                //        break;
+                //    default:
+                //        mHopping = false;
+                //        break;
+                //}
+
+
+                //   tester.text = mCurrentBaseState.CurrentState.Name;
+                if (mCurrentBaseState.CurrentState.Name == "WanderState")
                 {
-                    case "WanderState":
-                        mHopping = true;
-                        break;
-                   case "ChaseState":
-                        mHopping = true;
-                        break;
-                    case "AttackState":
-                        mAttack = true;
-                        break;
-                    default:
-                        mHopping = false;
-                        break;
+                    mHopping = true;
                 }
-                                                                                                                //  m_Method = (attacks[Random.Range(0, attacks.Length)]);
+                else if (mCurrentBaseState.CurrentState.Name == "ChaseState")
+                {
+                    mHopping = true;
+                }
+                else if (mCurrentBaseState.CurrentState.Name == "AttackState")
+                {
+                    mAttack = true;
+                }
+                else
+                {
+                    mHopping = false;
+                }
+                //    m_Method = (attacks[Random.Range(0, attacks.Length)]);
 
                 m_Method = (attacks[attackIndex]);
 
                 //if (old_Method != m_Method)
                 //{
+              
 
                 if ((Vector3.Distance(this.transform.position, target.position) < _gMaxDistance))
                 {
+                   
                     if (Vector3.Distance(this.transform.position, target.position) > _gMinDistance)              // Current State <Patrol State>
                     {
+
+                      
                         if ((m_Method == AbilityLinkMoveMethod.Swag) && (isCharging != true) && (mCurrentBaseState.isActive != false) && (mAttack))                     //Execute the Function if the Player is Not Charging & not Dead yet
                             yield return StartCoroutine(ActivateShield(_navMeshAgent));
                         else if ((m_Method == AbilityLinkMoveMethod.Parabola) && (isCharging != true) && (mCurrentBaseState.isActive != false))                        //Execute the Function if the Player is Not Charging & not Dead yet
