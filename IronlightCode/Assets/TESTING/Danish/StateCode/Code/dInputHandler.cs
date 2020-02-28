@@ -38,6 +38,12 @@ namespace Danish.StateCode
         {
             controls = new TestDanish_Controller_Input();
         }
+        
+        //private void Awake()
+        //{
+        //    controls = new TestDanish_Controller_Input();
+
+        //}
 
         private void Update()
         {
