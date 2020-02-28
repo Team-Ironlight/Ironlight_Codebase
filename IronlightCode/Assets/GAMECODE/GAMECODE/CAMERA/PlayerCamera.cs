@@ -94,7 +94,7 @@ public class PlayerCamera : MonoBehaviour
             {
                 DefaultCameraMovement();
             }
-            if (Input.GetKey(KeyCode.M))
+            if (Input.GetKey(KeyCode.Mouse1))
             {
                 ZoomIn();
 
