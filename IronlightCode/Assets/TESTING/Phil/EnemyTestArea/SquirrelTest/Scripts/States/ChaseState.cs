@@ -45,10 +45,13 @@ public class ChaseState : StateMachine.BaseState
     private float _maxDistanceToChase;
     private float _minDistanceToChase;
 
-    public override void  OnEnter(MonoBehaviour runner)                                         // This is called before the first frame
+    public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
     {
         _mRunner = runner;
         _mTarget = GameObject.FindWithTag("Player").transform;
+        if (!_mTarget)
+            Application.Quit();
+
         _navMeshAgent = runner.GetComponent<NavMeshAgent>();
         _aniMator = runner.GetComponent<Animator>();
         _updateMinMax = runner.GetComponent<AI_AbilityManager>();
@@ -97,6 +100,12 @@ public class ChaseState : StateMachine.BaseState
     }
 	public override string CheckConditions(MonoBehaviour runner)                                                            //Decision Making - Called every frame after the First Frame 
     {
+
+
+        if (!_mTarget || !_navMeshAgent || !runner.GetComponent<StateMachine>())
+
+            Application.Quit();
+        
         if (_mTarget == null) {  return "";  }
 
         if (_playerRunAway)
@@ -106,22 +115,36 @@ public class ChaseState : StateMachine.BaseState
             return OnEnemyChaseDistance;
         }
 
-        Collider[] overlapResults = new Collider[50];
+        Collider[] overlapResults = new Collider[500];
         int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToChase, overlapResults);
             
         for (int i = 0; i < numFound; i++)
         {
+            Application.Quit();
+
             if (overlapResults[i] != null)
-            {              
+            {
+               
+
                 if (overlapResults[i].transform == _mTarget)
                 {
+                   
+
                     if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
                     {
                         OnAware();
+
+                        Debug.Log("Chase State");
+
+                        Application.Quit();
+
                         return "";
                     }
                     else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToChase)           // Switch to <Attack State>
                     {
+                        Application.Quit();
+                        Debug.Log("Attack State");
+
                         return OnEnemyLostState;
                     }
                   //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);

@@ -69,6 +69,10 @@ public class WanderState : StateMachine.BaseState
         _maxDistanceToWander = runner.GetComponent<StateMachine>().Get_MaxDistanceWander;
         _minDistanceToWander = runner.GetComponent<StateMachine>().Get_MinDistanceWander;
 
+        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>() )
+      
+            Application.Quit();
+
         _updateMinMax.Set_MaxDistance = _maxDistanceToWander;
         _updateMinMax.Set_MinDistance = _minDistanceToWander;
 
@@ -78,6 +82,10 @@ public class WanderState : StateMachine.BaseState
 
     public override void Tick(MonoBehaviour runner)                                                             //Called every frame , Initiate by the StateMachine
     {
+        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>())
+
+            Application.Quit();
+
         if (_mTarget != null)
         {
             if (_navMeshAgent.enabled == true)
@@ -165,7 +173,7 @@ public class WanderState : StateMachine.BaseState
             return OnEnemyWanderDistance;
         }
 
-        Collider[] overlapResults = new Collider[50];
+        Collider[] overlapResults = new Collider[500];
         int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
 
         for (int i = 0; i < numFound; i++)

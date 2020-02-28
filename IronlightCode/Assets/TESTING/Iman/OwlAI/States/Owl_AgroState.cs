@@ -7,7 +7,10 @@ public class Owl_AgroState : ImanBaseState
 {
     Owl_StateManager stateManager;
 
-    private Vector3 DistToAgro;
+    private Vector3 AgroPos;
+    //bankRotation
+    private float Y1;
+    private float Y2;
 
     public Owl_AgroState(Owl_StateManager _Manager) : base(_Manager.gameObject)
     {
@@ -18,24 +21,27 @@ public class Owl_AgroState : ImanBaseState
 
     public override void OnEnter()
     {
-        Debug.Log("Entering Owl Agro State");
+        Debug.Log("Entering Sweep Agro State");
     }
 
     public override void OnExit()
     {
-        Debug.Log("Exiting Owl Agro State");
+        Debug.Log("Exiting Sweep Agro State");
     }
 
     public override Type Tick()
     {
-        calculateDist();
+        calculateAgroPos();
+        //stateManager.SlowingDown(AgroPos);
         //if owl havent reached position yet
-        if (Vector3.Distance(DistToAgro, stateManager.transform.position) > 0.1)
+        if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
         {
             //get direction between point and owl
-            var direction = DistToAgro - stateManager.transform.position;
+            var direction = AgroPos - stateManager.transform.position;
             //rotate towards point
+            Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
+            Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
         }
@@ -43,33 +49,48 @@ public class Owl_AgroState : ImanBaseState
         else
         {
             //get direction to player
-            var direction = stateManager.PLY_Transform.position - stateManager.transform.position;
+            var PPos = stateManager.PLY_Transform.position;
+            PPos.y = stateManager.transform.position.y;
+            var direction = PPos - stateManager.transform.position;
             //rotate
+            Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
+            Y2 = stateManager.transform.eulerAngles.y;
+            //move forward
+            //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
         }
 
+        //bank rotation
+        stateManager.BankRotationCalc(Y1, Y2);
 
         //if player in close distance go to follow state
-        //if (Vector3.Distance(stateManager.PLY_Transform.position, stateManager.transform.position) < 10.0f)
-        //{
-        //    return typeof(TestDanish_TDashState);
-        //}
+        if (stateManager.DisBetwnPLY > stateManager.DistToPatrol)
+        {
+            return typeof(Owl_PatrolState);
+        }
+
+        if(stateManager.SweepAttack)
+        {
+            return typeof(Owl_SweepAttackState);
+        }
 
         return null;
     }
 
     //calculated the position Owl needs to get to
-    private void calculateDist()
+    private void calculateAgroPos()
     {
         //get pos of owl
         var OwlPos = stateManager.transform.position;
         //set y to players y
         OwlPos.y = stateManager.PLY_Transform.position.y;
         //get direction to the player
-        DistToAgro = -(stateManager.PLY_Transform.transform.position - OwlPos);
+        AgroPos = -(stateManager.PLY_Transform.position - OwlPos);
         //normalize the direction and add the distant away from the player
-        DistToAgro = DistToAgro.normalized * stateManager.GroundPos;
+        AgroPos = AgroPos.normalized * stateManager.Sweep_GroundPos;
+        //add to players position
+        AgroPos = AgroPos + stateManager.PLY_Transform.position;
         //add y displacement
-        DistToAgro.y = stateManager.PLY_Transform.position.y + stateManager.YPos;
+        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.Sweep_YPos;
     }
 }
