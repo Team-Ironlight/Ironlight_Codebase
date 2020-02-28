@@ -21,9 +21,10 @@ public class LillyPad : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnCollisionEnter(Collision collision)
+   
     {
-        if (collider.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             StartCoroutine(FallAfterDelay());
             
@@ -32,9 +33,9 @@ public class LillyPad : MonoBehaviour
     }
 
 
-    private void OnTriggerExit(Collider collider)
+    private void OnCollisionExit(Collision collision)
     {
-        if(collider.tag == "Player")
+        if(collision.gameObject.tag == "Player")
         {
             StartCoroutine(RiseDelay());
         }

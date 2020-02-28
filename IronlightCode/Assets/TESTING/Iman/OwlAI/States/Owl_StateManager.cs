@@ -9,6 +9,7 @@ public class Owl_StateManager : MonoBehaviour
     public float MovementSpeed =3;
     private float OGMovementSpeed;
     public float RotationSpeed =4;
+    private float OGRotationSpeed;
     private Rigidbody rb;
     public float BankRotIntensity;
     public float BankRotSpeed;
@@ -61,6 +62,7 @@ public class Owl_StateManager : MonoBehaviour
         WindAttack = false;
         FindWaypoint();
         OGMovementSpeed = MovementSpeed;
+        OGRotationSpeed = RotationSpeed;
 
         startTime = Time.time;
 
@@ -114,6 +116,14 @@ public class Owl_StateManager : MonoBehaviour
         {
             MovementSpeed = OGMovementSpeed;
         }
+    }
+
+    IEnumerator SlowRotation()
+    {
+        RotationSpeed = 1;
+
+        yield return new WaitForSeconds(3);
+        RotationSpeed = OGRotationSpeed;
     }
 
     private void OnDrawGizmos()

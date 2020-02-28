@@ -23,6 +23,7 @@ namespace Danish.StateCode
 
         [Header("Jump Variables")]
         public bool jump = false;
+        public bool currentlyJumping = false;
 
         [Header("Combat Variables")]
         public bool isAttacking = false;
@@ -60,6 +61,8 @@ namespace Danish.StateCode
         // Puzzle Interaction
         public PuzzleInteractionManager puzzleManager = null;
 
+        public dPhysicsComponent dPhysics = null;
+
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
             //Debug.Log("Initialize State Manager");
@@ -88,6 +91,9 @@ namespace Danish.StateCode
             rBlast = new R_BlastAttack();
 
             puzzleManager = new PuzzleInteractionManager();
+
+            dPhysics = new dPhysicsComponent();
+
 
             InitializeTraversalMachine();
             InitializeCombatMachine();

@@ -10,12 +10,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using TMPro;                            //Debugging Purposes
 using IronLight;
 
 
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 [CreateAssetMenu(menuName = "AI System - by DonPhilifeh/AI States/New WanderState")]
-public class WanderState : StateMachine.BaseState
+public class WanderState : Phil_StateMa.BaseState
 {
 #if UNITY_EDITOR
     [TextArea]
@@ -25,7 +26,7 @@ public class WanderState : StateMachine.BaseState
     private Transform _mTarget;
  
     [Header("Decision Making")]
-    public string OnEnemyLostState = "FleeState";                                                               //To Do:  Convert this to enum
+    public string OnEnemyLostState = "WanderState";                                                               //To Do:  Convert this to enum
     private string OnEnemyWanderDistance = "WanderState";                                                       //To Do:  Convert this to enum
 
     private bool isAware = false;
@@ -40,15 +41,14 @@ public class WanderState : StateMachine.BaseState
     [SerializeField] float _slerpSpeed = 5.0f;
     public float walk_Speed = 2f;
     public float run_Speed = 4f;
-
-   // [Header("FOV Radar Limits")]
-   // [SerializeField]
-   // public float FacingMaxAngle = 45f;                                           //Facing Angle allertness at Z axis
-   //// private bool isInFov = false;                                                //Field of View
-                                                                                 //Local Variables
-                                                                                 //private Renderer renderer;                                                  //Temporary Variable
-    private float timer;
     public float wanderTimer = 20f;
+    // [Header("FOV Radar Limits")]
+    // [SerializeField]
+    // public float FacingMaxAngle = 45f;                                           //Facing Angle allertness at Z axis
+    //// private bool isInFov = false;                                                //Field of View
+
+    private float timer;
+  
     private bool _playerRunAway = false;
     private bool _isMoving = false;
 
@@ -66,15 +66,7 @@ public class WanderState : StateMachine.BaseState
 
         Name = this.GetType().ToString();                                                                       // Get the name of this Class
 
-        _maxDistanceToWander = runner.GetComponent<StateMachine>().Get_MaxDistanceWander;
-        _minDistanceToWander = runner.GetComponent<StateMachine>().Get_MinDistanceWander;
 
-        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>() )
-      
-            Application.Quit();
-
-        _updateMinMax.Set_MaxDistance = _maxDistanceToWander;
-        _updateMinMax.Set_MinDistance = _minDistanceToWander;
 
         isAware = false;
         timer = wanderTimer;
@@ -82,14 +74,16 @@ public class WanderState : StateMachine.BaseState
 
     public override void Tick(MonoBehaviour runner)                                                             //Called every frame , Initiate by the StateMachine
     {
-        if (!_mTarget || !_navMeshAgent || !_executeAbility || !_executeAbility || !runner.GetComponent<StateMachine>())
-
-            Application.Quit();
-
         if (_mTarget != null)
         {
             if (_navMeshAgent.enabled == true)
             {
+                _maxDistanceToWander = runner.GetComponent<Phil_StateMa>().Get_MaxDistanceWander;
+                _minDistanceToWander = runner.GetComponent<Phil_StateMa>().Get_MinDistanceWander;
+
+                _updateMinMax.Set_MaxDistance = _maxDistanceToWander;
+                _updateMinMax.Set_MinDistance = _minDistanceToWander;
+
                 if (isAware)
                 {
                     Vector3 dirToTarget = (_mTarget.position - runner.transform.position).normalized;
@@ -124,7 +118,7 @@ public class WanderState : StateMachine.BaseState
                     if (timer >= wanderTimer)
                     {
                                       
-                        if ((!_navMeshAgent.isPathStale) && (_navMeshAgent.remainingDistance == 0) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
+                        if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
                         {
                             Vector3 newPos = RandomNavSphere(runner.transform.position, _maxDistanceToWander, -1);
                             
@@ -173,38 +167,38 @@ public class WanderState : StateMachine.BaseState
             return OnEnemyWanderDistance;
         }
 
-        Collider[] overlapResults = new Collider[500];
-        int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
+        //Collider[] overlapResults = new Collider[50];
+        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
 
-        for (int i = 0; i < numFound; i++)
+        //for (int i = 0; i < numFound; i++)
+        //{
+        //    if (overlapResults[i] != null)
+        //    {
+        //        if (overlapResults[i].transform == _mTarget.parent)
+        //        {
+        //            Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+        if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
         {
-            if (overlapResults[i] != null)
+            if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
             {
-                if (overlapResults[i].transform == _mTarget)
-                {
-                    // Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
-                    if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
-                    {
-                        if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
-                        {
-                            OnAware();
-                            return "";
-                        }
-                        else
-                        {
-                            //Going to the minimum Distance , switch <Attack State>
-                            return OnEnemyLostState;
-                        }
-
-                    }
-
-                }
-
+                OnAware();
+                return "";
+            }
+            else
+            {
+                //  Going to the minimum Distance , switch < Attack State >
+                return OnEnemyLostState;
             }
 
         }
 
-        overlapResults = new Collider[0];
+        //        }
+
+        //    }
+
+        //}
+
+        //overlapResults = new Collider[0];
 
         return "";
     }

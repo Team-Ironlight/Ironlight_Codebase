@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using brian.Components;
 
 [System.Serializable]
 public class SpiritComponent 

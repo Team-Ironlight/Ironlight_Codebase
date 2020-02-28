@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace brian.Components
 {
+
+
+
     public class HealthEffector
     {
         [SerializeField]
@@ -19,8 +22,6 @@ namespace brian.Components
         {
             HealthVal = new HealthComponent();
             HealthVal.Init();
-            
-            
         }
 
 

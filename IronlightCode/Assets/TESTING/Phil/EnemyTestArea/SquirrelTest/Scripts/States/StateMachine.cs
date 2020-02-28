@@ -124,7 +124,7 @@ namespace IronLight
 
         public BaseState[] AvailableStates;                                     // Container for BaseState
         [Header("State On Real Time.")]
-        public ChaseStateNew CurrentState;                                          // Current BaseState
+        public BaseState CurrentState;                                          // Current BaseState
        
 
         [Header("Flag and Decisions.")]
@@ -140,7 +140,7 @@ namespace IronLight
         [HideInInspector] public bool isOnAnimation = false;
         [HideInInspector] private bool isOnAttackMode = false;
         [HideInInspector] private bool isOnSafeMode = false;
-      
+  
         private string stateId;
         void Start()                                                            //---------------------------- This is called before the first frame ----------------------------
         {
@@ -148,13 +148,14 @@ namespace IronLight
             _aniMator = GetComponent<Animator>();
             _arcRigidBody = GetComponent<Rigidbody>();
             _mTarget = GameObject.FindWithTag("Player").transform;
-            CurrentState = gameObject.AddComponent<ChaseStateNew>();
+         
+
             if (CurrentState != null)                                           // Precaution Check - If Empty Do Nothing , this save memory calls
             {
-                //CurrentState.OnEnter(this);                                         // This is called before the first frame
-
-                //CurrentState = gameObject.AddComponent<ChaseStateNew>();
+                CurrentState.OnEnter(this);                                         // This is called before the first frame
             }
+
+
         }
 
         void Update()                                                           //---------------------------- Called every frame after the First Frame ----------------------------
@@ -163,11 +164,8 @@ namespace IronLight
 
             if (isActive == true && CurrentState != null)                       // Precaution Check - if return Empty Do Nothing this save Memory ussage
             {
-                 //CurrentState.Tick(this);                                       // called once per frame
-
-                //gameObject.AddComponent<ChaseStateNew>();
-
-                 /*stateId = CurrentState.CheckConditions(this);
+                 CurrentState.Tick(this);                                       // called once per frame
+                stateId = CurrentState.CheckConditions(this);
                 if (stateId.Length > 0)                                         // If Empty Do Nothing, save Memory calls
                 {
                     foreach (BaseState s in AvailableStates)                    // Let us Update the States   
@@ -181,7 +179,7 @@ namespace IronLight
                         }
                     }
 
-                }*/
+                }
 
             }
         }
@@ -192,10 +190,10 @@ namespace IronLight
                 return;
             if (CurrentState != null)
             {
-                CurrentState.OnExit();
+                CurrentState.OnExit(this);
             }
-            //CurrentState = state;
-            //CurrentState.OnEnter();
+            CurrentState = state;
+            CurrentState.OnEnter(this);
         }
 
         public void SetActive(bool isActive)                                        // Update the Flag for this Class

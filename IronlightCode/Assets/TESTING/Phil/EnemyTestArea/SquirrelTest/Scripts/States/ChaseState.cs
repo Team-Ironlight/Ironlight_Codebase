@@ -9,11 +9,12 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using TMPro;                            //Debugging Purposes
 using IronLight;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "AI System - by DonPhilifeh/AI States/New ChaseState")]
-public class ChaseState : StateMachine.BaseState
+public class ChaseState : Phil_StateMa.BaseState
 {
 #if UNITY_EDITOR
     [TextArea]
@@ -23,7 +24,7 @@ public class ChaseState : StateMachine.BaseState
     [Header("Target")]
 	private Transform _mTarget;
     [Header("Decision Making")]
-    public string OnEnemyLostState = "FleeState";                                               //To Do:  Convert this to enum
+    public string OnEnemyLostState = "ChaseState";                                               //To Do:  Convert this to enum
     private string OnEnemyChaseDistance = "ChaseState";                                         //To Do:  Convert this to enum
     private bool isAware = false;
     private bool _playerRunAway = false;
@@ -45,24 +46,19 @@ public class ChaseState : StateMachine.BaseState
     private float _maxDistanceToChase;
     private float _minDistanceToChase;
 
+
+
     public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
     {
         _mRunner = runner;
         _mTarget = GameObject.FindWithTag("Player").transform;
-        if (!_mTarget)
-            Application.Quit();
-
         _navMeshAgent = runner.GetComponent<NavMeshAgent>();
         _aniMator = runner.GetComponent<Animator>();
         _updateMinMax = runner.GetComponent<AI_AbilityManager>();
         
         Name = this.GetType().ToString();
 
-        _maxDistanceToChase = runner.GetComponent<StateMachine>().Get_MaxDistanceChase;
-        _minDistanceToChase = runner.GetComponent<StateMachine>().Get_MinDistanceChase;
 
-        _updateMinMax.Set_MaxDistance = _maxDistanceToChase;
-        _updateMinMax.Set_MinDistance = _minDistanceToChase;
     }
 	public override void  Tick(MonoBehaviour runner)                                                                 //Called every frame after the first frame, Initiate by the StateMachine
     {
@@ -70,6 +66,13 @@ public class ChaseState : StateMachine.BaseState
         {
             if(_navMeshAgent.enabled ==true)
             {
+
+                _maxDistanceToChase = runner.GetComponent<Phil_StateMa>().Get_MaxDistanceChase;
+                _minDistanceToChase = runner.GetComponent<Phil_StateMa>().Get_MinDistanceChase;
+
+                _updateMinMax.Set_MaxDistance = _maxDistanceToChase;
+                _updateMinMax.Set_MinDistance = _minDistanceToChase;
+
                 if (isAware)
                 {
                     Vector3 dirToTarget = (_mTarget.position - runner.transform.position).normalized;
@@ -100,12 +103,6 @@ public class ChaseState : StateMachine.BaseState
     }
 	public override string CheckConditions(MonoBehaviour runner)                                                            //Decision Making - Called every frame after the First Frame 
     {
-
-
-        if (!_mTarget || !_navMeshAgent || !runner.GetComponent<StateMachine>())
-
-            Application.Quit();
-        
         if (_mTarget == null) {  return "";  }
 
         if (_playerRunAway)
@@ -115,46 +112,33 @@ public class ChaseState : StateMachine.BaseState
             return OnEnemyChaseDistance;
         }
 
-        Collider[] overlapResults = new Collider[500];
-        int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToChase, overlapResults);
-            
-        for (int i = 0; i < numFound; i++)
+        //Collider[] overlapResults = new Collider[50];
+        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToChase, overlapResults);
+
+        //for (int i = 0; i < numFound; i++)
+        //{
+        //    if (overlapResults[i] != null)
+        //    {
+        //        if (overlapResults[i].transform == _mTarget.parent)
+        //        {
+        if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
         {
-            Application.Quit();
-
-            if (overlapResults[i] != null)
-            {
-               
-
-                if (overlapResults[i].transform == _mTarget)
-                {
-                   
-
-                    if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToChase))              //Chase State
-                    {
-                        OnAware();
-
-                        Debug.Log("Chase State");
-
-                        Application.Quit();
-
-                        return "";
-                    }
-                    else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToChase)           // Switch to <Attack State>
-                    {
-                        Application.Quit();
-                        Debug.Log("Attack State");
-
-                        return OnEnemyLostState;
-                    }
-                  //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
-
-                }
-
-            }
-         
+          
+            OnAware();
+            return "";
         }
-        overlapResults = new Collider[0];
+        else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToChase)           // Switch to <Attack State>
+        {
+            return OnEnemyLostState;
+        }
+        //            //  Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+
+        //        }
+
+        //    }
+
+        //}
+        //overlapResults = new Collider[0];
 
         return "";                                                                                                              // Return empty String so that the StateMachine bypass validation check, and retained the current states, This saves memory calls
     }

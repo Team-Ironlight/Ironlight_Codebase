@@ -18,8 +18,11 @@ namespace Danish.StateCode
         private dJumpComponent JumpHandler = null;
         private dMoveComponent FloatHandler = null;
         private dRotationUpdater rotationUpdater = null;
+        private dPhysicsComponent physics = null;
 
         public float jumpStartSpeed = 7;
+
+        bool jumpStarted = false;
 
         public dJumpState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -39,28 +42,43 @@ namespace Danish.StateCode
 
             rotationUpdater = new dRotationUpdater();
             rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
+
+            physics = Manager.dPhysics;
+            physics.Init(m_Rigid, 0.5f); 
         }
 
         public override void OnEnter()
         {
             JumpHandler.Init(MainManager.moveVector, m_Rigid);
-            //FloatHandler.Init(MainManager.objTransform, Manager.CameraHolder, Manager.rigidbody, 0.8f);
+            Manager.currentlyJumping = true;
             
         }
 
         public override void OnExit()
         {
             JumpHandler.ResetValues();
+            jumpStarted = false;
             m_Grounded = false;
+
+            Manager.currentlyJumping = false;
         }
 
         public override Type Tick()
         {
             Debug.Log("Start Jump");
 
+            if (Manager.isDashing)
+            {
+                Manager.isDashing = false;
+                return typeof(dDashState);
+            }
+
             rotationUpdater.Tick();
 
-            m_Grounded = JumpHandler.GroundCheck();
+            if (jumpStarted)
+            {
+                m_Grounded = physics.GroundCheck();
+            }
 
             if (m_Grounded)
             {
@@ -73,27 +91,14 @@ namespace Danish.StateCode
         public override void FixedTick()
         {
             JumpHandler.FixedTick();
+            //physics.FixedTick();
+
+            if (!jumpStarted)
+                jumpStarted = true;
+
             FloatHandler.FixedTick(Manager.moveVector);
         }
 
 
-
-        //bool OnGroundCheck()
-        //{
-        //    Vector3 start = MainManager.objTransform.position;
-        //    Vector3 end = start + (Vector3.down * 0.5f);
-
-        //    Debug.DrawLine(start, end, Color.red);
-        //    RaycastHit hit;
-        //    if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-
-        //}
     }
 }

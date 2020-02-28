@@ -27,7 +27,7 @@ namespace Danish.Components
         private Vector3 m_NewPosition;
         private Vector3 velocity;
 
-        private bool isGrounded = false;
+        public bool isGrounded = false;
 
         public void Init(Transform playerTransform, Transform camHolder, Rigidbody rigid, float moveFactor)
         {
@@ -40,15 +40,15 @@ namespace Danish.Components
         public void FixedTick(Vector2 _moveVector)
         {
             //RotatePlayerToCameraForward(_playerTransform, _cameraHolder);
-            isGrounded = GroundCheck();
+            //isGrounded = GroundCheck();
 
-            if (isGrounded)
-            {
-                velocity.y = 0;
-                m_Rigid.velocity = velocity;
+            //if (isGrounded)
+            //{
+            //    velocity.y = 0;
+            //    m_Rigid.velocity = velocity;
 
-                ApplyGravity();
-            }
+            //    ApplyGravity();
+            //}
 
 
             m_ConvertedVector = ConvertMoveVector(_moveVector);
@@ -60,19 +60,6 @@ namespace Danish.Components
 
         }
 
-
-        //void RotatePlayerToCameraForward(Transform toRotate, Transform camera)
-        //{
-        //    Quaternion currentObjRot = toRotate.rotation;
-        //    Quaternion cameraRot = camera.rotation;
-
-
-        //    cameraRot.x = 0;
-        //    cameraRot.z = 0;
-
-        //    toRotate.rotation = Quaternion.Lerp(currentObjRot, cameraRot, rotationSpeed * Time.deltaTime);
-
-        //}
 
 
         Vector3 ConvertMoveVector(Vector2 inputVector)
@@ -113,33 +100,5 @@ namespace Danish.Components
             m_Rigid.MovePosition(vector);
         }
 
-        public void ApplyGravity()
-        {
-            velocity += GravityModifier * Physics.gravity * Time.deltaTime;
-
-
-            m_Rigid.velocity = velocity;
-        }
-
-        public bool GroundCheck()
-        {
-            RaycastHit hit;
-            if (m_Rigid.SweepTest(Vector3.down, out hit, 0.1f))
-            {
-                if(hit.distance > 0.04f)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-
-            else
-            {
-                return false;
-            }
-        }
     }
 }

@@ -55,18 +55,18 @@ namespace Danish.Components
         }
 
 
-        public bool GroundCheck()
-        {
-            RaycastHit hit;
-            if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
-            {
-                //Debug.Log("Sweep confirmed");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public bool GroundCheck()
+        //{
+        //    RaycastHit hit;
+        //    if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
+        //    {
+        //        //Debug.Log("Sweep confirmed");
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }
