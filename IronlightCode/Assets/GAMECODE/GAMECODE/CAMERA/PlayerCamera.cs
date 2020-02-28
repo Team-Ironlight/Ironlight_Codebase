@@ -40,6 +40,10 @@ public class PlayerCamera : MonoBehaviour
     
     private Coroutine transRoutine;
 
+    public Camera Cam;
+    public float minZoomFOV;
+    public float maxZoomFOV;
+    public float smooth;
     void Start()
     {
         //Set Camera to default values
@@ -89,6 +93,15 @@ public class PlayerCamera : MonoBehaviour
             else
             {
                 DefaultCameraMovement();
+            }
+            if (Input.GetKey(KeyCode.M))
+            {
+                ZoomIn();
+
+            }
+            else
+            {
+                ZoomOut();
             }
         }
 
@@ -230,5 +243,21 @@ public class PlayerCamera : MonoBehaviour
             yield return null;
         }
         while (done != 6);
+    }
+    public void ZoomIn()
+    {
+        Cam.fieldOfView -= smooth / 8;
+        if (Cam.fieldOfView < minZoomFOV)
+        {
+            Cam.fieldOfView = minZoomFOV;
+        }
+    }
+    public void ZoomOut()
+    {
+        Cam.fieldOfView += smooth / 8;
+        if (Cam.fieldOfView > maxZoomFOV)
+        {
+            Cam.fieldOfView = maxZoomFOV;
+        }
     }
 }
