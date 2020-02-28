@@ -25,7 +25,8 @@ public class Owl_StateManager : MonoBehaviour
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
     public float Sweep_GroundPos;
-    public float DistToPatrol;  
+    public float DistToPatrol;
+    public float DistToReAgro;
     
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
@@ -37,12 +38,12 @@ public class Owl_StateManager : MonoBehaviour
     public float Wind_GroundPos;
 
     [Header("Wind Attack Variables")]
+    public float WindForce;
     public float SphereRadius;
     public float MaxRange;
     public float WindAttackDuration;
     public LayerMask Windinteractable;
     public bool WindAttack;
-
 
     [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
