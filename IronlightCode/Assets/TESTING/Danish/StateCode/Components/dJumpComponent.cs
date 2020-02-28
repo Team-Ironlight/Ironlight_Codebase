@@ -39,13 +39,13 @@ namespace Danish.Components
 
         public void FixedTick()
         {
-            velocity += GravityModifier * Physics.gravity * Time.deltaTime;
+            //velocity += GravityModifier * Physics.gravity * Time.deltaTime;
 
-            velocity.x = targetVelocity.x;
+            //velocity.x = targetVelocity.x;
 
 
 
-            rigidbody.velocity = velocity;
+            //rigidbody.velocity = velocity;
         }
 
         public void ResetValues()
