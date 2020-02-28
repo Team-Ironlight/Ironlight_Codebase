@@ -17,8 +17,8 @@ namespace Danish.StateCode
 
         private dMoveComponent MoveHandler = null;
         private dRotationUpdater rotationUpdater = null;
+        private dCrystalTrigger crystalTrigger = null;
         private dPhysicsComponent physics = null;
-
 
         //[Header("Speeds")]
         //public float forwardSpeed = 1f;
@@ -53,6 +53,7 @@ namespace Danish.StateCode
             rotationUpdater = new dRotationUpdater();
             rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
 
+            crystalTrigger = new dCrystalTrigger();
             physics = Manager.dPhysics;
             physics.Init(m_Rigid, 0.5f);
         }
@@ -81,6 +82,12 @@ namespace Danish.StateCode
 
         public override Type Tick()
         {
+
+            crystalTrigger.Tick(Manager.isCrystal);
+            Manager.isCrystal = false;
+
+
+            //if (Manager.jump)
             if (Manager.jump && physics.isGrounded)
             {
                 Manager.jump = false;

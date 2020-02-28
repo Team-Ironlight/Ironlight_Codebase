@@ -8,18 +8,14 @@ namespace Danish.Components
     {
 		#region Wasiq's Input
 		//Wasiq's Input
-		public bool LillyPad;
 		public bool Ground;
-		public bool FallingLeaf;
-		public LayerMask layerMaskGround;
-		public LayerMask layerMaskLillyPad;
-		public LayerMask layerMaskFallingLeaf;
 		Transform player;
 		Vector3 startPoint;
 		Vector3 endPoint;
 		Color rayColor;
 		RaycastHit hit;
-		public float addedDist = 0.5f;
+		public float addedDist = 0.2f;
+		float SpeedOfLeafMoving;
 		//End of Wasiq's input
 
 		private Rigidbody m_Rigid;
@@ -61,16 +57,20 @@ namespace Danish.Components
 			startPoint = m_Rigid.position;
 			endPoint = new Vector3(startPoint.x, startPoint.y - addedDist, startPoint.z);
 			Debug.DrawLine(startPoint, endPoint, rayColor);
-			LillyPad = Physics.Linecast(startPoint, endPoint, out hit, layerMaskLillyPad);
-			Ground = Physics.Linecast(startPoint, endPoint, out hit, layerMaskGround);
-			FallingLeaf = Physics.Linecast(startPoint, endPoint, out hit, layerMaskFallingLeaf);
+			Ground = Physics.Linecast(startPoint, endPoint, out hit);
 
-			if (LillyPad || FallingLeaf || Ground)
+			if (Ground)
 			{
-				Debug.Log("LineCast hit!");
+				Debug.Log("LineCast hit Ground!");
 				rayColor = Color.green;
+
+				//To be moved to proper place...
+				if (hit.collider.gameObject.layer == 14)
+				{
+					m_Rigid.MovePosition(hit.collider.gameObject.transform.position);
+				}
+
 				return true;
-				//hit.collider.gameObject.GetComponent<LillyPad>().falllillypad();
 			}
 			else
 			{
@@ -79,16 +79,6 @@ namespace Danish.Components
 				// NOT GROUNDED HERE
 			}
 		}
-
-
-
-
-
-
-
-
-
-
 
 
 
