@@ -34,20 +34,16 @@ namespace Danish.StateCode
 
         public bool _crystalInteract = false;
 
-        public void Awake()
+
+        private void Awake()
         {
             controls = new TestDanish_Controller_Input();
-        }
-        
-        //private void Awake()
-        //{
-        //    controls = new TestDanish_Controller_Input();
 
-        //}
+        }
 
         private void Update()
         {
-            //_stateManager.Tick();
+
         }
 
         private void FixedUpdate()
@@ -108,6 +104,7 @@ namespace Danish.StateCode
                 _stateManager.isCrystal = true;
                 _crystalInteract = false;
             }
+
             _stateManager.launchBeam = _beamAttack;
             _stateManager.launchBlast = _blastAttack;
         }

@@ -1233,5 +1233,27 @@ PrefabInstance:
       propertyPath: parentCamera
       value: 
       objectReference: {fileID: 1654684764}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: parentAnimator
+      value: 
+      objectReference: {fileID: 8926664297904721326}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: parentMuzzle
+      value: 
+      objectReference: {fileID: 8926664297904721325}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84c3a78c25fc8bb4b897539ebd246760, type: 3}
+--- !u!4 &8926664297904721325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8926664297749094749, guid: 84c3a78c25fc8bb4b897539ebd246760,
+    type: 3}
+  m_PrefabInstance: {fileID: 8926664297904721324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8926664297904721326 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1338393349905791328, guid: 84c3a78c25fc8bb4b897539ebd246760,
+    type: 3}
+  m_PrefabInstance: {fileID: 8926664297904721324}
+  m_PrefabAsset: {fileID: 0}
