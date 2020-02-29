@@ -21,5 +21,7 @@ namespace Danish.StateCode
         public abstract void OnEnter();
         public abstract void OnExit();
         public abstract Type Tick();
+
+        public abstract void FixedTick();
     }
 }

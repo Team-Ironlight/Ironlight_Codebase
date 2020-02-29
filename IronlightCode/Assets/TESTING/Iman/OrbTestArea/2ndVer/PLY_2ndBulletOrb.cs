@@ -163,6 +163,21 @@ public class PLY_2ndBulletOrb : MonoBehaviour
         Collided();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //if collided object has IAtributes do damage
+        if (other.gameObject.GetComponent<IAttributes>() != null)
+        {
+            other.gameObject.GetComponent<IAttributes>().TakeDamage(_iDamageAmount, false);
+            _goCollidedObject = other.gameObject;
+        }
+
+        if (other.gameObject.layer == 11 || other.gameObject.layer == 8)
+        {
+            Collided();
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward * hitdis);

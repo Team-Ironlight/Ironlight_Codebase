@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿// ----------------------------------------------------------------------------
+// Capstone 2020 - IronLight
+// 
+// Programmer: Phil James
+// Date:   02/23/2020
+//
+// ----------------------------------------------------------------------------
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IronLight;

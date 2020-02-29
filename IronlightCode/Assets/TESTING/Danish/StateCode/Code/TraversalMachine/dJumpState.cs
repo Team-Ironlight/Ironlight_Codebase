@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -10,10 +11,18 @@ namespace Danish.StateCode
     {
         private dStateManager Manager;
 
-        private Vector3 jumpDirection = Vector3.zero;
         private Rigidbody m_Rigid;
         private Vector3 m_Velocity = Vector3.up;
+
         private bool m_Grounded = false;
+        private dJumpComponent JumpHandler = null;
+        private dMoveComponent FloatHandler = null;
+        private dRotationUpdater rotationUpdater = null;
+        private dPhysicsComponent physics = null;
+
+        public float jumpStartSpeed = 7;
+
+        bool jumpStarted = false;
 
         public dJumpState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -25,70 +34,71 @@ namespace Danish.StateCode
             }
 
             m_Rigid = Manager.rigidbody;
+
+            JumpHandler = Manager.dJump;
+
+            FloatHandler = Manager.dFloat;
+            FloatHandler.Init(MainManager.objTransform, Manager.CameraHolder, Manager.rigidbody, 0.8f);
+
+            rotationUpdater = new dRotationUpdater();
+            rotationUpdater.Init(Manager.objTransform, Manager.CameraHolder);
+
+            physics = Manager.dPhysics;
+            physics.Init(m_Rigid, 0.5f); 
         }
 
         public override void OnEnter()
         {
-            m_Velocity *= 10;
-            m_Rigid.velocity = m_Velocity;
+            JumpHandler.Init(MainManager.moveVector, m_Rigid);
+            Manager.currentlyJumping = true;
             
         }
 
         public override void OnExit()
         {
-            jumpDirection = Vector3.zero;
-            m_Velocity = Vector3.up;
+            JumpHandler.ResetValues();
+            jumpStarted = false;
+            m_Grounded = false;
+
+            Manager.currentlyJumping = false;
         }
 
         public override Type Tick()
         {
             Debug.Log("Start Jump");
 
+            if (Manager.isDashing)
+            {
+                Manager.isDashing = false;
+                return typeof(dDashState);
+            }
+
+            rotationUpdater.Tick();
+
+            if (jumpStarted)
+            {
+                m_Grounded = physics.GroundCheck();
+            }
+
             if (m_Grounded)
             {
                 return typeof(dIdleState);
             }
-            else
-            {
-                m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (9.8f * Time.deltaTime), m_Rigid.velocity.z);
-
-                //if(m_Rigid.velocity.y > 0)
-                //{
-                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y * 0.5f, m_Rigid.velocity.z);
-                //}
-                //else if(m_Rigid.velocity.y <= 0)
-                //{
-                //    m_Rigid.velocity = new Vector3(m_Rigid.velocity.x, m_Rigid.velocity.y - (0.2f * Time.deltaTime), m_Rigid.velocity.z);
-                //}
-            }
-
-            m_Grounded = OnGroundCheck();
-
-
-            //Manager.rigidbody.velocity = (m_Velocity * 4);
-            Debug.Log(Manager.rigidbody.velocity);
 
             return null;
         }
 
-
-
-        bool OnGroundCheck()
+        public override void FixedTick()
         {
-            Vector3 start = MainManager.objTransform.position;
-            Vector3 end = start + (Vector3.down * 0.1f);
+            JumpHandler.FixedTick();
+            //physics.FixedTick();
 
-            Debug.DrawLine(start, end, Color.red);
-            RaycastHit hit;
-            if (Physics.Linecast(start, end, out hit, ( 1 << 10)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (!jumpStarted)
+                jumpStarted = true;
 
+            FloatHandler.FixedTick(Manager.moveVector);
         }
+
+
     }
 }

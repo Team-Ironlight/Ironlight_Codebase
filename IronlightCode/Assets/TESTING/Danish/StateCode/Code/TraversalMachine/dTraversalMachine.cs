@@ -17,7 +17,7 @@ namespace Danish.StateCode
 
         public void Tick()
         {
-            Debug.Log("ticking State Machine");
+            //Debug.Log("ticking State Machine");
 
             if (_currentState == null)
             {
@@ -32,6 +32,14 @@ namespace Danish.StateCode
             }
         }
 
+        public void FixedTick()
+        {
+            if(_currentState != null)
+            {
+                _currentState.FixedTick();
+            }
+        }
+
         void ChangeState(Type _nextState)
         {
             _currentState?.OnExit();
@@ -42,7 +50,7 @@ namespace Danish.StateCode
         public void SetStates(Dictionary<Type, dTraversalBaseState> states)
         {
             _AvailableTraversalStates = states;
-            Debug.Log(_AvailableTraversalStates.Count);
+            //Debug.Log(_AvailableTraversalStates.Count);
         }
     }
 }

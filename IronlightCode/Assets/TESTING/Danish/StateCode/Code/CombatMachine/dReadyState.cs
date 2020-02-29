@@ -33,11 +33,20 @@ namespace Danish.StateCode
 
         public override Type Tick()
         {
-            Debug.Log("Ready State");
+            Debug.Log("Ready To Attack");
 
-            if (Manager.isAttacking)
+            if (Manager.launchOrb)
             {
-                return typeof(dLaunchState);
+                Manager.launchOrb = false;
+                return typeof(dOrbState);
+            }
+            else if (Manager.launchBeam)
+            {
+                return typeof(dBeamState);
+            }
+            else if (Manager.launchBlast)
+            {
+                return typeof(dBlastState);
             }
 
             return null;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LillyPad : MonoBehaviour
 {
-    public linecastdown lcd;
+   //  public linecastdown lcd;
     bool isRising = false;
     bool isFalling = false;
     public float isDownSpeed = 0;
@@ -21,25 +21,22 @@ public class LillyPad : MonoBehaviour
     }
 
 
-
-
-
-    private void OnTriggerEnter(Collider collider)
+    private void OnCollisionEnter(Collision collision)
+   
     {
-        if (collider.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             StartCoroutine(FallAfterDelay());
             
-            Debug.Log("HERE");
+            Debug.Log("On the lilipadx");
         }
     }
 
 
-    private void OnTriggerExit(Collider collider)
+    private void OnCollisionExit(Collision collision)
     {
-        if(collider.tag == "Player")
+        if(collision.gameObject.tag == "Player")
         {
-            StopCoroutine(FallAfterDelay());
             StartCoroutine(RiseDelay());
         }
     }
@@ -81,29 +78,20 @@ public class LillyPad : MonoBehaviour
 
     }
 
-    private void LateUpdate()
-    {
-        if (!lcd.LillyPad)
-       {
-    //      StartCoroutine(FallAfterDelay());
+    //private void LateUpdate()
+    //{
+    //    if (!lcd.LillyPad)
+    //   {
+    ////      StartCoroutine(FallAfterDelay());
 
-         // Debug.Log("HERE");
-      // }
-       //else
-       //{
-           StartCoroutine(RiseDelay());
-       }
+    //     // Debug.Log("HERE");
+    //  // }
+    //   //else
+    //   //{
+    //       StartCoroutine(RiseDelay());
+    //   }
 
-    }
-
-
-
-
-
-
-
-
-
+  //  }
 
     IEnumerator FallAfterDelay()
     {

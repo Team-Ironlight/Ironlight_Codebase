@@ -11,6 +11,7 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Runtime.InteropServices;
 using IronLight;
+using TMPro;
 
 public enum AbilityLinkMoveMethod
 {
@@ -31,7 +32,7 @@ public class AI_AbilityManager : MonoBehaviour
 
     [Header("Target")]
     private Transform target;
-    [HideInInspector] private StateMachine mCurrentBaseState;
+    [HideInInspector] private Phil_StateMa mCurrentBaseState;
     private bool isCharging =false;
 
     public AbilityLinkMoveMethod m_Method = AbilityLinkMoveMethod.Parabola;
@@ -78,19 +79,19 @@ public class AI_AbilityManager : MonoBehaviour
 
 
     private NavMeshAgent _navMeshAgent;
-
+    public TMP_Text tester;
     IEnumerator Start()
     {
         target = GameObject.FindWithTag("Player").transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        mCurrentBaseState = GetComponent<StateMachine>();
+     
 
         _abSorb = this.gameObject.transform.GetChild(8).gameObject;                                             //Assigns the first child of the eight child of the Game Object this particle is attached to.      
         particleTrail = GetComponentInChildren<ParticleSystem>();
 
         _navMeshAgent.autoTraverseOffMeshLink = false;
         startPos = Vector3.zero;
-
+      
 
         //Synchronous Coroutine
 
@@ -98,37 +99,65 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
             {
-                mCurrentState = mCurrentBaseState.CurrentState.Name;
-                if (mCurrentState == null) { yield break; }
-
-                isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
+                mCurrentBaseState = GetComponent<Phil_StateMa>();
                
-                switch (mCurrentState)                                                                          //Info : we need Pounce movement, but only for specific States
+                mCurrentState = mCurrentBaseState.CurrentState.Name;
+                //  tester.text = "Coroutine 1";
+
+                //  if (mCurrentBaseState.CurrentState.Name == "") { yield break; }
+
+
+                //  isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
+
+                //switch (mCurrentBaseState.CurrentState.Name)                                                                          //Info : we need Pounce movement, but only for specific States
+                //{
+                //    case "WanderState":
+                //        mHopping = true;
+                //        break;
+                //    case "ChaseState":
+                //        mHopping = true;
+                //        break;
+                //    case "AttackState":
+                //        mAttack = true;
+                //        break;
+                //    default:
+                //        mHopping = false;
+                //        break;
+                //}
+
+
+                //   tester.text = mCurrentBaseState.CurrentState.Name;
+                if (mCurrentBaseState.CurrentState.Name == "WanderState")
                 {
-                    case "WanderState":
-                        mHopping = true;
-                        break;
-                   case "ChaseState":
-                        mHopping = true;
-                        break;
-                    case "AttackState":
-                        mAttack = true;
-                        break;
-                    default:
-                        mHopping = false;
-                        break;
+                    mHopping = true;
                 }
-                                                                                                                //  m_Method = (attacks[Random.Range(0, attacks.Length)]);
+                else if (mCurrentBaseState.CurrentState.Name == "ChaseState")
+                {
+                    mHopping = true;
+                }
+                else if (mCurrentBaseState.CurrentState.Name == "AttackState")
+                {
+                    mAttack = true;
+                }
+                else
+                {
+                    mHopping = false;
+                }
+                //    m_Method = (attacks[Random.Range(0, attacks.Length)]);
 
                 m_Method = (attacks[attackIndex]);
 
                 //if (old_Method != m_Method)
                 //{
+              
 
                 if ((Vector3.Distance(this.transform.position, target.position) < _gMaxDistance))
                 {
+                   
                     if (Vector3.Distance(this.transform.position, target.position) > _gMinDistance)              // Current State <Patrol State>
                     {
+
+                      
                         if ((m_Method == AbilityLinkMoveMethod.Swag) && (isCharging != true) && (mCurrentBaseState.isActive != false) && (mAttack))                     //Execute the Function if the Player is Not Charging & not Dead yet
                             yield return StartCoroutine(ActivateShield(_navMeshAgent));
                         else if ((m_Method == AbilityLinkMoveMethod.Parabola) && (isCharging != true) && (mCurrentBaseState.isActive != false))                        //Execute the Function if the Player is Not Charging & not Dead yet
@@ -139,7 +168,7 @@ public class AI_AbilityManager : MonoBehaviour
                     }
                     else
                     {
-                        particleTrail.Stop();
+                            particleTrail.Stop();
                     }
                 }
                 else
@@ -193,6 +222,20 @@ public class AI_AbilityManager : MonoBehaviour
                 SwagcoolDownTimer = SwagcoolDown;
 
             }
+
+            if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
+            {
+                float _mOldSpeed = agent.speed; float percent = 0;
+                while (percent <= 3f)
+                {
+                    percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;
+                    agent.speed = _agentRunSpeed;
+                    agent.destination = Vector3.Lerp(attackPosition, startPos, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
+                    old_Method = AbilityLinkMoveMethod.Swag;
+                    yield return null;
+                }
+                agent.speed = _mOldSpeed;
+            }
         }
 
         mAttack = false;
@@ -216,6 +259,18 @@ public class AI_AbilityManager : MonoBehaviour
         if (Physics.Raycast(agent.transform.position, Vector3.down, out hit, 2f, mask))                                     // Let's use Physics to verify
         {
                if(runDustEffect !=null){ StartCoroutine(runDustEffect.DustCoroutine(this)); }
+        }
+
+        if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
+        {
+            while (normalizedTime < 1f)
+            {
+                particleTrail.Stop(); normalizedTime += Time.deltaTime;
+                float yOffset = height * (normalizedTime - normalizedTime * normalizedTime);
+                transform.position = Vector3.Lerp(endPos,startPos, normalizedTime) + yOffset * Vector3.up;
+                old_Method = AbilityLinkMoveMethod.Parabola;
+                yield return null;
+            }
         }
         yield return null;
     }
@@ -249,12 +304,30 @@ public class AI_AbilityManager : MonoBehaviour
                 {
                     if (runSplatterEffect != null)
                     { StartCoroutine(runSplatterEffect.GlassCoroutine(this)); }
+
+                }
+
+
+                if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
+                {
+                    normalizedTime = 0.0f;
+                    while (normalizedTime < 1f)
+                    {
+                        particleTrail.Stop();
+                        float yOffset = m_Curve.Evaluate(normalizedTime);
+                        agent.transform.position = Vector3.Lerp(endPos, startPos, normalizedTime) + yOffset * Vector3.up;
+                        normalizedTime += Time.deltaTime / duration;
+
+                        old_Method = AbilityLinkMoveMethod.Curve;
+                        yield return null;
+                    }
+
                 }
             }
         }
 
 
-      //  Debug.Log("curve");
+     //   Debug.Log("curve");
         yield return null;
     }
    
