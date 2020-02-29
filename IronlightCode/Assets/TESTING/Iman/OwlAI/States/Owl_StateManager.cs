@@ -9,6 +9,7 @@ public class Owl_StateManager : MonoBehaviour
     public float MovementSpeed =3;
     private float OGMovementSpeed;
     public float RotationSpeed =4;
+    private float OGRotationSpeed;
     private Rigidbody rb;
     public float BankRotIntensity;
     public float BankRotSpeed;
@@ -24,7 +25,8 @@ public class Owl_StateManager : MonoBehaviour
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
     public float Sweep_GroundPos;
-    public float DistToPatrol;  
+    public float DistToPatrol;
+    public float DistToReAgro;
     
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
@@ -36,12 +38,12 @@ public class Owl_StateManager : MonoBehaviour
     public float Wind_GroundPos;
 
     [Header("Wind Attack Variables")]
+    public float WindForce;
     public float SphereRadius;
     public float MaxRange;
     public float WindAttackDuration;
     public LayerMask Windinteractable;
     public bool WindAttack;
-
 
     [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
@@ -61,6 +63,7 @@ public class Owl_StateManager : MonoBehaviour
         WindAttack = false;
         FindWaypoint();
         OGMovementSpeed = MovementSpeed;
+        OGRotationSpeed = RotationSpeed;
 
         startTime = Time.time;
 
@@ -114,6 +117,14 @@ public class Owl_StateManager : MonoBehaviour
         {
             MovementSpeed = OGMovementSpeed;
         }
+    }
+
+    IEnumerator SlowRotation()
+    {
+        RotationSpeed = 1;
+
+        yield return new WaitForSeconds(3);
+        RotationSpeed = OGRotationSpeed;
     }
 
     private void OnDrawGizmos()
