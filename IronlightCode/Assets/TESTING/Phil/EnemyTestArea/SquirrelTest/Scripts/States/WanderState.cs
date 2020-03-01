@@ -165,38 +165,38 @@ public class WanderState : StateMachine.BaseState
             return OnEnemyWanderDistance;
         }
 
-        Collider[] overlapResults = new Collider[50];
-        int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
+        //Collider[] overlapResults = new Collider[50];
+        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
 
-        for (int i = 0; i < numFound; i++)
+        //for (int i = 0; i < numFound; i++)
+        //{
+        //    if (overlapResults[i] != null)
+        //    {
+        //        if (overlapResults[i].transform == _mTarget)
+        //        {
+        // Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
+        if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
         {
-            if (overlapResults[i] != null)
+            if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
             {
-                if (overlapResults[i].transform == _mTarget)
-                {
-                    // Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
-                    if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
-                    {
-                        if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
-                        {
-                            OnAware();
-                            return "";
-                        }
-                        else
-                        {
-                            //Going to the minimum Distance , switch <Attack State>
-                            return OnEnemyLostState;
-                        }
-
-                    }
-
-                }
-
+                OnAware();
+                return "";
+            }
+            else
+            {
+                //Going to the minimum Distance , switch <Attack State>
+                return OnEnemyLostState;
             }
 
         }
 
-        overlapResults = new Collider[0];
+        //        }
+
+        //    }
+
+        //}
+
+        //overlapResults = new Collider[0];
 
         return "";
     }
