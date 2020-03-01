@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 198437318284080854}
   - component: {fileID: 198437318284080852}
   - component: {fileID: 198437318284080855}
-  m_Layer: 16
+  m_Layer: 15
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4822,7 +4822,7 @@ GameObject:
   - component: {fileID: 198437318332532448}
   - component: {fileID: 198437318332532454}
   - component: {fileID: 198437318332532449}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Jaws
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4907,9 +4907,9 @@ GameObject:
   - component: {fileID: 198437318489520999}
   - component: {fileID: 198437318489520998}
   - component: {fileID: 198437318489520993}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Squirrel_Entity
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5003,12 +5003,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198437318489520995}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.09793048
-  m_Height: 0.5773432
+  m_Height: 0.6143079
   m_Direction: 2
-  m_Center: {x: 0.0017848024, y: 0.105423465, z: -0.06785187}
+  m_Center: {x: 0.0017848015, y: 0.105423465, z: -0.049369574}
 --- !u!135 &198437318489520997
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5018,7 +5018,7 @@ SphereCollider:
   m_GameObject: {fileID: 198437318489520995}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.11027856
   m_Center: {x: -0.0000000013003784, y: 0.11679286, z: 0.115311265}
@@ -5175,7 +5175,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   particleDissolve: {fileID: 198437318562625210}
-  _fillImage: {fileID: 0}
+  _fillImage: {fileID: 6569179542078666425}
 --- !u!114 &198437318489520993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5229,7 +5229,7 @@ GameObject:
   - component: {fileID: 198437318562625209}
   - component: {fileID: 198437318562625208}
   - component: {fileID: 6521972678348577036}
-  m_Layer: 20
+  m_Layer: 15
   m_Name: DissolveParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9996,7 +9996,7 @@ GameObject:
   - component: {fileID: 198437318598120489}
   - component: {fileID: 198437318598120488}
   - component: {fileID: 198437318598120491}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PAR_TendrilClouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14762,7 +14762,7 @@ GameObject:
   - component: {fileID: 198437318886552037}
   - component: {fileID: 198437318886552059}
   - component: {fileID: 198437318886552058}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ShieldEffect1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19536,9 +19536,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 198437318903144891}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: AI_Squirrel_AWander_v3_3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19569,7 +19569,7 @@ GameObject:
   - component: {fileID: 198437319096045042}
   - component: {fileID: 198437319096045040}
   - component: {fileID: 198437319096045043}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24426,7 +24426,7 @@ GameObject:
   - component: {fileID: 198437319168059197}
   - component: {fileID: 198437319168059196}
   - component: {fileID: 198437319168059199}
-  m_Layer: 23
+  m_Layer: 15
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24532,7 +24532,7 @@ GameObject:
   - component: {fileID: 198437319184345877}
   - component: {fileID: 198437319184345899}
   - component: {fileID: 198437319184345898}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Skull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24610,7 +24610,7 @@ GameObject:
   - component: {fileID: 198437319391577464}
   - component: {fileID: 198437319391577470}
   - component: {fileID: 198437319391577465}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29403,7 +29403,7 @@ GameObject:
   - component: {fileID: 198437319405315007}
   - component: {fileID: 198437319405315005}
   - component: {fileID: 198437319405315004}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29481,7 +29481,7 @@ GameObject:
   - component: {fileID: 198437319425490103}
   - component: {fileID: 198437319425490102}
   - component: {fileID: 198437319425490097}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29561,7 +29561,7 @@ GameObject:
   - component: {fileID: 198437319776417862}
   - component: {fileID: 198437319776417860}
   - component: {fileID: 198437319776417863}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34354,7 +34354,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 198437319801743082}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: skull_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34386,7 +34386,7 @@ GameObject:
   - component: {fileID: 198437319986628395}
   - component: {fileID: 198437319986628393}
   - component: {fileID: 198437319986628392}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ShieldEffect2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39206,7 +39206,7 @@ GameObject:
   - component: {fileID: 198437320154448815}
   - component: {fileID: 198437320154448813}
   - component: {fileID: 198437320154448812}
-  m_Layer: 16
+  m_Layer: 15
   m_Name: HitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44019,7 +44019,7 @@ GameObject:
   - component: {fileID: 6357529826548925955}
   - component: {fileID: 6537001385799665261}
   - component: {fileID: 6537402599205300675}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44158,7 +44158,7 @@ GameObject:
   - component: {fileID: 6354605554328986837}
   - component: {fileID: 6357461218022681087}
   - component: {fileID: 6537255359012910323}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44231,7 +44231,7 @@ GameObject:
   - component: {fileID: 6355879475517402901}
   - component: {fileID: 6357339650372030075}
   - component: {fileID: 6537548591177631943}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44306,7 +44306,7 @@ GameObject:
   - component: {fileID: 6355108742281744399}
   - component: {fileID: 6357844316574348401}
   - component: {fileID: 6537421900995489429}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44379,7 +44379,7 @@ GameObject:
   - component: {fileID: 6355187426510080657}
   - component: {fileID: 6356966692932968337}
   - component: {fileID: 6537671398320395021}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44458,7 +44458,7 @@ GameObject:
   - component: {fileID: 6536695761820301569}
   - component: {fileID: 6536706903921223717}
   - component: {fileID: 6569896848788696064}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: HPMeter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44583,7 +44583,7 @@ GameObject:
   - component: {fileID: 8001868455650028372}
   - component: {fileID: 8001868455650028375}
   - component: {fileID: 8001868455650028374}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Canvas_HP_Rhon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
