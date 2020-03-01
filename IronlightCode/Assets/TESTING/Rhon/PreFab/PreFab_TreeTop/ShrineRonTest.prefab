@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8874133131487589050}
   - component: {fileID: 8874133131487589051}
   m_Layer: 8
-  m_Name: Shrine (1)
+  m_Name: ShrineRonTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578338747094076201}
   m_LocalRotation: {x: -0, y: -0.9167072, z: -0, w: 0.39955968}
-  m_LocalPosition: {x: -6.871, y: 1.248055, z: 11.586}
+  m_LocalPosition: {x: -6.87, y: 1.24, z: 11.59}
   m_LocalScale: {x: 1.8635, y: 1.8635, z: 1.8635}
   m_Children:
   - {fileID: 9162458528251801220}
@@ -112,6 +112,9 @@ MonoBehaviour:
   Plat1: {fileID: 0}
   Plat2: {fileID: 0}
   Plat3: {fileID: 0}
+  Plat4: {fileID: 0}
+  LinkActive: 0
+  crystalPos: {fileID: 0}
 --- !u!1 &1095221059430465221
 GameObject:
   m_ObjectHideFlags: 0
