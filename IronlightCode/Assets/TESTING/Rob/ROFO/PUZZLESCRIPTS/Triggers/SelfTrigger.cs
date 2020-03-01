@@ -37,19 +37,24 @@ namespace ROFO
         //need generic statement that will work here
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.tag == tagTrigger)
+            if (other.gameObject.tag == tagTrigger &&
+                Input.GetKeyUp(KeyCode.P))
             {
                 //send call to input manager to put in interaction list
-                InputManagerTemp.SetInteractObject(this);
+                PuzzleInteractionManager.SetInteractObject(this);
+                Trigger();
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.tag == tagTrigger)
+            if (other.gameObject.tag == tagTrigger &&
+                Input.GetKeyUp(KeyCode.P))
             {
                 //send call to input manager to put in interaction list
-                InputManagerTemp.RemoveInteractObject(this);
+                PuzzleInteractionManager.RemoveInteractObject(this);
+                Debug.Log("FUCKKK");
+                this.Trigger();
             }
         }
     }
