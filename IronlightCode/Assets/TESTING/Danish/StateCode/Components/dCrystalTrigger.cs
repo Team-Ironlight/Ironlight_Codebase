@@ -26,7 +26,7 @@ namespace Danish.Components
             }
 
             
-            PuzzleInteractionManager.singleton.CallTriggers();
+            PuzzleInteractionManager.CallTriggers();
 
             //shouldInteract = false;
         }

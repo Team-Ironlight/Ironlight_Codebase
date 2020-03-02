@@ -726,6 +726,12 @@ Transform:
   m_Father: {fileID: 1889840675}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1434223304 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1209667763750605228, guid: 79dddeed6b987ea4a8a18f6a29318125,
+    type: 3}
+  m_PrefabInstance: {fileID: 6789444657108723817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1527488079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1047,7 @@ MonoBehaviour:
   - {x: 0, y: 90, z: 0}
   rotTime: 1
   letterSize: 3
+  smoothRot: 0
 --- !u!114 &1997310599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,6 +1300,11 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 561277186}
+    - target: {fileID: 7242642653994716328, guid: 79dddeed6b987ea4a8a18f6a29318125,
+        type: 3}
+      propertyPath: Cam
+      value: 
+      objectReference: {fileID: 1434223304}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79dddeed6b987ea4a8a18f6a29318125, type: 3}
 --- !u!1001 &8926664297904721324
