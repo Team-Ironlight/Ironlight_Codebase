@@ -17,7 +17,7 @@ using ROFO;
         {
             if (singleton == null)
             {
-                singleton = new PuzzleInteractionManager();
+                singleton = this;
             }
         
         }

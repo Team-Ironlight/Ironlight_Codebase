@@ -111,7 +111,7 @@ namespace Danish.StateCode
             physics.Tick();
             //MoveHandler.Tick(Manager.moveVector);
 
-            UpdateAnimator(Manager.moveVector);
+            //UpdateAnimator(Manager.moveVector);
 
             return null;
         }
