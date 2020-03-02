@@ -34,6 +34,8 @@ namespace Danish
         public Transform parentCamera = null;
         public Transform parentMuzzle = null;
 
+        public Danish.Components.dUpdateMuzzleRotation muzzleRotator = null;
+
         private void Reset()
         {
             parentRigidbody = GetComponent<Rigidbody>();
@@ -52,6 +54,9 @@ namespace Danish
             //puzzleManager = new PuzzleInteractionManager();
 
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
+
+            muzzleRotator = new Components.dUpdateMuzzleRotation();
+            muzzleRotator.Init(transform, parentMuzzle);
         }
 
         void Start()
@@ -62,7 +67,7 @@ namespace Danish
         void Update()
         {
             parentManager.Tick();
-
+            muzzleRotator.Tick();
             //playerVelocity = parentRigidbody.velocity;
         }
 

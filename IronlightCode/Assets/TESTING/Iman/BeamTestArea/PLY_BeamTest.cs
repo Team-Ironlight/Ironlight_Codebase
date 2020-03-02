@@ -96,6 +96,7 @@ public class PLY_BeamTest : MonoBehaviour
                 beamStart = Instantiate(BeamStartVisual, transform.position, transform.rotation);
                 inputReceived = true;
                 StartAttack = true;
+                endAttack = false;
                 beamGoing = Instantiate(BeamLoopVisual, transform.position, transform.rotation);
             }
         }
