@@ -100,7 +100,13 @@ namespace Danish.StateCode
                 return typeof(dDashState);
             }
 
-            if(Manager.moveVector == Vector2.zero)
+            if (Manager.ADS)
+            {
+                return typeof(dAimState);
+            }
+
+
+            if (Manager.moveVector == Vector2.zero)
             {
                 return typeof(dIdleState);
             }

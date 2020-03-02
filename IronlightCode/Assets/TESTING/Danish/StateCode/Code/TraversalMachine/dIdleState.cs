@@ -16,6 +16,8 @@ namespace Danish.StateCode
         private dCrystalTrigger crystalTrigger = null;
         private dPhysicsComponent physicsComponent = null;
 
+        // private dPowerScroller powerComponent = null;
+
         public dIdleState(dStateManager _stateManager) : base(_stateManager.obj)
         {
             base.MainManager = _stateManager;
@@ -30,8 +32,12 @@ namespace Danish.StateCode
 
             crystalTrigger = new dCrystalTrigger();
             //crystalTrigger.Init();
+            
             physicsComponent = Manager.dPhysics;
             physicsComponent.Init(Manager.rigidbody, 0.5f);
+
+            // powerComponent = Manager.powerScroll;
+            // powerComponent.Init();
         }
 
         public override void FixedTick()
@@ -68,12 +74,18 @@ namespace Danish.StateCode
                 return typeof(dDashState);
             }
 
+            if (Manager.ADS)
+            {
+                return typeof(dAimState);
+            }
+
 
             if (Manager.moveVector != Vector2.zero)
             {
                 return typeof(dMoveState);
             }
 
+            //powerComponent.Tick(Manager.scrollUp, Manager.scrollDown);
             //rotationUpdater.Tick();
             physicsComponent.Tick();
 

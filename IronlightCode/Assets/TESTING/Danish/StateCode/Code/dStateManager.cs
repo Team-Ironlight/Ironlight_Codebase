@@ -34,6 +34,13 @@ namespace Danish.StateCode
         [Header("Interaction Variables")]
         public bool isCrystal = false;
 
+        [Header("Aim Down Sights Variables")]
+        public bool ADS = false;
+
+        [Header("Power Scroll Variables")]
+        public bool scrollUp = false;
+        public bool scrollDown = false;
+
         public GameObject obj;
         public Transform objTransform;
 
@@ -58,11 +65,14 @@ namespace Danish.StateCode
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
         public dMoveComponent dFloat = null;
+        public dMoveComponent dAimMove = null;
 
         // Puzzle Interaction
         public PuzzleInteractionManager puzzleManager = null;
 
         public dPhysicsComponent dPhysics = null;
+
+        // public dPowerScroller powerWheel = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -87,6 +97,7 @@ namespace Danish.StateCode
             dDash = new dDashComponent();
             dMove = new dMoveComponent();
             dFloat = new dMoveComponent();
+            dAimMove = new dMoveComponent();
 
             rOrb = new R_OrbAttack();
             rBeam = new R_BeamAttack();
@@ -95,6 +106,7 @@ namespace Danish.StateCode
             puzzleManager = new PuzzleInteractionManager();
 
             dPhysics = new dPhysicsComponent();
+            //powerWheel = new dPowerScroller();
 
 
             InitializeTraversalMachine();
@@ -129,7 +141,8 @@ namespace Danish.StateCode
                 {typeof(dMoveState), new dMoveState(_stateManager:this) },
                 {typeof(dIdleState), new dIdleState(_stateManager:this) },
                 {typeof(dJumpState), new dJumpState(_stateManager:this) },
-                {typeof(dDashState), new dDashState(_stateManager:this) }
+                {typeof(dDashState), new dDashState(_stateManager:this) },
+                {typeof(dAimState), new dAimState(_stateManager:this) }
             };
 
             TraversalMachine.SetStates(states);
