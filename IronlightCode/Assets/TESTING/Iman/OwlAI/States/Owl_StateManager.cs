@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using EZCameraShake;
 
 public class Owl_StateManager : MonoBehaviour
 {
@@ -78,6 +79,11 @@ public class Owl_StateManager : MonoBehaviour
         //distance between owl and the player
         DisBetwnPLY = Vector3.Distance(PLY_Transform.position, transform.position);
         //print(DisBetwnPLY);
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            EZCameraShake.CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.1f, 1.0f);
+        }
     }
 
     //BankRotation calculation
