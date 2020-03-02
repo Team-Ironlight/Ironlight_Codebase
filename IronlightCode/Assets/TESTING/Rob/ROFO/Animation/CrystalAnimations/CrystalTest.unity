@@ -129,9 +129,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 54588831}
-  - component: {fileID: 54588834}
   - component: {fileID: 54588833}
   - component: {fileID: 54588832}
+  - component: {fileID: 54588834}
   m_Layer: 0
   m_Name: ChangeComponent
   m_TagString: Untagged
@@ -173,11 +173,12 @@ MonoBehaviour:
   speed: 1
   indexPos: 0
   gizmosSize: 1
-  transform: {fileID: 1091578058766283620}
   rotations:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 180, z: 0}
   rotTime: 1
+  letterSize: 3
+  smoothRot: 0
 --- !u!114 &54588833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,19 +202,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 54588830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 780c78a9649fd5741ad472939853c5eb, type: 3}
+  m_Script: {fileID: 11500000, guid: ac10e180312d6a047b3f2228a07ae069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   handleOn: 1
   handleSize: 1
   currentCollider: 0
-  radiusSize: 2.5
+  radiusSize: 2
   length: 1
   width: 1
   depth: 1
   radius: 1
   height: 1
   direction: 0
+  offset: {x: 0, y: 2, z: 0}
   isTrigger: 1
 --- !u!1 &121581488
 GameObject:
@@ -258,6 +260,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &228771126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 228771127}
+  - component: {fileID: 228771129}
+  - component: {fileID: 228771128}
+  m_Layer: 0
+  m_Name: MaterialComponent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &228771127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228771126}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1568178096}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &228771128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228771126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac10e180312d6a047b3f2228a07ae069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleOn: 1
+  handleSize: 1
+  currentCollider: 2
+  radiusSize: 1
+  length: 1
+  width: 1
+  depth: 1
+  radius: 1
+  height: 4
+  direction: 1
+  offset: {x: 0, y: 2, z: 0}
+  isTrigger: 0
+--- !u!114 &228771129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228771126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c50c308a5ef9c68438fb65895033e5df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mat: {fileID: 2100000, guid: 4ae4e0c4232fde44eb3eee7c07a644ab, type: 2}
+  collisionTag: Player
+  emissionString: _EmissionIntensity
+  emissionMax: 2
+  speed: 0.5
 --- !u!1 &1122704526
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +453,7 @@ Transform:
   m_Children:
   - {fileID: 1091578058766283620}
   - {fileID: 54588831}
+  - {fileID: 228771127}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -485,7 +561,7 @@ PrefabInstance:
     - target: {fileID: 1455871531096975394, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1455871531096975394, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
@@ -495,7 +571,7 @@ PrefabInstance:
     - target: {fileID: 1455871531096975394, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8
+      value: 10.34
       objectReference: {fileID: 0}
     - target: {fileID: 1455871531096975394, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
