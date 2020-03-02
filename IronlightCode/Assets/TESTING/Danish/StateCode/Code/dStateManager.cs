@@ -40,6 +40,7 @@ namespace Danish.StateCode
         public Animator animator = null;
         public Rigidbody rigidbody = null;
         public dObjectPooler pooler = null;
+        public LineRenderer Line = null;
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
@@ -80,6 +81,7 @@ namespace Danish.StateCode
             CameraHolder = parentCamera;
 
             Muzzle = parentMuzzle;
+
 
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
