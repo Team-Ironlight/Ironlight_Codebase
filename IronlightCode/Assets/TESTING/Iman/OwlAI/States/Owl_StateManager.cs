@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using EZCameraShake;
 
 public class Owl_StateManager : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float MovementSpeed =3;
-    private float OGMovementSpeed;
+    [HideInInspector] public float OGMovementSpeed;
     public float RotationSpeed =4;
     private float OGRotationSpeed;
     private Rigidbody rb;
@@ -25,6 +26,7 @@ public class Owl_StateManager : MonoBehaviour
     [Header("General Agro Variables")]
     public float DistToReAgro;
     public float TimeTillWarning;
+    public float DistToSlowDown;
 
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
@@ -78,6 +80,11 @@ public class Owl_StateManager : MonoBehaviour
         //distance between owl and the player
         DisBetwnPLY = Vector3.Distance(PLY_Transform.position, transform.position);
         //print(DisBetwnPLY);
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            EZCameraShake.CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.1f, 1.0f);
+        }
     }
 
     //BankRotation calculation
@@ -107,19 +114,9 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
-    public void SlowingDown(Vector3 Target)
+    public void SlowingDown(float Distance)
     {
-        if (Vector3.Distance(Target, transform.position) < 0.3)
-        {
-           // MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, 3);
-
-            // Set our position as a fraction of the distance between the markers.
-            MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, (Vector3.Distance(Target, transform.position)/0.3f));
-        }
-        else
-        {
-            MovementSpeed = OGMovementSpeed;
-        }
+        MovementSpeed = (Distance * OGMovementSpeed) / DistToSlowDown;
     }
 
     IEnumerator SlowRotation()

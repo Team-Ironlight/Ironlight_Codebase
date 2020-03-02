@@ -103,6 +103,5 @@ namespace ROFO
                 Change();
             }
         }
-
     }
 }
