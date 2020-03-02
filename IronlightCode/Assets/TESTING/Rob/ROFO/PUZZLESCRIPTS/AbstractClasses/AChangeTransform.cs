@@ -46,6 +46,10 @@ namespace ROFO
             if (limitedMoves && NumberOfMoves <= 0)
             {
                 Debug.Log("No Change");
+
+                // WASIQ ADDED HERE... SORRY! *********************************************************************************************************************************************
+                // Make the crystal spawn the beam on current position. The only change wasiq made.
+                hasCorrectPosition = false;
                 return false;
             }
             else

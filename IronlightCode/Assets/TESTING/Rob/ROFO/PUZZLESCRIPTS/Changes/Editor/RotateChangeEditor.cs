@@ -26,7 +26,7 @@ public class RotateChangeEditor : Editor
 
             //fontsize relative to camera distance
             float cameraDistance = (rc.transform.position - Camera.main.transform.position).magnitude;
-            style.fontSize = (int)cameraDistance * 5;
+            style.fontSize = (int)cameraDistance * rc.letterSize;
 
             if (rc.rotations.Length >= 1)
             {
@@ -52,7 +52,7 @@ public class RotateChangeEditor : Editor
                     rc.transform.rotation = original;
 
                     Handles.DrawLine(rc.transform.position,
-                                     rc.transform.position + tempForward * rc.gizmosSize);
+                                     rc.transform.position + tempForward * rc.letterSize);
 
                     Handles.Label(rc.transform.position + tempForward, "R" + i, style);
 

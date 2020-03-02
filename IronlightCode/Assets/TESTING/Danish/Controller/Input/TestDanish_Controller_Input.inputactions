@@ -19,7 +19,7 @@
                     "id": "8230ee4b-40b2-4bf8-a4c0-3a9f68602d60",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold(duration=1)"
+                    "interactions": "Press"
                 },
                 {
                     "name": "Dash",
@@ -27,7 +27,7 @@
                     "id": "bf93ff86-3acd-4247-b4ba-6a0d675081e2",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -121,6 +121,30 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "OrbTest",
+                    "type": "Button",
+                    "id": "8e0ea812-aa0f-4475-a9a4-e5ed9bdf73aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "BeamTest",
+                    "type": "Button",
+                    "id": "af6eb16e-077d-4a4e-ad50-f53901441795",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "BlastTest",
+                    "type": "Button",
+                    "id": "0a8a575e-244c-4ac9-ac94-e0ec41045968",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -132,6 +156,66 @@
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5bf2e27-170e-4a99-9b94-ca4ee32b037b",
+                    "path": "<Keyboard>/z",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OrbTest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eecc40b5-8913-412b-beec-c30489e9d117",
+                    "path": "<Keyboard>/x",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BeamTest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fcb9edb-bd00-408a-9b3e-fa84c9884f2a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Hold(duration=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BlastTest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Interaction",
+            "id": "a429d3df-0a5a-4e13-b1b5-0d6f8ded2a25",
+            "actions": [
+                {
+                    "name": "CrystalInteract",
+                    "type": "Button",
+                    "id": "8a566531-f12e-43f7-8494-ba824346d38e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cd13add6-adbb-4576-828a-580533be5970",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CrystalInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using Danish.Custom;
 
 namespace Danish
 {
@@ -12,6 +13,8 @@ namespace Danish
     )]
     public class StateController : MonoBehaviour
     {
+        public Vector3 playerVelocity = Vector3.zero;
+
         [Header("Movement Speeds")]
         public float forwardSpeed = 1f;
         public float backwardSpeed = 1f;
@@ -24,7 +27,11 @@ namespace Danish
         public StateCode.dInputHandler parentInput = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
+        //public PuzzleInteractionManager puzzleManager;
+        
+
         public Transform parentCamera = null;
+        public Transform parentMuzzle = null;
 
         private void Reset()
         {
@@ -41,7 +48,9 @@ namespace Danish
         {
             parentManager = parentInput.Init();
 
-            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera);
+            //puzzleManager = new PuzzleInteractionManager();
+
+            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
         }
 
         void Start()
@@ -52,6 +61,13 @@ namespace Danish
         void Update()
         {
             parentManager.Tick();
+
+            //playerVelocity = parentRigidbody.velocity;
+        }
+
+        private void FixedUpdate()
+        {
+            parentManager.FixedTick();
         }
 
 

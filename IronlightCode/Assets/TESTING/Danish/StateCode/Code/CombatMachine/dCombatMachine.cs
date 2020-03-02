@@ -17,7 +17,7 @@ namespace Danish.StateCode
 
         public void Tick()
         {
-            Debug.Log("ticking Combat Machine");
+            //Debug.Log("ticking Combat Machine");
 
             if (_currentState == null)
             {
@@ -42,7 +42,7 @@ namespace Danish.StateCode
         public void SetStates(Dictionary<Type, dCombatBaseState> states)
         {
             _AvailableCombatStates = states;
-            Debug.Log(_AvailableCombatStates.Count);
+            //Debug.Log(_AvailableCombatStates.Count);
         }
     }
 }

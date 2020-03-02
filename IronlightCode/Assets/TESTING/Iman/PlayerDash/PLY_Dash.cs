@@ -15,13 +15,13 @@ public class PLY_Dash : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();     
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetInput();
+        GetInput();  
     }
 
     private void GetInput()
@@ -29,10 +29,11 @@ public class PLY_Dash : MonoBehaviour
         //input check
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            
             //timer check
             if (CDTimer < Time.time)
             {
-                StartCoroutine(Dash());
+                StartCoroutine(Dash());               
                 InputRecievced = true;
                 CDTimer = Time.time + DashCooldown;
             }

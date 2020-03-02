@@ -50,14 +50,13 @@ namespace ROFO
         }
 
 
-
         //need generic statement that will work here
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == tagTrigger)
             {
                 //send call to input manager to put in interaction list
-                InputManagerTemp.SetInteractObject(this);
+                PuzzleInteractionManager.SetInteractObject(this);
             }
         }
 
@@ -66,7 +65,7 @@ namespace ROFO
             if (other.gameObject.tag == tagTrigger)
             {
                 //send call to input manager to put in interaction list
-                InputManagerTemp.RemoveInteractObject(this);
+                PuzzleInteractionManager.RemoveInteractObject(this);
             }
         }
     }
