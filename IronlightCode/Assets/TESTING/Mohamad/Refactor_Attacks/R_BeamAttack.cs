@@ -13,7 +13,8 @@ namespace Sharmout.attacks
 
         dObjectPooler beamPool = null;
 
-        
+        GameObject currentBeam = null;
+        R_BeamLogic logic = null;
 
         public void Init(Transform _muzzle, dObjectPooler _pool)
         {
@@ -21,24 +22,53 @@ namespace Sharmout.attacks
             beamPool = _pool;
         }
 
-        public void Shoot()
+        public void StartBeam()
         {
-            GetBeamToShoot();
+            //firePosition = muzzleRef.position;
+
+            if (currentBeam == null)
+            {
+                currentBeam = GetBeamToShoot();
+                if (currentBeam.TryGetComponent(out R_BeamLogic _logic))
+                {
+                    logic = _logic;
+                }
+            }
+
+            logic.going = true;
+            logic.ending = false;
         }
 
-        void Tick()
+        public void EndBeam()
         {
-            
+            logic.going = false;
+            logic.ending = true;
+
+            logic.Tick(firePosition, muzzleRef.forward);
+            //logic.Tick(firePosition, muzzleRef.forward);
+        }
+
+        public void ResetBeam()
+        {
+            if(currentBeam != null)
+            {
+                currentBeam = null;
+                logic = null;
+            }
+        }
+
+        public void Tick()
+        {
+            firePosition = muzzleRef.position;
+
+            logic.Tick(firePosition, muzzleRef.forward);
         }
 
         
 
         GameObject GetBeamToShoot()
         {
-            firePosition = muzzleRef.position;
-            fireRotation = muzzleRef.rotation;
-
-            return beamPool.SpawnFromPool("Beam", firePosition, fireRotation);
+            return beamPool.SpawnFromPool("Beam", muzzleRef.position, muzzleRef.rotation);
         }
     }
 }
