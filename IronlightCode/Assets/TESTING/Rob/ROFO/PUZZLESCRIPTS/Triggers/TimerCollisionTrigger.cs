@@ -47,8 +47,50 @@ public class TimerCollisionTrigger : MonoBehaviour, ITrigger
             }            
         }
     }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag.Equals(tagCollision))
+            {
+                Debug.Log("Blast working");
 
-    private bool TimerCheck()
+                c = null;
+                c = StartCoroutine(Timer());
+
+                //check timers
+                bool check = TimerCheck();
+
+                //if all puzzle pieces in group have their timers activated
+                //than puzzle correct so trigger it
+                if (check)
+                {
+                    Trigger();
+                }
+            }
+        }
+
+        private void OnParticleCollision(GameObject other)
+        {
+            
+            if (other.gameObject.tag.Equals(tagCollision))
+            {
+                Debug.Log("Blast working");
+
+                c = null;
+                c = StartCoroutine(Timer());
+
+                //check timers
+                bool check = TimerCheck();
+
+                //if all puzzle pieces in group have their timers activated
+                //than puzzle correct so trigger it
+                if (check)
+                {
+                    Trigger();
+                }
+            }
+        }
+
+        private bool TimerCheck()
     {
         //get group
         PuzzlePiece[] p = PuzzleManager.GetGroup(GroupToCheck);

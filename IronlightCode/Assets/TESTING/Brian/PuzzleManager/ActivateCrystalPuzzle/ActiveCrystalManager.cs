@@ -15,7 +15,7 @@ public class ActiveCrystalManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       Active1 = Crystal1.GetComponent<ActivateCrystal>();
+        Active1 = Crystal1.GetComponent<ActivateCrystal>();
         Active2 = Crystal2.GetComponent<ActivateCrystal>();
         Active3 = Crystal3.GetComponent<ActivateCrystal>();
     }
