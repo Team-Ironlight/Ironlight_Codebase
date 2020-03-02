@@ -32,16 +32,11 @@ public class UnitHealth : MonoBehaviour
     
     public GameObject particleDissolve;
 
-    [HideInInspector] public GameObject _fillImage;
+   public GameObject _fillImage;  //Health Bar of your AI
 
     private void Start()
     {
-        //Initialize
-        mDissolveComponent = GetComponent<Dissolve>();
-        mStateMachine = GetComponent<Phil_StateMa>();
-        mAbilityManager = GetComponent<AI_AbilityManager>();
-
-        _fillImage = this.gameObject.transform.GetChild(9).gameObject;
+                   
 
         if (ResetHP)
             HP.SetValue(StartingHP);
@@ -49,6 +44,29 @@ public class UnitHealth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)                                      //For this version we need Trigger Component (ex. Sphere Collider) 
     {
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            //Initialize Components Here, we use this to check where's this Script Attach to ?
+
+            if (this.gameObject.layer == 15) //Squirrel
+            {
+                mDissolveComponent = GetComponent<Dissolve>();
+                mStateMachine = GetComponent<Phil_StateMa>();
+                mAbilityManager = GetComponent<AI_AbilityManager>();
+            }
+
+            if (this.gameObject.layer == 16) //Owl
+            {
+
+            }
+
+            if (this.gameObject.layer == 17) //Snake
+            {
+
+            }
+        }
+
+
         DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();        //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
         if (damage != null)
         {
@@ -59,23 +77,59 @@ public class UnitHealth : MonoBehaviour
         if (HP.Value <= 0.0f)
         {
             _fillImage.SetActive(false);
-            mStateMachine.isActive = false;
             DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
-         
-            OnDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
+            if (!other.gameObject.CompareTag("Player"))
+            {
+                Debug.Log(this.gameObject.layer);
+                if (this.gameObject.layer == 15) // 15 Squirrel
+                {
+                    mStateMachine.isActive = false;
+                    OnSquirrelDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
 
+                }
+
+                if (this.gameObject.layer == 16) //Owl
+                {
+
+                }
+
+                if (this.gameObject.layer == 17) //Snake
+                {
+
+                }
+            }
+            else
+            {
+                if (ResetHP)
+                    HP.SetValue(StartingHP);
+            }
         }
 
     }
 
-    //To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
-    private void OnDeath()
+    //Put your death Animation , and SetActive False the GameObject
+    private void OnOwlDeath()
     {
-       
-        mAbilityManager.enabled = false;
-        mDissolveComponent.enabled = true;
-        particleDissolve.SetActive(true);
+
+    }
+    //Put your death Animation , and SetActive False the GameObject
+    private void OnSnakeDeath()
+    {
+
+    }
+
+    //To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
+    private void OnSquirrelDeath()
+    {
+        if(mAbilityManager)
+            mAbilityManager.enabled = false;
+
+        if (mDissolveComponent)
+            mDissolveComponent.enabled = true;
+
+        if (particleDissolve)
+            particleDissolve.SetActive(true);
 
         if (ResetHP)
             HP.SetValue(StartingHP);
