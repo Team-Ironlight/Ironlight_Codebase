@@ -9,6 +9,7 @@ public class Owl_WindAgroState : ImanBaseState
 
     private Vector3 AgroPos;
     private Vector3 SavedPlayerPos;
+    private float warningTimer;
     //bankRotation
     private float Y1;
     private float Y2;
@@ -22,6 +23,7 @@ public class Owl_WindAgroState : ImanBaseState
     {
         Debug.Log("Entering Wind Agro State");
         SavedPlayerPos = stateManager.PLY_Transform.position;
+        
     }
 
     public override void OnExit()
@@ -45,6 +47,7 @@ public class Owl_WindAgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+            warningTimer = Time.time + stateManager.TimeTillWarning;
         }
         //if reached the position
         else
@@ -59,6 +62,10 @@ public class Owl_WindAgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+            if(warningTimer <= Time.time)
+            {
+                stateManager.WindAttack = true;
+            }
         }
 
         //bank rotation
@@ -100,6 +107,7 @@ public class Owl_WindAgroState : ImanBaseState
         if(Vector3.Distance(stateManager.PLY_Transform.position , SavedPlayerPos) > stateManager.DistToReAgro)
         {
             SavedPlayerPos = stateManager.PLY_Transform.position;
+            warningTimer = Time.time + stateManager.TimeTillWarning;
         }
     }
 }

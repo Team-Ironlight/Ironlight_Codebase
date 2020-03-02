@@ -22,11 +22,14 @@ public class Owl_StateManager : MonoBehaviour
     [HideInInspector] public int CurrentWP;
     public float DistToAgro;
 
+    [Header("General Agro Variables")]
+    public float DistToReAgro;
+    public float TimeTillWarning;
+
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
     public float Sweep_GroundPos;
     public float DistToPatrol;
-    public float DistToReAgro;
     
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
