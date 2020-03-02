@@ -23,6 +23,7 @@ public class AttackState : Phil_StateMa.BaseState
 #endif
 
     [Header("Target")]
+    private GameObject _oTarget;
     private Transform _mTarget;
 
     [Header("Components Entity")]
@@ -86,7 +87,19 @@ public class AttackState : Phil_StateMa.BaseState
     public override void OnEnter(MonoBehaviour runner)                                                                                                                          // This is called before the first frame 
     {
         _mRunner = runner;
-        _mTarget = GameObject.FindWithTag("Player").transform;
+        //_mTarget = GameObject.FindWithTag("Player").transform;
+
+        _oTarget = GameObject.FindWithTag("Player").gameObject;
+        if(_oTarget != null)
+        {
+            _mTarget = _oTarget.transform;
+        }
+        else
+        {
+            Debug.Log("No Player game objects found in the 'Scene'");
+        }
+        
+
         _navMeshAgent = runner.GetComponent<NavMeshAgent>();
         _aniMator = runner.GetComponent<Animator>();                                                                                                                            //Initialized      
         _updateMinMax = runner.GetComponent<AI_AbilityManager>();

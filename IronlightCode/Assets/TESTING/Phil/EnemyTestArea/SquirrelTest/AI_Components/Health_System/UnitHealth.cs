@@ -34,9 +34,26 @@ public class UnitHealth : MonoBehaviour
 
    public GameObject _fillImage;  //Health Bar of your AI
 
+    public bool isPlayer;
+
+    public GameObject respchkpnt;
+    private Transform _mTarget;
+    public GameObject _oPlayer;
+
     private void Start()
     {
-                   
+        if (isPlayer)
+        {
+            _oPlayer = GameObject.FindWithTag("Player").gameObject;
+            if (_oPlayer != null)
+            {
+                _mTarget = _oPlayer.transform;
+            }
+            else
+            {
+                Debug.Log("No Player game objects found in the 'Scene'");
+            }
+        }
 
         if (ResetHP)
             HP.SetValue(StartingHP);
@@ -44,6 +61,14 @@ public class UnitHealth : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)                                      //For this version we need Trigger Component (ex. Sphere Collider) 
     {
+        DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();        //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
+        if (damage != null)
+        {
+            HP.ApplyChange(-damage.DamageAmount);
+            DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
+        }
+
+
         if (!other.gameObject.CompareTag("Player"))
         {
             //Initialize Components Here, we use this to check where's this Script Attach to ?
@@ -65,23 +90,17 @@ public class UnitHealth : MonoBehaviour
 
             }
         }
+     
 
 
-        DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();        //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
-        if (damage != null)
-        {
-            HP.ApplyChange(-damage.DamageAmount);
-            DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
-        }
 
         if (HP.Value <= 0.0f)
         {
             _fillImage.SetActive(false);
             DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
-            if (!other.gameObject.CompareTag("Player"))
-            {
-                Debug.Log(this.gameObject.layer);
+       
+       
                 if (this.gameObject.layer == 15) // 15 Squirrel
                 {
                     mStateMachine.isActive = false;
@@ -98,12 +117,18 @@ public class UnitHealth : MonoBehaviour
                 {
 
                 }
-            }
-            else
-            {
-                if (ResetHP)
-                    HP.SetValue(StartingHP);
-            }
+
+                 if (this.gameObject.layer == 18) //Player
+                {
+                     //respawn the Player here
+                     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
+              
+                    if (ResetHP)
+                        HP.SetValue(StartingHP);
+
+              //  OnPlayerDeath();
+                }
+
         }
 
     }
@@ -119,6 +144,11 @@ public class UnitHealth : MonoBehaviour
 
     }
 
+    private void OnPlayerDeath()
+    {
+      
+            this.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
+    }
     //To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
     private void OnSquirrelDeath()
     {
