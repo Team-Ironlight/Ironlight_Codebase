@@ -34,6 +34,11 @@ namespace Danish.StateCode
 
         public bool _crystalInteract = false;
 
+        public bool _aimSights = false;
+
+        public bool _scrollPos = false;
+        public bool _scrollNeg = false;
+
 
         private void Awake()
         {
@@ -107,6 +112,11 @@ namespace Danish.StateCode
 
             _stateManager.launchBeam = _beamAttack;
             _stateManager.launchBlast = _blastAttack;
+
+            _stateManager.ADS = _aimSights;
+
+            _stateManager.scrollUp = _scrollPos;
+            _stateManager.scrollDown = _scrollNeg;
         }
 
 
@@ -148,6 +158,10 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.canceled += BlastTest_canceled;
 
             controls.Interaction.CrystalInteract.performed += CrystalInteract_performed;
+
+            controls.Traversal.ADS.performed += ADS_performed;
+
+            controls.Interaction.PowerScroll.performed += PowerScroll_performed;
         }
 
         
@@ -178,6 +192,12 @@ namespace Danish.StateCode
 
             controls.Interaction.CrystalInteract.performed -= CrystalInteract_performed;
 
+
+            controls.Traversal.ADS.performed -= ADS_performed;
+
+
+            controls.Interaction.PowerScroll.performed -= PowerScroll_performed;
+
             controls.Disable();
         }
 
@@ -198,6 +218,46 @@ namespace Danish.StateCode
 
 
         #region Input Functions
+
+
+        private void PowerScroll_performed(InputAction.CallbackContext ctx)
+        {
+            float num = ctx.ReadValue<float>();
+
+            if(num > 0)
+            {
+                _scrollPos = true;
+                _scrollNeg = false;
+            }
+            else if(num < 0)
+            {
+                _scrollNeg = true;
+                _scrollPos = false;
+            }
+            else
+            {
+                _scrollNeg = false;
+                _scrollPos = false;
+            }
+
+
+        }
+
+
+        private void ADS_performed(InputAction.CallbackContext ctx)
+        {
+            if(ctx.interaction is PressInteraction)
+            {
+                if (!_aimSights)
+                {
+                    _aimSights = true;
+                }
+                else
+                {
+                    _aimSights = false;
+                }
+            }
+        }
 
 
         private void CrystalInteract_performed(InputAction.CallbackContext ctx)

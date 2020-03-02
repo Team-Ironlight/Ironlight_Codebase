@@ -105,8 +105,8 @@ namespace Sharmout.attacks
 
             yield return new WaitForEndOfFrame();
 
-            gameObject.SetActive(false);
             currentCo = null;
+            gameObject.SetActive(false);
         }
     }
 }
