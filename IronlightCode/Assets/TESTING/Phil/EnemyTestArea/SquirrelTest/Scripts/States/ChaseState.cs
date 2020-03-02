@@ -23,6 +23,7 @@ public class ChaseState : Phil_StateMa.BaseState
 
     [Header("Target")]
 	private Transform _mTarget;
+    private GameObject _oTarget;
     [Header("Decision Making")]
     public string OnEnemyLostState = "ChaseState";                                               //To Do:  Convert this to enum
     private string OnEnemyChaseDistance = "ChaseState";                                         //To Do:  Convert this to enum
@@ -51,7 +52,16 @@ public class ChaseState : Phil_StateMa.BaseState
     public override void  OnEnter(MonoBehaviour runner)                                                             // This is called before the first frame
     {
         _mRunner = runner;
-        _mTarget = GameObject.FindWithTag("Player").transform;
+        // _mTarget = GameObject.FindWithTag("Player").transform;
+        _oTarget = GameObject.FindWithTag("Player").gameObject;
+        if (_oTarget != null)
+        {
+            _mTarget = _oTarget.transform;
+        }
+        else
+        {
+            Debug.Log("No Player game objects found in the 'Scene'");
+        }
         _navMeshAgent = runner.GetComponent<NavMeshAgent>();
         _aniMator = runner.GetComponent<Animator>();
         _updateMinMax = runner.GetComponent<AI_AbilityManager>();
