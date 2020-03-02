@@ -9798,6 +9798,7 @@ GameObject:
   - component: {fileID: 6437833349858463502}
   - component: {fileID: 6437833349858463503}
   - component: {fileID: 6437833349858463504}
+  - component: {fileID: 8315482409365785488}
   m_Layer: 15
   m_Name: Squirrel_Entity
   m_TagString: Enemy
@@ -10108,6 +10109,22 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ParticleSystem: {fileID: 6437833350395110896}
   squirrelObject: {fileID: 6437833349828673649}
+--- !u!114 &8315482409365785488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6437833349858463507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccb4c8abb1a58143a6f3b1f9cfeac06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 25fc4259ecd5da243bca749521e4afcc, type: 2}
 --- !u!1 &6437833350004745945
 GameObject:
   m_ObjectHideFlags: 0
