@@ -125,7 +125,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!1 &6260726780711958032
 GameObject:
@@ -172,3 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 7357388798497520952}
+  muzzleRef: {fileID: 0}
+  going: 0
+  ending: 0

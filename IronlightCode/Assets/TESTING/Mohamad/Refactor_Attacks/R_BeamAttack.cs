@@ -35,6 +35,8 @@ namespace Sharmout.attacks
                 }
             }
 
+            logic.Init(muzzleRef.position);
+
             logic.going = true;
             logic.ending = false;
         }
@@ -44,7 +46,7 @@ namespace Sharmout.attacks
             logic.going = false;
             logic.ending = true;
 
-            logic.Tick(firePosition, muzzleRef.forward);
+            logic.FinishTick();
             //logic.Tick(firePosition, muzzleRef.forward);
         }
 
@@ -61,7 +63,7 @@ namespace Sharmout.attacks
         {
             firePosition = muzzleRef.position;
 
-            logic.Tick(firePosition, muzzleRef.forward);
+            logic.ActiveTick(firePosition, muzzleRef.forward);
         }
 
         

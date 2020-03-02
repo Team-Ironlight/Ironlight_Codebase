@@ -6,8 +6,8 @@ namespace Sharmout.attacks
 {
     public class R_BeamLogic : MonoBehaviour
     {
-        float beamSpeedGoing = 2;
-        float beamSpeedClosing = 10;
+        float beamSpeedGoing = 15;
+        float beamSpeedClosing = 20;
         int beamRange = 10;
         float beamLengthGoing = 0;
         float beamLengthClosing = 0;
@@ -30,19 +30,23 @@ namespace Sharmout.attacks
         public bool going = false;
         public bool ending = false;
 
-        public void Init()
+        public void Init(Vector3 _start)
         {
-            
+            lineStart = _start;
+            lineEnd = _start;
         }
 
-        public void Tick(Vector3 _startPoint, Vector3 _rotation)
+        public void ActiveTick(Vector3 _startPoint, Vector3 _rotation)
         {
             lineStart = _startPoint;
             lineDirection = _rotation;
 
             BeamPositionUpdater();
+        }
 
-            
+        public void FinishTick()
+        {
+            currentCo = StartCoroutine(BeamEnder());
         }
 
         void BeamPositionUpdater()
@@ -60,12 +64,12 @@ namespace Sharmout.attacks
                 line.SetPosition(0, lineStart);
 
                 posBeforeRelease = lineStart;
-                dirBeforeRelease = transform.forward;
+                dirBeforeRelease = lineDirection;
             }
 
             else if (ending)
             {
-                currentCo = StartCoroutine(BeamEnder());
+                //currentCo = StartCoroutine(BeamEnder());
             }
         }
 
