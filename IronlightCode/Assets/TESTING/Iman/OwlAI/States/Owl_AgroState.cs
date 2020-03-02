@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class Owl_AgroState : ImanBaseState
 {
@@ -9,6 +10,8 @@ public class Owl_AgroState : ImanBaseState
 
     private Vector3 AgroPos;
     private Vector3 SavedPlayerPos;
+    private float warningTimer;
+    private bool CamShaked;
     //bankRotation
     private float Y1;
     private float Y2;
@@ -19,7 +22,7 @@ public class Owl_AgroState : ImanBaseState
     }
 
 
-
+     
     public override void OnEnter()
     {
         Debug.Log("Entering Sweep Agro State");
@@ -47,6 +50,8 @@ public class Owl_AgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+            warningTimer = Time.time + stateManager.TimeTillWarning;
+            CamShaked = false;
         }
         //if reached the position
         else
@@ -61,6 +66,19 @@ public class Owl_AgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+            if(warningTimer - 1 <= Time.time)
+            {
+                if (!CamShaked)
+                {
+                    CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.5f, 0.5f);
+                    CamShaked = true;
+                }
+            }
+
+            if (warningTimer <= Time.time)
+            {
+                stateManager.SweepAttack = true;
+            }
         }
 
         //bank rotation
@@ -102,6 +120,7 @@ public class Owl_AgroState : ImanBaseState
         if (Vector3.Distance(stateManager.PLY_Transform.position, SavedPlayerPos) > stateManager.DistToReAgro)
         {
             SavedPlayerPos = stateManager.PLY_Transform.position;
+            warningTimer = Time.time + stateManager.TimeTillWarning;
         }
     }
 }

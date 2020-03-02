@@ -25,6 +25,7 @@ namespace Danish
         public Animator parentAnimator = null;
         public Tools.dObjectPooler parentPooler = null;
         public StateCode.dInputHandler parentInput = null;
+        public LineRenderer parentLine = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
         //public PuzzleInteractionManager puzzleManager;

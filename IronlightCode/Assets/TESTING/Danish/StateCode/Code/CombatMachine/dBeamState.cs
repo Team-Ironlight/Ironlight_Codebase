@@ -22,7 +22,7 @@ namespace Danish.StateCode
             }
 
             beamComponent = Manager.rBeam;
-            beamComponent.Init(Manager.Muzzle); 
+            beamComponent.Init(Manager.Muzzle, Manager.pooler); 
         }
 
         public override void OnEnter()

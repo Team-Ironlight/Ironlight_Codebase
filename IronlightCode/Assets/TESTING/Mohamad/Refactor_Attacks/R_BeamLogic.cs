@@ -2,17 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class R_BeamLogic : MonoBehaviour
+namespace Sharmout.attacks
 {
-    // Start is called before the first frame update
-    void Start()
+    public class R_BeamLogic : MonoBehaviour
     {
-        
-    }
+        float beamSpeedGoing = 0;
+        float beamSpeedClosing = 0;
+        int beamRange = 10;
+        float beamLengthGoing = 0;
+        float beamLengthClosing = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public LineRenderer line;
+
+        void Start()
+        {
+            
+        }
+
+        void Update()
+        {
+            StartBeam();
+            
+        }
+
+        void BeamPositionUpdater()
+        {
+
+        }
+
+        void StartBeam()
+        {
+            if (beamLengthGoing < beamRange)
+            {
+                beamLengthGoing += beamSpeedGoing * Time.deltaTime;
+            }
+
+        }
+
+        void FinishBeam()
+        {
+            beamLengthClosing += beamSpeedClosing * Time.deltaTime;
+        }
     }
 }
