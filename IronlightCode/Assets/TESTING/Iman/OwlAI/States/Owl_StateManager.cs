@@ -8,7 +8,7 @@ public class Owl_StateManager : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float MovementSpeed =3;
-    private float OGMovementSpeed;
+    [HideInInspector] public float OGMovementSpeed;
     public float RotationSpeed =4;
     private float OGRotationSpeed;
     private Rigidbody rb;
@@ -26,6 +26,7 @@ public class Owl_StateManager : MonoBehaviour
     [Header("General Agro Variables")]
     public float DistToReAgro;
     public float TimeTillWarning;
+    public float DistToSlowDown;
 
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
@@ -113,19 +114,9 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
-    public void SlowingDown(Vector3 Target)
+    public void SlowingDown(float Distance)
     {
-        if (Vector3.Distance(Target, transform.position) < 0.3)
-        {
-           // MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, 3);
-
-            // Set our position as a fraction of the distance between the markers.
-            MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, (Vector3.Distance(Target, transform.position)/0.3f));
-        }
-        else
-        {
-            MovementSpeed = OGMovementSpeed;
-        }
+        MovementSpeed = (Distance * OGMovementSpeed) / DistToSlowDown;
     }
 
     IEnumerator SlowRotation()

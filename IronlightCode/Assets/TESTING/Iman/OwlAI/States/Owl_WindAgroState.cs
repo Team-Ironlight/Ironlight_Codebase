@@ -36,7 +36,6 @@ public class Owl_WindAgroState : ImanBaseState
     public override Type Tick()
     {
         calculateAgroPos();
-        //stateManager.SlowingDown(AgroPos);
         checkPlayerPos();
         //if owl havent reached position yet
         if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
@@ -51,10 +50,15 @@ public class Owl_WindAgroState : ImanBaseState
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
             warningTimer = Time.time + stateManager.TimeTillWarning;
             CamShaked = false;
+            if(Vector3.Distance(AgroPos, stateManager.transform.position) <= stateManager.DistToSlowDown)
+            {
+                stateManager.SlowingDown(Vector3.Distance(AgroPos, stateManager.transform.position));
+            }
         }
         //if reached the position
         else
         {
+            stateManager.MovementSpeed = stateManager.OGMovementSpeed;
             //get direction to player
             var PPos = stateManager.PLY_Transform.position;
             PPos.y = stateManager.transform.position.y;
