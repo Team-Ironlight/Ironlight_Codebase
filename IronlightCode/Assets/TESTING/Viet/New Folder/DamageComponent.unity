@@ -502,10 +502,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2143072273}
   - component: {fileID: 2143072272}
+  - component: {fileID: 2143072275}
   - component: {fileID: 2143072271}
   - component: {fileID: 2143072270}
   - component: {fileID: 2143072274}
-  - component: {fileID: 2143072275}
+  - component: {fileID: 2143072276}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -600,6 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmgVal: 20
   healVal: 10
+  soundSystem: {fileID: 2143072276}
 --- !u!54 &2143072275
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -616,3 +618,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2143072276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143072269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6fe188eeb9a95446b2b6bfb9189a5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - {fileID: 11400000, guid: 465a9e6b22c9a284cba9b946e392400f, type: 2}
+  allPlay: 0
