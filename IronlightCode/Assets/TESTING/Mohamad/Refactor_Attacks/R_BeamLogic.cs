@@ -60,7 +60,6 @@ namespace Sharmout.attacks
                     line.SetPosition(1, lineEnd);
                 }
 
-
                 line.SetPosition(0, lineStart);
 
                 posBeforeRelease = lineStart;

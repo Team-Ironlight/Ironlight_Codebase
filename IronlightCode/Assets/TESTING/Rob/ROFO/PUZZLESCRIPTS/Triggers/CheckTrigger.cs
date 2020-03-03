@@ -56,7 +56,7 @@ namespace ROFO
             if (other.gameObject.tag == tagTrigger)
             {
                 //send call to input manager to put in interaction list
-                PuzzleInteractionManager.SetInteractObject(this);
+                InputManagerTemp.SetInteractObject(this);
             }
         }
 
@@ -65,7 +65,7 @@ namespace ROFO
             if (other.gameObject.tag == tagTrigger)
             {
                 //send call to input manager to put in interaction list
-                PuzzleInteractionManager.RemoveInteractObject(this);
+                InputManagerTemp.RemoveInteractObject(this);
             }
         }
     }

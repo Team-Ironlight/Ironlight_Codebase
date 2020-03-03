@@ -31,8 +31,6 @@ public class Follower : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator GoByTheRoute(int routeNumber)
     {
         coroutineAllowed = false;
@@ -66,4 +64,6 @@ public class Follower : MonoBehaviour
 
         coroutineAllowed = true;
     }
+
+   
 }
