@@ -10,11 +10,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using TMPro;                            //Debugging Purposes
 using IronLight;
 
 
 [CreateAssetMenu(menuName = "AI System - by DonPhilifeh/AI States/New AttackState")]
-public class AttackState : StateMachine.BaseState
+public class AttackState : Phil_StateMa.BaseState
 {
 #if UNITY_EDITOR
     [TextArea]
@@ -104,12 +105,8 @@ public class AttackState : StateMachine.BaseState
         _updateMinMax = runner.GetComponent<AI_AbilityManager>();
        
         Name = this.GetType().ToString();
-               
-        _maxDistanceToAttack = runner.GetComponent<StateMachine>().Get_MaxDistanceAttack;
-        _minDistanceToAttack = runner.GetComponent<StateMachine>().Get_MinDistanceAttack;
 
-        _updateMinMax.Set_MaxDistance = _maxDistanceToAttack;
-        _updateMinMax.Set_MinDistance = _minDistanceToAttack;
+     
     }
 
     public override void Tick(MonoBehaviour runner)                                                                                                                             //Called every frame after the First Frame , Initiate by the StateMachine
@@ -119,6 +116,12 @@ public class AttackState : StateMachine.BaseState
         {
             if (_navMeshAgent.enabled == true)
             {
+                _maxDistanceToAttack = runner.GetComponent<Phil_StateMa>().Get_MaxDistanceAttack;
+                _minDistanceToAttack = runner.GetComponent<Phil_StateMa>().Get_MinDistanceAttack;
+
+                _updateMinMax.Set_MaxDistance = _maxDistanceToAttack;
+                _updateMinMax.Set_MinDistance = _minDistanceToAttack;
+
                 Vector3 destination = Vector3.zero;
                 Vector3 dirToTarget = (_mTarget.position - runner.transform.position).normalized;                                                                            //* Danish Suggested this Solution
 
@@ -178,11 +181,13 @@ public class AttackState : StateMachine.BaseState
                 {
                     if ((Vector3.Distance(runner.transform.position, _mTarget.position) >= _maxDistanceToAttack))
                     {
-                         return OnEnemyAttackDistance;
+                     
+                        return OnEnemyAttackDistance;
                     }
                     else if (Vector3.Distance(runner.transform.position, _mTarget.position) <= _minDistanceToAttack)           // Switch to <Attack State>
-                    {                       
-                         return OnEnemyLostState;
+                    {
+
+                        return OnEnemyLostState;
                     }
                 }
             }
