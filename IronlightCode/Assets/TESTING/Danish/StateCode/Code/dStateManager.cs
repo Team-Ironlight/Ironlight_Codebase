@@ -65,8 +65,7 @@ namespace Danish.StateCode
         public dMoveComponent dAimMove = null;
 
         public dPhysicsComponent dPhysics = null;
-
-        // public dPowerScroller powerWheel = null;
+		public dPowerWheel dPower = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -98,7 +97,7 @@ namespace Danish.StateCode
             rBlast = new R_BlastAttack();
 
             dPhysics = new dPhysicsComponent();
-            //powerWheel = new dPowerScroller();
+			dPower = new dPowerWheel();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
