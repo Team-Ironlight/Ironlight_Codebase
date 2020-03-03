@@ -23,7 +23,7 @@ namespace Danish.StateCode
             }
 
 			dPowerComponent = Manager.dPower;
-			dPowerComponent.Init();
+			//dPowerComponent.Init();
 
 		}
 
