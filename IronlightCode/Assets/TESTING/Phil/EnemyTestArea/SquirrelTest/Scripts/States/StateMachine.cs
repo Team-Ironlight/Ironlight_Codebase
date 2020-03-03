@@ -140,7 +140,7 @@ namespace IronLight
         [HideInInspector] public bool isOnAnimation = false;
         [HideInInspector] private bool isOnAttackMode = false;
         [HideInInspector] private bool isOnSafeMode = false;
-  
+      
         private string stateId;
         void Start()                                                            //---------------------------- This is called before the first frame ----------------------------
         {
@@ -148,14 +148,11 @@ namespace IronLight
             _aniMator = GetComponent<Animator>();
             _arcRigidBody = GetComponent<Rigidbody>();
             _mTarget = GameObject.FindWithTag("Player").transform;
-         
 
             if (CurrentState != null)                                           // Precaution Check - If Empty Do Nothing , this save memory calls
             {
                 CurrentState.OnEnter(this);                                         // This is called before the first frame
             }
-
-
         }
 
         void Update()                                                           //---------------------------- Called every frame after the First Frame ----------------------------
@@ -165,7 +162,7 @@ namespace IronLight
             if (isActive == true && CurrentState != null)                       // Precaution Check - if return Empty Do Nothing this save Memory ussage
             {
                  CurrentState.Tick(this);                                       // called once per frame
-                stateId = CurrentState.CheckConditions(this);
+                 stateId = CurrentState.CheckConditions(this);
                 if (stateId.Length > 0)                                         // If Empty Do Nothing, save Memory calls
                 {
                     foreach (BaseState s in AvailableStates)                    // Let us Update the States   

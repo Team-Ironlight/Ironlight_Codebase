@@ -32,14 +32,6 @@ namespace Danish.StateCode
         public bool _beamAttack = false;
         public bool _blastAttack = false;
 
-        public bool _crystalInteract = false;
-
-        public bool _aimSights = false;
-
-        public bool _scrollPos = false;
-        public bool _scrollNeg = false;
-
-
         private void Awake()
         {
             controls = new TestDanish_Controller_Input();
@@ -48,7 +40,7 @@ namespace Danish.StateCode
 
         private void Update()
         {
-
+            //_stateManager.Tick();
         }
 
         private void FixedUpdate()
@@ -59,7 +51,7 @@ namespace Danish.StateCode
 
         public dStateManager Init()
         {
-            
+          
 
             if (_stateManager == null)
             {
@@ -104,19 +96,8 @@ namespace Danish.StateCode
                 _orbAttack = false;
             }
 
-            if (_crystalInteract)
-            {
-                _stateManager.isCrystal = true;
-                _crystalInteract = false;
-            }
-
             _stateManager.launchBeam = _beamAttack;
             _stateManager.launchBlast = _blastAttack;
-
-            _stateManager.ADS = _aimSights;
-
-            _stateManager.scrollUp = _scrollPos;
-            _stateManager.scrollDown = _scrollNeg;
         }
 
 
@@ -156,12 +137,6 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.started += BlastTest_started;
             controls.Combat.BlastTest.performed += BlastTest_performed;
             controls.Combat.BlastTest.canceled += BlastTest_canceled;
-
-            controls.Interaction.CrystalInteract.performed += CrystalInteract_performed;
-
-            controls.Traversal.ADS.performed += ADS_performed;
-
-            controls.Interaction.PowerScroll.performed += PowerScroll_performed;
         }
 
         
@@ -189,15 +164,6 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.performed -= BlastTest_performed;
             controls.Combat.BlastTest.canceled -= BlastTest_canceled;
 
-
-            controls.Interaction.CrystalInteract.performed -= CrystalInteract_performed;
-
-
-            controls.Traversal.ADS.performed -= ADS_performed;
-
-
-            controls.Interaction.PowerScroll.performed -= PowerScroll_performed;
-
             controls.Disable();
         }
 
@@ -218,52 +184,6 @@ namespace Danish.StateCode
 
 
         #region Input Functions
-
-
-        private void PowerScroll_performed(InputAction.CallbackContext ctx)
-        {
-            float num = ctx.ReadValue<float>();
-
-            if(num > 0)
-            {
-                _scrollPos = true;
-                _scrollNeg = false;
-            }
-            else if(num < 0)
-            {
-                _scrollNeg = true;
-                _scrollPos = false;
-            }
-            else
-            {
-                _scrollNeg = false;
-                _scrollPos = false;
-            }
-
-
-        }
-
-
-        private void ADS_performed(InputAction.CallbackContext ctx)
-        {
-            if(ctx.interaction is PressInteraction)
-            {
-                if (!_aimSights)
-                {
-                    _aimSights = true;
-                }
-                else
-                {
-                    _aimSights = false;
-                }
-            }
-        }
-
-
-        private void CrystalInteract_performed(InputAction.CallbackContext ctx)
-        {
-            _crystalInteract = true;
-        }
 
 
         private void Attack_started(InputAction.CallbackContext obj)

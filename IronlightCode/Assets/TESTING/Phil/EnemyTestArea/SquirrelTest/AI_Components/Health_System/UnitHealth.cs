@@ -26,34 +26,21 @@ public class UnitHealth : MonoBehaviour
 
   //  public UnityEvent OnReceiveDamage;
 
-    private Dissolve mDissolveComponent;
-    private Phil_StateMa mStateMachine;
+    public Dissolve mDissolveComponent;
+    private StateMachine mStateMachine;
     private AI_AbilityManager mAbilityManager;
     
     public GameObject particleDissolve;
 
-   public GameObject _fillImage;  //Health Bar of your AI
 
-    public bool isPlayer;
-
-    public GameObject respchkpnt;
-    private Transform _mTarget;
-    public GameObject _oPlayer;
 
     private void Start()
     {
-        if (isPlayer)
-        {
-            _oPlayer = GameObject.FindWithTag("Player").gameObject;
-            if (_oPlayer != null)
-            {
-                _mTarget = _oPlayer.transform;
-            }
-            else
-            {
-                Debug.Log("No Player game objects found in the 'Scene'");
-            }
-        }
+        //Initialize
+        mDissolveComponent = GetComponent<Dissolve>();
+        mStateMachine = GetComponent<StateMachine>();
+        mAbilityManager = GetComponent<AI_AbilityManager>();
+  
 
         if (ResetHP)
             HP.SetValue(StartingHP);
@@ -68,98 +55,28 @@ public class UnitHealth : MonoBehaviour
             DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
         }
 
-
-        if (!other.gameObject.CompareTag("Player"))
-        {
-            //Initialize Components Here, we use this to check where's this Script Attach to ?
-
-            if (this.gameObject.layer == 15) //Squirrel
-            {
-                mDissolveComponent = GetComponent<Dissolve>();
-                mStateMachine = GetComponent<Phil_StateMa>();
-                mAbilityManager = GetComponent<AI_AbilityManager>();
-            }
-
-            if (this.gameObject.layer == 16) //Owl
-            {
-
-            }
-
-            if (this.gameObject.layer == 17) //Snake
-            {
-
-            }
-        }
-     
-
-
-
         if (HP.Value <= 0.0f)
         {
-            _fillImage.SetActive(false);
             DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
-       
-       
-                if (this.gameObject.layer == 15) // 15 Squirrel
-                {
-                    mStateMachine.isActive = false;
-                    OnSquirrelDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
 
-                }
-
-                if (this.gameObject.layer == 16) //Owl
-                {
-
-                }
-
-                if (this.gameObject.layer == 17) //Snake
-                {
-
-                }
-
-                 if (this.gameObject.layer == 18) //Player
-                {
-                     //respawn the Player here
-                     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
-              
-                    if (ResetHP)
-                        HP.SetValue(StartingHP);
-
-              //  OnPlayerDeath();
-                }
-
+            OnDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
+            if (ResetHP)
+                HP.SetValue(StartingHP);
         }
-
+        //else                                                                        //Lets do damage Hit Effect  
+        //{
+        //    OnReceiveDamage.Invoke();
+        //}
     }
 
-    //Put your death Animation , and SetActive False the GameObject
-    private void OnOwlDeath()
-    {
-
-    }
-    //Put your death Animation , and SetActive False the GameObject
-    private void OnSnakeDeath()
-    {
-
-    }
-
-    private void OnPlayerDeath()
-    {
-      
-            this.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
-    }
     //To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
-    private void OnSquirrelDeath()
+    private void OnDeath()
     {
-        if(mAbilityManager)
-            mAbilityManager.enabled = false;
-
-        if (mDissolveComponent)
-            mDissolveComponent.enabled = true;
-
-        if (particleDissolve)
-            particleDissolve.SetActive(true);
+        mStateMachine.isActive = false;
+        mAbilityManager.enabled = false;
+        mDissolveComponent.enabled = true;
+        particleDissolve.SetActive(true);
 
         if (ResetHP)
             HP.SetValue(StartingHP);

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using EZCameraShake;
 
 public class Owl_StateManager : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float MovementSpeed =3;
-    [HideInInspector] public float OGMovementSpeed;
+    private float OGMovementSpeed;
     public float RotationSpeed =4;
     private float OGRotationSpeed;
     private Rigidbody rb;
@@ -23,15 +22,10 @@ public class Owl_StateManager : MonoBehaviour
     [HideInInspector] public int CurrentWP;
     public float DistToAgro;
 
-    [Header("General Agro Variables")]
-    public float DistToReAgro;
-    public float TimeTillWarning;
-    public float DistToSlowDown;
-
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
     public float Sweep_GroundPos;
-    public float DistToPatrol;
+    public float DistToPatrol;  
     
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
@@ -43,12 +37,12 @@ public class Owl_StateManager : MonoBehaviour
     public float Wind_GroundPos;
 
     [Header("Wind Attack Variables")]
-    public float WindForce;
     public float SphereRadius;
     public float MaxRange;
     public float WindAttackDuration;
     public LayerMask Windinteractable;
     public bool WindAttack;
+
 
     [Header("Player related Variables")]
     [HideInInspector] public Transform PLY_Transform;
@@ -80,11 +74,6 @@ public class Owl_StateManager : MonoBehaviour
         //distance between owl and the player
         DisBetwnPLY = Vector3.Distance(PLY_Transform.position, transform.position);
         //print(DisBetwnPLY);
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            EZCameraShake.CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.1f, 1.0f);
-        }
     }
 
     //BankRotation calculation
@@ -114,9 +103,19 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
-    public void SlowingDown(float Distance)
+    public void SlowingDown(Vector3 Target)
     {
-        MovementSpeed = (Distance * OGMovementSpeed) / DistToSlowDown;
+        if (Vector3.Distance(Target, transform.position) < 0.3)
+        {
+           // MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, 3);
+
+            // Set our position as a fraction of the distance between the markers.
+            MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, (Vector3.Distance(Target, transform.position)/0.3f));
+        }
+        else
+        {
+            MovementSpeed = OGMovementSpeed;
+        }
     }
 
     IEnumerator SlowRotation()
