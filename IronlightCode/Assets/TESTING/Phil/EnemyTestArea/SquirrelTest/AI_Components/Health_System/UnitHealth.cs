@@ -120,8 +120,10 @@ public class UnitHealth : MonoBehaviour
 
                  if (this.gameObject.layer == 18) //Player
                 {
-                     //respawn the Player here
-                     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
+                 //   _fillImage.SetActive(true);
+
+                //respawn the Player here
+                _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
               
                     if (ResetHP)
                         HP.SetValue(StartingHP);
