@@ -10,7 +10,7 @@ namespace brian.Components
     [System.Serializable]
     public class SpiritComponent 
     {
-        float maxSpirit = 100;
+        public float maxSpirit = 100;
         HealthComponent he;
         [SerializeField]
         public float currSpirit;

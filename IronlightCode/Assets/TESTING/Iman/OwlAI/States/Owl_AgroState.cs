@@ -12,6 +12,7 @@ public class Owl_AgroState : ImanBaseState
     private Vector3 SavedPlayerPos;
     private float warningTimer;
     private bool CamShaked;
+    private float DistAgroToOwl;
     //bankRotation
     private float Y1;
     private float Y2;
@@ -39,8 +40,10 @@ public class Owl_AgroState : ImanBaseState
         calculateAgroPos();
         //stateManager.SlowingDown(AgroPos);
         checkPlayerPos();
+        stateManager.OwlAnim.SetBool("Idle", false);
+        DistAgroToOwl = Vector3.Distance(AgroPos, stateManager.transform.position);
         //if owl havent reached position yet
-        if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
+        if (DistAgroToOwl > 0.3)
         {
             //get direction between point and owl
             var direction = AgroPos - stateManager.transform.position;
@@ -52,15 +55,18 @@ public class Owl_AgroState : ImanBaseState
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
             warningTimer = Time.time + stateManager.TimeTillWarning;
             CamShaked = false;
-            if (Vector3.Distance(AgroPos, stateManager.transform.position) <= stateManager.DistToSlowDown)
+            if (DistAgroToOwl <= stateManager.DistToSlowDown)
             {
-                stateManager.SlowingDown(Vector3.Distance(AgroPos, stateManager.transform.position));
+                stateManager.SlowMoveSpeed(DistAgroToOwl);
+                stateManager.SlowRotSpeed(DistAgroToOwl);
             }
         }
         //if reached the position
         else
         {
             stateManager.MovementSpeed = stateManager.OGMovementSpeed;
+            stateManager.RotationSpeed = stateManager.OGRotationSpeed;
+            stateManager.OwlAnim.SetBool("Idle", true);
             //get direction to player
             var PPos = stateManager.PLY_Transform.position;
             PPos.y = stateManager.transform.position.y;
@@ -97,6 +103,7 @@ public class Owl_AgroState : ImanBaseState
 
         if(stateManager.SweepAttack)
         {
+            stateManager.OwlAnim.SetBool("Dive", true);
             return typeof(Owl_SweepAttackState);
         }
 

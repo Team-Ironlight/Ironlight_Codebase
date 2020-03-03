@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -9,6 +10,8 @@ namespace Danish.StateCode
     public class dReadyState : dCombatBaseState
     {
         private dStateManager Manager;
+
+		private dPowerWheel dPowerComponent = null;
 
         public dReadyState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -19,8 +22,10 @@ namespace Danish.StateCode
                 Manager = base.MainManager;
             }
 
-            
-        }
+			dPowerComponent = Manager.dPower;
+			dPowerComponent.Init();
+
+		}
 
 
         public override void OnEnter()
@@ -35,7 +40,25 @@ namespace Danish.StateCode
         {
             Debug.Log("Ready To Attack");
 
-            if (Manager.launchOrb)
+			dPowerComponent.Tick(Manager.scrollUp, Manager.scrollDown);
+
+
+			if (dPowerComponent.OrbActive)
+			{
+				Manager.launchOrb = false;
+				return typeof(dOrbState);
+			}
+			else if (dPowerComponent.BeamActive)
+			{
+				return typeof(dBeamState);
+			}
+			else if (dPowerComponent.BlastActive)
+			{
+				return typeof(dBeamState);
+			}
+
+			//To be changed
+			if (Manager.launchOrb)
             {
                 Manager.launchOrb = false;
                 return typeof(dOrbState);
