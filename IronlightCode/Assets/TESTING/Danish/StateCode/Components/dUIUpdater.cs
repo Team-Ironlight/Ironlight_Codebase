@@ -27,9 +27,14 @@ namespace Danish.Components
 		// Start is called before the first frame update
 		public void Init(HealthComponent hpcomponent, SpiritComponent spiritcomponent)
 		{
+			//reference to UI Images
+
+
+			//reference to components
 			hpcomp = hpcomponent;
 			spcomp = spiritcomponent;
 
+			//functions called
 			UpdateMaxValues();
 
 			ResetCurrentValues();
@@ -55,20 +60,8 @@ namespace Danish.Components
 			SPBar.fillAmount = currSpirit / maxSpirit;
 
 
+
 		}
-
-
-		//IEnumerator RotateWheel()
-		//{
-
-		//	Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
-		//	for (float t = 0f; t <= 1f; t += scrollSpeed * Time.deltaTime)
-		//	{
-		//		transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
-		//		yield return null;
-		//	}
-
-		//}
 
 	}
 }

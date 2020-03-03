@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -30,10 +31,14 @@ namespace Sharmout.attacks
         public bool going = false;
         public bool ending = false;
 
-        public void Init(Vector3 _start)
+        public void Init(Vector3 _start, BeamSO stats)
         {
             lineStart = _start;
             lineEnd = _start;
+
+            beamRange = stats.beamRange;
+            beamSpeedGoing = stats.speedGoing;
+            beamSpeedClosing = stats.speedEnding;
         }
 
         public void ActiveTick(Vector3 _startPoint, Vector3 _rotation)

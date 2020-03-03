@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -15,6 +16,8 @@ namespace Sharmout.attacks
 
         GameObject currentBeam = null;
         R_BeamLogic logic = null;
+
+        public BeamSO beamStats = null;
 
         public void Init(Transform _muzzle, dObjectPooler _pool)
         {
@@ -35,7 +38,7 @@ namespace Sharmout.attacks
                 }
             }
 
-            logic.Init(muzzleRef.position);
+            logic.Init(muzzleRef.position, beamStats);
 
             logic.going = true;
             logic.ending = false;
