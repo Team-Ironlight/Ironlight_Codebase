@@ -10,8 +10,8 @@ namespace Viet.Components
     public class DamageComp
     {
         public HealthEffector healthEffector = null;
-        public float damageValue;
-        public float CritDmg;
+        public float damageValue = 5;
+        public float CritDmg = 1;
 
         private GameObject attacker = null; //attacker currently empty
 
