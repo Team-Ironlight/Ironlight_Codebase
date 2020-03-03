@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 public class R_BlastLogic : MonoBehaviour
 {
@@ -27,6 +28,13 @@ public class R_BlastLogic : MonoBehaviour
         {
             chargeCount += radiusChargeSpeed * Time.deltaTime;
         }
+    }
+
+    public void Init(BlastSO stats)
+    {
+        radiusMax = stats._radiusMax;
+        radiusChargeSpeed = stats._radiusChargeSpeed;
+        BlastSpeedMultiplyer = stats._BlastSpeedMultiplyer;
     }
 
 

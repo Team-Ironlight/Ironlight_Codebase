@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
 using Danish.StateCode;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -19,7 +20,7 @@ namespace Sharmout.attacks
         // tag name of pool containing orb bullets
         string poolTag = " ";
 
-        
+        public OrbSO orbStats = null;
 
 
         // Initialization function for this attack
