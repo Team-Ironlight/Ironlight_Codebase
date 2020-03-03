@@ -9,9 +9,10 @@ public class CheckPointSphere : MonoBehaviour
     private bool Flag;
     private void OnTriggerEnter(Collider other)
    {
-
-       if(other.gameObject.CompareTag("Player"))
+        Debug.Log("Touched It = " + other.tag );
+        if (other.gameObject.CompareTag("Player"))
        {
+         
             if(!Flag)
             {
             Instantiate(Effect, this.transform.position, this.transform.rotation);

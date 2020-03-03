@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using EZCameraShake;
 
 public class Owl_WindAgroState : ImanBaseState
 {
@@ -9,6 +10,8 @@ public class Owl_WindAgroState : ImanBaseState
 
     private Vector3 AgroPos;
     private Vector3 SavedPlayerPos;
+    private float warningTimer;
+    private bool CamShaked;
     //bankRotation
     private float Y1;
     private float Y2;
@@ -22,6 +25,7 @@ public class Owl_WindAgroState : ImanBaseState
     {
         Debug.Log("Entering Wind Agro State");
         SavedPlayerPos = stateManager.PLY_Transform.position;
+        
     }
 
     public override void OnExit()
@@ -32,7 +36,6 @@ public class Owl_WindAgroState : ImanBaseState
     public override Type Tick()
     {
         calculateAgroPos();
-        //stateManager.SlowingDown(AgroPos);
         checkPlayerPos();
         //if owl havent reached position yet
         if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
@@ -45,10 +48,17 @@ public class Owl_WindAgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+            warningTimer = Time.time + stateManager.TimeTillWarning;
+            CamShaked = false;
+            if(Vector3.Distance(AgroPos, stateManager.transform.position) <= stateManager.DistToSlowDown)
+            {
+                stateManager.SlowingDown(Vector3.Distance(AgroPos, stateManager.transform.position));
+            }
         }
         //if reached the position
         else
         {
+            stateManager.MovementSpeed = stateManager.OGMovementSpeed;
             //get direction to player
             var PPos = stateManager.PLY_Transform.position;
             PPos.y = stateManager.transform.position.y;
@@ -59,6 +69,20 @@ public class Owl_WindAgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+
+            if (warningTimer - 1 <= Time.time)
+            {
+                if (!CamShaked)
+                {
+                    CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.5f, 0.5f);
+                    CamShaked = true;
+                }
+            }
+
+            if (warningTimer <= Time.time)
+            {
+                stateManager.WindAttack = true;
+            }
         }
 
         //bank rotation
@@ -100,6 +124,7 @@ public class Owl_WindAgroState : ImanBaseState
         if(Vector3.Distance(stateManager.PLY_Transform.position , SavedPlayerPos) > stateManager.DistToReAgro)
         {
             SavedPlayerPos = stateManager.PLY_Transform.position;
+            warningTimer = Time.time + stateManager.TimeTillWarning;
         }
     }
 }

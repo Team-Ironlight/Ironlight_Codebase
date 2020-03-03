@@ -40,7 +40,7 @@ public class PlayerCamera : MonoBehaviour
     
     private Coroutine transRoutine;
 
-    public Camera Cam;
+    //public Camera Cam;
     public float minZoomFOV;
     public float maxZoomFOV;
     public float smooth;
@@ -96,12 +96,12 @@ public class PlayerCamera : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                ZoomIn();
+                //ZoomIn();
 
             }
             else
             {
-                ZoomOut();
+                //ZoomOut();
             }
         }
 
@@ -244,20 +244,20 @@ public class PlayerCamera : MonoBehaviour
         }
         while (done != 6);
     }
-    public void ZoomIn()
-    {
-        Cam.fieldOfView -= smooth / 8;
-        if (Cam.fieldOfView < minZoomFOV)
-        {
-            Cam.fieldOfView = minZoomFOV;
-        }
-    }
-    public void ZoomOut()
-    {
-        Cam.fieldOfView += smooth / 8;
-        if (Cam.fieldOfView > maxZoomFOV)
-        {
-            Cam.fieldOfView = maxZoomFOV;
-        }
-    }
+    //public void ZoomIn()
+    //{
+    //    Cam.fieldOfView -= smooth / 8;
+    //    if (Cam.fieldOfView < minZoomFOV)
+    //    {
+    //        Cam.fieldOfView = minZoomFOV;
+    //    }
+    //}
+    //public void ZoomOut()
+    //{
+    //    Cam.fieldOfView += smooth / 8;
+    //    if (Cam.fieldOfView > maxZoomFOV)
+    //    {
+    //        Cam.fieldOfView = maxZoomFOV;
+    //    }
+    //}
 }

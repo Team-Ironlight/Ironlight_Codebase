@@ -28,6 +28,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "ADS",
+                    "type": "Button",
+                    "id": "9e4e5092-bb3b-4d5b-a2e3-6992b44cc39e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -105,6 +113,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "575241ad-c9cb-495b-8619-75c8cae779d1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ADS",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -205,6 +224,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press(behavior=1)"
+                },
+                {
+                    "name": "PowerScroll",
+                    "type": "Value",
+                    "id": "9c1c905a-5311-4e49-af0c-76a35b99b885",
+                    "expectedControlType": "Double",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -216,6 +243,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CrystalInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6833da8c-26fc-4081-9220-dd7c0e0b1b10",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

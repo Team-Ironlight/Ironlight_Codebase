@@ -25,6 +25,7 @@ namespace Danish
         public Animator parentAnimator = null;
         public Tools.dObjectPooler parentPooler = null;
         public StateCode.dInputHandler parentInput = null;
+        public LineRenderer parentLine = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
         //public PuzzleInteractionManager puzzleManager;
@@ -32,6 +33,8 @@ namespace Danish
 
         public Transform parentCamera = null;
         public Transform parentMuzzle = null;
+
+        public Danish.Components.dUpdateMuzzleRotation muzzleRotator = null;
 
         private void Reset()
         {
@@ -51,6 +54,9 @@ namespace Danish
             //puzzleManager = new PuzzleInteractionManager();
 
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
+
+            muzzleRotator = new Components.dUpdateMuzzleRotation();
+            muzzleRotator.Init(transform, parentMuzzle);
         }
 
         void Start()
@@ -61,7 +67,7 @@ namespace Danish
         void Update()
         {
             parentManager.Tick();
-
+            muzzleRotator.Tick();
             //playerVelocity = parentRigidbody.velocity;
         }
 
