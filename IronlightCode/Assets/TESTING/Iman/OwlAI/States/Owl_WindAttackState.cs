@@ -53,6 +53,7 @@ public class Owl_WindAttackState : ImanBaseState
 
         if (timer < Time.time)
         {
+            stateManager.OwlAnim.SetBool("Wind", false);
             stateManager.WindAttack = false;
             stateManager.StartCoroutine("SlowRotation");
             return typeof(Owl_ChooseAttackState);
