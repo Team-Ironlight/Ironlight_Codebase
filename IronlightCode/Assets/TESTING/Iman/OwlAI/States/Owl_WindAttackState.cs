@@ -8,6 +8,7 @@ public class Owl_WindAttackState : ImanBaseState
     Owl_StateManager stateManager;
 
     private Vector3 WindPlayerPos;
+    private Vector3 direction;
     private RaycastHit hit;
 
     private float timer;
@@ -32,18 +33,22 @@ public class Owl_WindAttackState : ImanBaseState
 
     public override Type Tick()
     {
-        var direction = WindPlayerPos - stateManager.transform.position;
+        direction = WindPlayerPos - stateManager.transform.position;
         stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.SweepRotateSpeed * Time.deltaTime);
         if(Physics.SphereCast(stateManager.transform.position, stateManager.SphereRadius, direction.normalized , out hit, stateManager.MaxRange, stateManager.Windinteractable))
         {
             if(hit.transform.gameObject.CompareTag("Player"))
             {
+                var owl = stateManager.transform.position;
+                owl.y = stateManager.PLY_Transform.position.y;
+                var dir = stateManager.PLY_Transform.position - owl;
+                hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(stateManager.WindForce * dir, ForceMode.Force);
                 Debug.Log("HittinPlayer");
             }
         }
         else
         {
-            
+
         }
 
         if (timer < Time.time)

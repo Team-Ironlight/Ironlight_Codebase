@@ -62,14 +62,10 @@ public class UnitHealth : MonoBehaviour
     private void OnTriggerEnter(Collider other)                                      //For this version we need Trigger Component (ex. Sphere Collider) 
     {
         DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();        //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
-        if (damage != null)
-        {
-            HP.ApplyChange(-damage.DamageAmount);
-            DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
-        }
 
 
-        if (!other.gameObject.CompareTag("Player"))
+        //Weapon Filter [ 19 Weapon -  18 Player ]
+        if ((other.gameObject.layer == 19) && this.gameObject.layer != 18)
         {
             //Initialize Components Here, we use this to check where's this Script Attach to ?
 
@@ -89,15 +85,33 @@ public class UnitHealth : MonoBehaviour
             {
 
             }
+
+         
+            if (damage != null)
+            {
+                HP.ApplyChange(-damage.DamageAmount);
+                DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
+            }
+
         }
-     
+        else if ((other.gameObject.layer != 19) && this.gameObject.layer == 18)
+        {
+            if (damage != null)
+            {
+                HP.ApplyChange(-damage.DamageAmount);
+                DamageEvent.Invoke();                                                   //Deal the Damage Event here, using the HP variable attached to this Script.
+            }
+        }
+
 
 
 
         if (HP.Value <= 0.0f)
         {
-            _fillImage.SetActive(false);
-            DeathEvent.Invoke();                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
+            if(_fillImage)
+                _fillImage.SetActive(false);
+
+            DeathEvent.Invoke();                                                                    //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
 
        
        
@@ -118,17 +132,18 @@ public class UnitHealth : MonoBehaviour
 
                 }
 
-                 if (this.gameObject.layer == 18) //Player
+                if(this.gameObject.layer == 18) //Player
                 {
-                 //   _fillImage.SetActive(true);
+                     //respawn the Player here
+                     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
 
-                //respawn the Player here
-                _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
-              
+                    if (_fillImage)
+                        _fillImage.SetActive(true);
+
                     if (ResetHP)
                         HP.SetValue(StartingHP);
-
-              //  OnPlayerDeath();
+             
+                    //  OnPlayerDeath();
                 }
 
         }
