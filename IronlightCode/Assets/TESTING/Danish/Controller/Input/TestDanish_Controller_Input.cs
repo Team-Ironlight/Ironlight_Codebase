@@ -206,33 +206,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Interaction"",
-            ""id"": ""a429d3df-0a5a-4e13-b1b5-0d6f8ded2a25"",
-            ""actions"": [
-                {
-                    ""name"": ""CrystalInteract"",
-                    ""type"": ""Button"",
-                    ""id"": ""8a566531-f12e-43f7-8494-ba824346d38e"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""cd13add6-adbb-4576-828a-580533be5970"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CrystalInteract"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
@@ -248,9 +221,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         m_Combat_OrbTest = m_Combat.FindAction("OrbTest", throwIfNotFound: true);
         m_Combat_BeamTest = m_Combat.FindAction("BeamTest", throwIfNotFound: true);
         m_Combat_BlastTest = m_Combat.FindAction("BlastTest", throwIfNotFound: true);
-        // Interaction
-        m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
-        m_Interaction_CrystalInteract = m_Interaction.FindAction("CrystalInteract", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -402,39 +372,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         }
     }
     public CombatActions @Combat => new CombatActions(this);
-
-    // Interaction
-    private readonly InputActionMap m_Interaction;
-    private IInteractionActions m_InteractionActionsCallbackInterface;
-    private readonly InputAction m_Interaction_CrystalInteract;
-    public struct InteractionActions
-    {
-        private @TestDanish_Controller_Input m_Wrapper;
-        public InteractionActions(@TestDanish_Controller_Input wrapper) { m_Wrapper = wrapper; }
-        public InputAction @CrystalInteract => m_Wrapper.m_Interaction_CrystalInteract;
-        public InputActionMap Get() { return m_Wrapper.m_Interaction; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(InteractionActions set) { return set.Get(); }
-        public void SetCallbacks(IInteractionActions instance)
-        {
-            if (m_Wrapper.m_InteractionActionsCallbackInterface != null)
-            {
-                @CrystalInteract.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-                @CrystalInteract.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-                @CrystalInteract.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-            }
-            m_Wrapper.m_InteractionActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @CrystalInteract.started += instance.OnCrystalInteract;
-                @CrystalInteract.performed += instance.OnCrystalInteract;
-                @CrystalInteract.canceled += instance.OnCrystalInteract;
-            }
-        }
-    }
-    public InteractionActions @Interaction => new InteractionActions(this);
     public interface ITraversalActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -447,9 +384,5 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         void OnOrbTest(InputAction.CallbackContext context);
         void OnBeamTest(InputAction.CallbackContext context);
         void OnBlastTest(InputAction.CallbackContext context);
-    }
-    public interface IInteractionActions
-    {
-        void OnCrystalInteract(InputAction.CallbackContext context);
     }
 }

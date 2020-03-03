@@ -27,20 +27,23 @@ namespace Danish.StateCode
 
         public override void OnEnter()
         {
-
+            beamComponent.ResetBeam();
+            beamComponent.StartBeam();
         }
 
         public override void OnExit()
         {
-
         }
 
         public override Type Tick()
         {
             Debug.Log("Beam State");
 
+            beamComponent.Tick();
+
             if (!Manager.launchBeam)
             {
+                beamComponent.EndBeam();
                 return typeof(dReadyState);
             }
 

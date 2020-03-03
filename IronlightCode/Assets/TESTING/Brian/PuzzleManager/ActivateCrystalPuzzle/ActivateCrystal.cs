@@ -30,7 +30,15 @@ public class ActivateCrystal : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Orb"))
+        if(collision.gameObject.CompareTag("Orb")|| collision.gameObject.CompareTag("Blast"))
+        {
+            activated = true;
+            print("Crystal Active");
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Orb") || other.gameObject.CompareTag("Blast"))
         {
             activated = true;
             print("Crystal Active");

@@ -72,7 +72,7 @@ public class PLY_2ndBlast : MonoBehaviour
 
         chargeCount = 0;
 
-        Destroy(blast);
+       //  Destroy(blast);
     }
 
 

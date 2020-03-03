@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Danish.Custom;
 
 namespace Danish
 {
@@ -28,11 +27,11 @@ namespace Danish
         public LineRenderer parentLine = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
-        //public PuzzleInteractionManager puzzleManager;
-        
 
         public Transform parentCamera = null;
         public Transform parentMuzzle = null;
+
+        public Danish.Components.dUpdateMuzzleRotation muzzleRotator = null;
 
         private void Reset()
         {
@@ -49,9 +48,10 @@ namespace Danish
         {
             parentManager = parentInput.Init();
 
-            //puzzleManager = new PuzzleInteractionManager();
-
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
+
+            muzzleRotator = new Components.dUpdateMuzzleRotation();
+            muzzleRotator.Init(transform, parentMuzzle);
         }
 
         void Start()
@@ -62,7 +62,7 @@ namespace Danish
         void Update()
         {
             parentManager.Tick();
-
+            muzzleRotator.Tick();
             //playerVelocity = parentRigidbody.velocity;
         }
 

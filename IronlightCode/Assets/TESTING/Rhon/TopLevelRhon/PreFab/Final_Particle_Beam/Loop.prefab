@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6795439230048086866}
   - component: {fileID: 4948298195603945309}
   - component: {fileID: 4480009051193497615}
-  m_Layer: 0
+  - component: {fileID: 8129881959628704478}
+  m_Layer: 19
   m_Name: Loop
-  m_TagString: Untagged
+  m_TagString: Blast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3737,7 +3738,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 2048
+      m_Bits: 4294967295
     maxCollisionShapes: 256
     quality: 2
     voxelSize: 0.5
@@ -4758,6 +4759,22 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8129881959628704478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929846208787034652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ba69950a011154dbce8dd22047bff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line: {fileID: 0}
+  muzzleRef: {fileID: 0}
+  going: 0
+  ending: 0
 --- !u!1 &2418986151274649030
 GameObject:
   m_ObjectHideFlags: 0
@@ -4771,7 +4788,7 @@ GameObject:
   - component: {fileID: 2418986151274649028}
   - component: {fileID: 5051706502193640057}
   - component: {fileID: 4129894738843882057}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: CylinderRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9613,7 +9630,7 @@ GameObject:
   - component: {fileID: 2418986152139142306}
   - component: {fileID: 8289448658886302700}
   - component: {fileID: 5661211974745577078}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: CylinderSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14455,7 +14472,7 @@ GameObject:
   - component: {fileID: 2418986152307278580}
   - component: {fileID: 4983716613408919238}
   - component: {fileID: 7262098772892838427}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Cylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19297,7 +19314,7 @@ GameObject:
   - component: {fileID: 2418986152414093100}
   - component: {fileID: 27821755905969537}
   - component: {fileID: 1247565855443698134}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: CylinderSparks3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24139,7 +24156,7 @@ GameObject:
   - component: {fileID: 2418986152791314886}
   - component: {fileID: 5586301070710758325}
   - component: {fileID: 1638952444772585697}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

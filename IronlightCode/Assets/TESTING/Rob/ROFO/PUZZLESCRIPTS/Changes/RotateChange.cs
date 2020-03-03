@@ -9,8 +9,7 @@ namespace ROFO
         public Vector3[] rotations = { Vector3.zero };
         public float rotTime = 1f;
         public int letterSize = 3;
-        private Quaternion targetRot;
-        public float smoothRot;
+
         //interface method, calls move
         public override void Change()
         {
@@ -34,30 +33,6 @@ namespace ROFO
             int indexNext = (indexPos + 1 + rotations.Length) % rotations.Length;
             indexPos = indexNext;
 
-            //targetRot *= Quaternion.AngleAxis(45, Vector3.up);
-
-            //bool checkRot = false;
-            //if (Mathf.Abs(rotations[indexStart].y - rotations[indexNext].y) > 180)
-            //{
-            //    print("Recognize this");
-            //    checkRot = true;
-            //    if (rotations[indexStart].y > rotations[indexNext].y)
-            //    {
-            //        rotations[indexStart].y -= 360;
-            //        print("RecognizeMe Biatch");
-
-            //    }
-            //    else
-            //    {
-            //        rotations[indexNext].y -= 360;
-            //        print("hogwash");
-            //    }
-            //}
-            //else
-            //{
-            //    checkRot = false;
-            //}
-
             //get the desired rotation
             Quaternion startRot = transform.rotation;
             Quaternion nextRot = Quaternion.Euler(rotations[indexNext]);
@@ -68,14 +43,15 @@ namespace ROFO
             {
                 count += Time.deltaTime;
 
-                transform.rotation = Quaternion.Euler(Vector3.Slerp(startRot.eulerAngles,nextRot.eulerAngles,count / rotTime));
-                //transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg);
+                transform.rotation = Quaternion.Euler(Vector3.Slerp(startRot.eulerAngles,
+                                                                    nextRot.eulerAngles,
+                                                                    count / rotTime));
+
                 yield return null;
             }
 
             //ensure in correct position and nothing weird is up
             transform.rotation = Quaternion.Euler(rotations[indexNext]);
-            //transform.parent.rotation = Quaternion.Lerp(transform.parent.rotation, targetRot, 10 * smoothRot * Time.deltaTime);
             SetIsMoving(false);
         }
 
@@ -103,6 +79,5 @@ namespace ROFO
                 Change();
             }
         }
-
     }
 }
