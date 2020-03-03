@@ -20,7 +20,7 @@ public class Owl_WindAttackState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Wind Attack State");
-        calculateSweepAttackPositions();
+        calculateWindAttackPositions();
         timer = Time.time + stateManager.WindAttackDuration;
     }
 
@@ -56,7 +56,7 @@ public class Owl_WindAttackState : ImanBaseState
         return null;
     }
 
-    private void calculateSweepAttackPositions()
+    private void calculateWindAttackPositions()
     {
         //PlayerPos
         WindPlayerPos = stateManager.PLY_Transform.position;

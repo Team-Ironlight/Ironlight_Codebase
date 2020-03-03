@@ -31,12 +31,20 @@ namespace Danish.StateCode
         public bool launchBlast = false;
 
 
+        [Header("Aim Down Sights Variables")]
+        public bool ADS = false;
+
+        [Header("Power Scroll Variables")]
+        public bool scrollUp = false;
+        public bool scrollDown = false;
+
         public GameObject obj;
         public Transform objTransform;
 
         public Animator animator = null;
         public Rigidbody rigidbody = null;
         public dObjectPooler pooler = null;
+        public LineRenderer Line = null;
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
@@ -54,8 +62,11 @@ namespace Danish.StateCode
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
         public dMoveComponent dFloat = null;
+        public dMoveComponent dAimMove = null;
 
         public dPhysicsComponent dPhysics = null;
+
+        // public dPowerScroller powerWheel = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -75,16 +86,19 @@ namespace Danish.StateCode
 
             Muzzle = parentMuzzle;
 
+
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
             dMove = new dMoveComponent();
             dFloat = new dMoveComponent();
+            dAimMove = new dMoveComponent();
 
             rOrb = new R_OrbAttack();
             rBeam = new R_BeamAttack();
             rBlast = new R_BlastAttack();
 
             dPhysics = new dPhysicsComponent();
+            //powerWheel = new dPowerScroller();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
@@ -118,7 +132,8 @@ namespace Danish.StateCode
                 {typeof(dMoveState), new dMoveState(_stateManager:this) },
                 {typeof(dIdleState), new dIdleState(_stateManager:this) },
                 {typeof(dJumpState), new dJumpState(_stateManager:this) },
-                {typeof(dDashState), new dDashState(_stateManager:this) }
+                {typeof(dDashState), new dDashState(_stateManager:this) },
+                {typeof(dAimState), new dAimState(_stateManager:this) }
             };
 
             TraversalMachine.SetStates(states);

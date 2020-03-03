@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Tools;
 
 namespace Sharmout.attacks
 {
@@ -10,24 +11,66 @@ namespace Sharmout.attacks
         Vector3 firePosition = Vector3.zero;
         Quaternion fireRotation = Quaternion.Euler(Vector3.zero);
 
-        public void Init(Transform _muzzle)
+        dObjectPooler beamPool = null;
+
+        GameObject currentBeam = null;
+        R_BeamLogic logic = null;
+
+        public void Init(Transform _muzzle, dObjectPooler _pool)
         {
             muzzleRef = _muzzle;
+            beamPool = _pool;
         }
 
-        void Tick()
+        public void StartBeam()
         {
+            //firePosition = muzzleRef.position;
 
+            if (currentBeam == null)
+            {
+                currentBeam = GetBeamToShoot();
+                if (currentBeam.TryGetComponent(out R_BeamLogic _logic))
+                {
+                    logic = _logic;
+                }
+            }
+
+            logic.Init(muzzleRef.position);
+
+            logic.going = true;
+            logic.ending = false;
         }
 
-        void StartBeam()
+        public void EndBeam()
         {
+            logic.going = false;
+            logic.ending = true;
 
+            logic.FinishTick();
+            //logic.Tick(firePosition, muzzleRef.forward);
         }
 
-        void FinishBeam()
+        public void ResetBeam()
         {
+            if(currentBeam != null)
+            {
+                currentBeam = null;
+                logic = null;
+            }
+        }
 
+        public void Tick()
+        {
+            firePosition = muzzleRef.position;
+
+            logic.ActiveTick(firePosition, muzzleRef.forward);
+        }
+
+        
+
+        GameObject GetBeamToShoot()
+        {
+            return beamPool.SpawnFromPool("Beam", muzzleRef.position, muzzleRef.rotation);
         }
     }
 }

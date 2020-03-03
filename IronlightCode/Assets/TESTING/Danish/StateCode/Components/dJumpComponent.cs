@@ -32,7 +32,7 @@ namespace Danish.Components
 
         void StartJump()
         {
-            velocity.y = 5;
+            velocity.y = 4.5f;
 
             rigidbody.velocity = velocity;
         }
