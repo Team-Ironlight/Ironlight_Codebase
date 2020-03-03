@@ -17,8 +17,8 @@ namespace brian.Components
         // Start is called before the first frame update
         public void Init()
         {
-            he = new HealthComponent();
-            he.Init();
+            //    he = new HealthComponent();
+            //    he.Init();
             currSpirit = maxSpirit;
         }
         public void subSpirit(float val)

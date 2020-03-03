@@ -16,8 +16,9 @@ namespace brian.Components
 
 
 
-        public void Init()
+        public void Init(float num)
         {
+            maxHealth = num;
             currHealth = maxHealth;
         }
         public float addHealth(float val)
