@@ -14,6 +14,8 @@ public class example : MonoBehaviour
     public float dmgVal = 0;
     public float healVal = 0;
 
+    public SFX_System soundSystem = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,10 +48,12 @@ public class example : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         dmg.DoIt(dmgVal, 1);
+        soundSystem.PlaySoundById(1);
     }
 
     private void OnTriggerExit(Collider other)
     {
         health.DoIt(healVal, 1);
+        soundSystem.StopSoundById(1);
     }
 }
