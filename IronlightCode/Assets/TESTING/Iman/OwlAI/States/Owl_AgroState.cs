@@ -8,7 +8,6 @@ public class Owl_AgroState : ImanBaseState
     Owl_StateManager stateManager;
 
     private Vector3 AgroPos;
-    private Vector3 SavedPlayerPos;
     //bankRotation
     private float Y1;
     private float Y2;
@@ -23,7 +22,6 @@ public class Owl_AgroState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Sweep Agro State");
-        SavedPlayerPos = stateManager.PLY_Transform.position;
     }
 
     public override void OnExit()
@@ -35,7 +33,6 @@ public class Owl_AgroState : ImanBaseState
     {
         calculateAgroPos();
         //stateManager.SlowingDown(AgroPos);
-        checkPlayerPos();
         //if owl havent reached position yet
         if (Vector3.Distance(AgroPos, stateManager.transform.position) > 0.3)
         {
@@ -86,22 +83,14 @@ public class Owl_AgroState : ImanBaseState
         //get pos of owl
         var OwlPos = stateManager.transform.position;
         //set y to players y
-        OwlPos.y = SavedPlayerPos.y;
+        OwlPos.y = stateManager.PLY_Transform.position.y;
         //get direction to the player
-        AgroPos = -(SavedPlayerPos - OwlPos);
+        AgroPos = -(stateManager.PLY_Transform.position - OwlPos);
         //normalize the direction and add the distant away from the player
         AgroPos = AgroPos.normalized * stateManager.Sweep_GroundPos;
         //add to players position
-        AgroPos = AgroPos + SavedPlayerPos;
+        AgroPos = AgroPos + stateManager.PLY_Transform.position;
         //add y displacement
-        AgroPos.y = SavedPlayerPos.y + stateManager.Sweep_YPos;
-    }
-    //check if player moved too far to reposition
-    private void checkPlayerPos()
-    {
-        if (Vector3.Distance(stateManager.PLY_Transform.position, SavedPlayerPos) > stateManager.DistToReAgro)
-        {
-            SavedPlayerPos = stateManager.PLY_Transform.position;
-        }
+        AgroPos.y = stateManager.PLY_Transform.position.y + stateManager.Sweep_YPos;
     }
 }

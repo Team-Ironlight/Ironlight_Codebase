@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Danish.Custom;
 
 namespace Danish
 {
@@ -27,8 +26,6 @@ namespace Danish
         public StateCode.dInputHandler parentInput = null;
         [SerializeField]
         public StateCode.dStateManager parentManager = null;
-        //public PuzzleInteractionManager puzzleManager;
-        
 
         public Transform parentCamera = null;
         public Transform parentMuzzle = null;
@@ -47,8 +44,6 @@ namespace Danish
         private void Awake()
         {
             parentManager = parentInput.Init();
-
-            //puzzleManager = new PuzzleInteractionManager();
 
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
         }

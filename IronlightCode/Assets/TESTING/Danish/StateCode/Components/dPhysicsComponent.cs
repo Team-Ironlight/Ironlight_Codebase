@@ -67,7 +67,8 @@ namespace Danish.Components
 				//To be moved to proper place...
 				if (hit.collider.gameObject.layer == 14)
 				{
-					m_Rigid.MovePosition(hit.collider.gameObject.transform.position);
+
+					//transform.position = Vector3.MoveTowards(transform.position, hit.collider.gameObject.transform.position, SpeedOfLeafMoving);
 				}
 
 				return true;

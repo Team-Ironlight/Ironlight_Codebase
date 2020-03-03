@@ -32,9 +32,6 @@ namespace Danish.StateCode
         public bool _beamAttack = false;
         public bool _blastAttack = false;
 
-        public bool _crystalInteract = false;
-
-
         private void Awake()
         {
             controls = new TestDanish_Controller_Input();
@@ -43,7 +40,7 @@ namespace Danish.StateCode
 
         private void Update()
         {
-
+            //_stateManager.Tick();
         }
 
         private void FixedUpdate()
@@ -54,7 +51,7 @@ namespace Danish.StateCode
 
         public dStateManager Init()
         {
-            
+          
 
             if (_stateManager == null)
             {
@@ -99,12 +96,6 @@ namespace Danish.StateCode
                 _orbAttack = false;
             }
 
-            if (_crystalInteract)
-            {
-                _stateManager.isCrystal = true;
-                _crystalInteract = false;
-            }
-
             _stateManager.launchBeam = _beamAttack;
             _stateManager.launchBlast = _blastAttack;
         }
@@ -146,8 +137,6 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.started += BlastTest_started;
             controls.Combat.BlastTest.performed += BlastTest_performed;
             controls.Combat.BlastTest.canceled += BlastTest_canceled;
-
-            controls.Interaction.CrystalInteract.performed += CrystalInteract_performed;
         }
 
         
@@ -175,9 +164,6 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.performed -= BlastTest_performed;
             controls.Combat.BlastTest.canceled -= BlastTest_canceled;
 
-
-            controls.Interaction.CrystalInteract.performed -= CrystalInteract_performed;
-
             controls.Disable();
         }
 
@@ -198,12 +184,6 @@ namespace Danish.StateCode
 
 
         #region Input Functions
-
-
-        private void CrystalInteract_performed(InputAction.CallbackContext ctx)
-        {
-            _crystalInteract = true;
-        }
 
 
         private void Attack_started(InputAction.CallbackContext obj)
