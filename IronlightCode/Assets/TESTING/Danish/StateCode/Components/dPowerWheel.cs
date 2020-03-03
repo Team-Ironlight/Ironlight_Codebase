@@ -8,6 +8,7 @@ namespace Danish.Components
 {
 	public class dPowerWheel
 	{
+		public PowerWheelScroll PWS;
 		public bool OrbActive;
 		public bool BeamActive;
 		public bool BlastActive;
@@ -29,16 +30,21 @@ namespace Danish.Components
 				return;
 			}else if (scrolldown && !scrollup)
 			{
+				//Update the scroll -ve
 				scrollCount -= 1;
 			}
 			else if (!scrolldown && scrollup)
 			{
+				//update the scroll +ve
 				scrollCount += 1;
 			}
 
 			Debug.Log("poweerWHWEEEEEEEE");
 
 			activeAbility = Mathf.Abs(scrollCount % 3);
+
+			//Rotate UI Wheel
+			PWS.RotateWheelFunc(activeAbility);
 
 		}
 

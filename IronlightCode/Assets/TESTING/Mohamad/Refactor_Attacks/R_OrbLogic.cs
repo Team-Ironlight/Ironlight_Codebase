@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -14,9 +15,11 @@ namespace Sharmout.attacks
         Coroutine currentCo = null;
         
         // Start Function, not used right now
-        void Init()
+        public void Init(OrbSO stats)
         {
-            
+            _iSpeed = stats.TraveliSpeed;
+            _iDamageAmount = stats.DamageAmount;
+            _DisableTimer = stats.DisableTimer;
         }
 
         // Start a coroutine to disable the bullet after a set amount of time when the object is enabled

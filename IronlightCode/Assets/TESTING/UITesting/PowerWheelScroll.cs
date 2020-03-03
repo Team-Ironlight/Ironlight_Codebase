@@ -20,33 +20,37 @@ public class PowerWheelScroll : MonoBehaviour
     {
 
 
-		if (Input.mouseScrollDelta.y>0)
-		{
-			print("CounterClockwise!");
+		//if (Input.mouseScrollDelta.y>0)
+		//{
+		//	print("CounterClockwise!");
 
-			scrollCount += 1;
+		//	scrollCount += 1;
 
-			StartCoroutine(RotateWheel());
+		//	StartCoroutine(RotateWheel());
 
-		}
+		//}
 
-		if (Input.mouseScrollDelta.y<0)
-		{
-			print("Clockwise!");
+		//if (Input.mouseScrollDelta.y<0)
+		//{
+		//	print("Clockwise!");
 
-			scrollCount -= 1;
+		//	scrollCount -= 1;
 
-			StartCoroutine(RotateWheel());
+		//	StartCoroutine(RotateWheel());
 
-		}
+		//}
 
-        activeAbility = Mathf.Abs(scrollCount % 3);
-        print(activeAbility);
+        //activeAbility = Mathf.Abs(scrollCount % 3);
+        //print(activeAbility);
 
 	}
 
+	public void RotateWheelFunc(float activeAbility)
+	{
+		StartCoroutine(RotateWheel(activeAbility));
+	}
 
-	IEnumerator RotateWheel()
+	IEnumerator RotateWheel(float activeAbility)
 	{
 
 		Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
