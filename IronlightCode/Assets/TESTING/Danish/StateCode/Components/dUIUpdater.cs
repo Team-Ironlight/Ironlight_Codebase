@@ -9,6 +9,9 @@ namespace Danish.Components
 {
 	public class dUIUpdater
 	{
+		//UIEffector Script reference
+		public UIEffector _UIEffector;
+
 		//Health variables
 		public float maxHealth;
 		public float currHealth;
@@ -28,7 +31,8 @@ namespace Danish.Components
 		public void Init(HealthComponent hpcomponent, SpiritComponent spiritcomponent)
 		{
 			//reference to UI Images
-
+			HPBar = _UIEffector.HP;
+			SPBar = _UIEffector.SP;
 
 			//reference to components
 			hpcomp = hpcomponent;
@@ -58,9 +62,7 @@ namespace Danish.Components
 		{
 			HPBar.fillAmount = currHealth / maxHealth;
 			SPBar.fillAmount = currSpirit / maxSpirit;
-
-
-
+			
 		}
 
 	}
