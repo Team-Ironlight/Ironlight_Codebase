@@ -46,6 +46,8 @@ public class Owl_SweepAttackState : ImanBaseState
             SweepTarget = SweepEndPos;
             stateManager.SweepRotateSpeed = 2;
             timer = Time.time + 3;
+            stateManager.OwlAnim.SetBool("Idle", false);
+            stateManager.OwlAnim.SetBool("Dive", false);
         }
         var direction = SweepTarget - stateManager.transform.position;
         Y1 = stateManager.transform.eulerAngles.y;
