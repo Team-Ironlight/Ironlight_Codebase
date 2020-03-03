@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8028122172853470558}
   - component: {fileID: 4347407401873684903}
   - component: {fileID: 8987104487596741138}
-  - component: {fileID: 3816944133962663795}
   m_Layer: 0
   m_Name: Platform_Trillium
   m_TagString: Untagged
@@ -94,7 +93,7 @@ Animator:
   m_GameObject: {fileID: 2623841508130262395}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 39d06b11477e8f34ba2df37efd60a8a9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 38ce42505249ca74881b4521d9ff3374, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -103,19 +102,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3816944133962663795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2623841508130262395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e3f69f19a033b45b7a22356f76f2bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testBool: isOn
 --- !u!64 &6289326243051919167
 MeshCollider:
   m_ObjectHideFlags: 0
