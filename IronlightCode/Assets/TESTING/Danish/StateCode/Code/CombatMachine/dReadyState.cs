@@ -23,7 +23,7 @@ namespace Danish.StateCode
             }
 
 			dPowerComponent = Manager.dPower;
-			//dPowerComponent.Init();
+			dPowerComponent.Init();
 
 		}
 
@@ -42,37 +42,38 @@ namespace Danish.StateCode
 
 			dPowerComponent.Tick(Manager.scrollUp, Manager.scrollDown);
 
+			//WORKS BUT NEED TWEAKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-			if (dPowerComponent.OrbActive)
+			//if (dPowerComponent.OrbActive && Manager.launchOrb)
+			//{
+			//	Manager.launchOrb = false;
+			//	return typeof(dOrbState);
+			//}
+			//else if (dPowerComponent.BeamActive && Manager.launchBeam)
+			//{
+			//	return typeof(dBeamState);
+			//}
+			//else if (dPowerComponent.BlastActive && Manager.launchBlast)
+			//{
+			//	return typeof(dBeamState);
+			//}
+
+			//To be changed
+			if (Manager.launchOrb)
 			{
 				Manager.launchOrb = false;
 				return typeof(dOrbState);
 			}
-			else if (dPowerComponent.BeamActive)
+			else if (Manager.launchBeam)
 			{
 				return typeof(dBeamState);
 			}
-			else if (dPowerComponent.BlastActive)
+			else if (Manager.launchBlast)
 			{
-				return typeof(dBeamState);
+				return typeof(dBlastState);
 			}
 
-			//To be changed
-			if (Manager.launchOrb)
-            {
-                Manager.launchOrb = false;
-                return typeof(dOrbState);
-            }
-            else if (Manager.launchBeam)
-            {
-                return typeof(dBeamState);
-            }
-            else if (Manager.launchBlast)
-            {
-                return typeof(dBlastState);
-            }
-
-            return null;
+			return null;
         }
     }
 }

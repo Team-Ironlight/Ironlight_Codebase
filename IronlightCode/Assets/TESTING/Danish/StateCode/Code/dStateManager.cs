@@ -34,7 +34,8 @@ namespace Danish.StateCode
         [Header("Aim Down Sights Variables")]
         public bool ADS = false;
 
-        [Header("Power Scroll Variables")]
+		[Header("Power Scroll Variables")]
+		public float scrollValue;
         public bool scrollUp = false;
         public bool scrollDown = false;
 
@@ -66,6 +67,7 @@ namespace Danish.StateCode
 
         public dPhysicsComponent dPhysics = null;
 		public dPowerWheel dPower = null;
+		public dUIUpdater d_UIUpdater = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -98,6 +100,7 @@ namespace Danish.StateCode
 
             dPhysics = new dPhysicsComponent();
 			dPower = new dPowerWheel();
+			d_UIUpdater = new dUIUpdater();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();

@@ -58,11 +58,21 @@ namespace Danish.Components
 		}
 
 		// Update is called once per frame
-		public void Tick(bool scrollup, bool scrolldown)
+		public void Tick()
 		{
+
+			if (currHealth <= 0)
+			{
+				currHealth = 0;
+			}
+			if (currSpirit <= 0)
+			{
+				currSpirit = 0;
+			}
+
 			HPBar.fillAmount = currHealth / maxHealth;
 			SPBar.fillAmount = currSpirit / maxSpirit;
-			
+
 		}
 
 	}
