@@ -10,5 +10,6 @@ namespace Sharmout.SO
         public int beamRange = 0;
         public float speedGoing = 0;
         public float speedEnding = 0;
+        public List<LayerMask> layersToCheck = new List<LayerMask>();
     }
 }

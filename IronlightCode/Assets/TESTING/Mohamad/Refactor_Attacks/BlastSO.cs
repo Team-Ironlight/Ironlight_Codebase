@@ -10,5 +10,6 @@ namespace Sharmout.SO
         public float _radiusMax = 0;
         public float _radiusChargeSpeed = 0f;
         public float _BlastSpeedMultiplyer = 0f;
+        public List<LayerMask> layersToCheck = new List<LayerMask>();
     }
 }
