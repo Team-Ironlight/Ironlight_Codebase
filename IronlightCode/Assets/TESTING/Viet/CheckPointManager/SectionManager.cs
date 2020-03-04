@@ -15,8 +15,7 @@ public class SectionManager : MonoBehaviour
 		GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		for (int i = 0; i < Enemies.Length; i++)
 		{
-				enemyList.Add(Enemies[i]);
-
+			enemyList.Add(Enemies[i]);
 		}
 	}
 
