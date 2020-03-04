@@ -15,10 +15,8 @@ public class SectionManager : MonoBehaviour
 		GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		for (int i = 0; i < Enemies.Length; i++)
 		{
-			if (Enemies[i].GetComponent<BeamPuzzleShrine>() != null)
-			{
 				enemyList.Add(Enemies[i]);
-			}
+
 		}
 	}
 
