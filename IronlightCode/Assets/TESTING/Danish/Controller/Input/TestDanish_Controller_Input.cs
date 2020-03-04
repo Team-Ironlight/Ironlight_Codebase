@@ -158,6 +158,14 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ScrollWheel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""8f5a4233-f391-4198-b433-7c6e5649c51b"",
+                    ""expectedControlType"": ""Double"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -204,6 +212,17 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""action"": ""BlastTest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4d6f962-869a-4c85-8772-339de364a734"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -221,6 +240,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         m_Combat_OrbTest = m_Combat.FindAction("OrbTest", throwIfNotFound: true);
         m_Combat_BeamTest = m_Combat.FindAction("BeamTest", throwIfNotFound: true);
         m_Combat_BlastTest = m_Combat.FindAction("BlastTest", throwIfNotFound: true);
+        m_Combat_ScrollWheel = m_Combat.FindAction("ScrollWheel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,6 +343,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     private readonly InputAction m_Combat_OrbTest;
     private readonly InputAction m_Combat_BeamTest;
     private readonly InputAction m_Combat_BlastTest;
+    private readonly InputAction m_Combat_ScrollWheel;
     public struct CombatActions
     {
         private @TestDanish_Controller_Input m_Wrapper;
@@ -331,6 +352,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         public InputAction @OrbTest => m_Wrapper.m_Combat_OrbTest;
         public InputAction @BeamTest => m_Wrapper.m_Combat_BeamTest;
         public InputAction @BlastTest => m_Wrapper.m_Combat_BlastTest;
+        public InputAction @ScrollWheel => m_Wrapper.m_Combat_ScrollWheel;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -352,6 +374,9 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @BlastTest.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
                 @BlastTest.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
                 @BlastTest.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnBlastTest;
+                @ScrollWheel.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnScrollWheel;
+                @ScrollWheel.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnScrollWheel;
+                @ScrollWheel.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnScrollWheel;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -368,6 +393,9 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @BlastTest.started += instance.OnBlastTest;
                 @BlastTest.performed += instance.OnBlastTest;
                 @BlastTest.canceled += instance.OnBlastTest;
+                @ScrollWheel.started += instance.OnScrollWheel;
+                @ScrollWheel.performed += instance.OnScrollWheel;
+                @ScrollWheel.canceled += instance.OnScrollWheel;
             }
         }
     }
@@ -384,5 +412,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         void OnOrbTest(InputAction.CallbackContext context);
         void OnBeamTest(InputAction.CallbackContext context);
         void OnBlastTest(InputAction.CallbackContext context);
+        void OnScrollWheel(InputAction.CallbackContext context);
     }
 }
