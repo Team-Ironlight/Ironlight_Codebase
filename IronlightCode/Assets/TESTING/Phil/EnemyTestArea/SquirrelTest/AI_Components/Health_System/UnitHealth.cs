@@ -56,7 +56,12 @@ public class UnitHealth : MonoBehaviour
         }
 
         if (ResetHP)
-            HP.SetValue(StartingHP);
+            ReviveEnemy();
+    }
+
+    public void ReviveEnemy()
+    {
+        HP.SetValue(StartingHP);
     }
 
     private void OnTriggerEnter(Collider other)                                      //For this version we need Trigger Component (ex. Sphere Collider) 
@@ -141,7 +146,7 @@ public class UnitHealth : MonoBehaviour
                         _fillImage.SetActive(true);
 
                     if (ResetHP)
-                        HP.SetValue(StartingHP);
+                        ReviveEnemy();
              
                     //  OnPlayerDeath();
                 }
@@ -179,7 +184,7 @@ public class UnitHealth : MonoBehaviour
             particleDissolve.SetActive(true);
 
         if (ResetHP)
-            HP.SetValue(StartingHP);
+            ReviveEnemy();
 
     }
 
