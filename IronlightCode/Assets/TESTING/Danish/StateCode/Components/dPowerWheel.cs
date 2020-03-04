@@ -21,7 +21,7 @@ namespace Danish.Components
 		// Start is called before the first frame update
 		public void Init()
 		{
-			PWS = GameObject.Find("Canvas/PowerWheelLatest/IconHolder");
+			PWS = GameObject.Find("Canvas/PowerWheelLatest/Icon Holder");
 		}
 
 		// Update is called once per frame
