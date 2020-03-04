@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerWheelScroll : MonoBehaviour
 {
-
+	public GameObject RotatorObj;
 	float scrollCount = 0f;
 	public float scrollSpeed = 5;
     public float activeAbility = 0;
@@ -56,7 +56,7 @@ public class PowerWheelScroll : MonoBehaviour
 		Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
 		for (float t = 0f; t <= 1f; t += scrollSpeed * Time.deltaTime)
 		{
-			transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
+			transform.rotation = Quaternion.Slerp(RotatorObj.transform.rotation, target, t);
 			yield return null;
 		}
 

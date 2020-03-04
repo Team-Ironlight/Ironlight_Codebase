@@ -10,8 +10,20 @@ public class SectionManager : MonoBehaviour
     public bool endCheckActive = false;
     public bool resetPlayer = false;
 
-  
-    void Update()
+	void Start()
+	{
+		GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		for (int i = 0; i < Enemies.Length; i++)
+		{
+			if (Enemies[i].GetComponent<BeamPuzzleShrine>() != null)
+			{
+				enemyList.Add(Enemies[i]);
+			}
+		}
+	}
+
+
+	void Update()
     {
         CheckActivationState(); //check enemy alive or dead
 
@@ -56,6 +68,7 @@ public class SectionManager : MonoBehaviour
                 if (!enemyList[i].activeSelf)
                 {
                     enemyList[i].SetActive(true);
+					enemyList[i].GetComponent<UnitHealth>().ReviveEnemy();
                 }
                 else
                 {

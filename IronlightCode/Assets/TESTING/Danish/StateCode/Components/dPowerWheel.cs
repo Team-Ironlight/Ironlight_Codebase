@@ -8,33 +8,37 @@ namespace Danish.Components
 {
 	public class dPowerWheel
 	{
-		public PowerWheelScroll PWS;
+		public GameObject PWS;
+		//public float scrollSpeed = 5;
+		//public GameObject rotatingObject;
 		public bool OrbActive;
 		public bool BeamActive;
 		public bool BlastActive;
 
-		float scrollCount;
+		float scrollCount = 0;
 		float activeAbility;
 
 		// Start is called before the first frame update
-		//public void Init()
-		//{
-
-		//}
+		public void Init()
+		{
+			PWS = GameObject.Find("Canvas/PowerWheelLatest/IconHolder");
+		}
 
 		// Update is called once per frame
 		public void Tick(bool scrollup, bool scrolldown)
 		{
 			if (!scrollup && !scrolldown)
 			{
-				return;
-			}else if (scrolldown && !scrollup)
+				Debug.Log("no Scroll Input");
+			}else if (scrolldown && !scrollup)//Scroll values are not changing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			{
+				Debug.Log("Scroll -ve");
 				//Update the scroll -ve
 				scrollCount -= 1;
 			}
 			else if (!scrolldown && scrollup)
 			{
+				Debug.Log("Scroll +ve");
 				//update the scroll +ve
 				scrollCount += 1;
 			}
@@ -43,12 +47,24 @@ namespace Danish.Components
 
 			activeAbility = Mathf.Abs(scrollCount % 3);
 
+			//Activate Ability here
+			AbilityActivated(activeAbility);
+
 			//Rotate UI Wheel
-			PWS.RotateWheelFunc(activeAbility);
+			//This is not working right now......................................................................
+			if (PWS!=null)
+			{
+				PWS.GetComponent<PowerWheelScroll>().RotateWheelFunc(activeAbility);
+			}
+			else
+			{
+				Debug.Log("PWS NOT FOUND!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			}
+
 
 		}
 
-		public void AbilityActivated(int activeAbility)
+		public void AbilityActivated(float activeAbility)
 		{
 			switch (activeAbility)
 			{
@@ -56,20 +72,26 @@ namespace Danish.Components
 					Debug.Log("Ability 1!");
 					Debug.Log("Orb On!");
 					OrbActive = true;
+					BeamActive = false;
+					BlastActive = false;
 					break;
 				case 1:
 					Debug.Log("Ability 2!");
 					Debug.Log("Beam On!");
 					BeamActive = true;
+					OrbActive = false;
+					BlastActive = false;
 					break;
 				case 2:
 					Debug.Log("Ability 3!");
 					Debug.Log("Blast On!");
 					BlastActive = true;
+					OrbActive = false;
+					BeamActive = false;
 					break;
 			}
 		}
 
 
-}
+	}
 }
