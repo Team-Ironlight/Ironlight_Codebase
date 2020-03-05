@@ -15,6 +15,17 @@ namespace Danish.Components
 		public bool BeamActive;
 		public bool BlastActive;
 
+
+        public enum ActivePower
+        {
+            None,
+            Orb,
+            Beam,
+            Blast
+        }
+
+        public ActivePower activePower = ActivePower.None;
+
 		float scrollCount = 0;
 		float activeAbility;
 
@@ -30,7 +41,8 @@ namespace Danish.Components
 			if (!scrollup && !scrolldown)
 			{
 				Debug.Log("no Scroll Input");
-			}else if (scrolldown && !scrollup)//Scroll values are not changing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			}
+            else if (scrolldown && !scrollup)//Scroll values are not changing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			{
 				Debug.Log("Scroll -ve");
 				//Update the scroll -ve
@@ -49,6 +61,8 @@ namespace Danish.Components
 
 			//Activate Ability here
 			AbilityActivated(activeAbility);
+
+            Debug.Log(activePower.ToString());
 
 			//Rotate UI Wheel
 			//This is not working right now......................................................................
@@ -71,27 +85,47 @@ namespace Danish.Components
 				case 0:
 					Debug.Log("Ability 1!");
 					Debug.Log("Orb On!");
-					OrbActive = true;
-					BeamActive = false;
-					BlastActive = false;
+                    activePower = ActivePower.Orb;
 					break;
 				case 1:
 					Debug.Log("Ability 2!");
 					Debug.Log("Beam On!");
-					BeamActive = true;
-					OrbActive = false;
-					BlastActive = false;
-					break;
+                    activePower = ActivePower.Beam;
+                    break;
 				case 2:
 					Debug.Log("Ability 3!");
 					Debug.Log("Blast On!");
-					BlastActive = true;
-					OrbActive = false;
-					BeamActive = false;
-					break;
+                    activePower = ActivePower.Blast;
+                    break;
 			}
 		}
 
-
-	}
+        //public void AbilityActivated(float activeAbility)
+        //{
+        //    switch (activeAbility)
+        //    {
+        //        case 0:
+        //            Debug.Log("Ability 1!");
+        //            Debug.Log("Orb On!");
+        //            OrbActive = true;
+        //            BeamActive = false;
+        //            BlastActive = false;
+        //            break;
+        //        case 1:
+        //            Debug.Log("Ability 2!");
+        //            Debug.Log("Beam On!");
+        //            BeamActive = true;
+        //            OrbActive = false;
+        //            BlastActive = false;
+        //            break;
+        //        case 2:
+        //            Debug.Log("Ability 3!");
+        //            Debug.Log("Blast On!");
+        //            BlastActive = true;
+        //            OrbActive = false;
+        //            BeamActive = false;
+        //            break;
+        //    }
+        //}
+    }
 }

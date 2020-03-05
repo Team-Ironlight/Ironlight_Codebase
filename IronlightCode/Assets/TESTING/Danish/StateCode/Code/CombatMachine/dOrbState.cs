@@ -23,7 +23,8 @@ namespace Danish.StateCode
             }
 
             orbComponent = Manager.rOrb;
-            orbComponent.Init(Manager.Muzzle, Manager.pooler);
+            orbComponent.Init(Manager.Muzzle, Manager.pooler, Manager.orbStats);
+
         }
 
 
@@ -34,7 +35,7 @@ namespace Danish.StateCode
 
         public override void OnExit()
         {
-            
+            orbComponent.ResetOrb();
         }
 
         public override Type Tick()

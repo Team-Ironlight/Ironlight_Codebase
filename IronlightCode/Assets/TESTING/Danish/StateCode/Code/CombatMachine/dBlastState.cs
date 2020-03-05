@@ -22,7 +22,7 @@ namespace Danish.StateCode
             }
 
             blastComponent = Manager.rBlast;
-            blastComponent.Init(Manager.Muzzle, Manager.pooler);
+            blastComponent.Init(Manager.Muzzle, Manager.pooler, Manager.blastStats);
         }
 
         public override void OnEnter()
@@ -41,7 +41,7 @@ namespace Danish.StateCode
 
             blastComponent.Tick();
 
-            if (!Manager.launchBlast)
+            if (!Manager.isAttacking)
             {
                 blastComponent.Launch();
                 return typeof(dReadyState);
