@@ -74,7 +74,7 @@ namespace ROFO
         //test
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.P))
+            if (Input.GetKeyUp(KeyCode.E))
             {
                 Change();
             }
