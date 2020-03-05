@@ -19,10 +19,11 @@ namespace Sharmout.attacks
 
         public BeamSO beamStats = null;
 
-        public void Init(Transform _muzzle, dObjectPooler _pool)
+        public void Init(Transform _muzzle, dObjectPooler _pool, BeamSO _stats)
         {
             muzzleRef = _muzzle;
             beamPool = _pool;
+            beamStats = _stats;
         }
 
         public void StartBeam()
@@ -35,10 +36,10 @@ namespace Sharmout.attacks
                 if (currentBeam.TryGetComponent(out R_BeamLogic _logic))
                 {
                     logic = _logic;
+                    logic.Init(muzzleRef.position, beamStats);
                 }
             }
 
-            logic.Init(muzzleRef.position, beamStats);
 
             logic.going = true;
             logic.ending = false;

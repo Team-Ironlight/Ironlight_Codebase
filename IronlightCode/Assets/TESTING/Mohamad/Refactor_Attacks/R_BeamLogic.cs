@@ -38,7 +38,7 @@ namespace Sharmout.attacks
             lineStart = _start;
             lineEnd = _start;
 
-            beamRange = stats.beamRange;
+            beamRange = stats._beamRange;
             beamSpeedGoing = stats.speedGoing;
             beamSpeedClosing = stats.speedEnding;
             layersToCheck = stats.layersToCheck;
@@ -51,10 +51,10 @@ namespace Sharmout.attacks
 
             BeamPositionUpdater();
 
-            if(PerformLineCast(lineStart, lineEnd, layersToCheck))
-            {
-                Debug.Log("Sharmouttttttt Pussy");
-            }
+            //if(PerformLineCast(lineStart, lineEnd, layersToCheck))
+            //{
+            //    Debug.Log("Sharmouttttttt Pussy");
+            //}
         }
 
         public void FinishTick()

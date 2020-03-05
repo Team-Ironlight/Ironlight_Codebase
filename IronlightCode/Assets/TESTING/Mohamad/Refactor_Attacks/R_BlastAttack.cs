@@ -16,10 +16,11 @@ namespace Sharmout.attacks
 
         public BlastSO blastStats = null;
 
-        public void Init(Transform _muzzle, dObjectPooler _pool)
+        public void Init(Transform _muzzle, dObjectPooler _pool, BlastSO _stats)
         {
             muzzleRef = _muzzle;
             blastPool = _pool;
+            blastStats = _stats;
         }
 
         public void StartBlast()
@@ -30,6 +31,7 @@ namespace Sharmout.attacks
                 if(currentBlast.TryGetComponent(out R_BlastLogic _logic))
                 {
                     logic = _logic;
+                    logic.Init(blastStats);
                 }
             }
         }
