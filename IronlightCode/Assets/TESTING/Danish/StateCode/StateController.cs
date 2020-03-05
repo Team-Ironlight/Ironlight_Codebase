@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Danish
 {
@@ -33,6 +34,10 @@ namespace Danish
 
         public Danish.Components.dUpdateMuzzleRotation muzzleRotator = null;
 
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
+
         private void Reset()
         {
             parentRigidbody = GetComponent<Rigidbody>();
@@ -48,6 +53,7 @@ namespace Danish
         {
             parentManager = parentInput.Init();
 
+            parentManager?.AttackStatInit(orbStats, beamStats, blastStats);
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
 
             muzzleRotator = new Components.dUpdateMuzzleRotation();
