@@ -5,6 +5,7 @@ using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
 using Sharmout.attacks;
+using Sharmout.SO;
 
 
 namespace Danish.StateCode
@@ -69,6 +70,11 @@ namespace Danish.StateCode
 		public dPowerWheel dPower = null;
 		public dUIUpdater d_UIUpdater = null;
 
+        // Temporary Stat SO references for Attacks
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
+
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
             //Debug.Log("Initialize State Manager");
@@ -104,7 +110,13 @@ namespace Danish.StateCode
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
-            
+        }
+
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS)
+        {
+            orbStats = _orbS;
+            beamStats = _beamS;
+            blastStats = _blastS;
         }
 
         public void Tick()

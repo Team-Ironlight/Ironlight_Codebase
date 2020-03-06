@@ -42,36 +42,49 @@ namespace Danish.StateCode
 
 			dPowerComponent.Tick(Manager.scrollUp, Manager.scrollDown);
 
-			//WORKS BUT NEED TWEAKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //WORKS BUT NEED TWEAKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-			//if (dPowerComponent.OrbActive && Manager.launchOrb)
-			//{
-			//	Manager.launchOrb = false;
-			//	return typeof(dOrbState);
-			//}
-			//else if (dPowerComponent.BeamActive && Manager.launchBeam)
-			//{
-			//	return typeof(dBeamState);
-			//}
-			//else if (dPowerComponent.BlastActive && Manager.launchBlast)
-			//{
-			//	return typeof(dBeamState);
-			//}
+            //if (dPowerComponent.OrbActive && Manager.launchOrb)
+            //{
+            //	Manager.launchOrb = false;
+            //	return typeof(dOrbState);
+            //}
+            //else if (dPowerComponent.BeamActive && Manager.launchBeam)
+            //{
+            //	return typeof(dBeamState);
+            //}
+            //else if (dPowerComponent.BlastActive && Manager.launchBlast)
+            //{
+            //	return typeof(dBeamState);
+            //}
 
-			//To be changed
-			if (Manager.launchOrb)
-			{
-				Manager.launchOrb = false;
-				return typeof(dOrbState);
-			}
-			else if (Manager.launchBeam)
-			{
-				return typeof(dBeamState);
-			}
-			else if (Manager.launchBlast)
-			{
-				return typeof(dBlastState);
-			}
+            //To be changed
+            //if (Manager.launchOrb)
+            //{
+            //	Manager.launchOrb = false;
+            //	return typeof(dOrbState);
+            //}
+            //else if (Manager.launchBeam)
+            //{
+            //	return typeof(dBeamState);
+            //}
+            //else if (Manager.launchBlast)
+            //{
+            //	return typeof(dBlastState);
+            //}
+
+            if (Manager.isAttacking)
+            {
+                switch (dPowerComponent.activePower)
+                {
+                    case dPowerWheel.ActivePower.Orb:
+                        return typeof(dOrbState);
+                    case dPowerWheel.ActivePower.Beam:
+                        return typeof(dBeamState);
+                    case dPowerWheel.ActivePower.Blast:
+                        return typeof(dBlastState);
+                }
+            }
 
 			return null;
         }

@@ -173,7 +173,7 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""f899aac0-b295-444e-a677-ac622bb7faac"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold(duration=1)"",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",

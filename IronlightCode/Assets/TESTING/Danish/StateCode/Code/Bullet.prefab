@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 315206821334903196}
   m_Layer: 19
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Orb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,6 +223,66 @@ PrefabInstance:
     - target: {fileID: 1017177517576768599, guid: cbb7e787c33394347a5e4ba0058f852c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610390, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610390, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373520470131633, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521346474806, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.quality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 231424
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.multiplyColliderForceByCollisionAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521936610385, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.multiplyColliderForceByParticleSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373522260843567, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814373521346474801, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: CollisionModule.enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
