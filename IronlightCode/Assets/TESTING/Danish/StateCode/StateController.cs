@@ -38,6 +38,8 @@ namespace Danish
         public BlastSO blastStats = null;
         public OrbSO orbStats = null;
 
+        public GameObject parentCanvas = null;
+
         private void Reset()
         {
             parentRigidbody = GetComponent<Rigidbody>();
@@ -53,7 +55,7 @@ namespace Danish
         {
             parentManager = parentInput.Init();
 
-            parentManager?.AttackStatInit(orbStats, beamStats, blastStats);
+            parentManager?.AttackStatInit(orbStats, beamStats, blastStats, parentCanvas);
             parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
 
             muzzleRotator = new Components.dUpdateMuzzleRotation();

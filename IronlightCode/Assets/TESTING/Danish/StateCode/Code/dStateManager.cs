@@ -50,6 +50,8 @@ namespace Danish.StateCode
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
+        public GameObject CanvasObj = null;
+
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
 
@@ -74,6 +76,9 @@ namespace Danish.StateCode
         public BeamSO beamStats = null;
         public BlastSO blastStats = null;
         public OrbSO orbStats = null;
+
+        // Temporary Reference for a crosshair component
+        public dCrosshairComponent dCrosshair = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -108,15 +113,19 @@ namespace Danish.StateCode
 			dPower = new dPowerWheel();
 			d_UIUpdater = new dUIUpdater();
 
+            dCrosshair = new dCrosshairComponent();
+
             InitializeTraversalMachine();
             InitializeCombatMachine();
         }
 
-        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS)
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS, GameObject _canvas)
         {
             orbStats = _orbS;
             beamStats = _beamS;
             blastStats = _blastS;
+
+            CanvasObj = _canvas;
         }
 
         public void Tick()
