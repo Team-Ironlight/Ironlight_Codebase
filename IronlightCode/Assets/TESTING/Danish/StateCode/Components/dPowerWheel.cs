@@ -55,6 +55,7 @@ namespace Danish.Components
 				scrollCount += 1;
 			}
 
+
 			//Debug.Log("poweerWHWEEEEEEEE");
 
 			activeAbility = Mathf.Abs(scrollCount % 3);

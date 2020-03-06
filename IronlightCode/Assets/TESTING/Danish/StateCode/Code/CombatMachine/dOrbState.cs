@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sharmout.attacks;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -12,6 +13,7 @@ namespace Danish.StateCode
     {
         private dStateManager Manager;
         private R_OrbAttack orbComponent;
+        private dCrosshairComponent crosshairComponent = null;
 
         float count = 0;
         float maxTime = 1;
@@ -28,11 +30,16 @@ namespace Danish.StateCode
             orbComponent = Manager.rOrb;
             orbComponent.Init(Manager.Muzzle, Manager.pooler, Manager.orbStats);
 
+            crosshairComponent = Manager.dCrosshair;
+            crosshairComponent.Init(Manager.CanvasObj, Manager.CameraHolder, Manager.Muzzle);
+
         }
 
 
         public override void OnEnter()
         {
+            
+            orbComponent.SetFireDirection(crosshairComponent.GetFiringDirection());
             orbComponent.Shoot();
         }
 

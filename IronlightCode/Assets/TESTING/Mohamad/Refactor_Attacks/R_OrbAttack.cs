@@ -12,6 +12,7 @@ namespace Sharmout.attacks
         // reference to the muzzle transform to get firePosition and rotation
         Transform muzzleRef = null;
         Vector3 firePosition = Vector3.zero;
+        Vector3 fireDirection = Vector3.zero;
         Quaternion bulletRotation = Quaternion.Euler(Vector3.zero);
 
         // reference to the object pool of the orb bullet prefabs
@@ -41,6 +42,12 @@ namespace Sharmout.attacks
 
         }
 
+        public void SetFireDirection(Vector3 direction)
+        {
+            fireDirection = direction;
+        }
+
+
         // function to shoot orb
         public void Shoot()
         {
@@ -53,7 +60,7 @@ namespace Sharmout.attacks
                 if (currentOrb.TryGetComponent(out R_OrbLogic _logic))
                 {
                     logic = _logic;
-                    logic.Init(muzzleRef.position, orbStats);
+                    logic.Init(muzzleRef.position, fireDirection, orbStats);
                 }
             }
         }
