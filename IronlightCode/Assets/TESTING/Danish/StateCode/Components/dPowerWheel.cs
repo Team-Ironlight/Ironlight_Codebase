@@ -40,7 +40,7 @@ namespace Danish.Components
 		{
 			if (!scrollup && !scrolldown)
 			{
-				Debug.Log("no Scroll Input");
+				//Debug.Log("no Scroll Input");
 			}
             else if (scrolldown && !scrollup)//Scroll values are not changing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			{
@@ -55,7 +55,7 @@ namespace Danish.Components
 				scrollCount += 1;
 			}
 
-			Debug.Log("poweerWHWEEEEEEEE");
+			//Debug.Log("poweerWHWEEEEEEEE");
 
 			activeAbility = Mathf.Abs(scrollCount % 3);
 
@@ -72,7 +72,7 @@ namespace Danish.Components
 			}
 			else
 			{
-				Debug.Log("PWS NOT FOUND!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				//Debug.Log("PWS NOT FOUND!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 
 
@@ -83,18 +83,18 @@ namespace Danish.Components
 			switch (activeAbility)
 			{
 				case 0:
-					Debug.Log("Ability 1!");
-					Debug.Log("Orb On!");
+					//Debug.Log("Ability 1!");
+					//Debug.Log("Orb On!");
                     activePower = ActivePower.Orb;
 					break;
 				case 1:
-					Debug.Log("Ability 2!");
-					Debug.Log("Beam On!");
+					//Debug.Log("Ability 2!");
+					//Debug.Log("Beam On!");
                     activePower = ActivePower.Beam;
                     break;
 				case 2:
-					Debug.Log("Ability 3!");
-					Debug.Log("Blast On!");
+					//Debug.Log("Ability 3!");
+					//Debug.Log("Blast On!");
                     activePower = ActivePower.Blast;
                     break;
 			}
