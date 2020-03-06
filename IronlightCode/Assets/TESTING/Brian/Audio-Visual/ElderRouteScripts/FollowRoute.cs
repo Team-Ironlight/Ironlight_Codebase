@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Danish;
 public class FollowRoute : MonoBehaviour
 {
     [SerializeField]
@@ -15,23 +15,29 @@ public class FollowRoute : MonoBehaviour
     bool elderFinish;
     bool elderMove;
     public GameObject ElderHome;
-
+    public StateController Moving;
+    float dist;
     Vector3 currScale;
     Vector3 SmallScale = new Vector3(0.1f, 0.1f, 0.1f);
     // Start is called before the first frame update
     void Start()
     {
+       
         routeToGo = 0;
         param = 0;
         //speed = 1;
         CanCour = true;
         waitForPlayer = true;
         currScale = transform.localScale;
+       //Moving = GetComponent<StateController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        dist = Vector3.Distance(transform.position, ElderHome.transform.position);
+        currScale = transform.localScale;
+
         if (CanCour&& !waitForPlayer)
         {
             StartCoroutine(MovePath(routeToGo));
@@ -39,6 +45,10 @@ public class FollowRoute : MonoBehaviour
         else
         {
             StopCoroutine(MovePath(routeToGo));
+        }
+        if (elderFinish)
+        {
+            transform.LookAt(ElderHome.transform);
         }
         ElderFinish();
     }
@@ -87,19 +97,21 @@ public class FollowRoute : MonoBehaviour
     {
         if (elderFinish&& elderMove)
         {
-            transform.LookAt(ElderHome.transform.position);
+            Moving.enabled = false;
             transform.Translate(transform.forward * Time.deltaTime);
-            currScale -= new Vector3(0.1f, 0.1f, 0.1f) * Time.deltaTime;
+            currScale -= new Vector3(0.5f, 0.5f, 0.5f);
             ReduceElderScale();
+            if (dist < 0.05)
+            {
+                Moving.enabled = true;
+                Destroy(gameObject);
+
+            }
 
         }
     }
     void ReduceElderScale()
     {
-
-        if(currScale == SmallScale)
-        {
-            Destroy(gameObject);
-        }
+        transform.localScale = Vector3.Lerp(transform.localScale, SmallScale, speed * Time.deltaTime*2);
     }
 }
