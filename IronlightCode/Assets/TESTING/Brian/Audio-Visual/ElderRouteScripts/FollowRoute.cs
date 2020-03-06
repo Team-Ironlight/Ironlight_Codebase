@@ -11,6 +11,7 @@ public class FollowRoute : MonoBehaviour
     private Vector3 ElderPos;
     public float speed;
     private bool CanCour;
+    bool waitForPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +19,19 @@ public class FollowRoute : MonoBehaviour
         param = 0;
         //speed = 1;
         CanCour = true;
+        waitForPlayer = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CanCour)
+        if (CanCour&& !waitForPlayer)
         {
             StartCoroutine(MovePath(routeToGo));
+        }
+        else
+        {
+            StopCoroutine(MovePath(routeToGo));
         }
     }
     private IEnumerator MovePath(int routeNum)
@@ -44,10 +50,24 @@ public class FollowRoute : MonoBehaviour
         }
         param = 0;
         routeToGo++;
-        if (routeToGo > Routes.Length - 1)
-        {
-            routeToGo = 0;
-        }
+        //if (routeToGo > Routes.Length - 1)
+        //{
+        //    routeToGo = 0;
+        //}
         CanCour = true;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            waitForPlayer = false;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            waitForPlayer = true;
+        }
     }
 }
