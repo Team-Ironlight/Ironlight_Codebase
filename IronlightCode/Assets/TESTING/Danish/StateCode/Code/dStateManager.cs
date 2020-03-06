@@ -5,6 +5,7 @@ using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
 using Sharmout.attacks;
+using Sharmout.SO;
 
 
 namespace Danish.StateCode
@@ -34,7 +35,8 @@ namespace Danish.StateCode
         [Header("Aim Down Sights Variables")]
         public bool ADS = false;
 
-        [Header("Power Scroll Variables")]
+		[Header("Power Scroll Variables")]
+		public float scrollValue;
         public bool scrollUp = false;
         public bool scrollDown = false;
 
@@ -65,8 +67,13 @@ namespace Danish.StateCode
         public dMoveComponent dAimMove = null;
 
         public dPhysicsComponent dPhysics = null;
+		public dPowerWheel dPower = null;
+		public dUIUpdater d_UIUpdater = null;
 
-        // public dPowerScroller powerWheel = null;
+        // Temporary Stat SO references for Attacks
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
         {
@@ -98,11 +105,18 @@ namespace Danish.StateCode
             rBlast = new R_BlastAttack();
 
             dPhysics = new dPhysicsComponent();
-            //powerWheel = new dPowerScroller();
+			dPower = new dPowerWheel();
+			d_UIUpdater = new dUIUpdater();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
-            
+        }
+
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS)
+        {
+            orbStats = _orbS;
+            beamStats = _beamS;
+            blastStats = _blastS;
         }
 
         public void Tick()

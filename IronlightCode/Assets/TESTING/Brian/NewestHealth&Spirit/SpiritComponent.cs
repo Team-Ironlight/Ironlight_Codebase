@@ -10,15 +10,15 @@ namespace brian.Components
     [System.Serializable]
     public class SpiritComponent 
     {
-        float maxSpirit = 100;
+        public float maxSpirit = 100;
         HealthComponent he;
         [SerializeField]
         public float currSpirit;
         // Start is called before the first frame update
         public void Init()
         {
-            he = new HealthComponent();
-            he.Init();
+            //    he = new HealthComponent();
+            //    he.Init();
             currSpirit = maxSpirit;
         }
         public void subSpirit(float val)

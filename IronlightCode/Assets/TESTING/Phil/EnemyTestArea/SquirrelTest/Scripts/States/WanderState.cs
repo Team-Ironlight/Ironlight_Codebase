@@ -42,10 +42,7 @@ public class WanderState : Phil_StateMa.BaseState
     public float walk_Speed = 2f;
     public float run_Speed = 4f;
     public float wanderTimer = 20f;
-    // [Header("FOV Radar Limits")]
-    // [SerializeField]
-    // public float FacingMaxAngle = 45f;                                           //Facing Angle allertness at Z axis
-    //// private bool isInFov = false;                                                //Field of View
+
 
     private float timer;
   
@@ -59,7 +56,7 @@ public class WanderState : Phil_StateMa.BaseState
 
     public override void OnEnter(MonoBehaviour runner)                                                          // This is called before the first frame Tick()
     {
-        //_mTarget = GameObject.FindWithTag("Player").transform;
+
         _oTarget = GameObject.FindWithTag("Player").gameObject;
         if (_oTarget != null)
         {
@@ -176,16 +173,7 @@ public class WanderState : Phil_StateMa.BaseState
             return OnEnemyWanderDistance;
         }
 
-        //Collider[] overlapResults = new Collider[50];
-        //int numFound = Physics.OverlapSphereNonAlloc(runner.transform.position, _maxDistanceToWander, overlapResults);
 
-        //for (int i = 0; i < numFound; i++)
-        //{
-        //    if (overlapResults[i] != null)
-        //    {
-        //        if (overlapResults[i].transform == _mTarget.parent)
-        //        {
-        //            Debug.DrawLine(runner.transform.position, overlapResults[i].transform.position, Color.yellow);
         if ((Vector3.Distance(runner.transform.position, _mTarget.position) < _maxDistanceToWander))
         {
             if (Vector3.Distance(runner.transform.position, _mTarget.position) > _minDistanceToWander)               // Current State <Patrol State>
@@ -201,13 +189,6 @@ public class WanderState : Phil_StateMa.BaseState
 
         }
 
-        //        }
-
-        //    }
-
-        //}
-
-        //overlapResults = new Collider[0];
 
         return "";
     }

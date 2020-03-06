@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -13,10 +14,13 @@ namespace Sharmout.attacks
         GameObject currentBlast = null;
         R_BlastLogic logic = null;
 
-        public void Init(Transform _muzzle, dObjectPooler _pool)
+        public BlastSO blastStats = null;
+
+        public void Init(Transform _muzzle, dObjectPooler _pool, BlastSO _stats)
         {
             muzzleRef = _muzzle;
             blastPool = _pool;
+            blastStats = _stats;
         }
 
         public void StartBlast()
@@ -27,6 +31,7 @@ namespace Sharmout.attacks
                 if(currentBlast.TryGetComponent(out R_BlastLogic _logic))
                 {
                     logic = _logic;
+                    logic.Init(blastStats);
                 }
             }
         }

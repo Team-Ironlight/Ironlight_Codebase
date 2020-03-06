@@ -67,7 +67,7 @@ namespace Danish.StateCode
                 return typeof(dMoveState);
             }
 
-            //rotationUpdater.Tick();
+            rotationUpdater.Tick();
             physicsComponent.Tick();
 
 

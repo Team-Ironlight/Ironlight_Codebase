@@ -14,13 +14,14 @@ public class LockMouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (SceneManager.GetActiveScene().buildIndex==1)
-		{
-			Cursor.lockState = CursorLockMode.Locked;
-		}
-		else
-		{
-			Cursor.lockState = CursorLockMode.None;
-		}
+        Cursor.lockState = CursorLockMode.Locked;
+  //      if (SceneManager.GetActiveScene().buildIndex==1)
+		//{
+		//	Cursor.lockState = CursorLockMode.Locked;
+		//}
+		//else
+		//{
+		//	Cursor.lockState = CursorLockMode.None;
+		//}
     }
 }

@@ -18,10 +18,9 @@ namespace brian.Components
         public float Multiplyer;
 
         // Start is called before the first frame update
-        public void Init()
+        public void Init(HealthComponent hp)
         {
-            HealthVal = new HealthComponent();
-            HealthVal.Init();
+            HealthVal = hp;
         }
 
 

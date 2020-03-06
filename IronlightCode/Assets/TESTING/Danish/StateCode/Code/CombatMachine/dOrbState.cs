@@ -13,6 +13,9 @@ namespace Danish.StateCode
         private dStateManager Manager;
         private R_OrbAttack orbComponent;
 
+        float count = 0;
+        float maxTime = 1;
+
         public dOrbState(dStateManager _stateManager) : base(_stateManager.obj)
         {
             base.MainManager = _stateManager;
@@ -23,7 +26,8 @@ namespace Danish.StateCode
             }
 
             orbComponent = Manager.rOrb;
-            orbComponent.Init(Manager.Muzzle, Manager.pooler);
+            orbComponent.Init(Manager.Muzzle, Manager.pooler, Manager.orbStats);
+
         }
 
 
@@ -34,13 +38,35 @@ namespace Danish.StateCode
 
         public override void OnExit()
         {
-            
+            count = 0;
+            //orbComponent.ResetOrb();
         }
 
         public override Type Tick()
         {
             Debug.Log("Fired Orb");
-            return typeof(dReadyState);
+
+
+            if (CoolDown())
+            {
+                
+                return typeof(dReadyState);
+            }
+
+
+            return null;
+        }
+
+        private bool CoolDown()
+        {
+            count += Time.deltaTime;
+
+            if (count >= maxTime)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

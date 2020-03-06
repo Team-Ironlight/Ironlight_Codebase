@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerWheelScroll : MonoBehaviour
 {
-
+	public GameObject RotatorObj;
 	float scrollCount = 0f;
 	public float scrollSpeed = 5;
     public float activeAbility = 0;
@@ -20,39 +20,43 @@ public class PowerWheelScroll : MonoBehaviour
     {
 
 
-		if (Input.mouseScrollDelta.y>0)
-		{
-			print("CounterClockwise!");
+		//if (Input.mouseScrollDelta.y>0)
+		//{
+		//	print("CounterClockwise!");
 
-			scrollCount += 1;
+		//	scrollCount += 1;
 
-			StartCoroutine(RotateWheel());
+		//	StartCoroutine(RotateWheel());
 
-		}
+		//}
 
-		if (Input.mouseScrollDelta.y<0)
-		{
-			print("Clockwise!");
+		//if (Input.mouseScrollDelta.y<0)
+		//{
+		//	print("Clockwise!");
 
-			scrollCount -= 1;
+		//	scrollCount -= 1;
 
-			StartCoroutine(RotateWheel());
+		//	StartCoroutine(RotateWheel());
 
-		}
+		//}
 
-        activeAbility = Mathf.Abs(scrollCount % 3);
-        print(activeAbility);
+        //activeAbility = Mathf.Abs(scrollCount % 3);
+        //print(activeAbility);
 
 	}
 
+	public void RotateWheelFunc(float activeAbility)
+	{
+		StartCoroutine(RotateWheel(activeAbility));
+	}
 
-	IEnumerator RotateWheel()
+	IEnumerator RotateWheel(float activeAbility)
 	{
 
 		Quaternion target = Quaternion.AngleAxis(120 * (activeAbility), Vector3.forward);
 		for (float t = 0f; t <= 1f; t += scrollSpeed * Time.deltaTime)
 		{
-			transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
+			transform.rotation = Quaternion.Slerp(RotatorObj.transform.rotation, target, t);
 			yield return null;
 		}
 
