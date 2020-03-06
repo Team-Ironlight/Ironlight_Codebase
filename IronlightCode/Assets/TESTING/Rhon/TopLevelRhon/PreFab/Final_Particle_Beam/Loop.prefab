@@ -4883,8 +4883,8 @@ GameObject:
   - component: {fileID: 2418986151274649029}
   - component: {fileID: 2418986151274649027}
   - component: {fileID: 2418986151274649028}
-  - component: {fileID: 5051706502193640057}
   - component: {fileID: 4129894738843882057}
+  - component: {fileID: 6245594124892490657}
   m_Layer: 19
   m_Name: CylinderRed
   m_TagString: Untagged
@@ -9685,19 +9685,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!135 &5051706502193640057
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418986151274649030}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.00001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4129894738843882057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9714,6 +9701,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: a2dfd7618a89c9c43966bcdda34b9f23, type: 2}
+--- !u!65 &6245594124892490657
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418986151274649030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 2.0998917}
+  m_Center: {x: 0, y: -0.0000019095796, z: 0.021284724}
 --- !u!1 &2418986152139142308
 GameObject:
   m_ObjectHideFlags: 0
@@ -9725,8 +9725,8 @@ GameObject:
   - component: {fileID: 2418986152139142307}
   - component: {fileID: 2418986152139142305}
   - component: {fileID: 2418986152139142306}
-  - component: {fileID: 8289448658886302700}
   - component: {fileID: 5661211974745577078}
+  - component: {fileID: 3482626454334146740}
   m_Layer: 19
   m_Name: CylinderSparks
   m_TagString: Untagged
@@ -14527,19 +14527,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!135 &8289448658886302700
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418986152139142308}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.00001
-  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!114 &5661211974745577078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14556,6 +14543,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 66fe21b0a4eb5014291fc7331393ce1b, type: 2}
+--- !u!65 &3482626454334146740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418986152139142308}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 15.216015}
+  m_Center: {x: -0.007323777, y: -0.0023483706, z: 7.611532}
 --- !u!1 &2418986152307278582
 GameObject:
   m_ObjectHideFlags: 0
@@ -14567,8 +14567,8 @@ GameObject:
   - component: {fileID: 2418986152307278581}
   - component: {fileID: 2418986152307278579}
   - component: {fileID: 2418986152307278580}
-  - component: {fileID: 4983716613408919238}
   - component: {fileID: 7262098772892838427}
+  - component: {fileID: 3116570970081872988}
   m_Layer: 19
   m_Name: Cylinder2
   m_TagString: Untagged
@@ -19369,19 +19369,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!135 &4983716613408919238
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418986152307278582}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.00001
-  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!114 &7262098772892838427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19398,6 +19385,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: af45520091dc7e0409660d8486e4a724, type: 2}
+--- !u!65 &3116570970081872988
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418986152307278582}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.4, z: 1.8976458}
+  m_Center: {x: -0.000015279285, y: 0.04450183, z: 0.44882175}
 --- !u!1 &2418986152414093102
 GameObject:
   m_ObjectHideFlags: 0
@@ -19409,8 +19409,8 @@ GameObject:
   - component: {fileID: 2418986152414093101}
   - component: {fileID: 2418986152414093099}
   - component: {fileID: 2418986152414093100}
-  - component: {fileID: 27821755905969537}
   - component: {fileID: 1247565855443698134}
+  - component: {fileID: 5124289746746269665}
   m_Layer: 19
   m_Name: CylinderSparks3
   m_TagString: Untagged
@@ -24211,19 +24211,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!135 &27821755905969537
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418986152414093102}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.00001
-  m_Center: {x: 0, y: -0.00000047683716, z: -0.0000009536743}
 --- !u!114 &1247565855443698134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24240,6 +24227,19 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 262bb6ebb4ea5ac47bc5964165b6ba5e, type: 2}
+--- !u!65 &5124289746746269665
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418986152414093102}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 20.21791}
+  m_Center: {x: -0.00003814204, y: 0.002689317, z: 9.00996}
 --- !u!1 &2418986152791314888
 GameObject:
   m_ObjectHideFlags: 0
@@ -24251,8 +24251,8 @@ GameObject:
   - component: {fileID: 2418986152791314887}
   - component: {fileID: 2418986152791314885}
   - component: {fileID: 2418986152791314886}
-  - component: {fileID: 5586301070710758325}
   - component: {fileID: 1638952444772585697}
+  - component: {fileID: 352685591434997543}
   m_Layer: 19
   m_Name: Cylinder
   m_TagString: Untagged
@@ -29053,19 +29053,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!135 &5586301070710758325
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2418986152791314888}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.1282796
-  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!114 &1638952444772585697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29082,3 +29069,16 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: ad940f02e90445a45a7b7e406cc687b3, type: 2}
+--- !u!65 &352685591434997543
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418986152791314888}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.4, z: 2.0654516}
+  m_Center: {x: 0.021053057, y: -0.034095366, z: 0.5327241}
