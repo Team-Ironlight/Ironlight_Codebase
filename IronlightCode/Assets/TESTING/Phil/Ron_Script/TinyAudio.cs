@@ -32,27 +32,27 @@ public class TinyAudio : MonoBehaviour
 
     //Tinys Weapons Sounds
     #region Weapons
-    public void Play_OrbSound()
-    {
-        audioSource.clip = Orb_Clips[Random.Range(0, Orb_Clips.Length)];
-        audioSource.Play();
-    }
+    //public void Play_OrbSound()
+    //{
+    //    audioSource.clip = Orb_Clips[Random.Range(0, Orb_Clips.Length)];
+    //    audioSource.Play();
+    //}
 
-    public void Play_BeamSound()
-    {
-        audioSource.clip = Beam_Clips[Random.Range(0, Beam_Clips.Length)];
-        audioSource.Play();
-    }
-    public void Play_BlastChargingSound()  // Blast Charging On-Press Hold Fire Button
-    {
-        audioSource.clip = BlastCharge_Clips[Random.Range(0, BlastCharge_Clips.Length)];
-        audioSource.Play();
-    }
-    public void Play_BlastBurstSound()    // Blast Burst On-Release Fire Button
-    {
-        audioSource.clip = BlastBurst_Clips[Random.Range(0, BlastBurst_Clips.Length)];
-        audioSource.Play();
-    }
+    //public void Play_BeamSound()
+    //{
+    //    audioSource.clip = Beam_Clips[Random.Range(0, Beam_Clips.Length)];
+    //    audioSource.Play();
+    //}
+    //public void Play_BlastChargingSound()  // Blast Charging On-Press Hold Fire Button
+    //{
+    //    audioSource.clip = BlastCharge_Clips[Random.Range(0, BlastCharge_Clips.Length)];
+    //    audioSource.Play();
+    //}
+    //public void Play_BlastBurstSound()    // Blast Burst On-Release Fire Button
+    //{
+    //    audioSource.clip = BlastBurst_Clips[Random.Range(0, BlastBurst_Clips.Length)];
+    //    audioSource.Play();
+    //}
 
     #endregion
 

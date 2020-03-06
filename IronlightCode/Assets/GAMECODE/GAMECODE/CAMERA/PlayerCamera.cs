@@ -25,7 +25,9 @@ public class PlayerCamera : MonoBehaviour
     [Space]
     public float mouseSensitivity = 4f;
 
+
     [SerializeField] private SOCamera defaultCamera;
+    [SerializeField] private SOCamera aimCamera;
     private float mouseSensitivityMult = 1f;
     [SerializeField] private float turnDampening = 10f;
     private float offSetUp = 0.6f;
@@ -43,7 +45,8 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         //Set Camera to default values
-        ResetCameraVars();
+        //ResetCameraVars();
+        ResetCameraVars(defaultCamera);
 
         //Getting Transforms
         _ParentTransform = transform.parent;
@@ -70,6 +73,21 @@ public class PlayerCamera : MonoBehaviour
         cameraMaxHeight = defaultCamera.MaxY;
     }
 
+    public void ResetCameraVars(SOCamera preset)
+    {
+        mouseSensitivityMult = preset.SensitivityMult;
+        offSetUp = preset.UpOffset;
+        offSetLeft = preset.LeftOffset;
+        cameraDistance = preset.Distance;
+        cameraMinHeight = preset.MinY;
+        cameraMaxHeight = preset.MaxY;
+
+
+        _TargetLocalPosition = new Vector3(-offSetLeft, 0f, cameraDistance * -1f);
+        transform.localPosition = _TargetLocalPosition;
+
+    }
+
     //public void Respawn(float pRotationY) 
     //{
     //    transform.parent.rotation = Quaternion.Euler(0, pRotationY, 0);
@@ -79,6 +97,17 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButton(1))
+        {
+            ResetCameraVars(aimCamera);
+        }
+        else
+        {
+            ResetCameraVars(defaultCamera);
+        }
+
+
+
         //Getting Mouse Movement
         if (!CameraDisabled)
         {

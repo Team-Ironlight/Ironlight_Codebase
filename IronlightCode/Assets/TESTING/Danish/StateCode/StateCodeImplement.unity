@@ -1304,6 +1304,18 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 561277186}
+    - target: {fileID: 7242642653994716328, guid: 79dddeed6b987ea4a8a18f6a29318125,
+        type: 3}
+      propertyPath: defaultCamera
+      value: 
+      objectReference: {fileID: 11400000, guid: bdff6e0e76cbcef49bfb400f30a1bc6e,
+        type: 2}
+    - target: {fileID: 7242642653994716328, guid: 79dddeed6b987ea4a8a18f6a29318125,
+        type: 3}
+      propertyPath: aimCamera
+      value: 
+      objectReference: {fileID: 11400000, guid: 592b0454e96178c45b57e03611df825c,
+        type: 2}
     - target: {fileID: 1209667763750605228, guid: 79dddeed6b987ea4a8a18f6a29318125,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.width
@@ -1318,11 +1330,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8926664297349751982, guid: 84c3a78c25fc8bb4b897539ebd246760,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerObject
-      objectReference: {fileID: 0}
     - target: {fileID: 8926664297349751983, guid: 84c3a78c25fc8bb4b897539ebd246760,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1378,34 +1385,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+    - target: {fileID: 8926664297349751982, guid: 84c3a78c25fc8bb4b897539ebd246760,
         type: 3}
-      propertyPath: parentCamera
-      value: 
-      objectReference: {fileID: 1654684764}
-    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+      propertyPath: m_Name
+      value: PlayerObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926664297349751979, guid: 84c3a78c25fc8bb4b897539ebd246760,
         type: 3}
-      propertyPath: beamStats
-      value: 
-      objectReference: {fileID: 11400000, guid: 15c15d1badaf82f48982b094a7077ed3,
-        type: 2}
-    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
-        type: 3}
-      propertyPath: blastStats
-      value: 
-      objectReference: {fileID: 11400000, guid: dca2c15b25832214daf8d38a094c23ab,
-        type: 2}
-    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
-        type: 3}
-      propertyPath: orbStats
-      value: 
-      objectReference: {fileID: 11400000, guid: a4e9ff090a1a0314e87c735f415fc07f,
-        type: 2}
-    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
-        type: 3}
-      propertyPath: parentCanvas
-      value: 
-      objectReference: {fileID: 1414926702}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8926664297349751978, guid: 84c3a78c25fc8bb4b897539ebd246760,
         type: 3}
       propertyPath: m_PoolList.Array.size
@@ -1473,10 +1462,33 @@ PrefabInstance:
       propertyPath: m_PoolList.Array.data[0].scale
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 8926664297349751979, guid: 84c3a78c25fc8bb4b897539ebd246760,
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
         type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: parentCamera
+      value: 
+      objectReference: {fileID: 1654684764}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: beamStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 15c15d1badaf82f48982b094a7077ed3,
+        type: 2}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: blastStats
+      value: 
+      objectReference: {fileID: 11400000, guid: dca2c15b25832214daf8d38a094c23ab,
+        type: 2}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: orbStats
+      value: 
+      objectReference: {fileID: 11400000, guid: a4e9ff090a1a0314e87c735f415fc07f,
+        type: 2}
+    - target: {fileID: 8926664297349751976, guid: 84c3a78c25fc8bb4b897539ebd246760,
+        type: 3}
+      propertyPath: parentCanvas
+      value: 
+      objectReference: {fileID: 1414926702}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84c3a78c25fc8bb4b897539ebd246760, type: 3}
