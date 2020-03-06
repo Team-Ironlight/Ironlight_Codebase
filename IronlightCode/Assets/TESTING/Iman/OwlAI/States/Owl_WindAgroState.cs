@@ -73,8 +73,7 @@ public class Owl_WindAgroState : ImanBaseState
             Y1 = stateManager.transform.eulerAngles.y;
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, Quaternion.LookRotation(direction), stateManager.RotationSpeed * Time.deltaTime);
             Y2 = stateManager.transform.eulerAngles.y;
-            //move forward
-            //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
+
 
             if (warningTimer - 1 <= Time.time)
             {

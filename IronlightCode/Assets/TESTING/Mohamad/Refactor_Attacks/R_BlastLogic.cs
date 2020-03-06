@@ -17,7 +17,9 @@ public class R_BlastLogic : MonoBehaviour
     Coroutine currentCo = null;
     public Transform visual = null;
 
-    List<LayerMask> layersToCheck;
+    public Transform blast = null;
+
+    List<LayerMask> layersToCheck = new List<LayerMask>();
 
     // does the pre-charge before launching blast attack
     public void Tick(Vector3 center)
@@ -39,12 +41,24 @@ public class R_BlastLogic : MonoBehaviour
         layersToCheck = stats.layersToCheck;
     }
 
-    
 
-    //foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, enemiesLayer))
-    //{
 
-    //}
+    private void testCollider()
+    {
+        foreach (var layer in layersToCheck)
+        {
+            foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, layer))
+            {
+               if ( pcollider.gameObject.tag == "Enemy")
+                {
+                    Debug.Log("Enemy Hit");
+                }
+   
+            }
+
+        }
+
+    }
 
     public void OnRelease()
     {

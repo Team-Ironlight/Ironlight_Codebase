@@ -12,6 +12,12 @@ public class FollowRoute : MonoBehaviour
     public float speed;
     private bool CanCour;
     bool waitForPlayer;
+    bool elderFinish;
+    bool elderMove;
+    public GameObject ElderHome;
+
+    Vector3 currScale;
+    Vector3 SmallScale = new Vector3(0.1f, 0.1f, 0.1f);
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,7 @@ public class FollowRoute : MonoBehaviour
         //speed = 1;
         CanCour = true;
         waitForPlayer = true;
+        currScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -33,6 +40,7 @@ public class FollowRoute : MonoBehaviour
         {
             StopCoroutine(MovePath(routeToGo));
         }
+        ElderFinish();
     }
     private IEnumerator MovePath(int routeNum)
     {
@@ -50,10 +58,10 @@ public class FollowRoute : MonoBehaviour
         }
         param = 0;
         routeToGo++;
-        //if (routeToGo > Routes.Length - 1)
-        //{
-        //    routeToGo = 0;
-        //}
+        if (routeToGo > Routes.Length - 1)
+        {
+            elderFinish = true;
+        }
         CanCour = true;
     }
     private void OnTriggerEnter(Collider other)
@@ -61,13 +69,37 @@ public class FollowRoute : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             waitForPlayer = false;
+            if (elderFinish)
+            {
+                elderMove = true;
+            }
         }
+
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             waitForPlayer = true;
+        }
+    }
+    void ElderFinish()
+    {
+        if (elderFinish&& elderMove)
+        {
+            transform.LookAt(ElderHome.transform.position);
+            transform.Translate(transform.forward * Time.deltaTime);
+            currScale -= new Vector3(0.1f, 0.1f, 0.1f) * Time.deltaTime;
+            ReduceElderScale();
+
+        }
+    }
+    void ReduceElderScale()
+    {
+
+        if(currScale == SmallScale)
+        {
+            Destroy(gameObject);
         }
     }
 }

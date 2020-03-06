@@ -391,6 +391,42 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 416954169}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &322906858 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3386979007170144783, guid: 2c0c7c13f4c58244cb26273430ea2a23,
+    type: 3}
+  m_PrefabInstance: {fileID: 416954169}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &397329731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397329732}
+  m_Layer: 0
+  m_Name: ElderHome
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397329732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397329731}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0522, y: -0.0639, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 322906858}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &416954169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1792,7 +1828,8 @@ MonoBehaviour:
   - {fileID: 419090630}
   - {fileID: 305429716}
   - {fileID: 276181762}
-  speed: 0.1
+  speed: 0.4
+  ElderHome: {fileID: 397329731}
 --- !u!135 &1682530325
 SphereCollider:
   m_ObjectHideFlags: 0
