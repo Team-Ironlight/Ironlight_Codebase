@@ -1,17 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components.Abstract;
 
-namespace Danish.Components
+namespace Danish.Components.SO
 {
-    public class dDashComponent
+
+    [CreateAssetMenu(fileName = "Dash Component.asset", menuName = "Components/Dash")]
+    public class dDash_SO : dBaseComponent
     {
+        //public float DistanceToTravel = 0;
+        //public float DashTime = 0;
+
+
+        public float FrictionMultiplier = 20;
+
+
         Vector3 dashDirection = Vector3.zero;
         Rigidbody rigidbody;
 
-        private Vector3 velocity = Vector3.zero;
 
-        public float FrictionMultiplier = 20;
+        public override void Init()
+        {
+            base.Init();
+        }
+
 
         public void Init(Vector3 playerForward, Rigidbody rigid)
         {
@@ -31,10 +44,8 @@ namespace Danish.Components
             rigidbody.AddForce(dashDirection * FrictionMultiplier, ForceMode.VelocityChange);
 
         }
-        public void Tick()
-        {
-            
-        }
+
+
 
         public void ResetAllValues()
         {
@@ -42,5 +53,4 @@ namespace Danish.Components
             rigidbody.velocity = Vector3.zero;
         }
     }
-
 }

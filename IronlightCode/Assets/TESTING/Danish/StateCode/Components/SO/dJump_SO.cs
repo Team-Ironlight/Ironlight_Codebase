@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components.Abstract;
 
-
-namespace Danish.Components
+namespace Danish.Components.SO
 {
-    public class dJumpComponent
+    [CreateAssetMenu(fileName = "Jump Component.asset", menuName = "Components/Jump")]
+    public class dJump_SO : dBaseComponent
     {
-        private Vector3 jumpDirection = Vector3.up;
+        public float GravityModifier = 1;
+        public float JumpForce = 4.5f;
 
         private Rigidbody rigidbody;
-
         private Vector3 velocity = Vector3.zero;
-        private Vector3 targetVelocity = Vector3.zero;
+        private Vector3 jumpDirection = Vector3.up;
 
-        private float GravityModifier = 1;
-        public float JumpForce = 4.5f;
+
+        public override void Init()
+        {
+            base.Init();
+        }
 
         public void Init(Vector2 moveDirection, Rigidbody rigid)
         {
@@ -27,6 +31,8 @@ namespace Danish.Components
             jumpDirection += convertedVector;
 
             rigidbody = rigid;
+
+            
 
             StartJump();
         }
@@ -40,13 +46,9 @@ namespace Danish.Components
 
         public void FixedTick()
         {
-            velocity += GravityModifier * Physics.gravity * Time.deltaTime;
+            //rigidbody.useGravity = false;
 
-            velocity.x = targetVelocity.x;
-
-
-
-            rigidbody.velocity = velocity;
+            //rigidbody.AddForce(Physics.gravity * (rigidbody.mass * rigidbody.mass));
         }
 
         public void ResetValues()
@@ -55,19 +57,5 @@ namespace Danish.Components
             rigidbody.velocity = Vector3.zero;
         }
 
-
-        //public bool GroundCheck()
-        //{
-        //    RaycastHit hit;
-        //    if (rigidbody.SweepTest(Vector3.down, out hit, 0.1f))
-        //    {
-        //        //Debug.Log("Sweep confirmed");
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
     }
 }

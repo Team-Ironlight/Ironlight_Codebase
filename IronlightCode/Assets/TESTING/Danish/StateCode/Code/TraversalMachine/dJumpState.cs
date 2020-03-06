@@ -94,7 +94,7 @@ namespace Danish.StateCode
 
         public override void FixedTick()
         {
-            JumpHandler.FixedTick();
+            //JumpHandler.FixedTick();
             //physics.FixedTick();
 
             if (!jumpStarted)

@@ -1,25 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components.Abstract;
 
-
-namespace brian.Components
+namespace Danish.Components.SO
 {
-
-    [System.Serializable]
-    public class HealthComponent
+    [CreateAssetMenu(fileName = "Health Component.asset", menuName = "Components/Health")]
+    public class dHealth_SO : dBaseComponent
     {
         public float maxHealth = 100;
 
         [SerializeField]
-        public float currHealth;
+        private float currHealth;
 
+
+        public override void Init()
+        {
+            base.Init();
+        }
 
 
         public void Init(float num)
         {
             maxHealth = num;
             currHealth = maxHealth;
+        }
+
+        public float GetCurrentHealth()
+        {
+            return currHealth;
         }
 
         public float addHealth(float val)
@@ -39,6 +48,8 @@ namespace brian.Components
 
             // print("current health is " + HealthVal.currHealth);
         }
+
+
 
         public void subHealth(float val)
         {
