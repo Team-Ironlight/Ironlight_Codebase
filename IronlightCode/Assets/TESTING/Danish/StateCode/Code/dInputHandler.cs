@@ -132,6 +132,7 @@ namespace Danish.StateCode
 
 
             controls.Combat.Attack.started += Attack_started;
+            controls.Combat.Attack.performed += Attack_performed;
 
             controls.Combat.OrbTest.performed += OrbTest_performed;
 
@@ -146,9 +147,9 @@ namespace Danish.StateCode
 			controls.Combat.ScrollWheel.canceled += ScrollWheel_canceled;
         }
 
-		
+        
 
-		private void OnDisable()
+        private void OnDisable()
         {
             controls.Traversal.Movement.performed -= Movement_performed;
             controls.Traversal.Movement.canceled -= Movement_canceled;
@@ -161,6 +162,7 @@ namespace Danish.StateCode
             controls.Traversal.Dash.performed -= Dash_performed;
 
             controls.Combat.Attack.started -= Attack_started;
+            controls.Combat.Attack.performed -= Attack_performed;
 
             controls.Combat.OrbTest.performed -= OrbTest_performed;
             
@@ -195,9 +197,14 @@ namespace Danish.StateCode
 
         #region Input Functions
 
+        private void Attack_performed(InputAction.CallbackContext obj)
+        {
+            _isAttacking = false;
+        }
 
         private void Attack_started(InputAction.CallbackContext obj)
         {
+            _isAttacking = true;
         }
 
         private void OrbTest_performed(InputAction.CallbackContext ctx)

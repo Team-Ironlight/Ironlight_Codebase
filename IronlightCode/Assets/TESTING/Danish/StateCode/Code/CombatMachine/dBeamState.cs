@@ -22,7 +22,7 @@ namespace Danish.StateCode
             }
 
             beamComponent = Manager.rBeam;
-            beamComponent.Init(Manager.Muzzle, Manager.pooler); 
+            beamComponent.Init(Manager.Muzzle, Manager.pooler, Manager.beamStats); 
         }
 
         public override void OnEnter()
@@ -41,7 +41,7 @@ namespace Danish.StateCode
 
             beamComponent.Tick();
 
-            if (!Manager.launchBeam)
+            if (!Manager.isAttacking)
             {
                 beamComponent.EndBeam();
                 return typeof(dReadyState);
