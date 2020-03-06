@@ -24,14 +24,26 @@ namespace Danish.Components
             muzzle = _muzzleRef;
         }
 
+
         public void Tick()
         {
 
         }
 
+
         public Vector3 GetFiringDirection()
         {
+            
+
             ray = Camera.main.ViewportPointToRay(Vector3.one * 0.5f);
+
+            //RaycastHit hit;
+
+            //if(Physics.Raycast(ray, out hit, 10f, 8))
+            //{
+            //    ray.direction = hit.point - ray.origin;
+            //}
+
 
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 5f);
 

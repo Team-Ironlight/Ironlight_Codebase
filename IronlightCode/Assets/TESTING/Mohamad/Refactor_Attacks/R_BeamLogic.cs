@@ -44,10 +44,10 @@ namespace Sharmout.attacks
             layersToCheck = stats.layersToCheck;
         }
 
-        public void ActiveTick(Vector3 _startPoint, Vector3 _rotation)
+        public void ActiveTick(Vector3 _startPoint, Vector3 _fireDirection)
         {
             lineStart = _startPoint;
-            lineDirection = _rotation;
+            lineDirection = _fireDirection;
 
             BeamPositionUpdater();
 

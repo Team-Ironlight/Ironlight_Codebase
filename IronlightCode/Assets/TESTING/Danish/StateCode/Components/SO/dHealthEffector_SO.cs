@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components.Abstract;
 
-namespace brian.Components
+namespace Danish.Components.SO
 {
 
-
-
-    public class HealthEffector
+    [CreateAssetMenu(fileName = "Health Effector.asset", menuName = "Components/HP Effector")]
+    public class dHealthEffector_SO : dBaseComponent
     {
         [SerializeField]
         bool isHealing;
@@ -15,13 +15,13 @@ namespace brian.Components
         bool isDamaged;
 
 
-        HealthComponent HealthVal;
+        dHealth_SO HealthVal;
 
         public float defenseMultiplyer = 1;
 
 
 
-        public void Init(HealthComponent hp)
+        public void Init(dHealth_SO hp)
         {
             HealthVal = hp;
         }
@@ -41,7 +41,7 @@ namespace brian.Components
             {
                 HealthVal.subHealth(value);
             }
-            Debug.Log(HealthVal.currHealth);
+            Debug.Log(HealthVal.GetCurrentHealth());
         }
     }
 }
