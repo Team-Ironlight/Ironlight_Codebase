@@ -95,17 +95,6 @@ namespace Danish.Tools
 
             return objToSpawn;
 
-            //objToSpawn.SetActive(true);
-            ////objToSpawn.transform.parent = null;
-            //objToSpawn.transform.position = position;
-            //objToSpawn.transform.rotation = rotation;
-
-            
-
-            //m_PoolDictionary[tag].Enqueue(objToSpawn);
-
-
-            //return objToSpawn;
         }
 
     }

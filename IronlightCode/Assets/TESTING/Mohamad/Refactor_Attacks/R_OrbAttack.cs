@@ -35,22 +35,25 @@ namespace Sharmout.attacks
             orbStats = _stats;
         }
 
-        //public void Tick(dObjectPooler pool, string tagName, Transform muzzle)
-        //{
-
+        public void Tick(Transform muzzle)
+        {
             
-        //}
+
+        }
 
         // function to shoot orb
         public void Shoot()
         {
+            ResetOrb();
+
+
             if (currentOrb == null)
             {
                 currentOrb = GetOrbToShoot();
                 if (currentOrb.TryGetComponent(out R_OrbLogic _logic))
                 {
                     logic = _logic;
-                    logic.Init(orbStats);
+                    logic.Init(muzzleRef.position, orbStats);
                 }
             }
         }
