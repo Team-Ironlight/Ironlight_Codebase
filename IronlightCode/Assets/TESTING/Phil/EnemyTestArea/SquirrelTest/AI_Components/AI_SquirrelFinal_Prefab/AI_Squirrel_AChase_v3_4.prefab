@@ -20303,6 +20303,9 @@ MonoBehaviour:
         m_CallState: 2
   particleDissolve: {fileID: 5744417603819776740}
   _fillImage: {fileID: 3189269591860114217}
+  isPlayer: 0
+  respchkpnt: {fileID: 0}
+  _oPlayer: {fileID: 0}
 --- !u!114 &5744417604066645164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20343,6 +20346,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_ParticleSystem: {fileID: 5744417603819776743}
+  m_Fill: {fileID: 0}
   squirrelObject: {fileID: 5744417605319711758}
 --- !u!114 &8138251717573523188
 MonoBehaviour:
