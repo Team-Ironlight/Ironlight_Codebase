@@ -109,18 +109,20 @@ public class UnitHealth : MonoBehaviour
         }
         else if ((other.gameObject.layer != 19) && this.gameObject.layer == 18)
         {
-            //This is Only for the Player
-            if (damage != null)
-            {
-                HP.ApplyChange(-damage.DamageAmount);
-                DamageEvent.Invoke();                                                                    //Deal the Damage Event here, using the HP variable attached to this Script.
-            }
-        }
+			#region PLAYER DAMAGE SECTION
+			//This is Only for the Player
+			//if (damage != null)
+			//{
+			//    HP.ApplyChange(-damage.DamageAmount);
+			//    DamageEvent.Invoke();                                                                    //Deal the Damage Event here, using the HP variable attached to this Script.
+			//}
+			#endregion
+		}
 
 
 
 
-        if (HP.Value <= 0.0f)
+		if (HP.Value <= 0.0f)
         {
             if(_fillImage)
                 _fillImage.SetActive(false);
@@ -150,23 +152,25 @@ public class UnitHealth : MonoBehaviour
                          OnSnakeDeath();
                 }
 
-                if(this.gameObject.layer == 18) //Player
-                {
-                     //respawn the Player here
-                     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
+			#region Player On Death Case
+			//if(this.gameObject.layer == 18) //Player
+			//{
+			//     //respawn the Player here
+			//     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
 
-                    if (_fillImage)
-                        _fillImage.SetActive(true);
+			//    if (_fillImage)
+			//        _fillImage.SetActive(true);
 
-                    if (ResetHP)
-                        ReviveEnemy();
-             
-                    //  OnPlayerDeath();
-                }
+			//    if (ResetHP)
+			//        ReviveEnemy();
 
-        }
+			//    //  OnPlayerDeath();
+			//}
+			#endregion
 
-    }
+		}
+
+	}
 
     //Put your death Animation , and SetActive False the GameObject
     private void OnOwlDeath()
@@ -195,7 +199,8 @@ public class UnitHealth : MonoBehaviour
 
     }
 
-    private void OnPlayerDeath()
+	#region ONDEATH PLAYER
+	private void OnPlayerDeath()
     {
             //If player Died
             //Invoke("RestartGame", 3f);
@@ -203,8 +208,10 @@ public class UnitHealth : MonoBehaviour
             //If Player still alive then respawn
             this.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
     }
-    //To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
-    private void OnSquirrelDeath()
+	#endregion
+
+	//To Do : Create Death Function here / or create seperate Pluggable Script to deal the Death Event.
+	private void OnSquirrelDeath()
     {
         if (mAbilityManager){
             mAbilityManager.StopCoroAll();

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using IronLight;
+
 
 namespace brian.Components
 {
@@ -36,6 +38,7 @@ namespace brian.Components
         public void addSpirit(float val)
         {
             float remainder = 0;
+
             if (he.currHealth < he.maxHealth)
             {
                 remainder = he.addHealth(val);
@@ -54,6 +57,7 @@ namespace brian.Components
                     currSpirit = maxSpirit;
                 }
             }
+
             //else
             //{
 
