@@ -57,6 +57,7 @@ namespace IronLight
         {
             public string Name;
             public bool isDead;
+            public bool isOnSafeZone;
             public abstract void OnEnter(MonoBehaviour runner);                                     // When entering state
             public abstract void Tick(MonoBehaviour runner);                                        // Replacement for Update (Called every frame when it is the current state)
             public abstract string CheckConditions(MonoBehaviour runner);                           // Validation "Decission Check" , and must be Return here
@@ -96,7 +97,8 @@ namespace IronLight
                 CurrentState.OnEnter(this);                                         // This is called before the first frame
             }
             _updateMinMax = GetComponent<AI_AbilityManager>();
-    
+
+            CurrentState.isOnSafeZone = _mTarget.GetComponent<LightCharging>().isCharging;
         }
 
         void Update()                                                           //---------------------------- Called every frame after the First Frame ----------------------------

@@ -119,7 +119,7 @@ public class AttackState : Phil_StateMa.BaseState
 
                         _navMeshAgent.SetDestination(destination);
 
-                        isCharging = _mTarget.GetComponentInChildren<LightCharging>().isCharging;
+                        isCharging = isOnSafeZone;
                         if (isCharging)
                         { runner.StartCoroutine(coroutineTrigger(isCharging, runner)); }
                     }

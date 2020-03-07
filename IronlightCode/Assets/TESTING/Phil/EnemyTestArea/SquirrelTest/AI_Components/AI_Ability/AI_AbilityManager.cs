@@ -112,7 +112,7 @@ public class AI_AbilityManager : MonoBehaviour
                
                 mCurrentState = mCurrentBaseState.CurrentState.Name;
 
-
+                isCharging = mCurrentBaseState.CurrentState.isOnSafeZone;
 
                 //   tester.text = mCurrentBaseState.CurrentState.Name;
                 if (mCurrentBaseState.CurrentState.Name == "WanderState")
