@@ -137,7 +137,7 @@ namespace Danish.StateCode
 
         public void InitializeComponents(Danish.Components.dComponentHolder _componentHolder)
         {
-            dJumpSO = _componentHolder.FindInDictionary("TinyJump");
+            //dJumpSO = _componentHolder.FindInDictionary("TinyJump");
         }
 
         public void Tick()
