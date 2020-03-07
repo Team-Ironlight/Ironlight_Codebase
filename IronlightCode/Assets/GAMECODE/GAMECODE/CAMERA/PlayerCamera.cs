@@ -42,6 +42,9 @@ public class PlayerCamera : MonoBehaviour
     
     private Coroutine transRoutine;
 
+    //Brians Camera Zoomin
+    public CameraZoom cam;
+
     void Start()
     {
         //Set Camera to default values
@@ -119,8 +122,16 @@ public class PlayerCamera : MonoBehaviour
             {
                 DefaultCameraMovement();
             }
+           
         }
-
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            cam.ZoomIn();
+        }
+       else
+        {
+            cam.ZoomOut();
+        }
         //Actual Camera Transformations
         Quaternion TargetQ = Quaternion.Euler(_LocalRotation.y, _LocalRotation.x, 0);
         _ParentTransform.rotation = Quaternion.Slerp(_ParentTransform.rotation, TargetQ, Time.deltaTime * turnDampening);

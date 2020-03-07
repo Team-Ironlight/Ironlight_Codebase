@@ -9,29 +9,29 @@ using UnityEngine;
 
 public class TinyAudio : MonoBehaviour
 {
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
 
-    //Player
-    [SerializeField]
-    private AudioClip TinyHurt_Clip, TinyHPreminder_Clip, TinyDeath_Clip;
+    ////Player
+    //[SerializeField]
+    //private AudioClip TinyHurt_Clip, TinyHPreminder_Clip, TinyDeath_Clip;
 
-    private AudioClip TinyDash_Clip, TinyHealing_Clip;
+    //private AudioClip TinyDash_Clip, TinyHealing_Clip;
 
-    //Weapons
-    [SerializeField]
-    private AudioClip Orb_Clips;
-    private AudioClip Beam_Clips;
-    private AudioClip BlastCharge_Clips;
-    private AudioClip BlastBurst_Clips;
+    ////Weapons
+    //[SerializeField]
+    //private AudioClip Orb_Clips;
+    //private AudioClip Beam_Clips;
+    //private AudioClip BlastCharge_Clips;
+    //private AudioClip BlastBurst_Clips;
 
-    // Use this for initialization
-    void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
+    //// Use this for initialization
+    //void Awake()
+    //{
+    //    audioSource = GetComponent<AudioSource>();
+    //}
 
-    //Tinys Weapons Sounds
-    #region Weapons
+    ////Tinys Weapons Sounds
+    //#region Weapons
     //public void Play_OrbSound()
     //{
     //    audioSource.clip = Orb_Clips[Random.Range(0, Orb_Clips.Length)];
@@ -54,37 +54,37 @@ public class TinyAudio : MonoBehaviour
     //    audioSource.Play();
     //}
 
-    #endregion
+    //#endregion
 
-    //Tinys Sounds
-    #region TinysSounds
-    public void Play_TinyHitSound()
-    {
-        audioSource.clip = TinyHurt_Clip;
-        audioSource.Play();
-    }
-    public void Play_TinyHealingSound()
-    {
-        audioSource.clip = TinyHealing_Clip;
-        audioSource.Play();
-    }
-    public void Play_TinyDashSound()
-    {
-        audioSource.clip = TinyDash_Clip;
-        audioSource.Play();
-    }
-    public void Play_HPreminderSound()
-    {
-        audioSource.clip = TinyHPreminder_Clip;
-        audioSource.Play();
-    }
+    ////Tinys Sounds
+    //#region TinysSounds
+    //public void Play_TinyHitSound()
+    //{
+    //    audioSource.clip = TinyHurt_Clip;
+    //    audioSource.Play();
+    //}
+    //public void Play_TinyHealingSound()
+    //{
+    //    audioSource.clip = TinyHealing_Clip;
+    //    audioSource.Play();
+    //}
+    //public void Play_TinyDashSound()
+    //{
+    //    audioSource.clip = TinyDash_Clip;
+    //    audioSource.Play();
+    //}
+    //public void Play_HPreminderSound()
+    //{
+    //    audioSource.clip = TinyHPreminder_Clip;
+    //    audioSource.Play();
+    //}
 
-    public void Play_DeadSound()
-    {
-        audioSource.clip = TinyDeath_Clip;
-        audioSource.Play();
-    }
+    //public void Play_DeadSound()
+    //{
+    //    audioSource.clip = TinyDeath_Clip;
+    //    audioSource.Play();
+    //}
 
-    #endregion
+    //#endregion
 
 }

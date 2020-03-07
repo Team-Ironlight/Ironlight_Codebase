@@ -19,11 +19,12 @@ public class FollowRoute : MonoBehaviour
     float dist;
     Vector3 currScale;
     Vector3 SmallScale = new Vector3(0.1f, 0.1f, 0.1f);
+    public GameObject Sparky;
     // Start is called before the first frame update
     void Start()
     {
-       
         routeToGo = 0;
+        Sparky.SetActive(false);
         param = 0;
         //speed = 1;
         CanCour = true;
@@ -104,6 +105,7 @@ public class FollowRoute : MonoBehaviour
             if (dist < 0.05)
             {
                 Moving.enabled = true;
+                Sparky.SetActive(true);
                 Destroy(gameObject);
 
             }
