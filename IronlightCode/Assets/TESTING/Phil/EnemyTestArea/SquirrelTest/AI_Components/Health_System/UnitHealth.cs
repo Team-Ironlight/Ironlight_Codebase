@@ -30,6 +30,7 @@ public class UnitHealth : MonoBehaviour
     private Phil_StateMa mStateMachine;
     private AI_AbilityManager mAbilityManager;
     private AI_Audio mAudio;
+    private Rigidbody m_rigidbody;
     public GameObject particleDissolve;
 
    public GameObject _fillImage;  //Health Bar of your AI
@@ -43,7 +44,8 @@ public class UnitHealth : MonoBehaviour
     private void Start()
     {
 
-        mAudio = GetComponent<AI_Audio>();
+        mAudio = GetComponentInChildren<AI_Audio>();
+       
         if (isPlayer)
         {
             _oPlayer = GameObject.FindWithTag("Player").gameObject;
@@ -65,7 +67,111 @@ public class UnitHealth : MonoBehaviour
     {
         HP.SetValue(StartingHP);
     }
+    private void OnTriggerStay(Collider other)
+    {
+        DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();                                //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
 
+
+        //Weapon Filter [ 19 Weapon -  18 Player ]
+        if ((other.gameObject.layer == 19) && this.gameObject.layer != 18)
+        {
+            //Initialize Components Here, we use this to check where's this Script Attach to ?
+
+            if (this.gameObject.layer == 11 || this.gameObject.layer == 15) //Squirrel_C 11  Squirrel_W 15
+            {
+                // Initialize / Instances here for Squirrel    
+                mDissolveComponent = GetComponent<Dissolve>();
+                mStateMachine = GetComponent<Phil_StateMa>();
+                mAbilityManager = GetComponent<AI_AbilityManager>();
+            }
+
+            if (this.gameObject.layer == 16) //Owl
+            {
+                //To Do, initialize all your instance components here
+                //ex. Animator, RigidBody, or Deactivate your StateMachine
+
+            }
+
+            if (this.gameObject.layer == 17) //Snake
+            {
+                //To Do , initialize all your Component here
+                //ex. Animator, RigidBody, or Deactivate your StateMachine
+
+            }
+
+
+            //This Apply to All enemy
+            if (damage != null)
+            {
+                HP.ApplyChange(-damage.DamageAmount);
+                DamageEvent.Invoke();                                                                    //Deal the Damage Event here, using the HP variable attached to this Script.
+            }
+
+        }
+        else if ((other.gameObject.layer != 19) && this.gameObject.layer == 18)
+        {
+            #region PLAYER DAMAGE SECTION
+            //This is Only for the Player
+            //if (damage != null)
+            //{
+            //    HP.ApplyChange(-damage.DamageAmount);
+            //    DamageEvent.Invoke();                                                                    //Deal the Damage Event here, using the HP variable attached to this Script.
+            //}
+            #endregion
+        }
+
+
+
+
+        if (HP.Value <= 0.0f)
+        {
+            if (_fillImage)
+                _fillImage.SetActive(false);
+
+            DeathEvent.Invoke();                                                                        //Deal the Death Event here, so far no actions yet for Death Event , example trigger Animation Death w/ particles effect
+
+
+
+            if (this.gameObject.layer == 11 || this.gameObject.layer == 15) //Squirrel_C 11  Squirrel_W 15
+            {
+                StartCoroutine(DeadSound());
+                mStateMachine.isActive = false;
+                OnSquirrelDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
+
+            }
+
+            if (this.gameObject.layer == 16) //Owl
+            {
+                //To Do, put your Animation Death here
+                OnOwlDeath();
+
+                //Invoke("TurnOffGameObject", 2f);
+            }
+
+            if (this.gameObject.layer == 17) //Snake
+            {
+                //To Do, put your Animation Death here
+                OnSnakeDeath();
+            }
+
+            #region Player On Death Case
+            //if(this.gameObject.layer == 18) //Player
+            //{
+            //     //respawn the Player here
+            //     _oPlayer.transform.position = respchkpnt.GetComponent<RespawnCheckPoint>().lastCheckPoint.transform.position;
+
+            //    if (_fillImage)
+            //        _fillImage.SetActive(true);
+
+            //    if (ResetHP)
+            //        ReviveEnemy();
+
+            //    //  OnPlayerDeath();
+            //}
+            #endregion
+
+        }
+    }
     private void OnTriggerEnter(Collider other)                                                             //For this version we need Trigger Component (ex. Sphere Collider) 
     {
         DamageDealer damage = other.gameObject.GetComponent<DamageDealer>();                                //When the projectile Collides get the Component Script "DamageDealer" attached to the Projectile.
@@ -79,6 +185,7 @@ public class UnitHealth : MonoBehaviour
             if (this.gameObject.layer == 11 || this.gameObject.layer == 15) //Squirrel_C 11  Squirrel_W 15
             {
                 // Initialize / Instances here for Squirrel    
+                m_rigidbody = GetComponent<Rigidbody>();
                 mDissolveComponent = GetComponent<Dissolve>();
                 mStateMachine = GetComponent<Phil_StateMa>();
                 mAbilityManager = GetComponent<AI_AbilityManager>();
@@ -133,7 +240,8 @@ public class UnitHealth : MonoBehaviour
        
                 if (this.gameObject.layer == 11 || this.gameObject.layer == 15) //Squirrel_C 11  Squirrel_W 15
                 {
-                        mStateMachine.isActive = false;
+                        StartCoroutine(DeadSound());
+                         mStateMachine.isActive = false;
                         OnSquirrelDeath();                                                              //TO DO: create a script to deal the Animation Death, or write a function private call here to deal the Death actions similar to the HP which is declared above these UnitHealth script.
 
                 }
@@ -217,7 +325,9 @@ public class UnitHealth : MonoBehaviour
             mAbilityManager.StopCoroAll();
             mAbilityManager.enabled = false;
         }
-
+        if (m_rigidbody){
+            m_rigidbody.isKinematic = false;
+        }
         if (mDissolveComponent)
             mDissolveComponent.enabled = true;
 
@@ -227,7 +337,7 @@ public class UnitHealth : MonoBehaviour
         if (ResetHP)
             ReviveEnemy();
 
-      //  StartCoroutine(DeadSound());
+     
     
 
     }
@@ -241,9 +351,10 @@ public class UnitHealth : MonoBehaviour
     }
 
     IEnumerator DeadSound(){
+        mAudio.Play_DeadSound();
         yield return new WaitForSeconds(0.3f);
 
-        mAudio.Play_DeadSound();
+      
     }
 }
 
