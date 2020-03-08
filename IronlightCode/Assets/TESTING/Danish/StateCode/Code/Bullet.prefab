@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7573298686269142939}
   m_Layer: 19
   m_Name: Sphere
-  m_TagString: Orb
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 315206821334903196}
   m_Layer: 19
   m_Name: Bullet
-  m_TagString: Orb
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,6 +182,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7120437861095703916}
     m_Modifications:
+    - target: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_Name
+      value: Sphere (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1017177517576768599, guid: cbb7e787c33394347a5e4ba0058f852c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -235,16 +245,6 @@ PrefabInstance:
     - target: {fileID: 1017177517576768599, guid: cbb7e787c33394347a5e4ba0058f852c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
-        type: 3}
-      propertyPath: m_Name
-      value: Sphere (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9029452412997840157, guid: cbb7e787c33394347a5e4ba0058f852c,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4814373521936610390, guid: cbb7e787c33394347a5e4ba0058f852c,
@@ -322,6 +322,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 338324326510338319}
     m_Modifications:
+    - target: {fileID: 8628742866825577580, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_Name
+      value: Orb02_TUT02 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628742866825577580, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8628742866825577571, guid: 68719ebb756f29140879b0f9366506d8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -377,10 +387,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8628742866825577580, guid: 68719ebb756f29140879b0f9366506d8,
+    - target: {fileID: 8628742867456985945, guid: 68719ebb756f29140879b0f9366506d8,
         type: 3}
-      propertyPath: m_Name
-      value: Orb02_TUT02 Variant
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628742867043302590, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628742867935896352, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8628742868044958777, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2587858377311200740, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682412250038802769, guid: 68719ebb756f29140879b0f9366506d8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68719ebb756f29140879b0f9366506d8, type: 3}

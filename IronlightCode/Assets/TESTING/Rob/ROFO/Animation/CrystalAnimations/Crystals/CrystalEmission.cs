@@ -24,6 +24,15 @@ public class CrystalEmission : MonoBehaviour
         }        
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == collisionTag)
+        {
+            TurnOn();
+        }
+    }
+
+
     private bool isOn = false;
     private Coroutine c = null;
     //method to call for emission to go from 0 to set value
