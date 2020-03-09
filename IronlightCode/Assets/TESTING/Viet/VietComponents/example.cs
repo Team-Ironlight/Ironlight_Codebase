@@ -9,7 +9,7 @@ public class example : MonoBehaviour
     HealthComponent hp = null;
     HealthEffector hpEffector = null;
     DamageComp dmg = null;
-    AbsorbComp health;
+    HealComp health;
 
     public float dmgVal = 0;
     public float healVal = 0;
@@ -28,7 +28,7 @@ public class example : MonoBehaviour
         dmg = new DamageComp();
         dmg.Init(hpEffector);
 
-        health = new AbsorbComp();
+        health = new HealComp();
         health.Init(hpEffector);
     }
 
