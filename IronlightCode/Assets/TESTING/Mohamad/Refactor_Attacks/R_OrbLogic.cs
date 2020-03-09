@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -8,41 +9,76 @@ namespace Sharmout.attacks
     {
         public float _iSpeed = 5;
         public float _iDamageAmount = 0;
-        public float _DisableTimer = 3;
-        public Transform parentObj;
+        public float _DisableTimer = 5;
 
-        Coroutine currentCo = null;
-        
-        // Start Function, not used right now
-        void Init()
+        Coroutine disableCO = null;
+        Coroutine moveCo = null;
+
+        Vector3 moveDirection = Vector3.zero;
+
+        public void Init(Vector3 startPos, Vector3 _direction, OrbSO stats)
+        {
+            _iSpeed = stats.TraveliSpeed;
+            _iDamageAmount = stats.DamageAmount;
+            _DisableTimer = stats.DisableTimer;
+
+            transform.position = startPos;
+
+            moveDirection = _direction;
+
+            // Start a coroutine to disable the bullet after a set amount of time when the object is enabled
+            disableCO = StartCoroutine(BuletDisble());
+
+
+            moveCo = StartCoroutine(OrbMovement());
+        }
+
+
+        public void Tick()
         {
             
         }
 
-        // Start a coroutine to disable the bullet after a set amount of time when the object is enabled
-        private void OnEnable()
-        {             
-            currentCo = StartCoroutine("BuletDisble");
+        IEnumerator OrbMovement()
+        {
+            while (true)
+            {
+                // move gameobject forward by a set speed
+                Vector3 moveVector = moveDirection * _iSpeed * Time.deltaTime;
+
+                transform.position += moveVector;
+
+                yield return null; 
+            }
         }
 
-        // Stop the coroutine when object is disabled
-        private void OnDisable()
-        {
-            StopCoroutine(currentCo);
-            currentCo = null;
-        }
-
-        void Update()
-        {
-            // move gameobject forward by a set speed
-            transform.position += transform.forward * _iSpeed * Time.deltaTime;
-        }
 
         // wait for a set amount of time and then set the gameobject to inactive
         private IEnumerator BuletDisble()
         {
             yield return new WaitForSeconds(_DisableTimer);
+
+            if (moveCo != null)
+            {
+                StopCoroutine(moveCo);
+                moveCo = null;
+            }
+
             gameObject.SetActive(false);
+            StopCoroutine(disableCO);
+            disableCO = null;
+            Debug.Log(disableCO);
+        }
+
+
+
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.tag == "Enemy")
+            {
+
+            }
         }
     }
     

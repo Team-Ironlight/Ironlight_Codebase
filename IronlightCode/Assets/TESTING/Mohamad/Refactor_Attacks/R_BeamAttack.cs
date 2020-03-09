@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -9,6 +10,7 @@ namespace Sharmout.attacks
     {
         Transform muzzleRef = null;
         Vector3 firePosition = Vector3.zero;
+        Vector3 fireDirection = Vector3.zero;
         Quaternion fireRotation = Quaternion.Euler(Vector3.zero);
 
         dObjectPooler beamPool = null;
@@ -16,10 +18,13 @@ namespace Sharmout.attacks
         GameObject currentBeam = null;
         R_BeamLogic logic = null;
 
-        public void Init(Transform _muzzle, dObjectPooler _pool)
+        public BeamSO beamStats = null;
+
+        public void Init(Transform _muzzle, dObjectPooler _pool, BeamSO _stats)
         {
             muzzleRef = _muzzle;
             beamPool = _pool;
+            beamStats = _stats;
         }
 
         public void StartBeam()
@@ -32,10 +37,10 @@ namespace Sharmout.attacks
                 if (currentBeam.TryGetComponent(out R_BeamLogic _logic))
                 {
                     logic = _logic;
+                    logic.Init(muzzleRef.position, beamStats);
                 }
             }
 
-            logic.Init(muzzleRef.position);
 
             logic.going = true;
             logic.ending = false;
@@ -63,10 +68,13 @@ namespace Sharmout.attacks
         {
             firePosition = muzzleRef.position;
 
-            logic.ActiveTick(firePosition, muzzleRef.forward);
+            logic.ActiveTick(firePosition, fireDirection);
         }
 
-        
+        public void SetFireDirection(Vector3 _direction)
+        {
+            fireDirection = _direction;
+        }
 
         GameObject GetBeamToShoot()
         {

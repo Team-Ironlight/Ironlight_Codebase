@@ -5,6 +5,7 @@
 // Date:   01/20/2020       Version 1
 // Date:   01/29/2020       Version 2
 // Date:   02/12/2020       Version 3
+// Date:   03/03/2020       Version 4
 // ----------------------------------------------------------------------------
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,7 +22,6 @@ public enum AbilityLinkMoveMethod
     Curve,
     Rollback
 }
-
 
 public class AI_AbilityManager : MonoBehaviour
 {
@@ -75,64 +75,67 @@ public class AI_AbilityManager : MonoBehaviour
     [HideInInspector] public GameObject _abSorb;
     protected float m_ShieldActivationTime;                                 //Particle effect for the Absorb /recharge before the Swag Attack(dash)
     private ParticleSystem particleTrail;                                   //Particle effect for the Dash
-
-
-
+       
     private NavMeshAgent _navMeshAgent;
+    private Animator _aniMator;
+    private AI_Audio mAudio;
     public TMP_Text tester;
+
+    private bool isAttacking = false;
+       
+
     IEnumerator Start()
     {
+
+
         target = GameObject.FindWithTag("Player").transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
-     
+        _aniMator = GetComponent<Animator>();
+      
+        //Assigns the first child of the eight child of the Game Object this particle is attached to.
 
-        _abSorb = this.gameObject.transform.GetChild(8).gameObject;                                             //Assigns the first child of the eight child of the Game Object this particle is attached to.      
+
+        _abSorb = this.gameObject.transform.GetChild(6).gameObject;
         particleTrail = GetComponentInChildren<ParticleSystem>();
 
+        mAudio = GetComponentInChildren<AI_Audio>();
         _navMeshAgent.autoTraverseOffMeshLink = false;
         startPos = Vector3.zero;
-      
 
+     
         //Synchronous Coroutine
 
         while (true)
         {
-            if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
-            {
+            //if ((!_navMeshAgent.isPathStale) && (!_navMeshAgent.pathPending) && (_navMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete))
+            //{
                 mCurrentBaseState = GetComponent<Phil_StateMa>();
                
                 mCurrentState = mCurrentBaseState.CurrentState.Name;
-                //  tester.text = "Coroutine 1";
 
-                //  if (mCurrentBaseState.CurrentState.Name == "") { yield break; }
-
-
-                //  isCharging = target.GetComponentInChildren<LightCharging>().isCharging;                         //Real Time Check
-
-                //switch (mCurrentBaseState.CurrentState.Name)                                                                          //Info : we need Pounce movement, but only for specific States
-                //{
-                //    case "WanderState":
-                //        mHopping = true;
-                //        break;
-                //    case "ChaseState":
-                //        mHopping = true;
-                //        break;
-                //    case "AttackState":
-                //        mAttack = true;
-                //        break;
-                //    default:
-                //        mHopping = false;
-                //        break;
-                //}
-
+                isCharging = mCurrentBaseState.CurrentState.isOnSafeZone;
 
                 //   tester.text = mCurrentBaseState.CurrentState.Name;
                 if (mCurrentBaseState.CurrentState.Name == "WanderState")
                 {
+               
+                if (_navMeshAgent.velocity.sqrMagnitude > 0)
+                    {
+                        StartCoroutine(roamingSound());
+                        _aniMator.SetFloat("Speed", _agentRunSpeed);
+                    
+                    }
+                    else
+                    {
+                   
+                        _aniMator.SetFloat("Speed", 0f);
+                    }
+                    mAttack = true;
                     mHopping = true;
                 }
                 else if (mCurrentBaseState.CurrentState.Name == "ChaseState")
                 {
+                    mAttack = true;
                     mHopping = true;
                 }
                 else if (mCurrentBaseState.CurrentState.Name == "AttackState")
@@ -149,7 +152,8 @@ public class AI_AbilityManager : MonoBehaviour
 
                 //if (old_Method != m_Method)
                 //{
-              
+
+
 
                 if ((Vector3.Distance(this.transform.position, target.position) < _gMaxDistance))
                 {
@@ -164,6 +168,7 @@ public class AI_AbilityManager : MonoBehaviour
                             yield return StartCoroutine(Parabola(_navMeshAgent, 0.8f, 1f));
                         else if ((m_Method == AbilityLinkMoveMethod.Curve) && (isCharging != true) && (mCurrentBaseState.isActive != false))                            //Execute the Function if the Player is Not Charging & not Dead yet
                             yield return StartCoroutine(Curve(_navMeshAgent, 1f));
+
 
                     }
                     else
@@ -182,13 +187,13 @@ public class AI_AbilityManager : MonoBehaviour
 
                 if (attackIndex >= attacks.Length) { attackIndex = 0;  }
 
-            }
+           // }
 
             yield return null;
         }
       
     }
-        
+       
     IEnumerator Swag(NavMeshAgent agent)
     {
         Vector3 endPos = agent.pathEndPosition;                                                    
@@ -204,50 +209,83 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if (Vector3.Distance(agent.transform.position, target.position) <= _gMaxDistance)                                   // Verify if the player still in the Perimeter 
             {
+                _aniMator.SetFloat("Speed", _agentRunSpeed);
+                _aniMator.SetTrigger("AttackDash");
+
                 RaycastHit hit; int mask = 1 << 10;                                                                             // Now lets check if Grounded , Ground on layer 10 in the inspector
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 2f, mask))                                       // Let's use Physics to verify
                 {
+                 
                     float _mOldSpeed = agent.speed; float percent = 0;
                     while (percent <= 3f)
-                    {                     
+                    {
+                      
+
                         percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;                      
                         agent.speed = _agentRunSpeed;
                         agent.destination = Vector3.Lerp(startPos, attackPosition, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
                         old_Method = AbilityLinkMoveMethod.Swag;
+
+                        if (_navMeshAgent.velocity.sqrMagnitude > 0)
+                        {
+                           
+                            _aniMator.SetFloat("Speed", _agentRunSpeed);
+                        }
+                        else
+                        {
+                            _aniMator.SetFloat("Speed", 0f);
+                        }
+
                         yield return null;
                     }
                     agent.speed = _mOldSpeed;
-                    // transform.position= Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * 0.5f);
+                  
                 }
-                SwagcoolDownTimer = SwagcoolDown;
 
+                SwagcoolDownTimer = SwagcoolDown;
+             
             }
 
             if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
             {
+                _aniMator.SetFloat("Speed", _agentRunSpeed);
+               
                 float _mOldSpeed = agent.speed; float percent = 0;
                 while (percent <= 3f)
                 {
+                 
                     percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;
                     agent.speed = _agentRunSpeed;
-                    agent.destination = Vector3.Lerp(attackPosition, startPos, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
+                    agent.destination = Vector3.Lerp(attackPosition, newPosition, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
                     old_Method = AbilityLinkMoveMethod.Swag;
+
+                 
                     yield return null;
                 }
+
                 agent.speed = _mOldSpeed;
+                _aniMator.SetFloat("Speed", 0f);
             }
         }
+
+      
+
+        _aniMator.SetBool("isAttacking", false);
+        _aniMator.SetFloat("Speed", 0f);
 
         mAttack = false;
         yield return null;
     }
-        
+
     IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
     {
         if (!mHopping) { yield return null; }                                                                          // Hopping /pouncing code below is for specific States only, not all states can exeucte the code below
         startPos = agent.transform.position; Vector3 endPos = agent.transform.position + Vector3.up * agent.baseOffset; float normalizedTime = 0.1f;
+     
+
         while (normalizedTime < 1f)
         {
+               
                 particleTrail.Stop(); normalizedTime += Time.deltaTime;
                 float yOffset = height * (normalizedTime - normalizedTime * normalizedTime);
                 transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
@@ -255,26 +293,37 @@ public class AI_AbilityManager : MonoBehaviour
                 yield return null;                             
         }
 
+  
         RaycastHit hit; int mask = 1 << 10;                                                                                 // Now lets check if Grounded , Ground on layer 10 in the inspector
         if (Physics.Raycast(agent.transform.position, Vector3.down, out hit, 2f, mask))                                     // Let's use Physics to verify
         {
-               if(runDustEffect !=null){ StartCoroutine(runDustEffect.DustCoroutine(this)); }
+         
+            if (runDustEffect !=null) { _aniMator.SetFloat("Speed", 0f); StartCoroutine(runDustEffect.DustCoroutine(this)); }
         }
-
+      
         if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
         {
+     
+
             while (normalizedTime < 1f)
             {
+               
+
                 particleTrail.Stop(); normalizedTime += Time.deltaTime;
                 float yOffset = height * (normalizedTime - normalizedTime * normalizedTime);
                 transform.position = Vector3.Lerp(endPos,startPos, normalizedTime) + yOffset * Vector3.up;
                 old_Method = AbilityLinkMoveMethod.Parabola;
                 yield return null;
             }
+       
         }
+
+        //_aniMator.SetBool("isJumping", false);
+        _aniMator.SetBool("isAttacking", false);
+        _aniMator.SetFloat("Speed", 0f);
         yield return null;
     }
-           
+
     IEnumerator Curve(NavMeshAgent agent, float duration)
     {
         RaycastHit hit;                                                                                                   // Now lets check if Grounded
@@ -288,6 +337,13 @@ public class AI_AbilityManager : MonoBehaviour
                 Vector3 endPos = target.position + Vector3.up * agent.baseOffset;
                 Vector3 NewPosition = startPos + Vector3.up * agent.baseOffset;
 
+                StartCoroutine(JumpSound());
+
+                _aniMator.SetBool("isAttacking", true);
+                _aniMator.SetBool("isJumping", true);
+
+               
+
                 float normalizedTime = 0.0f;
                 while (normalizedTime < 1f)
                 {
@@ -298,18 +354,20 @@ public class AI_AbilityManager : MonoBehaviour
 
                     old_Method = AbilityLinkMoveMethod.Curve;
                     yield return null;
-                }
+                }                       
 
                 if (Physics.Raycast(agent.transform.position, Vector3.down, out hit, 2f, mask))                               // Let's use Physics to verify
                 {
                     if (runSplatterEffect != null)
-                    { StartCoroutine(runSplatterEffect.GlassCoroutine(this)); }
+                    { _aniMator.SetFloat("Speed", 0f); StartCoroutine(runSplatterEffect.GlassCoroutine(this)); StartCoroutine(LandSound()); }
 
                 }
 
-
+              
                 if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
                 {
+            
+
                     normalizedTime = 0.0f;
                     while (normalizedTime < 1f)
                     {
@@ -322,22 +380,32 @@ public class AI_AbilityManager : MonoBehaviour
                         yield return null;
                     }
 
+         
                 }
             }
         }
 
-
-     //   Debug.Log("curve");
+        _aniMator.SetBool("isJumping", false);
+        _aniMator.SetBool("isAttacking", false);
+        _aniMator.SetFloat("Speed", 0f);
         yield return null;
     }
-   
-
+    
     IEnumerator ActivateShield(NavMeshAgent agent)
     {
-        _abSorb.SetActive(true);
+        if (_abSorb)
+            _abSorb.SetActive(true);
+
         m_ShieldActivationTime = 1f;
+
+        StartCoroutine(ScreamSound());
+        _aniMator.SetBool("isAttacking", true);
+        _aniMator.SetBool("isCharging", true);
+
         while (m_ShieldActivationTime > 0)
         {
+            _aniMator.SetFloat("Speed", 0f);
+                                 
             agent.isStopped = true;
             m_ShieldActivationTime -= Time.deltaTime;
             if (m_ShieldActivationTime <= 0.0f)
@@ -351,16 +419,22 @@ public class AI_AbilityManager : MonoBehaviour
 
     IEnumerator DeactivateShield(NavMeshAgent agent)
     {
-        _abSorb.SetActive(false);
-     
-        //  m_Damageable.SetColliderState(true);
+   
+        if (_abSorb)
+            _abSorb.SetActive(false);     
 
         if (agent.isOnNavMesh == true) 
         { particleTrail.Play(); }
         else if (agent.isStopped)
         { particleTrail.Stop(); }
 
+        StartCoroutine(DashSound());
+
+        _aniMator.SetBool("isCharging", false);
         yield return StartCoroutine(Swag(agent));
+
+        _aniMator.SetFloat("Speed", 0f);
+        _aniMator.SetBool("isAttacking", false);
     }
 
     public float Set_MinDistance   // property
@@ -375,6 +449,12 @@ public class AI_AbilityManager : MonoBehaviour
         set { _gMaxDistance = value; }
     }
 
+    public IEnumerator stopAttack(float length)
+    {
+        yield return new WaitForSeconds(length);
+        isAttacking = false;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         //For this Version we use Collision Trigger -  This can be change into a Projectile (Blast) that Collide into this Orbs GameObject , basically when the Blast Hit then set isActive into True! 
@@ -382,11 +462,52 @@ public class AI_AbilityManager : MonoBehaviour
         {
             if (runRingEffect != null)
             {
+           
                 StartCoroutine(runRingEffect.RingHorizontalCoroutine(this, other.transform.position));
             }
         }
     }
 
+    IEnumerator ScreamSound()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        mAudio.Play_ScreamSound();
+    }
+
+    IEnumerator DashSound()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        mAudio.Play_DashSound();
+    }
+    IEnumerator JumpSound()
+    {
+        mAudio.Play_JumpSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    IEnumerator LandSound()
+    {
+        mAudio.Play_LandSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    IEnumerator roamingSound()
+    {
+        mAudio.Play_roamSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    public void StopCoroAll()
+    {
+        StopCoroutine("Start");
+        StopCoroutine("Swag");
+        StopCoroutine("Parabola");
+        StopCoroutine("Curve");
+        StopCoroutine("ActivateShield");
+        StopCoroutine("DeactivateShield");
+    }
 
     // ----------------------------------------------------------------------------
     //                  Codes Below are for Testing pursposes and reference for future changes
@@ -502,65 +623,7 @@ public class AI_AbilityManager : MonoBehaviour
 
         //   Debug.Log("Ability Orbit enables coroutineTrigger to run.");
     }
-    
-    IEnumerator Rollback(NavMeshAgent agent, Vector3 startPos)
-    {
-
-        Vector3 endPos = startPos + Vector3.up * agent.baseOffset;
-        while (agent.transform.position != endPos)
-        {
-            agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
-
-            if (_hasReached)
-            {
-                yield return null;
-            }
-            yield return null;
-        }
-
-        yield return null;
-
-    }
-
-    IEnumerator Parabola2(NavMeshAgent agent, float height, float duration)
-    {
-        startPos = agent.transform.position;
-
-        Vector3 _mTarget = Vector3.zero;
-        if (isCharging)
-        {
-            _mTarget = agent.transform.position;
-        }
-        else
-        {
-            _mTarget = agent.pathEndPosition;
-        }
-
-
-        Vector3 dirToTarget = (_mTarget - agent.transform.position).normalized;
-        Vector3 attackPosition = _mTarget - dirToTarget * (1f);
-        Vector3 newPosition = _mTarget - dirToTarget * (1f);
-
-        agent.transform.position = attackPosition;
-        
-        Vector3 endPos = _mTarget + Vector3.up;// * agent.baseOffset;
-
-        float normalizedTime = 0.0f;
-        while (normalizedTime < 1.0f)
-        {
-            float yOffset = 1f * 0.1f * (normalizedTime - normalizedTime * normalizedTime);
-            agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
-            normalizedTime += Time.deltaTime / duration;
-            yield return null;
-
-        }
-
-
-        agent.transform.position = Vector3.MoveTowards(agent.transform.position, newPosition, Time.deltaTime * 0.1f);
-                
-        yield return null;
-    }
-    
+         
     protected bool pathComplete()
     {
         //if (Vector3.Distance(m_NavAgent.destination, m_NavAgent.transform.position) <= m_NavAgent.stoppingDistance)

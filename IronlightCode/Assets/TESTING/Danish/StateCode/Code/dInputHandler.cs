@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using Danish.Tools;
+using System;
 
 namespace Danish.StateCode
 {
@@ -31,6 +32,9 @@ namespace Danish.StateCode
         public bool _orbAttack = false;
         public bool _beamAttack = false;
         public bool _blastAttack = false;
+
+		//scroll values
+		public float _scrollValue = 0;
 
         private void Awake()
         {
@@ -128,6 +132,7 @@ namespace Danish.StateCode
 
 
             controls.Combat.Attack.started += Attack_started;
+            controls.Combat.Attack.performed += Attack_performed;
 
             controls.Combat.OrbTest.performed += OrbTest_performed;
 
@@ -137,6 +142,9 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.started += BlastTest_started;
             controls.Combat.BlastTest.performed += BlastTest_performed;
             controls.Combat.BlastTest.canceled += BlastTest_canceled;
+
+			controls.Combat.ScrollWheel.performed += ScrollWheel_performed;
+			controls.Combat.ScrollWheel.canceled += ScrollWheel_canceled;
         }
 
         
@@ -154,6 +162,7 @@ namespace Danish.StateCode
             controls.Traversal.Dash.performed -= Dash_performed;
 
             controls.Combat.Attack.started -= Attack_started;
+            controls.Combat.Attack.performed -= Attack_performed;
 
             controls.Combat.OrbTest.performed -= OrbTest_performed;
             
@@ -163,6 +172,9 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.started -= BlastTest_started;
             controls.Combat.BlastTest.performed -= BlastTest_performed;
             controls.Combat.BlastTest.canceled -= BlastTest_canceled;
+
+			controls.Combat.ScrollWheel.performed -= ScrollWheel_performed;
+			controls.Combat.ScrollWheel.canceled -= ScrollWheel_canceled;
 
             controls.Disable();
         }
@@ -185,9 +197,14 @@ namespace Danish.StateCode
 
         #region Input Functions
 
+        private void Attack_performed(InputAction.CallbackContext obj)
+        {
+            _isAttacking = false;
+        }
 
         private void Attack_started(InputAction.CallbackContext obj)
         {
+            _isAttacking = true;
         }
 
         private void OrbTest_performed(InputAction.CallbackContext ctx)
@@ -277,11 +294,35 @@ namespace Danish.StateCode
 
         }
 
+		private void ScrollWheel_performed(InputAction.CallbackContext obj)
+		{
+			_scrollValue = obj.ReadValue<float>();
+			_stateManager.scrollValue = _scrollValue;
+			if (_scrollValue > 0)
+			{
+				_stateManager.scrollUp = true;
+				_stateManager.scrollDown = false;
+			}
+			else if (_scrollValue < 0)
+			{
+				_stateManager.scrollDown = true;
+				_stateManager.scrollUp = false;
+			}
+			else
+			{
+				_stateManager.scrollUp = false;
+				_stateManager.scrollDown = false;
+			}
+		}
+
+		private void ScrollWheel_canceled(InputAction.CallbackContext obj)
+		{
+
+		}
 
 
 
 
-
-        #endregion
-    }
+		#endregion
+	}
 }

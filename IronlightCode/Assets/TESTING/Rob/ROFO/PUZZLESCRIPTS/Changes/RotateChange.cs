@@ -71,10 +71,15 @@ namespace ROFO
             Setup();
         }
 
+        public void ResetCrystals()
+        {
+            Setup();
+        }
+
         //test
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.P))
+            if (Input.GetKeyUp(KeyCode.E))
             {
                 Change();
             }

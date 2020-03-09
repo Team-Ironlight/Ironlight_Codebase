@@ -13,32 +13,25 @@ namespace brian.Components
         bool isHealing;
         [SerializeField]
         bool isDamaged;
+
+
         HealthComponent HealthVal;
 
-        public float Multiplyer;
+        public float defenseMultiplyer = 1;
 
-        // Start is called before the first frame update
-        public void Init()
+
+
+        public void Init(HealthComponent hp)
         {
-            HealthVal = new HealthComponent();
-            HealthVal.Init();
+            HealthVal = hp;
         }
 
 
-        //void addHealth(float val)
-        //{
-        //    HealthVal.currHealth += val;
-        //   // print("current health is " + HealthVal.currHealth);
-        //}
-        //void subHealth(float val)
-        //{
-        //    HealthVal.currHealth -= val;
-        //   // print("current health is " + HealthVal.currHealth);
-        //}
+
         public void affect(bool plusHealth, float val, float multi)
         {
-            Multiplyer = multi;
-            float value = val * Multiplyer;
+            defenseMultiplyer = multi;
+            float value = val * defenseMultiplyer;
 
             if (plusHealth)
             {

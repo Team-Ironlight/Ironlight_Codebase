@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
+using Danish.Components.SO;
 using Sharmout.attacks;
+using Sharmout.SO;
 
 
 namespace Danish.StateCode
@@ -34,7 +36,8 @@ namespace Danish.StateCode
         [Header("Aim Down Sights Variables")]
         public bool ADS = false;
 
-        [Header("Power Scroll Variables")]
+		[Header("Power Scroll Variables")]
+		public float scrollValue;
         public bool scrollUp = false;
         public bool scrollDown = false;
 
@@ -48,8 +51,12 @@ namespace Danish.StateCode
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
+        public GameObject CanvasObj = null;
+
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
+
+        dComponentHolder dComponent = null;
 
         // Temporary Combat Component Reference
         public R_OrbAttack rOrb = null;
@@ -59,16 +66,27 @@ namespace Danish.StateCode
 
         // Temporary Traversal Component Reference
         public dJumpComponent dJump = null;
+
+        public dJump_SO dJumpSO = null;
+
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
         public dMoveComponent dFloat = null;
         public dMoveComponent dAimMove = null;
 
         public dPhysicsComponent dPhysics = null;
+		public dPowerWheel dPower = null;
+		public dUIUpdater d_UIUpdater = null;
 
-        // public dPowerScroller powerWheel = null;
+        // Temporary Stat SO references for Attacks
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
 
-        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
+        // Temporary Reference for a crosshair component
+        public dCrosshairComponent dCrosshair = null;
+
+        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle, dComponentHolder parentComponentHolder)
         {
             //Debug.Log("Initialize State Manager");
 
@@ -86,6 +104,7 @@ namespace Danish.StateCode
 
             Muzzle = parentMuzzle;
 
+            dComponent = parentComponentHolder;
 
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
@@ -98,11 +117,27 @@ namespace Danish.StateCode
             rBlast = new R_BlastAttack();
 
             dPhysics = new dPhysicsComponent();
-            //powerWheel = new dPowerScroller();
+			dPower = new dPowerWheel();
+			d_UIUpdater = new dUIUpdater();
+
+            dCrosshair = new dCrosshairComponent();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
-            
+        }
+
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS, GameObject _canvas)
+        {
+            orbStats = _orbS;
+            beamStats = _beamS;
+            blastStats = _blastS;
+
+            CanvasObj = _canvas;
+        }
+
+        public void InitializeComponents(Danish.Components.dComponentHolder _componentHolder)
+        {
+            //dJumpSO = _componentHolder.FindInDictionary("TinyJump");
         }
 
         public void Tick()

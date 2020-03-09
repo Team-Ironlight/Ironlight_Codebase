@@ -10,7 +10,7 @@ public class Owl_StateManager : MonoBehaviour
     public float MovementSpeed =3;
     [HideInInspector] public float OGMovementSpeed;
     public float RotationSpeed =4;
-    private float OGRotationSpeed;
+    [HideInInspector] public float OGRotationSpeed;
     private Rigidbody rb;
     public float BankRotIntensity;
     public float BankRotSpeed;
@@ -54,6 +54,9 @@ public class Owl_StateManager : MonoBehaviour
     [HideInInspector] public Transform PLY_Transform;
     [HideInInspector] public float DisBetwnPLY;
 
+    [Header("Owl Animation Variables")]
+    public Animator OwlAnim;
+
 
     public Iman_StateMachine StateMachine;
     public GameObject TurnObject;
@@ -69,6 +72,8 @@ public class Owl_StateManager : MonoBehaviour
         FindWaypoint();
         OGMovementSpeed = MovementSpeed;
         OGRotationSpeed = RotationSpeed;
+
+        OwlAnim.SetBool("Idle", false);
 
         startTime = Time.time;
 
@@ -114,9 +119,14 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
-    public void SlowingDown(float Distance)
+    public void SlowMoveSpeed(float Distance)
     {
         MovementSpeed = (Distance * OGMovementSpeed) / DistToSlowDown;
+    }
+
+    public void SlowRotSpeed(float Distance)
+    {
+        RotationSpeed = ((Distance * OGMovementSpeed) / DistToSlowDown);
     }
 
     IEnumerator SlowRotation()

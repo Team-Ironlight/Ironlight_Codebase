@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using IronLight;
+
 
 namespace brian.Components
 {
@@ -10,15 +12,15 @@ namespace brian.Components
     [System.Serializable]
     public class SpiritComponent 
     {
-        float maxSpirit = 100;
+        public float maxSpirit = 100;
         HealthComponent he;
         [SerializeField]
         public float currSpirit;
         // Start is called before the first frame update
         public void Init()
         {
-            he = new HealthComponent();
-            he.Init();
+            //    he = new HealthComponent();
+            //    he.Init();
             currSpirit = maxSpirit;
         }
         public void subSpirit(float val)
@@ -36,6 +38,7 @@ namespace brian.Components
         public void addSpirit(float val)
         {
             float remainder = 0;
+
             if (he.currHealth < he.maxHealth)
             {
                 remainder = he.addHealth(val);
@@ -54,6 +57,7 @@ namespace brian.Components
                     currSpirit = maxSpirit;
                 }
             }
+
             //else
             //{
 

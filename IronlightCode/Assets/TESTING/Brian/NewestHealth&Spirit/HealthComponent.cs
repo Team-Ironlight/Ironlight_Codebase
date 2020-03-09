@@ -16,10 +16,12 @@ namespace brian.Components
 
 
 
-        public void Init()
+        public void Init(float num)
         {
+            maxHealth = num;
             currHealth = maxHealth;
         }
+
         public float addHealth(float val)
         {
             float result = 0;
@@ -37,6 +39,7 @@ namespace brian.Components
 
             // print("current health is " + HealthVal.currHealth);
         }
+
         public void subHealth(float val)
         {
             if (currHealth - val <= 0)

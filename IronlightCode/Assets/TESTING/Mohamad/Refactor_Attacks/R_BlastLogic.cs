@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 public class R_BlastLogic : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class R_BlastLogic : MonoBehaviour
     Coroutine currentCo = null;
     public Transform visual = null;
 
+    public Transform blast = null;
+
+    List<LayerMask> layersToCheck = new List<LayerMask>();
 
     // does the pre-charge before launching blast attack
     public void Tick(Vector3 center)
@@ -23,19 +27,45 @@ public class R_BlastLogic : MonoBehaviour
         centerPoint = center;
         visual.position = centerPoint;
 
-        if(chargeCount < radiusMax)
+        if (chargeCount < radiusMax)
         {
             chargeCount += radiusChargeSpeed * Time.deltaTime;
         }
     }
 
+    public void Init(BlastSO stats)
+    {
+        radiusMax = stats._radiusMax;
+        radiusChargeSpeed = stats._radiusChargeSpeed;
+        BlastSpeedMultiplyer = stats._BlastSpeedMultiplyer;
+        layersToCheck = stats.layersToCheck;
+    }
+
+
+
+    private void testCollider()
+    {
+        foreach (var layer in layersToCheck)
+        {
+            foreach (Collider pcollider in Physics.OverlapSphere(blast.transform.position, radius, layer))
+            {
+               if ( pcollider.gameObject.tag == "Enemy")
+                {
+                    Debug.Log("Enemy Hit");
+                }
+   
+            }
+
+        }
+
+    }
 
     public void OnRelease()
     {
         currentCo = StartCoroutine(BlastOff(chargeCount));
     }
 
-    
+   
 
 
     IEnumerator BlastOff(float charge)

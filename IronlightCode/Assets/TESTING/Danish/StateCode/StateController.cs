@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Danish
 {
@@ -33,6 +34,14 @@ namespace Danish
 
         public Danish.Components.dUpdateMuzzleRotation muzzleRotator = null;
 
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
+
+        public GameObject parentCanvas = null;
+
+        public Danish.Components.dComponentHolder parentComponentHolder = null;
+
         private void Reset()
         {
             parentRigidbody = GetComponent<Rigidbody>();
@@ -42,13 +51,19 @@ namespace Danish
             parentPooler = GetComponent<Tools.dObjectPooler>();
 
             parentInput = GetComponent<StateCode.dInputHandler>();
+
+            
         }
 
         private void Awake()
         {
+            parentComponentHolder = GetComponent<Danish.Components.dComponentHolder>();
+
+
             parentManager = parentInput.Init();
 
-            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle);
+            parentManager?.AttackStatInit(orbStats, beamStats, blastStats, parentCanvas);
+            parentManager?.Init(gameObject, parentRigidbody, parentPooler, parentAnimator, parentCamera, parentMuzzle, parentComponentHolder);
 
             muzzleRotator = new Components.dUpdateMuzzleRotation();
             muzzleRotator.Init(transform, parentMuzzle);

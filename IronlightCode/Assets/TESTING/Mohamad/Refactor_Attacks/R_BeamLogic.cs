@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sharmout.SO;
 
 namespace Sharmout.attacks
 {
@@ -30,18 +31,30 @@ namespace Sharmout.attacks
         public bool going = false;
         public bool ending = false;
 
-        public void Init(Vector3 _start)
+        List<LayerMask> layersToCheck;
+
+        public void Init(Vector3 _start, BeamSO stats)
         {
             lineStart = _start;
             lineEnd = _start;
+
+            beamRange = stats._beamRange;
+            beamSpeedGoing = stats.speedGoing;
+            beamSpeedClosing = stats.speedEnding;
+            layersToCheck = stats.layersToCheck;
         }
 
-        public void ActiveTick(Vector3 _startPoint, Vector3 _rotation)
+        public void ActiveTick(Vector3 _startPoint, Vector3 _fireDirection)
         {
             lineStart = _startPoint;
-            lineDirection = _rotation;
+            lineDirection = _fireDirection;
 
             BeamPositionUpdater();
+
+            //if(PerformLineCast(lineStart, lineEnd, layersToCheck))
+            //{
+            //    Debug.Log("Sharmouttttttt Pussy");
+            //}
         }
 
         public void FinishTick()
@@ -93,7 +106,7 @@ namespace Sharmout.attacks
 
         IEnumerator BeamEnder()
         {
-            while(CalculateDistance() > 1)
+            while (CalculateDistance() > 1)
             {
                 FinishBeam();
                 lineStart = posBeforeRelease + (dirBeforeRelease * beamLengthClosing);
@@ -104,8 +117,41 @@ namespace Sharmout.attacks
 
             yield return new WaitForEndOfFrame();
 
+            beamLengthGoing = 0;
+            beamLengthClosing = 0;
+
             currentCo = null;
             gameObject.SetActive(false);
         }
+
+
+        public bool PerformLineCast(Vector3 start, Vector3 end, List<LayerMask> layers)
+        {
+            bool LCD = false;
+            RaycastHit hit;
+
+            Debug.DrawLine(start, end, Color.blue);
+
+
+            foreach(var layer in layers)
+            {
+                if (!LCD)
+                {
+                    LCD = Physics.Linecast(start, end, out hit, layer);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+
+            return LCD;
+        }
+
+        
     }
+
+    
+   
 }
