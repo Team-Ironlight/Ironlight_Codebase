@@ -15,7 +15,7 @@ public class AI_Audio : MonoBehaviour
     private AudioSource audioSource;
 
     [SerializeField]
-    private AudioClip scream_Clip, die_Clip;
+    private AudioClip scream_Clip, die_Clip, dash_Clip, jump_Clip, landing_Clip, roaming_Clip;
 
     [SerializeField]
     private AudioClip[] attack_Clips;
@@ -25,7 +25,26 @@ public class AI_Audio : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
     }
-
+    public void Play_JumpSound()
+    {
+        audioSource.clip = jump_Clip;
+        audioSource.Play();
+    }
+    public void Play_LandSound()
+    {
+        audioSource.clip = landing_Clip;
+        audioSource.Play();
+    }
+    public void Play_DashSound()
+    {
+        audioSource.clip = dash_Clip;
+        audioSource.Play();
+    }
+    public void Play_roamSound()
+    {
+        audioSource.clip = roaming_Clip;
+        audioSource.Play();
+    }
     public void Play_ScreamSound()
     {
         audioSource.clip = scream_Clip;

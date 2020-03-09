@@ -78,6 +78,7 @@ public class AI_AbilityManager : MonoBehaviour
        
     private NavMeshAgent _navMeshAgent;
     private Animator _aniMator;
+    private AI_Audio mAudio;
     public TMP_Text tester;
 
     private bool isAttacking = false;
@@ -90,14 +91,14 @@ public class AI_AbilityManager : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _aniMator = GetComponent<Animator>();
-
+      
         //Assigns the first child of the eight child of the Game Object this particle is attached to.
 
 
         _abSorb = this.gameObject.transform.GetChild(6).gameObject;
         particleTrail = GetComponentInChildren<ParticleSystem>();
 
-
+        mAudio = GetComponentInChildren<AI_Audio>();
         _navMeshAgent.autoTraverseOffMeshLink = false;
         startPos = Vector3.zero;
 
@@ -117,12 +118,16 @@ public class AI_AbilityManager : MonoBehaviour
                 //   tester.text = mCurrentBaseState.CurrentState.Name;
                 if (mCurrentBaseState.CurrentState.Name == "WanderState")
                 {
-                    if (_navMeshAgent.velocity.sqrMagnitude > 0)
+               
+                if (_navMeshAgent.velocity.sqrMagnitude > 0)
                     {
+                        StartCoroutine(roamingSound());
                         _aniMator.SetFloat("Speed", _agentRunSpeed);
+                    
                     }
                     else
                     {
+                   
                         _aniMator.SetFloat("Speed", 0f);
                     }
                     mAttack = true;
@@ -210,9 +215,12 @@ public class AI_AbilityManager : MonoBehaviour
                 RaycastHit hit; int mask = 1 << 10;                                                                             // Now lets check if Grounded , Ground on layer 10 in the inspector
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 2f, mask))                                       // Let's use Physics to verify
                 {
+                 
                     float _mOldSpeed = agent.speed; float percent = 0;
                     while (percent <= 3f)
-                    {                     
+                    {
+                      
+
                         percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;                      
                         agent.speed = _agentRunSpeed;
                         agent.destination = Vector3.Lerp(startPos, attackPosition, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
@@ -220,6 +228,7 @@ public class AI_AbilityManager : MonoBehaviour
 
                         if (_navMeshAgent.velocity.sqrMagnitude > 0)
                         {
+                           
                             _aniMator.SetFloat("Speed", _agentRunSpeed);
                         }
                         else
@@ -240,10 +249,11 @@ public class AI_AbilityManager : MonoBehaviour
             if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
             {
                 _aniMator.SetFloat("Speed", _agentRunSpeed);
-
+               
                 float _mOldSpeed = agent.speed; float percent = 0;
                 while (percent <= 3f)
                 {
+                 
                     percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;
                     agent.speed = _agentRunSpeed;
                     agent.destination = Vector3.Lerp(attackPosition, newPosition, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
@@ -258,7 +268,8 @@ public class AI_AbilityManager : MonoBehaviour
             }
         }
 
-    
+      
+
         _aniMator.SetBool("isAttacking", false);
         _aniMator.SetFloat("Speed", 0f);
 
@@ -289,7 +300,7 @@ public class AI_AbilityManager : MonoBehaviour
          
             if (runDustEffect !=null) { _aniMator.SetFloat("Speed", 0f); StartCoroutine(runDustEffect.DustCoroutine(this)); }
         }
-
+      
         if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
         {
      
@@ -326,10 +337,12 @@ public class AI_AbilityManager : MonoBehaviour
                 Vector3 endPos = target.position + Vector3.up * agent.baseOffset;
                 Vector3 NewPosition = startPos + Vector3.up * agent.baseOffset;
 
+                StartCoroutine(JumpSound());
+
                 _aniMator.SetBool("isAttacking", true);
                 _aniMator.SetBool("isJumping", true);
-          
 
+               
 
                 float normalizedTime = 0.0f;
                 while (normalizedTime < 1f)
@@ -346,11 +359,11 @@ public class AI_AbilityManager : MonoBehaviour
                 if (Physics.Raycast(agent.transform.position, Vector3.down, out hit, 2f, mask))                               // Let's use Physics to verify
                 {
                     if (runSplatterEffect != null)
-                    { _aniMator.SetFloat("Speed", 0f); StartCoroutine(runSplatterEffect.GlassCoroutine(this)); }
+                    { _aniMator.SetFloat("Speed", 0f); StartCoroutine(runSplatterEffect.GlassCoroutine(this)); StartCoroutine(LandSound()); }
 
                 }
 
-
+              
                 if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
                 {
             
@@ -385,7 +398,7 @@ public class AI_AbilityManager : MonoBehaviour
 
         m_ShieldActivationTime = 1f;
 
-   
+        StartCoroutine(ScreamSound());
         _aniMator.SetBool("isAttacking", true);
         _aniMator.SetBool("isCharging", true);
 
@@ -414,6 +427,8 @@ public class AI_AbilityManager : MonoBehaviour
         { particleTrail.Play(); }
         else if (agent.isStopped)
         { particleTrail.Stop(); }
+
+        StartCoroutine(DashSound());
 
         _aniMator.SetBool("isCharging", false);
         yield return StartCoroutine(Swag(agent));
@@ -453,7 +468,37 @@ public class AI_AbilityManager : MonoBehaviour
         }
     }
 
+    IEnumerator ScreamSound()
+    {
+        yield return new WaitForSeconds(0.1f);
 
+        mAudio.Play_ScreamSound();
+    }
+
+    IEnumerator DashSound()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        mAudio.Play_DashSound();
+    }
+    IEnumerator JumpSound()
+    {
+        mAudio.Play_JumpSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    IEnumerator LandSound()
+    {
+        mAudio.Play_LandSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
+    IEnumerator roamingSound()
+    {
+        mAudio.Play_roamSound();
+
+        yield return new WaitForSeconds(0.1f);
+    }
     public void StopCoroAll()
     {
         StopCoroutine("Start");
