@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
 
 
     [SerializeField] private SOCamera defaultCamera;
-    [SerializeField] private SOCamera aimCamera;
+    //[SerializeField] private SOCamera aimCamera;
     private float mouseSensitivityMult = 1f;
     [SerializeField] private float turnDampening = 10f;
     private float offSetUp = 0.6f;
@@ -48,8 +48,8 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         //Set Camera to default values
-        //ResetCameraVars();
-        ResetCameraVars(defaultCamera);
+        ResetCameraVars();
+        //ResetCameraVars(defaultCamera);
 
         //Getting Transforms
         _ParentTransform = transform.parent;
@@ -100,14 +100,14 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(1))
-        {
-            ResetCameraVars(aimCamera);
-        }
-        else
-        {
-            ResetCameraVars(defaultCamera);
-        }
+        //if (Input.GetMouseButton(1))
+        //{
+        //    ResetCameraVars(aimCamera);
+        //}
+        //else
+        //{
+        //    ResetCameraVars(defaultCamera);
+        //}
 
 
 
@@ -124,14 +124,15 @@ public class PlayerCamera : MonoBehaviour
             }
            
         }
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            cam.ZoomIn();
-        }
-       else
-        {
-            cam.ZoomOut();
-        }
+
+       // if (Input.GetKey(KeyCode.Mouse1))
+       // {
+       //     cam.ZoomIn();
+       // }
+       //else
+       // {
+       //     cam.ZoomOut();
+       // }
         //Actual Camera Transformations
         Quaternion TargetQ = Quaternion.Euler(_LocalRotation.y, _LocalRotation.x, 0);
         _ParentTransform.rotation = Quaternion.Slerp(_ParentTransform.rotation, TargetQ, Time.deltaTime * turnDampening);
