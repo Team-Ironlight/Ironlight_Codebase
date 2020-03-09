@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ROFO;
 
 public class PuzzleTracker : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PuzzleTracker : MonoBehaviour
 
 	public bool endCheckActive = false;
 	public bool resetPlayer = false;
+
+    public GameObject crystalReset;
+    
 
 	void Start()
 	{
@@ -21,6 +25,8 @@ public class PuzzleTracker : MonoBehaviour
 				puzzleList.Add(Shrines[i]);
 			}
 		}
+
+        
 	}
 
 	void Update()
@@ -68,9 +74,13 @@ public class PuzzleTracker : MonoBehaviour
 				if (!puzzleList[i].activeSelf || (puzzleList[i].activeSelf && puzzleList[i].GetComponent<BeamPuzzleShrine>().LinkActive))
 				{
 					puzzleList[i].SetActive(true);
-					//Add code to reset puzzle here......................................
+                     //Add code to reset puzzle here......................................
 					puzzleList[i].GetComponent<BeamPuzzleShrine>().LinkActive = false;
-				}
+                    if (puzzleList[i].transform.parent.GetComponentInChildren<RotateChange>()!=null)
+                    {
+                        crystalReset.GetComponent<RotateChange>().ResetCrystals();
+                    }
+                }
 				else
 				{
 					continue;
@@ -95,4 +105,5 @@ public class PuzzleTracker : MonoBehaviour
 
 		resetPlayer = false;
 	}
+
 }
