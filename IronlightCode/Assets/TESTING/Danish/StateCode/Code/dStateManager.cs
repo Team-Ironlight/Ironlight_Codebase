@@ -11,7 +11,6 @@ using Sharmout.SO;
 
 namespace Danish.StateCode
 {
-    //[System.Serializable]
     public class dStateManager
     {
         [Header("Movement Variables")]
@@ -137,7 +136,7 @@ namespace Danish.StateCode
 
         public void InitializeComponents(Danish.Components.dComponentHolder _componentHolder)
         {
-            //dJumpSO = _componentHolder.FindInDictionary("TinyJump");
+            
         }
 
         public void Tick()

@@ -12,43 +12,62 @@ namespace brian.Components
     [System.Serializable]
     public class SpiritComponent 
     {
-        public float maxSpirit = 100;
-        HealthComponent he;
-        [SerializeField]
-        public float currSpirit;
-        // Start is called before the first frame update
-        public void Init()
+        HealthComponent HP;
+        [SerializeField] private float currSpirit;
+        [SerializeField] private float maxSpirit;
+
+        public float CurrentSpirit
         {
-            //    he = new HealthComponent();
-            //    he.Init();
-            currSpirit = maxSpirit;
+            get
+            {
+                return currSpirit;
+            }
         }
+
+        public float MaxSpirit
+        {
+            get
+            {
+                return maxSpirit;
+            }
+        }
+
+
+        public void Init(float _MaxSpirit, HealthComponent _HP)
+        {
+            maxSpirit = _MaxSpirit;
+            currSpirit = maxSpirit;
+            HP = _HP;
+        }
+
+
+
         public void subSpirit(float val)
         {
             currSpirit -= val;
+
             //this will subtract the remaing value from the health
             if (currSpirit <= 0)
             {
-                he.subHealth(currSpirit*-1);
+                HP.subHealth(currSpirit *-1 );
                 currSpirit = 0;
             }
-            Debug.Log(currSpirit + " and Current health " + he.currHealth);
+
+            //Debug.Log(currSpirit + " and Current health " + he.CurrentHealth);
         }
+
+
 
         public void addSpirit(float val)
         {
             float remainder = 0;
 
-            if (he.currHealth < he.maxHealth)
+            if (HP.CurrentHealth < HP.MaxHealth)
             {
-                remainder = he.addHealth(val);
-                //if (he.currHealth >= he.maxHealth)
-                //{
-
-            }            //    he.currHealth = 100;
-            //}
+                remainder = HP.addHealth(val);
+            }            
         
-            else if(he.currHealth >= he.maxHealth)
+            else if(HP.CurrentHealth >= HP.MaxHealth)
             {
                 currSpirit += val;
 
@@ -58,22 +77,11 @@ namespace brian.Components
                 }
             }
 
-            //else
-            //{
-
-            //    //if (currSpirit >=maxSpirit)
-            //    //{
-            //    //    currSpirit = maxSpirit;
-            //    //}
-            //}
-
-
             if (remainder > 0)
             {
                 currSpirit += remainder;
             }
 
-            Debug.Log(currSpirit + " and Current health " + he.currHealth);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace brian.Components
 
         HealthComponent HealthVal;
 
-        public float defenseMultiplyer = 1;
+        [SerializeField] private float defenseMultiplyer = 1;
 
 
 
@@ -30,7 +30,11 @@ namespace brian.Components
 
         public void affect(bool plusHealth, float val, float multi)
         {
-            defenseMultiplyer = multi;
+            if(multi > 1)
+            {
+                defenseMultiplyer = multi;
+            }
+
             float value = val * defenseMultiplyer;
 
             if (plusHealth)
@@ -41,7 +45,7 @@ namespace brian.Components
             {
                 HealthVal.subHealth(value);
             }
-            Debug.Log(HealthVal.currHealth);
+            //Debug.Log(HealthVal.CurrentHealth);
         }
     }
 }
