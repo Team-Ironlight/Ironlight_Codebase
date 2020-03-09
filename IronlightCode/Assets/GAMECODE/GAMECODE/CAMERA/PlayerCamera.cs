@@ -100,14 +100,14 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(1))
-        {
-            ResetCameraVars(aimCamera);
-        }
-        else
-        {
-            ResetCameraVars(defaultCamera);
-        }
+        //if (Input.GetMouseButton(1))
+        //{
+        //    ResetCameraVars(aimCamera);
+        //}
+        //else
+        //{
+        //    ResetCameraVars(defaultCamera);
+        //}
 
 
 
@@ -128,7 +128,7 @@ public class PlayerCamera : MonoBehaviour
         {
             cam.ZoomIn();
         }
-       else
+        else
         {
             cam.ZoomOut();
         }
