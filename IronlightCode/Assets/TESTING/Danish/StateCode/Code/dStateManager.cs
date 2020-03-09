@@ -5,7 +5,6 @@ using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
 using Sharmout.attacks;
-//using Danish.Custom;
 
 
 namespace Danish.StateCode
@@ -31,8 +30,6 @@ namespace Danish.StateCode
         public bool launchBeam = false;
         public bool launchBlast = false;
 
-        [Header("Interaction Variables")]
-        public bool isCrystal = false;
 
         [Header("Aim Down Sights Variables")]
         public bool ADS = false;
@@ -67,9 +64,6 @@ namespace Danish.StateCode
         public dMoveComponent dFloat = null;
         public dMoveComponent dAimMove = null;
 
-        // Puzzle Interaction
-        public PuzzleInteractionManager puzzleManager = null;
-
         public dPhysicsComponent dPhysics = null;
 
         // public dPowerScroller powerWheel = null;
@@ -103,11 +97,8 @@ namespace Danish.StateCode
             rBeam = new R_BeamAttack();
             rBlast = new R_BlastAttack();
 
-            puzzleManager = new PuzzleInteractionManager();
-
             dPhysics = new dPhysicsComponent();
             //powerWheel = new dPowerScroller();
-
 
             InitializeTraversalMachine();
             InitializeCombatMachine();

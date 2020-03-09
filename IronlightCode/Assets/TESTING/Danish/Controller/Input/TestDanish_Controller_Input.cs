@@ -41,14 +41,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press""
-                },
-                {
-                    ""name"": ""ADS"",
-                    ""type"": ""Button"",
-                    ""id"": ""9e4e5092-bb3b-4d5b-a2e3-6992b44cc39e"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -126,17 +118,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""575241ad-c9cb-495b-8619-75c8cae779d1"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ADS"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -225,52 +206,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Interaction"",
-            ""id"": ""a429d3df-0a5a-4e13-b1b5-0d6f8ded2a25"",
-            ""actions"": [
-                {
-                    ""name"": ""CrystalInteract"",
-                    ""type"": ""Button"",
-                    ""id"": ""8a566531-f12e-43f7-8494-ba824346d38e"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)""
-                },
-                {
-                    ""name"": ""PowerScroll"",
-                    ""type"": ""Value"",
-                    ""id"": ""9c1c905a-5311-4e49-af0c-76a35b99b885"",
-                    ""expectedControlType"": ""Double"",
-                    ""processors"": """",
-                    ""interactions"": ""Press""
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""cd13add6-adbb-4576-828a-580533be5970"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CrystalInteract"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6833da8c-26fc-4081-9220-dd7c0e0b1b10"",
-                    ""path"": ""<Mouse>/scroll/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerScroll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
@@ -280,17 +215,12 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         m_Traversal_Movement = m_Traversal.FindAction("Movement", throwIfNotFound: true);
         m_Traversal_Jump = m_Traversal.FindAction("Jump", throwIfNotFound: true);
         m_Traversal_Dash = m_Traversal.FindAction("Dash", throwIfNotFound: true);
-        m_Traversal_ADS = m_Traversal.FindAction("ADS", throwIfNotFound: true);
         // Combat
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
         m_Combat_OrbTest = m_Combat.FindAction("OrbTest", throwIfNotFound: true);
         m_Combat_BeamTest = m_Combat.FindAction("BeamTest", throwIfNotFound: true);
         m_Combat_BlastTest = m_Combat.FindAction("BlastTest", throwIfNotFound: true);
-        // Interaction
-        m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
-        m_Interaction_CrystalInteract = m_Interaction.FindAction("CrystalInteract", throwIfNotFound: true);
-        m_Interaction_PowerScroll = m_Interaction.FindAction("PowerScroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -343,7 +273,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
     private readonly InputAction m_Traversal_Movement;
     private readonly InputAction m_Traversal_Jump;
     private readonly InputAction m_Traversal_Dash;
-    private readonly InputAction m_Traversal_ADS;
     public struct TraversalActions
     {
         private @TestDanish_Controller_Input m_Wrapper;
@@ -351,7 +280,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Traversal_Movement;
         public InputAction @Jump => m_Wrapper.m_Traversal_Jump;
         public InputAction @Dash => m_Wrapper.m_Traversal_Dash;
-        public InputAction @ADS => m_Wrapper.m_Traversal_ADS;
         public InputActionMap Get() { return m_Wrapper.m_Traversal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -370,9 +298,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @Dash.started -= m_Wrapper.m_TraversalActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_TraversalActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_TraversalActionsCallbackInterface.OnDash;
-                @ADS.started -= m_Wrapper.m_TraversalActionsCallbackInterface.OnADS;
-                @ADS.performed -= m_Wrapper.m_TraversalActionsCallbackInterface.OnADS;
-                @ADS.canceled -= m_Wrapper.m_TraversalActionsCallbackInterface.OnADS;
             }
             m_Wrapper.m_TraversalActionsCallbackInterface = instance;
             if (instance != null)
@@ -386,9 +311,6 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
-                @ADS.started += instance.OnADS;
-                @ADS.performed += instance.OnADS;
-                @ADS.canceled += instance.OnADS;
             }
         }
     }
@@ -450,53 +372,11 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         }
     }
     public CombatActions @Combat => new CombatActions(this);
-
-    // Interaction
-    private readonly InputActionMap m_Interaction;
-    private IInteractionActions m_InteractionActionsCallbackInterface;
-    private readonly InputAction m_Interaction_CrystalInteract;
-    private readonly InputAction m_Interaction_PowerScroll;
-    public struct InteractionActions
-    {
-        private @TestDanish_Controller_Input m_Wrapper;
-        public InteractionActions(@TestDanish_Controller_Input wrapper) { m_Wrapper = wrapper; }
-        public InputAction @CrystalInteract => m_Wrapper.m_Interaction_CrystalInteract;
-        public InputAction @PowerScroll => m_Wrapper.m_Interaction_PowerScroll;
-        public InputActionMap Get() { return m_Wrapper.m_Interaction; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(InteractionActions set) { return set.Get(); }
-        public void SetCallbacks(IInteractionActions instance)
-        {
-            if (m_Wrapper.m_InteractionActionsCallbackInterface != null)
-            {
-                @CrystalInteract.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-                @CrystalInteract.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-                @CrystalInteract.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnCrystalInteract;
-                @PowerScroll.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnPowerScroll;
-                @PowerScroll.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnPowerScroll;
-                @PowerScroll.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnPowerScroll;
-            }
-            m_Wrapper.m_InteractionActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @CrystalInteract.started += instance.OnCrystalInteract;
-                @CrystalInteract.performed += instance.OnCrystalInteract;
-                @CrystalInteract.canceled += instance.OnCrystalInteract;
-                @PowerScroll.started += instance.OnPowerScroll;
-                @PowerScroll.performed += instance.OnPowerScroll;
-                @PowerScroll.canceled += instance.OnPowerScroll;
-            }
-        }
-    }
-    public InteractionActions @Interaction => new InteractionActions(this);
     public interface ITraversalActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnADS(InputAction.CallbackContext context);
     }
     public interface ICombatActions
     {
@@ -504,10 +384,5 @@ public class @TestDanish_Controller_Input : IInputActionCollection, IDisposable
         void OnOrbTest(InputAction.CallbackContext context);
         void OnBeamTest(InputAction.CallbackContext context);
         void OnBlastTest(InputAction.CallbackContext context);
-    }
-    public interface IInteractionActions
-    {
-        void OnCrystalInteract(InputAction.CallbackContext context);
-        void OnPowerScroll(InputAction.CallbackContext context);
     }
 }

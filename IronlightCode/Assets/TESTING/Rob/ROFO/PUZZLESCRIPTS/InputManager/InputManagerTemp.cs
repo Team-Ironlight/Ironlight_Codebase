@@ -16,7 +16,7 @@ public class InputManagerTemp : MonoBehaviour
     //objects will call these functions to add to the players list
     static public void SetInteractObject(ITrigger t)
     {
-        Debug.Log("Added interaction");
+        Debug.Log("<color=blue>Added interaction</color>");
         interactObjects.Add(t);
 
         interaction = true;
@@ -24,7 +24,7 @@ public class InputManagerTemp : MonoBehaviour
 
     static public void RemoveInteractObject(ITrigger t)
     {
-        Debug.Log("Removed interaction");
+        Debug.Log("<color=purple>Removed interaction</color>");
         interactObjects.Remove(t);
 
         if(interactObjects.Count == 0)
@@ -38,7 +38,7 @@ public class InputManagerTemp : MonoBehaviour
         private void Update()
         {
             //call all interactions 
-            if (interaction && Input.GetKeyUp(KeyCode.O))
+            if (interaction && Input.GetKeyUp(KeyCode.E))
             {
                 Debug.Log("<color=red>ENTER</color>");
                 Debug.Log("iterate through each interaction");
