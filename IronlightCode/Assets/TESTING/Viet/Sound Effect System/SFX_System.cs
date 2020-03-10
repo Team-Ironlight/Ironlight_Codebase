@@ -11,7 +11,7 @@ namespace Viet.Components
 
         public bool allPlay;
 
-        public void PlaySoundById(int id) //Play by ID
+        public virtual void PlaySoundById(int id) //Play by ID
         {
             foreach(var sfx in soundEffects)
             {
@@ -26,7 +26,7 @@ namespace Viet.Components
             }
         }
 
-        public void StopSoundById(int id) //Stop by ID
+        public virtual void StopSoundById(int id) //Stop by ID
         {
             foreach (var sfx in soundEffects)
             {

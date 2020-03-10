@@ -71,6 +71,11 @@ namespace ROFO
             Setup();
         }
 
+        public void ResetCrystals()
+        {
+            Setup();
+        }
+
         //test
         private void Update()
         {

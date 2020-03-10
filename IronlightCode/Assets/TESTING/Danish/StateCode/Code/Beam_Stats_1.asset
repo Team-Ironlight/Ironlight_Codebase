@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac865ef299abc9b4c9d7b8c35c385a8b, type: 3}
   m_Name: Beam_Stats_1
   m_EditorClassIdentifier: 
-  _beamRange: 10
-  speedGoing: 2
-  speedEnding: 4
-  layersToCheck: []
+  _beamRange: 7
+  speedGoing: 10
+  speedEnding: 15
+  layersToCheck:
+  - serializedVersion: 2
+    m_Bits: 256
+  - serializedVersion: 2
+    m_Bits: 1024

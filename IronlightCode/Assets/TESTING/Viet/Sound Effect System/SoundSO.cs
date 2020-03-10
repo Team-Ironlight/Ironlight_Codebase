@@ -11,5 +11,6 @@ namespace Viet.Components
         public int id;
         public bool Looping;
         public AudioClip Audio;
+
     }
 }

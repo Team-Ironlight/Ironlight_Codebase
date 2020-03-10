@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using EZCameraShake;
 
 public class Owl_WindAttackState : ImanBaseState
 {
@@ -43,6 +44,8 @@ public class Owl_WindAttackState : ImanBaseState
                 owl.y = stateManager.PLY_Transform.position.y;
                 var dir = stateManager.PLY_Transform.position - owl;
                 hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(stateManager.WindForce * dir, ForceMode.Force);
+                //shake camera while wind hitting the player
+                //CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.5f, 0.5f);
                 Debug.Log("HittinPlayer");
             }
         }

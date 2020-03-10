@@ -15,6 +15,7 @@ namespace Danish.Components
         private Vector3 targetVelocity = Vector3.zero;
 
         private float GravityModifier = 1;
+        public float JumpForce = 4.5f;
 
         public void Init(Vector2 moveDirection, Rigidbody rigid)
         {
@@ -32,7 +33,7 @@ namespace Danish.Components
 
         void StartJump()
         {
-            velocity.y = 4.5f;
+            velocity.y = JumpForce;
 
             rigidbody.velocity = velocity;
         }

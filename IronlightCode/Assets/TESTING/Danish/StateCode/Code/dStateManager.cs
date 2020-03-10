@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
+using Danish.Components.SO;
 using Sharmout.attacks;
 using Sharmout.SO;
 
 
 namespace Danish.StateCode
 {
-    //[System.Serializable]
     public class dStateManager
     {
         [Header("Movement Variables")]
@@ -50,8 +50,12 @@ namespace Danish.StateCode
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
+        public GameObject CanvasObj = null;
+
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
+
+        dComponentHolder dComponent = null;
 
         // Temporary Combat Component Reference
         public R_OrbAttack rOrb = null;
@@ -61,6 +65,9 @@ namespace Danish.StateCode
 
         // Temporary Traversal Component Reference
         public dJumpComponent dJump = null;
+
+        public dJump_SO dJumpSO = null;
+
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
         public dMoveComponent dFloat = null;
@@ -75,7 +82,10 @@ namespace Danish.StateCode
         public BlastSO blastStats = null;
         public OrbSO orbStats = null;
 
-        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
+        // Temporary Reference for a crosshair component
+        public dCrosshairComponent dCrosshair = null;
+
+        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle, dComponentHolder parentComponentHolder)
         {
             //Debug.Log("Initialize State Manager");
 
@@ -93,6 +103,7 @@ namespace Danish.StateCode
 
             Muzzle = parentMuzzle;
 
+            dComponent = parentComponentHolder;
 
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
@@ -108,15 +119,24 @@ namespace Danish.StateCode
 			dPower = new dPowerWheel();
 			d_UIUpdater = new dUIUpdater();
 
+            dCrosshair = new dCrosshairComponent();
+
             InitializeTraversalMachine();
             InitializeCombatMachine();
         }
 
-        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS)
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS, GameObject _canvas)
         {
             orbStats = _orbS;
             beamStats = _beamS;
             blastStats = _blastS;
+
+            CanvasObj = _canvas;
+        }
+
+        public void InitializeComponents(Danish.Components.dComponentHolder _componentHolder)
+        {
+            
         }
 
         public void Tick()

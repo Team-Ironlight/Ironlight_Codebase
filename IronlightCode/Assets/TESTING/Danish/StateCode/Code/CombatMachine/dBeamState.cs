@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sharmout.attacks;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -10,6 +11,7 @@ namespace Danish.StateCode
     {
         private dStateManager Manager;
         private R_BeamAttack beamComponent = null;
+        private dCrosshairComponent crosshairComponent = null;
 
 
         public dBeamState(dStateManager _stateManager) : base(_stateManager.obj)
@@ -22,12 +24,18 @@ namespace Danish.StateCode
             }
 
             beamComponent = Manager.rBeam;
-            beamComponent.Init(Manager.Muzzle, Manager.pooler, Manager.beamStats); 
+            beamComponent.Init(Manager.Muzzle, Manager.pooler, Manager.beamStats);
+
+            crosshairComponent = Manager.dCrosshair;
+            crosshairComponent.Init(Manager.CanvasObj, Manager.CameraHolder, Manager.Muzzle);
         }
 
         public override void OnEnter()
         {
             beamComponent.ResetBeam();
+
+            
+
             beamComponent.StartBeam();
         }
 
@@ -38,6 +46,8 @@ namespace Danish.StateCode
         public override Type Tick()
         {
             Debug.Log("Beam State");
+
+            beamComponent.SetFireDirection(crosshairComponent.GetFiringDirection());
 
             beamComponent.Tick();
 
