@@ -46,8 +46,8 @@ namespace Danish.Components
 
 		void UpdateMaxValues()
 		{
-			maxHealth = hpcomp.maxHealth;
-			maxSpirit = spcomp.maxSpirit;
+			maxHealth = hpcomp.MaxHealth;
+			maxSpirit = spcomp.MaxSpirit;
 
 		}
 
@@ -61,14 +61,14 @@ namespace Danish.Components
 		public void Tick()
 		{
 
-			if (currHealth <= 0)
-			{
-				currHealth = 0;
-			}
-			if (currSpirit <= 0)
-			{
-				currSpirit = 0;
-			}
+			//if (currHealth <= 0)
+			//{
+			//	currHealth = 0;
+			//}
+			//if (currSpirit <= 0)
+			//{
+			//	currSpirit = 0;
+			//}
 
 			HPBar.fillAmount = currHealth / maxHealth;
 			SPBar.fillAmount = currSpirit / maxSpirit;

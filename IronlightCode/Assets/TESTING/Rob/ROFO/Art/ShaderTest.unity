@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 1455871531096975390, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1455871531096975394, guid: dbaf02ffd792e9349a59c5d96aaefdda,
         type: 3}
@@ -519,7 +519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1390905701
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -696,6 +696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LEAF LOW
+      objectReference: {fileID: 0}
+    - target: {fileID: 8335302196650008696, guid: 8ef84175f703d044cacd005203191d32,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5041684089112728171, guid: 8ef84175f703d044cacd005203191d32,
         type: 3}

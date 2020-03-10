@@ -9,16 +9,31 @@ namespace brian.Components
     [System.Serializable]
     public class HealthComponent
     {
-        public float maxHealth = 100;
+        private float maxHealth = 100;
 
         [SerializeField]
-        public float currHealth;
+        private float currHealth = 0;
 
-
-
-        public void Init(float num)
+        public float CurrentHealth
         {
-            maxHealth = num;
+            get
+            {
+                return currHealth;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get
+            {
+                return maxHealth;
+            }
+        }
+
+
+        public void Init(float _MaxHealth)
+        {
+            maxHealth = _MaxHealth;
             currHealth = maxHealth;
         }
 
@@ -36,8 +51,6 @@ namespace brian.Components
             }
 
             return result;
-
-            // print("current health is " + HealthVal.currHealth);
         }
 
         public void subHealth(float val)
@@ -50,7 +63,6 @@ namespace brian.Components
             {
                 currHealth -= val;
             }
-            // print("current health is " + HealthVal.currHealth);
         }
     }
 }
