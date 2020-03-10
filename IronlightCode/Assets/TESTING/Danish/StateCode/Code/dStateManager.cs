@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Danish.Tools;
 using Danish.Components;
+using Danish.Components.SO;
 using Sharmout.attacks;
-//using Danish.Custom;
+using Sharmout.SO;
 
 
 namespace Danish.StateCode
 {
-    //[System.Serializable]
     public class dStateManager
     {
         [Header("Movement Variables")]
@@ -31,8 +31,14 @@ namespace Danish.StateCode
         public bool launchBeam = false;
         public bool launchBlast = false;
 
-        [Header("Interaction Variables")]
-        public bool isCrystal = false;
+
+        [Header("Aim Down Sights Variables")]
+        public bool ADS = false;
+
+		[Header("Power Scroll Variables")]
+		public float scrollValue;
+        public bool scrollUp = false;
+        public bool scrollDown = false;
 
         public GameObject obj;
         public Transform objTransform;
@@ -40,11 +46,16 @@ namespace Danish.StateCode
         public Animator animator = null;
         public Rigidbody rigidbody = null;
         public dObjectPooler pooler = null;
+        public LineRenderer Line = null;
         public Transform Muzzle = null;
         public Transform CameraHolder = null;
 
+        public GameObject CanvasObj = null;
+
         dTraversalMachine TraversalMachine = null;
         dCombatMachine CombatMachine = null;
+
+        dComponentHolder dComponent = null;
 
         // Temporary Combat Component Reference
         public R_OrbAttack rOrb = null;
@@ -54,16 +65,27 @@ namespace Danish.StateCode
 
         // Temporary Traversal Component Reference
         public dJumpComponent dJump = null;
+
+        public dJump_SO dJumpSO = null;
+
         public dDashComponent dDash = null;
         public dMoveComponent dMove = null;
         public dMoveComponent dFloat = null;
-
-        // Puzzle Interaction
-        public PuzzleInteractionManager puzzleManager = null;
+        public dMoveComponent dAimMove = null;
 
         public dPhysicsComponent dPhysics = null;
+		public dPowerWheel dPower = null;
+		public dUIUpdater d_UIUpdater = null;
 
-        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle)
+        // Temporary Stat SO references for Attacks
+        public BeamSO beamStats = null;
+        public BlastSO blastStats = null;
+        public OrbSO orbStats = null;
+
+        // Temporary Reference for a crosshair component
+        public dCrosshairComponent dCrosshair = null;
+
+        public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle, dComponentHolder parentComponentHolder)
         {
             //Debug.Log("Initialize State Manager");
 
@@ -81,22 +103,39 @@ namespace Danish.StateCode
 
             Muzzle = parentMuzzle;
 
+            dComponent = parentComponentHolder;
+
             dJump = new dJumpComponent();
             dDash = new dDashComponent();
             dMove = new dMoveComponent();
             dFloat = new dMoveComponent();
+            dAimMove = new dMoveComponent();
 
             rOrb = new R_OrbAttack();
             rBeam = new R_BeamAttack();
             rBlast = new R_BlastAttack();
 
-            puzzleManager = new PuzzleInteractionManager();
-
             dPhysics = new dPhysicsComponent();
+			dPower = new dPowerWheel();
+			d_UIUpdater = new dUIUpdater();
 
+            dCrosshair = new dCrosshairComponent();
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
+        }
+
+        public void AttackStatInit(OrbSO _orbS, BeamSO _beamS, BlastSO _blastS, GameObject _canvas)
+        {
+            orbStats = _orbS;
+            beamStats = _beamS;
+            blastStats = _blastS;
+
+            CanvasObj = _canvas;
+        }
+
+        public void InitializeComponents(Danish.Components.dComponentHolder _componentHolder)
+        {
             
         }
 
@@ -127,7 +166,8 @@ namespace Danish.StateCode
                 {typeof(dMoveState), new dMoveState(_stateManager:this) },
                 {typeof(dIdleState), new dIdleState(_stateManager:this) },
                 {typeof(dJumpState), new dJumpState(_stateManager:this) },
-                {typeof(dDashState), new dDashState(_stateManager:this) }
+                {typeof(dDashState), new dDashState(_stateManager:this) },
+                {typeof(dAimState), new dAimState(_stateManager:this) }
             };
 
             TraversalMachine.SetStates(states);

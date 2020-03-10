@@ -22,23 +22,28 @@ namespace Danish.StateCode
             }
 
             blastComponent = Manager.rBlast;
-            blastComponent.Init();
+            blastComponent.Init(Manager.Muzzle, Manager.pooler, Manager.blastStats);
         }
 
         public override void OnEnter()
         {
+            blastComponent.StartBlast();
         }
 
         public override void OnExit()
         {
+            blastComponent.ResetBlast();
         }
 
         public override Type Tick()
         {
             Debug.Log("Blast State");
 
-            if (!Manager.launchBlast)
+            blastComponent.Tick();
+
+            if (!Manager.isAttacking)
             {
+                blastComponent.Launch();
                 return typeof(dReadyState);
             }
 

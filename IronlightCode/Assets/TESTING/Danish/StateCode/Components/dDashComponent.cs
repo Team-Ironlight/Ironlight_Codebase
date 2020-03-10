@@ -8,29 +8,48 @@ namespace Danish.Components
     {
         Vector3 dashDirection = Vector3.zero;
         Rigidbody rigidbody;
+        Transform transform;
 
-        private Vector3 velocity = Vector3.zero;
+        public float FrictionMultiplier = 20;
 
-        private float FrictionMultiplier = 20;
-
-        public void Init(Vector3 playerForward, Rigidbody rigid)
+        public void Init(Transform _transform, Rigidbody _rigid)
         {
-            Vector3 convertedVector = playerForward;
+            rigidbody = _rigid;
+            transform = _transform;
+
+        }
+
+        public void StartDash(Vector2 moveDirection)
+        {
+            Vector3 convertedVector = Vector3.zero;
+            
+            
+            if(moveDirection == Vector2.zero)
+            {
+                convertedVector = transform.forward;
+            }
+
+            else
+            {
+                convertedVector = transform.right * moveDirection.x;
+                convertedVector += transform.forward * moveDirection.y;
+            }
+
 
             convertedVector = convertedVector.normalized;
 
             dashDirection = convertedVector;
 
-            rigidbody = rigid;
 
-            StartDash();
+            PerformDash();
+
         }
 
-        void StartDash()
+        void PerformDash()
         {
             rigidbody.AddForce(dashDirection * FrictionMultiplier, ForceMode.VelocityChange);
-
         }
+
         public void Tick()
         {
             

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8926664297349751978}
   - component: {fileID: 8926664297349751977}
   - component: {fileID: 8926664297349751976}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: PlayerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,6 +120,7 @@ MonoBehaviour:
   _orbAttack: 0
   _beamAttack: 0
   _blastAttack: 0
+  _scrollValue: 0
 --- !u!114 &8926664297349751976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,8 +142,13 @@ MonoBehaviour:
   parentAnimator: {fileID: 1338393349905791328}
   parentPooler: {fileID: 8926664297349751978}
   parentInput: {fileID: 8926664297349751977}
+  parentLine: {fileID: 0}
   parentCamera: {fileID: 0}
   parentMuzzle: {fileID: 8926664297749094749}
+  beamStats: {fileID: 0}
+  blastStats: {fileID: 0}
+  orbStats: {fileID: 0}
+  parentCanvas: {fileID: 0}
 --- !u!1 &8926664297749094748
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,11 +191,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Tiny
       objectReference: {fileID: 0}
-    - target: {fileID: 6829901209807976624, guid: 20bdedd834e329c4492c223a0524aceb,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 6aa2082300c132144b27907321d47dca, type: 2}
     - target: {fileID: 3477532315822446026, guid: 20bdedd834e329c4492c223a0524aceb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -245,6 +246,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6829901209807976624, guid: 20bdedd834e329c4492c223a0524aceb,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6aa2082300c132144b27907321d47dca, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20bdedd834e329c4492c223a0524aceb, type: 3}
 --- !u!4 &8942159193557013530 stripped

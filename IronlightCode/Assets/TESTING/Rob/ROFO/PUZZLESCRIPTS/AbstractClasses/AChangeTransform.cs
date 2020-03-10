@@ -12,7 +12,6 @@ namespace ROFO
         {
             if (indexPos == correctPosition)
             {
-
                 return true;
             }
 

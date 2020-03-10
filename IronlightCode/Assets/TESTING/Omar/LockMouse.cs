@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LockMouse : MonoBehaviour
 {
@@ -14,5 +15,13 @@ public class LockMouse : MonoBehaviour
     void Update()
     {
         Cursor.lockState = CursorLockMode.Locked;
+  //      if (SceneManager.GetActiveScene().buildIndex==1)
+		//{
+		//	Cursor.lockState = CursorLockMode.Locked;
+		//}
+		//else
+		//{
+		//	Cursor.lockState = CursorLockMode.None;
+		//}
     }
 }

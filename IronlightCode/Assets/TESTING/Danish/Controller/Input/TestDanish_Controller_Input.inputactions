@@ -145,6 +145,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ScrollWheel",
+                    "type": "PassThrough",
+                    "id": "8f5a4233-f391-4198-b433-7c6e5649c51b",
+                    "expectedControlType": "Double",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -152,7 +160,7 @@
                     "name": "",
                     "id": "f899aac0-b295-444e-a677-ac622bb7faac",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Hold(duration=1)",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
@@ -191,31 +199,15 @@
                     "action": "BlastTest",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Interaction",
-            "id": "a429d3df-0a5a-4e13-b1b5-0d6f8ded2a25",
-            "actions": [
-                {
-                    "name": "CrystalInteract",
-                    "type": "Button",
-                    "id": "8a566531-f12e-43f7-8494-ba824346d38e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press(behavior=1)"
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "cd13add6-adbb-4576-828a-580533be5970",
-                    "path": "<Keyboard>/e",
+                    "id": "a4d6f962-869a-4c85-8772-339de364a734",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CrystalInteract",
+                    "action": "ScrollWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

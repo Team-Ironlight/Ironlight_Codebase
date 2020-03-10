@@ -20,6 +20,8 @@ namespace Danish.StateCode
         private dRotationUpdater rotationUpdater = null;
         private dPhysicsComponent physics = null;
 
+       
+
         public float jumpStartSpeed = 7;
 
         bool jumpStarted = false;
@@ -77,11 +79,13 @@ namespace Danish.StateCode
 
             if (jumpStarted)
             {
+                physics.jumpCount++;
                 m_Grounded = physics.GroundCheck();
             }
 
             if (m_Grounded)
             {
+               physics.jumpCount = 0;
                 return typeof(dIdleState);
             }
 
@@ -90,7 +94,7 @@ namespace Danish.StateCode
 
         public override void FixedTick()
         {
-            JumpHandler.FixedTick();
+            //JumpHandler.FixedTick();
             //physics.FixedTick();
 
             if (!jumpStarted)

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using EZCameraShake;
 
 public class Owl_StateManager : MonoBehaviour
 {
     [Header("Movement Variables")]
     public float MovementSpeed =3;
-    private float OGMovementSpeed;
+    [HideInInspector] public float OGMovementSpeed;
     public float RotationSpeed =4;
-    private float OGRotationSpeed;
+    [HideInInspector] public float OGRotationSpeed;
     private Rigidbody rb;
     public float BankRotIntensity;
     public float BankRotSpeed;
@@ -22,11 +23,15 @@ public class Owl_StateManager : MonoBehaviour
     [HideInInspector] public int CurrentWP;
     public float DistToAgro;
 
+    [Header("General Agro Variables")]
+    public float DistToReAgro;
+    public float TimeTillWarning;
+    public float DistToSlowDown;
+
     [Header("sweep Agro Variables")]
     public float Sweep_YPos;
     public float Sweep_GroundPos;
     public float DistToPatrol;
-    public float DistToReAgro;
     
     [Header("Sweep Attack related Variables")]
     public float SweepMoveSpeed;
@@ -49,6 +54,9 @@ public class Owl_StateManager : MonoBehaviour
     [HideInInspector] public Transform PLY_Transform;
     [HideInInspector] public float DisBetwnPLY;
 
+    [Header("Owl Animation Variables")]
+    public Animator OwlAnim;
+
 
     public Iman_StateMachine StateMachine;
     public GameObject TurnObject;
@@ -65,6 +73,8 @@ public class Owl_StateManager : MonoBehaviour
         OGMovementSpeed = MovementSpeed;
         OGRotationSpeed = RotationSpeed;
 
+        OwlAnim.SetBool("Idle", false);
+
         startTime = Time.time;
 
         InitializeTraversalMachine();
@@ -75,6 +85,11 @@ public class Owl_StateManager : MonoBehaviour
         //distance between owl and the player
         DisBetwnPLY = Vector3.Distance(PLY_Transform.position, transform.position);
         //print(DisBetwnPLY);
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            EZCameraShake.CameraShaker.Instance.ShakeOnce(5.0f, 10.0f, 0.1f, 1.0f);
+        }
     }
 
     //BankRotation calculation
@@ -104,19 +119,14 @@ public class Owl_StateManager : MonoBehaviour
         }
     }
 
-    public void SlowingDown(Vector3 Target)
+    public void SlowMoveSpeed(float Distance)
     {
-        if (Vector3.Distance(Target, transform.position) < 0.3)
-        {
-           // MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, 3);
+        MovementSpeed = (Distance * OGMovementSpeed) / DistToSlowDown;
+    }
 
-            // Set our position as a fraction of the distance between the markers.
-            MovementSpeed = Mathf.Lerp(OGMovementSpeed, 0, (Vector3.Distance(Target, transform.position)/0.3f));
-        }
-        else
-        {
-            MovementSpeed = OGMovementSpeed;
-        }
+    public void SlowRotSpeed(float Distance)
+    {
+        RotationSpeed = ((Distance * OGMovementSpeed) / DistToSlowDown);
     }
 
     IEnumerator SlowRotation()

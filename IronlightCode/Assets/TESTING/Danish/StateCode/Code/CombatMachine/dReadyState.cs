@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Danish.Components;
 
 namespace Danish.StateCode
 {
@@ -9,6 +10,8 @@ namespace Danish.StateCode
     public class dReadyState : dCombatBaseState
     {
         private dStateManager Manager;
+
+		private dPowerWheel dPowerComponent = null;
 
         public dReadyState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -19,8 +22,10 @@ namespace Danish.StateCode
                 Manager = base.MainManager;
             }
 
-            
-        }
+			dPowerComponent = Manager.dPower;
+			dPowerComponent.Init();
+
+		}
 
 
         public override void OnEnter()
@@ -35,21 +40,53 @@ namespace Danish.StateCode
         {
             Debug.Log("Ready To Attack");
 
-            if (Manager.launchOrb)
+			dPowerComponent.Tick(Manager.scrollUp, Manager.scrollDown);
+
+            //WORKS BUT NEED TWEAKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            //if (dPowerComponent.OrbActive && Manager.launchOrb)
+            //{
+            //	Manager.launchOrb = false;
+            //	return typeof(dOrbState);
+            //}
+            //else if (dPowerComponent.BeamActive && Manager.launchBeam)
+            //{
+            //	return typeof(dBeamState);
+            //}
+            //else if (dPowerComponent.BlastActive && Manager.launchBlast)
+            //{
+            //	return typeof(dBeamState);
+            //}
+
+            //To be changed
+            //if (Manager.launchOrb)
+            //{
+            //	Manager.launchOrb = false;
+            //	return typeof(dOrbState);
+            //}
+            //else if (Manager.launchBeam)
+            //{
+            //	return typeof(dBeamState);
+            //}
+            //else if (Manager.launchBlast)
+            //{
+            //	return typeof(dBlastState);
+            //}
+
+            if (Manager.isAttacking)
             {
-                Manager.launchOrb = false;
-                return typeof(dOrbState);
-            }
-            else if (Manager.launchBeam)
-            {
-                return typeof(dBeamState);
-            }
-            else if (Manager.launchBlast)
-            {
-                return typeof(dBlastState);
+                switch (dPowerComponent.activePower)
+                {
+                    case dPowerWheel.ActivePower.Orb:
+                        return typeof(dOrbState);
+                    case dPowerWheel.ActivePower.Beam:
+                        return typeof(dBeamState);
+                    case dPowerWheel.ActivePower.Blast:
+                        return typeof(dBlastState);
+                }
             }
 
-            return null;
+			return null;
         }
     }
 }

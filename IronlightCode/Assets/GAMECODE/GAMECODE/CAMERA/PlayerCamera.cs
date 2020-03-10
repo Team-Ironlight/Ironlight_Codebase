@@ -25,7 +25,9 @@ public class PlayerCamera : MonoBehaviour
     [Space]
     public float mouseSensitivity = 4f;
 
+
     [SerializeField] private SOCamera defaultCamera;
+    //[SerializeField] private SOCamera aimCamera;
     private float mouseSensitivityMult = 1f;
     [SerializeField] private float turnDampening = 10f;
     private float offSetUp = 0.6f;
@@ -40,14 +42,14 @@ public class PlayerCamera : MonoBehaviour
     
     private Coroutine transRoutine;
 
-    public Camera Cam;
-    public float minZoomFOV;
-    public float maxZoomFOV;
-    public float smooth;
+    //Brians Camera Zoomin
+    public CameraZoom cam;
+
     void Start()
     {
         //Set Camera to default values
         ResetCameraVars();
+        //ResetCameraVars(defaultCamera);
 
         //Getting Transforms
         _ParentTransform = transform.parent;
@@ -74,6 +76,21 @@ public class PlayerCamera : MonoBehaviour
         cameraMaxHeight = defaultCamera.MaxY;
     }
 
+    public void ResetCameraVars(SOCamera preset)
+    {
+        mouseSensitivityMult = preset.SensitivityMult;
+        offSetUp = preset.UpOffset;
+        offSetLeft = preset.LeftOffset;
+        cameraDistance = preset.Distance;
+        cameraMinHeight = preset.MinY;
+        cameraMaxHeight = preset.MaxY;
+
+
+        _TargetLocalPosition = new Vector3(-offSetLeft, 0f, cameraDistance * -1f);
+        transform.localPosition = _TargetLocalPosition;
+
+    }
+
     //public void Respawn(float pRotationY) 
     //{
     //    transform.parent.rotation = Quaternion.Euler(0, pRotationY, 0);
@@ -83,6 +100,17 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
+        //if (Input.GetMouseButton(1))
+        //{
+        //    ResetCameraVars(aimCamera);
+        //}
+        //else
+        //{
+        //    ResetCameraVars(defaultCamera);
+        //}
+
+
+
         //Getting Mouse Movement
         if (!CameraDisabled)
         {
@@ -94,17 +122,16 @@ public class PlayerCamera : MonoBehaviour
             {
                 DefaultCameraMovement();
             }
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                ZoomIn();
-
-            }
-            else
-            {
-                ZoomOut();
-            }
+           
         }
-
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            cam.ZoomIn();
+        }
+        else
+        {
+            cam.ZoomOut();
+        }
         //Actual Camera Transformations
         Quaternion TargetQ = Quaternion.Euler(_LocalRotation.y, _LocalRotation.x, 0);
         _ParentTransform.rotation = Quaternion.Slerp(_ParentTransform.rotation, TargetQ, Time.deltaTime * turnDampening);
@@ -243,21 +270,5 @@ public class PlayerCamera : MonoBehaviour
             yield return null;
         }
         while (done != 6);
-    }
-    public void ZoomIn()
-    {
-        Cam.fieldOfView -= smooth / 8;
-        if (Cam.fieldOfView < minZoomFOV)
-        {
-            Cam.fieldOfView = minZoomFOV;
-        }
-    }
-    public void ZoomOut()
-    {
-        Cam.fieldOfView += smooth / 8;
-        if (Cam.fieldOfView > maxZoomFOV)
-        {
-            Cam.fieldOfView = maxZoomFOV;
-        }
     }
 }

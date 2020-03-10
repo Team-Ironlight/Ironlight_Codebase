@@ -1,47 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public class HealthComponent 
+
+
+namespace brian.Components
 {
-    public float maxHealth = 100;
 
-    [SerializeField]
-    public float currHealth;
-
-
-
-    public void Init()
+    [System.Serializable]
+    public class HealthComponent
     {
-        currHealth = maxHealth;
-    }
-    public float addHealth(float val)
-    {
-        float result = 0;
-        if (currHealth + val >= maxHealth)
+        private float maxHealth = 100;
+
+        [SerializeField]
+        private float currHealth = 0;
+
+        public float CurrentHealth
         {
-            result = (currHealth + val) - maxHealth; 
+            get
+            {
+                return currHealth;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get
+            {
+                return maxHealth;
+            }
+        }
+
+
+        public void Init(float _MaxHealth)
+        {
+            maxHealth = _MaxHealth;
             currHealth = maxHealth;
         }
-        else
+
+        public float addHealth(float val)
         {
-            currHealth += val;
+            float result = 0;
+            if (currHealth + val >= maxHealth)
+            {
+                result = (currHealth + val) - maxHealth;
+                currHealth = maxHealth;
+            }
+            else
+            {
+                currHealth += val;
+            }
+
+            return result;
         }
 
-        return result;
-       
-        // print("current health is " + HealthVal.currHealth);
-    }
-    public void subHealth(float val)
-    {
-        if (currHealth - val <= 0)
+        public void subHealth(float val)
         {
-            currHealth = 0;
+            if (currHealth - val <= 0)
+            {
+                currHealth = 0;
+            }
+            else
+            {
+                currHealth -= val;
+            }
         }
-        else
-        {
-            currHealth -= val;
-        }
-        // print("current health is " + HealthVal.currHealth);
     }
 }

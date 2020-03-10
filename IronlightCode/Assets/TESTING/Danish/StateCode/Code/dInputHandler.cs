@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using Danish.Tools;
+using System;
 
 namespace Danish.StateCode
 {
@@ -13,26 +14,19 @@ namespace Danish.StateCode
         public dStateManager _stateManager = null;
 
 
-        // Temporary references for testing
-        //public Rigidbody _rigidbody;
-        //public dObjectPooler _pooler;
-        //public Animator _animator;
-
-
 
         [Header("Values to Update")]
         public Vector2 _MoveVector = Vector2.zero;
-        //public bool _isMoving = false;
         public Vector2 _DashVector = Vector2.zero;
         public bool _isDashing = false;
         public bool _isJumping = false;
         public bool _isAttacking = false;
-
         public bool _orbAttack = false;
         public bool _beamAttack = false;
         public bool _blastAttack = false;
+		//scroll values
+		public float _scrollValue = 0;
 
-        public bool _crystalInteract = false;
 
 
         private void Awake()
@@ -43,7 +37,6 @@ namespace Danish.StateCode
 
         private void Update()
         {
-
         }
 
         private void FixedUpdate()
@@ -54,12 +47,11 @@ namespace Danish.StateCode
 
         public dStateManager Init()
         {
-            
+          
 
             if (_stateManager == null)
             {
                 _stateManager = new dStateManager();
-                //Debug.Log("INIT THE MANAGER");
             }
 
             return _stateManager;
@@ -68,12 +60,8 @@ namespace Danish.StateCode
 
         void UpdateStateValues()
         {
-            //Debug.Log("Updating Values");
-
             _stateManager.moveVector = _MoveVector;
             _stateManager.dashVector = _DashVector;
-
-
 
             _stateManager.isAttacking = _isAttacking;
 
@@ -97,12 +85,6 @@ namespace Danish.StateCode
             {
                 _stateManager.launchOrb = _orbAttack;
                 _orbAttack = false;
-            }
-
-            if (_crystalInteract)
-            {
-                _stateManager.isCrystal = true;
-                _crystalInteract = false;
             }
 
             _stateManager.launchBeam = _beamAttack;
@@ -137,6 +119,7 @@ namespace Danish.StateCode
 
 
             controls.Combat.Attack.started += Attack_started;
+            controls.Combat.Attack.performed += Attack_performed;
 
             controls.Combat.OrbTest.performed += OrbTest_performed;
 
@@ -147,7 +130,8 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.performed += BlastTest_performed;
             controls.Combat.BlastTest.canceled += BlastTest_canceled;
 
-            controls.Interaction.CrystalInteract.performed += CrystalInteract_performed;
+			controls.Combat.ScrollWheel.performed += ScrollWheel_performed;
+			controls.Combat.ScrollWheel.canceled += ScrollWheel_canceled;
         }
 
         
@@ -165,6 +149,7 @@ namespace Danish.StateCode
             controls.Traversal.Dash.performed -= Dash_performed;
 
             controls.Combat.Attack.started -= Attack_started;
+            controls.Combat.Attack.performed -= Attack_performed;
 
             controls.Combat.OrbTest.performed -= OrbTest_performed;
             
@@ -175,8 +160,8 @@ namespace Danish.StateCode
             controls.Combat.BlastTest.performed -= BlastTest_performed;
             controls.Combat.BlastTest.canceled -= BlastTest_canceled;
 
-
-            controls.Interaction.CrystalInteract.performed -= CrystalInteract_performed;
+			controls.Combat.ScrollWheel.performed -= ScrollWheel_performed;
+			controls.Combat.ScrollWheel.canceled -= ScrollWheel_canceled;
 
             controls.Disable();
         }
@@ -199,15 +184,14 @@ namespace Danish.StateCode
 
         #region Input Functions
 
-
-        private void CrystalInteract_performed(InputAction.CallbackContext ctx)
+        private void Attack_performed(InputAction.CallbackContext obj)
         {
-            _crystalInteract = true;
+            _isAttacking = false;
         }
-
 
         private void Attack_started(InputAction.CallbackContext obj)
         {
+            _isAttacking = true;
         }
 
         private void OrbTest_performed(InputAction.CallbackContext ctx)
@@ -297,11 +281,35 @@ namespace Danish.StateCode
 
         }
 
+		private void ScrollWheel_performed(InputAction.CallbackContext obj)
+		{
+			_scrollValue = obj.ReadValue<float>();
+			_stateManager.scrollValue = _scrollValue;
+			if (_scrollValue > 0)
+			{
+				_stateManager.scrollUp = true;
+				_stateManager.scrollDown = false;
+			}
+			else if (_scrollValue < 0)
+			{
+				_stateManager.scrollDown = true;
+				_stateManager.scrollUp = false;
+			}
+			else
+			{
+				_stateManager.scrollUp = false;
+				_stateManager.scrollDown = false;
+			}
+		}
+
+		private void ScrollWheel_canceled(InputAction.CallbackContext obj)
+		{
+
+		}
 
 
 
 
-
-        #endregion
-    }
+		#endregion
+	}
 }
