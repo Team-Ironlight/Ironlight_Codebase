@@ -9,6 +9,7 @@ public class dmgAbsorbTester : MonoBehaviour
     public float absorbAmount = 2;
 
     public dSpiritSystem spiritSystem = null;
+    public dHealthSystem healthSystem = null;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +23,16 @@ public class dmgAbsorbTester : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             spiritSystem.DRAIN.DoIt(10, 1);
+            healthSystem.DMG.DoIt(5, 1);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent(out dHealthSystem healthSystem))
-        {
-            healthSystem.DMG.DoIt(damageAmount, 1);
-        }
+        //if(other.gameObject.TryGetComponent(out dHealthSystem healthSystem))
+        //{
+        //    healthSystem.DMG.DoIt(damageAmount, 1);
+        //}
     }
 
     private void OnTriggerStay(Collider other)
@@ -40,11 +42,11 @@ public class dmgAbsorbTester : MonoBehaviour
         //    healthSystem.ABS.DoIt(absorbAmount * Time.deltaTime, 1);
         //}
 
-        if(other.gameObject.TryGetComponent(out dSpiritSystem _spirit))
-        {
-            spiritSystem = _spirit;
+        //if(other.gameObject.TryGetComponent(out dSpiritSystem _spirit))
+        //{
+        //    spiritSystem = _spirit;
 
-            spiritSystem.GAIN.DoIt(absorbAmount * Time.deltaTime, 1);
-        }
+        //    spiritSystem.GAIN.DoIt(absorbAmount * Time.deltaTime, 1);
+        //}
     }
 }

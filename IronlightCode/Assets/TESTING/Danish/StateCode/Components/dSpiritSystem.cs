@@ -21,6 +21,8 @@ namespace Danish.Components
         public float currentSpirit = 0;
         public float currentHealth = 0;
 
+        public float maxHealth = 0;
+
 
         private void Awake()
         {
@@ -73,6 +75,7 @@ namespace Danish.Components
         {
             currentSpirit = SP.CurrentSpirit;
             currentHealth = HP_System.currentHealth;
+            maxHealth = HP_System.maxHealth;
         }
     }
 }

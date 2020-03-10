@@ -8,8 +8,9 @@ namespace Danish.StateCode
 {
     public class dDashState : dTraversalBaseState
     {
-        private dStateManager Manager;
-        private Rigidbody m_Rigid;
+        private dStateManager Manager = null;
+        private Rigidbody m_Rigid = null;
+        private Transform m_Transform = null;
 
         private dDashComponent DashHandler = null;
 
@@ -29,13 +30,15 @@ namespace Danish.StateCode
             }
 
             m_Rigid = Manager.rigidbody;
+            m_Transform = Manager.objTransform;
 
             DashHandler = Manager.dDash;
+            DashHandler.Init(m_Transform, m_Rigid);
         }
 
         public override void OnEnter()
         {
-            DashHandler.Init(Manager.objTransform.forward, m_Rigid);
+            DashHandler.StartDash(Manager.moveVector);
         }
 
         public override void OnExit()
