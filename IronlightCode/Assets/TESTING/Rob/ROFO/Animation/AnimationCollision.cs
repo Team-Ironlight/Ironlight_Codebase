@@ -21,4 +21,12 @@ public class AnimationCollision : MonoBehaviour
             anim.SetBool(collisionBool, true);
         }        
     }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == collisionTag)
+        {
+            anim.SetBool(collisionBool, true);
+        }
+    }
 }
