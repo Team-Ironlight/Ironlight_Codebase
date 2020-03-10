@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
 
 
     [SerializeField] private SOCamera defaultCamera;
-    [SerializeField] private SOCamera aimCamera;
+    //[SerializeField] private SOCamera aimCamera;
     private float mouseSensitivityMult = 1f;
     [SerializeField] private float turnDampening = 10f;
     private float offSetUp = 0.6f;
@@ -48,8 +48,8 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         //Set Camera to default values
-        //ResetCameraVars();
-        ResetCameraVars(defaultCamera);
+        ResetCameraVars();
+        //ResetCameraVars(defaultCamera);
 
         //Getting Transforms
         _ParentTransform = transform.parent;
