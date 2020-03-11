@@ -14,27 +14,20 @@ namespace Danish.StateCode
         public dStateManager _stateManager = null;
 
 
-        // Temporary references for testing
-        //public Rigidbody _rigidbody;
-        //public dObjectPooler _pooler;
-        //public Animator _animator;
-
-
 
         [Header("Values to Update")]
         public Vector2 _MoveVector = Vector2.zero;
-        //public bool _isMoving = false;
         public Vector2 _DashVector = Vector2.zero;
         public bool _isDashing = false;
         public bool _isJumping = false;
         public bool _isAttacking = false;
-
         public bool _orbAttack = false;
         public bool _beamAttack = false;
         public bool _blastAttack = false;
-
 		//scroll values
 		public float _scrollValue = 0;
+
+
 
         private void Awake()
         {
@@ -44,7 +37,6 @@ namespace Danish.StateCode
 
         private void Update()
         {
-            //_stateManager.Tick();
         }
 
         private void FixedUpdate()
@@ -60,7 +52,6 @@ namespace Danish.StateCode
             if (_stateManager == null)
             {
                 _stateManager = new dStateManager();
-                //Debug.Log("INIT THE MANAGER");
             }
 
             return _stateManager;
@@ -69,12 +60,8 @@ namespace Danish.StateCode
 
         void UpdateStateValues()
         {
-            //Debug.Log("Updating Values");
-
             _stateManager.moveVector = _MoveVector;
             _stateManager.dashVector = _DashVector;
-
-
 
             _stateManager.isAttacking = _isAttacking;
 

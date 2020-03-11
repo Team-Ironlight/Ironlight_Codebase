@@ -13,7 +13,7 @@ public class PuzzleTracker : MonoBehaviour
 	public bool resetPlayer = false;
 
     public GameObject crystalReset;
-    
+    public List<GameObject> CrystalGOS = new List<GameObject>();
 
 	void Start()
 	{
@@ -47,7 +47,7 @@ public class PuzzleTracker : MonoBehaviour
 		{
 			if (puzzleList[i].activeSelf && !puzzleList[i].GetComponent<BeamPuzzleShrine>().LinkActive) //Alive, continue
 			{
-				continue;
+				break;
 			}
 			else
 			{
@@ -57,7 +57,7 @@ public class PuzzleTracker : MonoBehaviour
 				}
 				else
 				{
-					continue;
+					break;
 				}
 			}
 		}
@@ -78,7 +78,11 @@ public class PuzzleTracker : MonoBehaviour
 					puzzleList[i].GetComponent<BeamPuzzleShrine>().LinkActive = false;
                     if (puzzleList[i].transform.parent.GetComponentInChildren<RotateChange>()!=null)
                     {
-                        crystalReset.GetComponent<RotateChange>().ResetCrystals();
+                       /* foreach()
+                        {
+                            
+                        }
+                        crystalReset.GetComponent<RotateChange>().ResetCrystals();*/
                     }
                 }
 				else

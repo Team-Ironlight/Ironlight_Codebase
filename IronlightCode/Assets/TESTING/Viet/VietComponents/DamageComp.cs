@@ -13,22 +13,28 @@ namespace Viet.Components
         public float damageValue = 5;
         public float CritDmg = 1;
 
-        //private GameObject attacker = null; //attacker currently empty
 
         // Initializes damage component, similar to Awake/Start function
         public void Init(HealthEffector _healthEffector)
         {
             healthEffector = _healthEffector;
         }
+
         public void DoIt(float dmg, float crit)
         {
             UpdateValues(dmg, crit);
             processDmg();
-            resetValue();
+            //resetValue();
         }
 
         void UpdateValues(float value1, float value2)
         {
+            if(damageValue == value1 && CritDmg == value2)
+            {
+                return;
+            }
+
+
             damageValue = value1;
             CritDmg = value2;
         }
