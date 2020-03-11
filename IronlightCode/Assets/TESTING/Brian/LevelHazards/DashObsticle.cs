@@ -48,8 +48,12 @@ public class DashObsticle : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-        darting = true;
+        {
+            print("LetsDash");
+            darting = true;
+        }
     }
+       
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
