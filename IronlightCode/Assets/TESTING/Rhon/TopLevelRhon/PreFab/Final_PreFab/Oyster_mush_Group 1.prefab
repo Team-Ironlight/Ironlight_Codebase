@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3251728587936042569}
   - component: {fileID: 4875839485247333171}
+  - component: {fileID: 1178050781998565489}
   m_Layer: 0
   m_Name: SM_OysterMushroomGRP (2)
   m_TagString: Untagged
@@ -53,6 +54,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1178050781998565489
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980225067077860442}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.56044966, y: 0.18906403, z: 0.69750035}
+  m_Center: {x: -4.279886, y: 0.36623, z: -2.1129415}
 --- !u!1 &3690348166777664604
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,6 +78,7 @@ GameObject:
   - component: {fileID: 3471677837877456831}
   - component: {fileID: 941780077020500134}
   - component: {fileID: 7724177921994362301}
+  - component: {fileID: 1351283148416363335}
   m_Layer: 0
   m_Name: OysterMushroomMedium
   m_TagString: Untagged
@@ -131,6 +146,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1351283148416363335
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690348166777664604}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7973003, y: 0.36271206, z: 1.7149302}
+  m_Center: {x: 0.8179915, y: 1.5566034, z: 1.844448}
 --- !u!1 &7444508459273192161
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +248,8 @@ GameObject:
   - component: {fileID: 6283809311668992208}
   - component: {fileID: 9036962104860274429}
   - component: {fileID: 8631666375545808234}
+  - component: {fileID: 2840575189910597214}
+  - component: {fileID: 3029361935627721565}
   m_Layer: 0
   m_Name: OysterMushroomLarge
   m_TagString: Untagged
@@ -287,6 +317,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2840575189910597214
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778697420321887698}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.7750728, y: 0.40204892, z: 1.3197542}
+  m_Center: {x: -0.30216604, y: 2.7018032, z: 1.6393956}
+--- !u!65 &3029361935627721565
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778697420321887698}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6706861, y: 0.4960051, z: 1.9515629}
+  m_Center: {x: -0.23426698, y: 2.661461, z: 1.9608552}
 --- !u!1 &8116241561611576392
 GameObject:
   m_ObjectHideFlags: 0
