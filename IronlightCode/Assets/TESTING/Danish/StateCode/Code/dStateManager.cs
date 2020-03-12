@@ -7,6 +7,7 @@ using Danish.Components;
 using Danish.Components.SO;
 using Sharmout.attacks;
 using Sharmout.SO;
+using brian.Components;
 
 
 namespace Danish.StateCode
@@ -77,6 +78,7 @@ namespace Danish.StateCode
 		public dPowerWheel dPower = null;
 		public dUIUpdater d_UIUpdater = null;
 
+
         // Temporary Stat SO references for Attacks
         public BeamSO beamStats = null;
         public BlastSO blastStats = null;
@@ -84,6 +86,9 @@ namespace Danish.StateCode
 
         // Temporary Reference for a crosshair component
         public dCrosshairComponent dCrosshair = null;
+
+        // Temporary Reference for a animator handling component
+        public dAnimationUpdater dAnimation = null;
 
         public void Init(GameObject parentObj, Rigidbody parentRigid, dObjectPooler parentPooler, Animator parentAnimator, Transform parentCamera, Transform parentMuzzle, dComponentHolder parentComponentHolder)
         {
@@ -120,6 +125,9 @@ namespace Danish.StateCode
 			d_UIUpdater = new dUIUpdater();
 
             dCrosshair = new dCrosshairComponent();
+
+            dAnimation = new dAnimationUpdater();
+            dAnimation.Init(animator);
 
             InitializeTraversalMachine();
             InitializeCombatMachine();
