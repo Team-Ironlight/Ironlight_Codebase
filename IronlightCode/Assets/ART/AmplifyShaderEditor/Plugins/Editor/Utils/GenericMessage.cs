@@ -17,18 +17,16 @@ namespace AmplifyShaderEditor
 	{
 		public string message;
 		public MessageSeverity severity;
-		public bool console;
-		public GenericMessageData( string msg, MessageSeverity svrty, bool csle )
+		public GenericMessageData( string msg, MessageSeverity svrty )
 		{
 			message = msg;
 			severity = svrty;
-			console = csle;
 		}
 	}
 
 	class GenericMessageUI
 	{
-		public delegate void OnMessageDisplay( string message, MessageSeverity severity, bool console );
+		public delegate void OnMessageDisplay( string message, MessageSeverity severity );
 		public event OnMessageDisplay OnMessageDisplayEvent;
 
 		private const double MESSAGE_TIME = 2;
@@ -49,26 +47,26 @@ namespace AmplifyShaderEditor
 			OnMessageDisplayEvent = null;
 		}
 
-		public void AddToQueue( string message, MessageSeverity severity, bool console )
+		public void AddToQueue( string message, MessageSeverity severity )
 		{
-			m_messageQueue.Enqueue( new GenericMessageData( message, severity, console ) );
+			m_messageQueue.Enqueue( new GenericMessageData( message, severity ) );
 		}
 
 		public void Log( string message )
 		{
-			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Normal, true ) );
+			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Normal ) );
 			Debug.Log( message );
 		}
 
 		public void LogError( string message )
 		{
-			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Error, true ) );
+			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Error ) );
 			Debug.LogError( message );
 		}
 
 		public void LogWarning( string message )
 		{
-			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Warning, true ) );
+			m_messageQueue.Enqueue( new GenericMessageData( message, MessageSeverity.Warning ) );
 			Debug.LogWarning( message );
 		}
 
@@ -92,7 +90,7 @@ namespace AmplifyShaderEditor
 					m_currentMessageStartTime = EditorApplication.timeSinceStartup;
 
 					if ( OnMessageDisplayEvent != null )
-						OnMessageDisplayEvent( data.message, data.severity, data.console );
+						OnMessageDisplayEvent( data.message, data.severity );
 				}
 			}
 		}

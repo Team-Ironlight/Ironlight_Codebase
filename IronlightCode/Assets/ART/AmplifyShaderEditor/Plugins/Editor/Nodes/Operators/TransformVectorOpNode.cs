@@ -134,7 +134,7 @@ namespace AmplifyShaderEditor
 				break;
 				case CoordinateSpaces.View:
 				{
-					UIUtils.ShowMessage( UniqueId, "View as Source is not supported", MessageSeverity.Warning );
+					UIUtils.ShowMessage( "View as Source is not supported", MessageSeverity.Warning );
 					return value;
 				}
 			}

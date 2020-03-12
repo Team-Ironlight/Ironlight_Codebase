@@ -9,9 +9,6 @@ namespace AmplifyShaderEditor
 	[System.Serializable]
 	public sealed class OutputPort : WirePort
 	{
-		public delegate void OnNewPreviewRTCreated();
-		public OnNewPreviewRTCreated OnNewPreviewRTCreatedEvent;
-
 		[SerializeField]
 		private bool m_connectedToMasterNode;
 
@@ -29,11 +26,7 @@ namespace AmplifyShaderEditor
 
 		private int m_indexPreviewOffset = 0;
 
-		public OutputPort( ParentNode owner, int nodeId, int portId, WirePortDataType dataType, string name ) : base( nodeId, portId, dataType, name )
-		{
-			LabelSize = Vector2.zero;
-			OnNewPreviewRTCreatedEvent += owner.SetPreviewDirtyFromOutputs;
-		}
+		public OutputPort( int nodeId, int portId, WirePortDataType dataType, string name ) : base( nodeId, portId, dataType, name ) { LabelSize = Vector2.zero; }
 
 		public string ErrorValue
 		{
@@ -45,7 +38,7 @@ namespace AmplifyShaderEditor
 					default:
 					case WirePortDataType.OBJECT:
 					case WirePortDataType.INT:
-					case WirePortDataType.FLOAT: value = "(0)"; break;
+					case WirePortDataType.FLOAT: value = "0"; break;
 					case WirePortDataType.FLOAT2: value = "half2(0,0)"; break;
 					case WirePortDataType.FLOAT3: value = "half3(0,0,0)"; break;
 					case WirePortDataType.COLOR:
@@ -260,8 +253,6 @@ namespace AmplifyShaderEditor
 				{
 					m_outputPreview = new RenderTexture( 128, 128, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear );
 					m_outputPreview.wrapMode = TextureWrapMode.Repeat;
-					if( OnNewPreviewRTCreatedEvent != null )
-						OnNewPreviewRTCreatedEvent();
 				}
 
 				return m_outputPreview;
@@ -285,8 +276,6 @@ namespace AmplifyShaderEditor
 			if( m_outputMaskMaterial != null )
 				UnityEngine.ScriptableObject.DestroyImmediate( m_outputMaskMaterial );
 			m_outputMaskMaterial = null;
-
-			OnNewPreviewRTCreatedEvent = null;
 		}
 
 		public Material MaskingMaterial

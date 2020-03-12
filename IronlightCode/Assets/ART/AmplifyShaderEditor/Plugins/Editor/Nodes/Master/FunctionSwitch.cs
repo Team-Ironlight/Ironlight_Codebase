@@ -117,7 +117,6 @@ namespace AmplifyShaderEditor
 			else
 				m_currentSelectedInput = Mathf.Clamp( newValue, 0, m_maxAmountInputs - 1 );
 			m_outputPorts[ 0 ].ChangeType( m_inputPorts[ m_currentSelectedInput ].DataType, false );
-			PreviewIsDirty = true;
 			ChangeSignalPropagation();
 		}
 
@@ -674,7 +673,6 @@ namespace AmplifyShaderEditor
 					{
 						if( GUI.Button( m_varRect, GUIContent.none, UIUtils.GraphButton ) )
 						{
-							PreviewIsDirty = true;
 							int prevVal = m_currentSelectedInput;
 							m_currentSelectedInput = m_currentSelectedInput == 1 ? 0 : 1;
 							if( m_currentSelectedInput != prevVal )
@@ -694,7 +692,6 @@ namespace AmplifyShaderEditor
 						m_currentSelectedInput = EditorGUIIntPopup( m_varRect, m_currentSelectedInput, AvailableInputsLabels, AvailableInputsValues, UIUtils.GraphDropDown );
 						if( EditorGUI.EndChangeCheck() )
 						{
-							PreviewIsDirty = true;
 							SetCurrentSelectedInput( m_currentSelectedInput, prevVal );
 							m_editing = false;
 						}

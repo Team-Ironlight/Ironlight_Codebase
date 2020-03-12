@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Components;
-using brian.Components;
 
 namespace Danish.StateCode
 {
@@ -20,7 +19,6 @@ namespace Danish.StateCode
         private dRotationUpdater rotationUpdater = null;
         private dPhysicsComponent physics = null;
 
-        private dAnimationUpdater animationUpdater = null;
 
         //[Header("Speeds")]
         //public float forwardSpeed = 1f;
@@ -57,8 +55,6 @@ namespace Danish.StateCode
 
             physics = Manager.dPhysics;
             physics.Init(m_Rigid, 0.5f);
-
-            animationUpdater = Manager.dAnimation;
         }
 
 
@@ -81,8 +77,6 @@ namespace Danish.StateCode
         {
             MoveHandler.FixedTick(Manager.moveVector);
             physics.FixedTick();
-
-            
         }
 
         public override Type Tick()
@@ -116,24 +110,16 @@ namespace Danish.StateCode
             physics.Tick();
             //MoveHandler.Tick(Manager.moveVector);
 
-            animationUpdater.Tick(Manager.moveVector);
-            //UpdateAnimator(Manager.moveVector);
+            UpdateAnimator(Manager.moveVector);
 
             return null;
         }
 
-        //Vector2 move = Vector2.zero;
 
-        //void UpdateAnimator(Vector2 vector)
-        //{
-        //    if(move != vector)
-        //    {
-        //        move = Vector2.Lerp(move, vector, Time.deltaTime);
-        //    }
-
-
-        //    m_Anim.SetFloat("Forward", move.y);
-        //    m_Anim.SetFloat("Strafe", move.x);
-        //}
+        void UpdateAnimator(Vector2 vector)
+        {
+            m_Anim.SetFloat("Forward", vector.y);
+            m_Anim.SetFloat("Strafe", vector.x);
+        }
     }
 }

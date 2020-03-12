@@ -21,11 +21,7 @@ namespace AmplifyShaderEditor
 			//base.serializedObject.Update();
 			if( GUILayout.Button( "Open in Shader Editor" ) )
 			{
-#if UNITY_2018_3_OR_NEWER
-				ASEPackageManagerHelper.SetupLateShaderFunction( m_target );
-#else
 				AmplifyShaderEditorWindow.LoadShaderFunctionToASE( m_target, false );
-#endif
 			}
 			//EditorGUILayout.Separator();
 			//m_target.FunctionInfo = EditorGUILayout.TextArea( m_target.FunctionInfo );

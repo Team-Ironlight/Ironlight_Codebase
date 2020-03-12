@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Danish.Components;
-using brian.Components;
 
 namespace Danish.StateCode
 {
@@ -14,7 +13,6 @@ namespace Danish.StateCode
         private dStateManager Manager;
         private dRotationUpdater rotationUpdater = null;
         private dPhysicsComponent physicsComponent = null;
-        private dAnimationUpdater animationUpdater = null;
 
         public dIdleState(dStateManager _stateManager) : base(_stateManager.obj)
         {
@@ -30,8 +28,6 @@ namespace Danish.StateCode
 
             physicsComponent = Manager.dPhysics;
             physicsComponent.Init(Manager.rigidbody, 0.5f);
-
-            animationUpdater = Manager.dAnimation;
         }
 
         public override void FixedTick()
@@ -74,7 +70,6 @@ namespace Danish.StateCode
             rotationUpdater.Tick();
             physicsComponent.Tick();
 
-            animationUpdater.Tick(Manager.moveVector);
 
             return null;
         }

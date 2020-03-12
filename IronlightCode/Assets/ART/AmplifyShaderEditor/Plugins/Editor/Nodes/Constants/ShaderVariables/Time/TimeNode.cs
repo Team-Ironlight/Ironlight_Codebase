@@ -17,7 +17,6 @@ namespace AmplifyShaderEditor
 			ChangeOutputName( 4, "t*3" );
 			m_value = "_Time";
 			m_previewShaderGUID = "73abc10c8d1399444827a7eeb9c24c2a";
-			m_continuousPreviewRefresh = true;
 		}
 
 		public override void RefreshExternalReferences()
@@ -29,5 +28,10 @@ namespace AmplifyShaderEditor
 				m_sizeIsDirty = true;
 			}
 		}
+		//public override void AfterPreviewRefresh()
+		//{
+		//	base.AfterPreviewRefresh();
+		//	MarkForPreviewUpdate();
+		//}
 	}
 }

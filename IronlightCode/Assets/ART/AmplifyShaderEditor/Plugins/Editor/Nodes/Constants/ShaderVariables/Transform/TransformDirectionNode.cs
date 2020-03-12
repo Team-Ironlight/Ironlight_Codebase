@@ -19,10 +19,10 @@ namespace AmplifyShaderEditor
 	{
 
 		[SerializeField]
-		private TransformSpaceFrom m_from = TransformSpaceFrom.Object;
+		private TransformSpace m_from = TransformSpace.Object;
 
 		[SerializeField]
-		private TransformSpaceTo m_to = TransformSpaceTo.World;
+		private TransformSpace m_to = TransformSpace.World;
 
 		[SerializeField]
 		private bool m_normalize = false;
@@ -71,19 +71,18 @@ namespace AmplifyShaderEditor
 		private const string AseSRPViewToClipDirFormat = "mul(GetViewToHClipMatrix(), float4({0}, 1.0))";
 		//
 		private const string AseClipToObjectDirVarName = "clipToObjectDir";
-
 		private const string AseClipToObjectDirFormat = "mul( UNITY_MATRIX_IT_MV, mul( unity_CameraInvProjection,float4({0},0)) ).xyz";
-		private const string AseClipToWorldDirFormat = "mul( UNITY_MATRIX_I_V, mul( unity_CameraInvProjection,float4({0},0)) ).xyz";
-		private const string AseClipToViewDirFormat = " mul( unity_CameraInvProjection,float4({0},0)).xyz";
 		private const string AseHDClipToObjectDirFormat = "mul( UNITY_MATRIX_I_M, mul( UNITY_MATRIX_I_VP,float4({0},0)) ).xyz";
 
 		private const string AseClipToWorldDirVarName = "clipToWorldDir";
+		private const string AseClipToWorldDirFormat = "mul( UNITY_MATRIX_I_V, mul( unity_CameraInvProjection,float4({0},0)) ).xyz";
 		private const string AseHDClipToWorldDirFormat = "mul( UNITY_MATRIX_I_VP, float4({0},0) ).xyz";
 
 		private const string AseClipToViewDirVarName = "clipToViewDir";
+		private const string AseClipToViewDirFormat = " mul( unity_CameraInvProjection,float4({0},0)).xyz";
 		private const string AseHDClipToViewDirFormat = " mul( UNITY_MATRIX_I_P,float4({0},0)).xyz";
 		private const string AseClipToNDC = "{0}.xyz/{0}.w";
-
+		
 		/////////////////////////////////////////////////////
 		private const string AseObjectToTangentDirVarName = "objectToTangentDir";
 		private const string AseWorldToTangentDirVarName = "worldToTangentDir";
@@ -97,7 +96,7 @@ namespace AmplifyShaderEditor
 		private const string AseTangentToViewDirVarName = "tangentToViewDir";
 		private const string AseTangentToClipDirVarName = "tangentToClipDir";
 		private const string ASEMulOpFormat = "mul( {0}, {1} )";
-
+		
 
 
 		///////////////////////////////////////////////////////////
@@ -105,23 +104,14 @@ namespace AmplifyShaderEditor
 		private const string ToStr = "To";
 		private const string SubtitleFormat = "{0} to {1}";
 
-		private readonly string[] m_spaceOptionsFrom =
+		private readonly string[] m_spaceOptions =
 		{
-			"Object",
-			"World",
-			"View",
+			"Object Space",
+			"World Space",
+			"View Space",
+			"Clip",
 			"Tangent"
 		};
-
-		private readonly string[] m_spaceOptionsTo =
-		{
-			"Object",
-			"World",
-			"View",
-			"Tangent",
-			"Clip"
-		};
-
 
 		protected override void CommonInit( int uniqueId )
 		{
@@ -144,9 +134,9 @@ namespace AmplifyShaderEditor
 		{
 			base.DrawProperties();
 			EditorGUI.BeginChangeCheck();
-			m_from = (TransformSpaceFrom)EditorGUILayoutPopup( FromStr, (int)m_from, m_spaceOptionsFrom );
-			m_to = (TransformSpaceTo)EditorGUILayoutPopup( ToStr, (int)m_to, m_spaceOptionsTo );
-			if( m_from == TransformSpaceFrom.Tangent )
+			m_from = (TransformSpace)EditorGUILayoutPopup( FromStr, (int)m_from, m_spaceOptions );
+			m_to = (TransformSpace)EditorGUILayoutPopup( ToStr, (int)m_to, m_spaceOptions );
+			if( m_from == TransformSpace.Tangent )
 			{
 				m_inverseTangentType = (InverseTangentType)EditorGUILayoutEnumPopup( InverseTBNStr, m_inverseTangentType );
 			}
@@ -158,23 +148,16 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public override void PropagateNodeData( NodeData nodeData, ref MasterNodeDataCollector dataCollector )
-		{
-			base.PropagateNodeData( nodeData, ref dataCollector );
-			if( (int)m_from != (int)m_to && ( m_from == TransformSpaceFrom.Tangent || m_to == TransformSpaceTo.Tangent ) )
-				dataCollector.DirtyNormal = true;
-		}
-
-		void CalculateTransform( TransformSpaceFrom from, TransformSpaceTo to, ref MasterNodeDataCollector dataCollector, ref string varName, ref string result )
+		void CalculateTransform( TransformSpace from, TransformSpace to, ref MasterNodeDataCollector dataCollector, ref string varName, ref string result )
 		{
 			switch( from )
 			{
-				case TransformSpaceFrom.Object:
+				case TransformSpace.Object:
 				{
 					switch( to )
 					{
-						default: case TransformSpaceTo.Object: break;
-						case TransformSpaceTo.World:
+						default: case TransformSpace.Object: break;
+						case TransformSpace.World:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 								result = string.Format( AseSRPObjectToWorldDirFormat, result );
@@ -183,7 +166,7 @@ namespace AmplifyShaderEditor
 							varName = AseObjectToWorldDirVarName + OutputId;
 						}
 						break;
-						case TransformSpaceTo.View:
+						case TransformSpace.View:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
 								result = string.Format( AseHDObjectToViewDirFormat, result );
@@ -192,7 +175,7 @@ namespace AmplifyShaderEditor
 							varName = AseObjectToViewDirVarName + OutputId;
 						}
 						break;
-						case TransformSpaceTo.Clip:
+						case TransformSpace.Clip:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 							{
@@ -208,11 +191,11 @@ namespace AmplifyShaderEditor
 					}
 				}
 				break;
-				case TransformSpaceFrom.World:
+				case TransformSpace.World:
 				{
 					switch( to )
 					{
-						case TransformSpaceTo.Object:
+						case TransformSpace.Object:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 								result = string.Format( AseSRPWorldToObjectDirFormat, result );
@@ -222,14 +205,14 @@ namespace AmplifyShaderEditor
 						}
 						break;
 						default:
-						case TransformSpaceTo.World: break;
-						case TransformSpaceTo.View:
+						case TransformSpace.World: break;
+						case TransformSpace.View:
 						{
 							result = string.Format( AseWorldToViewDirFormat, result );
 							varName = AseWorldToViewDirVarName + OutputId;
 						}
 						break;
-						case TransformSpaceTo.Clip:
+						case TransformSpace.Clip:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 							{
@@ -245,24 +228,24 @@ namespace AmplifyShaderEditor
 					}
 				}
 				break;
-				case TransformSpaceFrom.View:
+				case TransformSpace.View:
 				{
 					switch( to )
 					{
-						case TransformSpaceTo.Object:
+						case TransformSpace.Object:
 						{
 							result = string.Format( AseViewToObjectDirFormat, result );
 							varName = AseViewToObjectDirVarName + OutputId;
 						}
 						break;
-						case TransformSpaceTo.World:
+						case TransformSpace.World:
 						{
 							result = string.Format( AseViewToWorldDirFormat, result );
 							varName = AseViewToWorldDirVarName + OutputId;
 						}
 						break;
-						default: case TransformSpaceTo.View: break;
-						case TransformSpaceTo.Clip:
+						default: case TransformSpace.View: break;
+						case TransformSpace.Clip:
 						{
 							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
 							{
@@ -278,55 +261,55 @@ namespace AmplifyShaderEditor
 					}
 				}
 				break;
-				//case TransformSpace.Clip:
-				//{
-				//	switch( to )
-				//	{
-				//		case TransformSpace.Object:
-				//		{
-				//			if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
-				//			{
-				//				result = string.Format( AseHDClipToObjectDirFormat, result );
-				//			}
-				//			else
-				//			{
-				//				result = string.Format( AseClipToObjectDirFormat, result );
-				//			}
-				//			varName = AseClipToObjectDirVarName + OutputId;
-				//		}
-				//		break;
-				//		case TransformSpace.World:
-				//		{
-				//			if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
-				//			{
-				//				result = string.Format( AseHDClipToWorldDirFormat, result );
-				//			}
-				//			else
-				//			{
-				//				result = string.Format( AseClipToWorldDirFormat, result );
-				//			}
-				//			varName = AseClipToWorldDirVarName + OutputId;
-				//		}
-				//		break;
-				//		case TransformSpace.View:
-				//		{
-				//			if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
-				//			{
-				//				result = string.Format( AseHDClipToViewDirFormat, result );
-				//			}
-				//			else
-				//			{
-				//				result = string.Format( AseClipToViewDirFormat, result );
-				//			}
-				//			varName = AseClipToViewDirVarName + OutputId;
-				//		}
-				//		break;
-				//		case TransformSpace.Clip: break;
-				//		default:
-				//		break;
-				//	}
-				//}
-				//break;
+				case TransformSpace.Clip:
+				{
+					switch( to )
+					{
+						case TransformSpace.Object:
+						{
+							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
+							{
+								result = string.Format( AseHDClipToObjectDirFormat, result );
+							}
+							else
+							{
+								result = string.Format( AseClipToObjectDirFormat, result );
+							}
+							varName = AseClipToObjectDirVarName + OutputId;
+						}
+						break;
+						case TransformSpace.World:
+						{
+							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
+							{
+								result = string.Format( AseHDClipToWorldDirFormat, result );
+							}
+							else
+							{
+								result = string.Format( AseClipToWorldDirFormat, result );
+							}
+							varName = AseClipToWorldDirVarName + OutputId;
+						}
+						break;
+						case TransformSpace.View:
+						{
+							if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
+							{
+								result = string.Format( AseHDClipToViewDirFormat, result );
+							}
+							else
+							{
+								result = string.Format( AseClipToViewDirFormat, result );
+							}
+							varName = AseClipToViewDirVarName + OutputId;
+						}
+						break;
+						case TransformSpace.Clip: break;
+						default:
+						break;
+					}
+				}
+				break;
 				default: break;
 			}
 		}
@@ -336,188 +319,177 @@ namespace AmplifyShaderEditor
 			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
 				return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
 
-			GeneratorUtils.RegisterUnity2019MatrixDefines( ref dataCollector );
-
 			string result = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 			string varName = string.Empty;
 
-			if( (int)m_from == (int)m_to )
-			{
-				RegisterLocalVariable( 0, result, ref dataCollector );
-				return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
-			}
-
 			switch( m_from )
 			{
-				case TransformSpaceFrom.Object:
+				case TransformSpace.Object:
 				{
 					switch( m_to )
 					{
-						default: case TransformSpaceTo.Object: break;
-						case TransformSpaceTo.World:
+						default: case TransformSpace.Object: break;
+						case TransformSpace.World:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.View:
+						case TransformSpace.View:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.Clip:
+						case TransformSpace.Clip:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.Tangent:
+						case TransformSpace.Tangent:
 						{
-							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, CurrentPrecisionType );
-							CalculateTransform( m_from, TransformSpaceTo.World, ref dataCollector, ref varName, ref result );
+							GeneratorUtils.GenerateWorldToTangentMatrix(ref dataCollector, UniqueId,m_currentPrecisionType );
+							CalculateTransform( m_from, TransformSpace.World, ref dataCollector, ref varName, ref result );
 							result = string.Format( ASEWorldToTangentFormat, result );
-							varName = AseObjectToTangentDirVarName + OutputId;
+							varName = AseObjectToTangentDirVarName;
 						}
 						break;
 					}
-				}
-				break;
-				case TransformSpaceFrom.World:
+				}break;
+				case TransformSpace.World:
 				{
 					switch( m_to )
 					{
-						case TransformSpaceTo.Object:
+						case TransformSpace.Object:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
 						default:
-						case TransformSpaceTo.World: break;
-						case TransformSpaceTo.View:
+						case TransformSpace.World:break;
+						case TransformSpace.View:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.Clip:
+						case TransformSpace.Clip:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.Tangent:
+						case TransformSpace.Tangent:
 						{
-							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, CurrentPrecisionType );
+							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, m_currentPrecisionType );
 							result = string.Format( ASEWorldToTangentFormat, result );
-							varName = AseWorldToTangentDirVarName + OutputId;
+							varName = AseWorldToTangentDirVarName;
 						}
 						break;
 					}
-				}
-				break;
-				case TransformSpaceFrom.View:
+				}break;
+				case TransformSpace.View:
 				{
 					switch( m_to )
 					{
-						case TransformSpaceTo.Object:
+						case TransformSpace.Object:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.World:
+						case TransformSpace.World:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						default: case TransformSpaceTo.View: break;
-						case TransformSpaceTo.Clip:
+						default:case TransformSpace.View:break;
+						case TransformSpace.Clip:
 						{
 							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
 						}
 						break;
-						case TransformSpaceTo.Tangent:
+						case TransformSpace.Tangent:
 						{
-							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, CurrentPrecisionType );
-							CalculateTransform( m_from, TransformSpaceTo.World, ref dataCollector, ref varName, ref result );
+							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, m_currentPrecisionType );
+							CalculateTransform( m_from, TransformSpace.World, ref dataCollector, ref varName, ref result );
 							result = string.Format( ASEWorldToTangentFormat, result );
-							varName = AseViewToTangentDirVarName + OutputId;
+							varName = AseViewToTangentDirVarName;
 						}
 						break;
 					}
-				}
-				break;
-				//case TransformSpace.Clip:
-				//{
-				//	switch( m_to )
-				//	{
-				//		case TransformSpace.Object:
-				//		{
-				//			CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
-				//		}
-				//		break;
-				//		case TransformSpace.World:
-				//		{
-				//			CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
-				//		}
-				//		break;
-				//		case TransformSpace.View:
-				//		{
-				//			CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
-				//		}
-				//		break;
-				//		case TransformSpace.Clip: break;
-				//		case TransformSpace.Tangent:
-				//		{
-				//			GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, CurrentPrecisionType );
-				//			CalculateTransform( m_from, TransformSpace.World, ref dataCollector, ref varName, ref result );
-				//			result = string.Format( ASEWorldToTangentFormat, result );
-				//			varName = AseClipToTangentDirVarName + OutputId;
-				//		}
-				//		break;
-				//		default:
-				//		break;
-				//	}
-				//}break;
-				case TransformSpaceFrom.Tangent:
+				}break;
+				case TransformSpace.Clip:
+				{
+					switch( m_to )
+					{
+						case TransformSpace.Object:
+						{
+							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
+						}
+						break;
+						case TransformSpace.World:
+						{
+							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
+						}
+						break;
+						case TransformSpace.View:
+						{
+							CalculateTransform( m_from, m_to, ref dataCollector, ref varName, ref result );
+						}
+						break;
+						case TransformSpace.Clip: break;
+						case TransformSpace.Tangent:
+						{
+							GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, m_currentPrecisionType );
+							CalculateTransform( m_from, TransformSpace.World, ref dataCollector, ref varName, ref result );
+							result = string.Format( ASEWorldToTangentFormat, result );
+							varName = AseClipToTangentDirVarName;
+						}
+						break;
+						default:
+						break;
+					}
+				}break;
+				case TransformSpace.Tangent:
 				{
 					string matrixVal = string.Empty;
 					if( m_inverseTangentType == InverseTangentType.Fast )
-						matrixVal = GeneratorUtils.GenerateTangentToWorldMatrixFast( ref dataCollector, UniqueId, CurrentPrecisionType );
+						matrixVal = GeneratorUtils.GenerateTangentToWorldMatrixFast( ref dataCollector, UniqueId, m_currentPrecisionType );
 					else
-						matrixVal = GeneratorUtils.GenerateTangentToWorldMatrixPrecise( ref dataCollector, UniqueId, CurrentPrecisionType );
+						matrixVal = GeneratorUtils.GenerateTangentToWorldMatrixPrecise( ref dataCollector, UniqueId, m_currentPrecisionType );
 
 					switch( m_to )
 					{
-						case TransformSpaceTo.Object:
+						case TransformSpace.Object:
 						{
 							result = string.Format( ASEMulOpFormat, matrixVal, result );
-							CalculateTransform( TransformSpaceFrom.World, m_to, ref dataCollector, ref varName, ref result );
-							varName = AseTangentToObjectDirVarName + OutputId;
+							CalculateTransform( TransformSpace.World, m_to, ref dataCollector, ref varName, ref result );
+							varName = AseTangentToObjectDirVarName;
 						}
 						break;
-						case TransformSpaceTo.World:
+						case TransformSpace.World:
 						{
 							result = string.Format( ASEMulOpFormat, matrixVal, result );
-							varName = AseTangentToWorldDirVarName + OutputId;
+							varName = AseTangentToWorldDirVarName;
 						}
 						break;
-						case TransformSpaceTo.View:
+						case TransformSpace.View:
 						{
 							result = string.Format( ASEMulOpFormat, matrixVal, result );
-							CalculateTransform( TransformSpaceFrom.World, m_to, ref dataCollector, ref varName, ref result );
-							varName = AseTangentToViewDirVarName + OutputId;
+							CalculateTransform( TransformSpace.World, m_to, ref dataCollector, ref varName, ref result );
+							varName = AseTangentToViewDirVarName;
 						}
 						break;
-						case TransformSpaceTo.Clip:
+						case TransformSpace.Clip:
 						{
 							result = string.Format( ASEMulOpFormat, matrixVal, result );
-							CalculateTransform( TransformSpaceFrom.World, m_to, ref dataCollector, ref varName, ref result );
-							varName = AseTangentToClipDirVarName + OutputId;
+							CalculateTransform( TransformSpace.World, m_to, ref dataCollector, ref varName, ref result );
+							varName = AseTangentToClipDirVarName;
 						}
 						break;
-						case TransformSpaceTo.Tangent:
+						case TransformSpace.Tangent:
 						default:
 						break;
 					}
 				}
 				break;
-				default: break;
+				default:break;
 			}
 
 			if( m_normalize )
@@ -530,16 +502,8 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			string from = GetCurrentParam( ref nodeParams );
-			if( UIUtils.CurrentShaderVersion() < 17500 && from.Equals( "Clip" ) )
-			{
-				UIUtils.ShowMessage( UniqueId, "Clip Space no longer supported on From field over Transform Direction node" );
-			}
-			else
-			{
-				m_from = (TransformSpaceFrom)Enum.Parse( typeof( TransformSpaceFrom ), from );
-			}
-			m_to = (TransformSpaceTo)Enum.Parse( typeof( TransformSpaceTo ), GetCurrentParam( ref nodeParams ) );
+			m_from = (TransformSpace)Enum.Parse( typeof( TransformSpace ), GetCurrentParam( ref nodeParams ) );
+			m_to = (TransformSpace)Enum.Parse( typeof( TransformSpace ), GetCurrentParam( ref nodeParams ) );
 			m_normalize = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
 			if( UIUtils.CurrentShaderVersion() > 15800 )
 			{

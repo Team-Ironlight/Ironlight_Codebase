@@ -134,7 +134,7 @@ namespace AmplifyShaderEditor
 				for( int i = 0; i < BillboardRotIndependent.Length; i++ )
 				{
 					string value = string.Empty;
-					if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType != TemplateSRPType.BuiltIn )
+					if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
 					{
 						value = ( i != 5 ) ? string.Format( BillboardHDRotIndependent[ i ], vertexPosValue ) : BillboardHDRotIndependent[ i ];
 					}

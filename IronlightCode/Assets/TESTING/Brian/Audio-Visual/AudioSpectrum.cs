@@ -9,7 +9,6 @@ public class AudioSpectrum : MonoBehaviour
     private float[] _audioSpectrum;
     public float val;
     public AudioSource source;
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,9 +20,8 @@ public class AudioSpectrum : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // source.clip = getSound.soundToPlay;
         source.outputAudioMixerGroup = ElderMix.FindMatchingGroups("ElderVocals")[0];
-        //ElderMix.GetFloat("ElderVocals", out val);
+        ElderMix.GetFloat("ElderVocals", out val);
         //AudioListener.GetSpectrumData(_audioSpectrum, 0, FFTWindow.Hamming);
         source.GetSpectrumData(_audioSpectrum, 0, FFTWindow.Hamming);
         if (_audioSpectrum!=null && _audioSpectrum.Length > 0)

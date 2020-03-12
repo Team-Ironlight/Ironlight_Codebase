@@ -116,7 +116,7 @@ namespace AmplifyShaderEditor
 				dataType = WirePortDataType.FLOAT2;
 			}
 			
-			string newVar = UIUtils.PrecisionWirePortToCgType( precisionType, dataType );
+			string newVar = UIUtils.FinalPrecisionWirePortToCgType( precisionType, dataType );
 			newVar += "( ";
 			switch( dataType )
 			{

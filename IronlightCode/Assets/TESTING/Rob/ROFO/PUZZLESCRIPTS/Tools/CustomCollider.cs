@@ -21,7 +21,7 @@ namespace ROFO
         [SerializeField] public ColliderType currentCollider;
 
         [Header("Sphere")]
-        [SerializeField] public float radiusSize = 4f;
+        [SerializeField] public float radiusSize = 1f;
         [Header("Box")]
         [SerializeField] public float length = 1f;
         [SerializeField] public float width = 1f;
@@ -48,7 +48,7 @@ namespace ROFO
                 newCollider = gameObject.AddComponent(typeof(SphereCollider)) as SphereCollider;
 
                 //set sphere colliders radius to size of handleSize
-               // newCollider.GetComponent<SphereCollider>().radius = radiusSize;
+                newCollider.GetComponent<SphereCollider>().radius = radiusSize;
 
                 if (isTrigger)
                 {

@@ -23,7 +23,6 @@ namespace AmplifyShaderEditor
 			base.CommonInit( uniqueId );
 			m_currentInput = SurfaceInputs.UV_COORDS;
 			m_textLabelWidth = 65;
-			m_customPrecision = true;
 		}
 
 		public override void DrawProperties()
@@ -97,7 +96,7 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
-			dataCollector.AddToInput( UniqueId, m_currentInput, CurrentPrecisionType );
+			dataCollector.AddToInput( UniqueId, m_currentInput, m_currentPrecisionType );
 			switch ( m_currentInput )
 			{
 				case SurfaceInputs.VIEW_DIR:

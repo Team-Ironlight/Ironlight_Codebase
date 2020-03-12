@@ -1,21 +1,15 @@
 // Amplify Shader Editor - Visual Shader Editing Tool
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
+#if UNITY_POST_PROCESSING_STACK_V2
 using System;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-//using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering.PostProcessing;
 
 
 namespace AmplifyShaderEditor
 {
-	public enum ASEPostProcessEvent
-	{
-		BeforeTransparent = 0,
-		BeforeStack = 1,
-		AfterStack = 2
-	}
-
 	[Serializable]
 	public class ASEPPSHelperBuffer
 	{
@@ -35,7 +29,7 @@ namespace AmplifyShaderEditor
 		"using UnityEngine.Rendering.PostProcessing;\n" +
 		"\n" +
 		"[Serializable]\n" +
-		"[PostProcess( typeof( /*PPSRendererClass*/ ), PostProcessEvent./*PPSEventType*/, \"/*PPSMenuEntry*/\", /*AllowInSceneView*/ )]\n" +
+		"[PostProcess( typeof( /*PPSRendererClass*/ ), PostProcessEvent./*PPSEventType*/, \"/*PPSMenuEntry*/\" )]\n" +
 		"public sealed class /*PPSSettingsClass*/ : PostProcessEffectSettings\n" +
 		"{\n" +
 		"/*PPSPropertiesDeclaration*/" +
@@ -56,7 +50,6 @@ namespace AmplifyShaderEditor
 		private const string PPSRendererClass = "/*PPSRendererClass*/";
 		private const string PPSSettingsClass = "/*PPSSettingsClass*/";
 		private const string PPSMenuEntry = "/*PPSMenuEntry*/";
-		private const string PPSAllowInSceneView = "/*AllowInSceneView*/";
 		private const string PPSShader = "/*PPSShader*/";
 		private const string PPSPropertiesDecl = "/*PPSPropertiesDeclaration*/";
 		private const string PPSPropertySet = "/*PPSPropertySet*/";
@@ -135,10 +128,7 @@ namespace AmplifyShaderEditor
 		private string m_menuEntry = string.Empty;
 
 		[SerializeField]
-		private bool m_allowInSceneView = true;
-
-		[SerializeField]
-		private ASEPostProcessEvent m_eventType = ASEPostProcessEvent.AfterStack;
+		private PostProcessEvent m_eventType = PostProcessEvent.AfterStack;
 
 		[SerializeField]
 		private Shader m_currentShader = null;
@@ -220,11 +210,7 @@ namespace AmplifyShaderEditor
 
 			EditorGUILayout.Separator();
 
-			m_allowInSceneView = EditorGUILayout.Toggle( "Allow In Scene View", m_allowInSceneView );
-
-			EditorGUILayout.Separator();
-
-			m_eventType = (ASEPostProcessEvent)EditorGUILayout.EnumPopup( "Event Type", m_eventType );
+			m_eventType = (PostProcessEvent)EditorGUILayout.EnumPopup( "Event Type", m_eventType );
 
 			EditorGUILayout.Separator();
 
@@ -243,7 +229,6 @@ namespace AmplifyShaderEditor
 
 			if( GUILayout.Button( "Build" ) )
 			{
-				System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 				string propertiesDecl = string.Empty;
 				string propertiesSet = string.Empty;
 				GetShaderInfoFromShaderAsset( ref propertiesDecl, ref propertiesSet );
@@ -254,11 +239,9 @@ namespace AmplifyShaderEditor
 				template = template.Replace( PPSPropertiesDecl, propertiesDecl );
 				template = template.Replace( PPSPropertySet, propertiesSet );
 				template = template.Replace( PPSMenuEntry, m_menuEntry );
-				template = template.Replace( PPSAllowInSceneView, m_allowInSceneView?"true":"false" );
 				template = template.Replace( PPSShader, m_currentShader.name );
 				string path = m_folderPath + m_settingsClassName + ".cs";
 				IOUtils.SaveTextfileToDisk( template, path, false );
-				System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 				AssetDatabase.Refresh();
 			}
 
@@ -458,3 +441,4 @@ namespace AmplifyShaderEditor
 		}
 	}
 }
+#endif

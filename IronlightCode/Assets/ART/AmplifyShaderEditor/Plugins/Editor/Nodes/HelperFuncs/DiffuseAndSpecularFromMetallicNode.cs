@@ -25,8 +25,8 @@ namespace AmplifyShaderEditor
 		{
 			if( dataCollector.IsSRP )
 			{
-				UIUtils.ShowMessage( UniqueId, "Diffuse And Specular From Metallic Node not compatible with SRP" );
-				return m_outputPorts[0].ErrorValue;
+				UIUtils.ShowMessage( "Diffuse And Specular From Metallic Node not compatible with SRP" );
+				return "0";
 			}
 
 			if( m_outputPorts[ outputId ].IsLocalValue( dataCollector.PortCategory ) )

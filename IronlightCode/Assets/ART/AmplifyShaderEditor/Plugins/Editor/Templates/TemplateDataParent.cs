@@ -17,9 +17,6 @@ namespace AmplifyShaderEditor
 	public class TemplateIncludePragmaContainter
 	{
 		[SerializeField]
-		private int m_nativeTopIndex = -1;
-
-		[SerializeField]
 		private List<string> m_nativeDirectivesList = new List<string>();
 
 		[SerializeField]
@@ -122,9 +119,8 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void AddNativeDirective( string native, int topIndex )
+		public void AddNativeDirective( string native )
 		{
-			m_nativeTopIndex = topIndex;
 			m_nativeDirectivesList.Add( native );
 		}
 
@@ -154,7 +150,6 @@ namespace AmplifyShaderEditor
 		public List<string> PragmasList { get { return m_pragmasList; } }
 		public List<string> DefinesList { get { return m_definesList; } }
 		public List<string> NativeDirectivesList { get { return m_nativeDirectivesList; } }
-		public int NativeTopIndex { get { return m_nativeTopIndex; } }
 
 	}
 

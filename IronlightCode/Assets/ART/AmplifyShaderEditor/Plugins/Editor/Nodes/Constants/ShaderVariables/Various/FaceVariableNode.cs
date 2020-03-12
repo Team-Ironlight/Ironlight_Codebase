@@ -20,27 +20,27 @@ namespace AmplifyShaderEditor
 		{
 			if ( dataCollector.PortCategory == MasterNodePortCategory.Tessellation )
 			{
-				UIUtils.ShowMessage( UniqueId, m_nodeAttribs.Name + " node does not work on Tessellation port" );
-				return m_outputPorts[0].ErrorValue;
+				UIUtils.ShowMessage( m_nodeAttribs.Name + " does not work on Tessellation port" );
+				return "0";
 			}
 
 			if ( dataCollector.PortCategory == MasterNodePortCategory.Vertex )
 			{
 				if ( dataCollector.TesselationActive )
 				{
-					UIUtils.ShowMessage( UniqueId, m_nodeAttribs.Name + " node does not work properly on Vertex/Tessellation ports" );
-					return m_outputPorts[ 0 ].ErrorValue;
+					UIUtils.ShowMessage( m_nodeAttribs.Name + " does not work properly on Vertex/Tessellation ports" );
+					return "0";
 				}
 				else
 				{
-					UIUtils.ShowMessage( UniqueId, m_nodeAttribs.Name + " node does not work propery on Vertex ports" );
-					return m_outputPorts[ 0 ].ErrorValue;
+					UIUtils.ShowMessage( m_nodeAttribs.Name + " does not work propery on Vertex ports" );
+					return "0";
 				}
 			}
 
 			if ( dataCollector.IsTemplate )
 			{
-				return dataCollector.TemplateDataCollectorInstance.GetVFace( UniqueId );
+				return dataCollector.TemplateDataCollectorInstance.GetVFace();
 			}
 			else
 			{
