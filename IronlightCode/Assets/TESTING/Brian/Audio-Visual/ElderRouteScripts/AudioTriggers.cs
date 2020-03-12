@@ -8,7 +8,7 @@ public class AudioTriggers : MonoBehaviour
     public AudioClip soundToPlay;
     bool clipPlayed;
     public float volume;
-
+    public AudioSpectrum MixSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +20,7 @@ public class AudioTriggers : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            MixSource.source = sound;
             if (!clipPlayed)
             {
                 sound.PlayOneShot(soundToPlay, volume);
