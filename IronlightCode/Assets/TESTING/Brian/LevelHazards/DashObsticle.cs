@@ -11,8 +11,6 @@ public class DashObsticle : MonoBehaviour
     public float speed=5;
     bool goMarkOne;
 
-    [SerializeField] [Range(0, 1)] private float value = 0;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,43 +30,26 @@ public class DashObsticle : MonoBehaviour
 
     void Dart()
     {
-        if (goMarkOne)
+        print("Move bitch");
+        if (Enemy.transform.position.z <= markerOne.transform.position.z)
         {
-            value += Time.deltaTime * speed;
-        }
-        else
-        {
-            value -= Time.deltaTime * speed;
-        }
-    
-
-        if (value >= 1)
-        {
-            Enemy.transform.LookAt(markerOne.transform);
+            Enemy.transform.LookAt(markerTwo.transform);
             goMarkOne = false;
-            value = 1;
         }
+            Enemy.transform.Translate(Vector3.forward * Time.deltaTime * speed);
         
-        if (value <= 0)
+            if (Enemy.transform.position.z >= markerTwo.transform.position.z)
         {
-            Enemy.transform.LookAt(markerTwo.transform.position);
+            Enemy.transform.LookAt(markerOne.transform.position);
             goMarkOne = true;
-            value = 0;
-            //Enemy.transform.Translate(Vector3.forward * Time.deltaTime*speed);
+            Enemy.transform.Translate(Vector3.forward * Time.deltaTime*speed);
         }
-
-        Enemy.transform.position = Vector3.Lerp(markerOne.transform.position, markerTwo.transform.position, value);
-        //Enemy.transform.Translate(Enemy.transform.forward * Time.deltaTime * speed);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-        {
-            print("LetsDash");
-            darting = true;
-        }
+        darting = true;
     }
-       
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

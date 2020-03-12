@@ -12,8 +12,6 @@ namespace AmplifyShaderEditor
 	[NodeAttributes( "Register Local Var", "Miscellaneous", "Forces a local variable to be written with the given name. Can then be fetched at any place with a <b>Get Local Var</b> node.", null, KeyCode.R )]
 	public sealed class RegisterLocalVarNode : ParentNode
 	{
-		private const double MaxEditingTimestamp = 1;
-
 		private const string LocalDefaultNameStr = "myVarName";
 		private const string LocalVarNameStr = "Var Name";
 		private const string OrderIndexStr = "Order Index";
@@ -41,19 +39,12 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private List<GetLocalVarNode> m_registeredGetLocalVars = new List<GetLocalVarNode>();
 
-		[NonSerialized]
-		private double m_editingTimestamp;
-
-		[NonSerialized]
-		private bool m_editingTimestampFlag;
-
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
 			AddInputPort( WirePortDataType.FLOAT, false, Constants.EmptyPortValue );
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_textLabelWidth = 85;
-			m_customPrecision = true;
 
 			if( m_containerGraph != null )
 				m_variableName += m_containerGraph.LocalVarNodes.NodesList.Count;
@@ -88,25 +79,13 @@ namespace AmplifyShaderEditor
 			SetAdditonalTitleText( string.Format( Constants.SubTitleVarNameFormatStr, m_variableName ) );
 		}
 
-		public override void OnNodeLogicUpdate( DrawInfo drawInfo )
-		{
-			base.OnNodeLogicUpdate( drawInfo );
-			if( m_editingTimestampFlag && ( EditorApplication.timeSinceStartup - m_editingTimestamp ) > MaxEditingTimestamp )
-			{
-				m_editingTimestampFlag = false;
-				CheckAndChangeName();
-			}
-		}
-
 		void DrawMainProperties()
 		{
 			EditorGUI.BeginChangeCheck();
 			m_variableName = EditorGUILayoutTextField( LocalVarNameStr, m_variableName );
 			if( EditorGUI.EndChangeCheck() )
 			{
-				m_editingTimestampFlag = true;
-				m_editingTimestamp = EditorApplication.timeSinceStartup;
-				//CheckAndChangeName();
+				CheckAndChangeName();
 			}
 
 			DrawPrecisionProperty();
@@ -126,8 +105,7 @@ namespace AmplifyShaderEditor
 				m_variableName = LocalDefaultNameStr + OutputId;
 			}
 			bool isNumericName = UIUtils.IsNumericName( m_variableName );
-			bool isLocalVarNameAvailable = m_containerGraph.ParentWindow.DuplicatePrevBufferInstance.IsLocalvariableNameAvailable( m_variableName );
-			if( !isNumericName && isLocalVarNameAvailable )
+			if( !isNumericName && m_containerGraph.ParentWindow.DuplicatePrevBufferInstance.IsLocalvariableNameAvailable( m_variableName ) )
 			{
 				m_containerGraph.ParentWindow.DuplicatePrevBufferInstance.ReleaseLocalVariableName( UniqueId, m_oldName );
 				m_containerGraph.ParentWindow.DuplicatePrevBufferInstance.RegisterLocalVariableName( UniqueId, m_variableName );
@@ -138,14 +116,10 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				if( isNumericName )
-				{
-					UIUtils.ShowMessage( UniqueId, string.Format( "Local variable name '{0}' cannot start or be numerical values. Reverting back to '{1}'.", m_variableName, m_oldName ), MessageSeverity.Warning );
-				}
-				else if( !isLocalVarNameAvailable )
-				{
-					UIUtils.ShowMessage( UniqueId, string.Format( "Local variable name '{0}' already being used. Reverting back to '{1}'.", m_variableName, m_oldName ), MessageSeverity.Warning );
-				}
+				//if( isNumericName )
+				//{
+				//	UIUtils.ShowMessage( "Local variable name cannot start or be numerical values" );
+				//}
 
 				m_variableName = m_oldName;
 				m_containerGraph.LocalVarNodes.UpdateDataOnNode( UniqueId, m_variableName );
@@ -238,10 +212,7 @@ namespace AmplifyShaderEditor
 				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 			}
 			string result = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
-			if( m_inputPorts[ 0 ].DataType == WirePortDataType.OBJECT )
-				m_outputPorts[ 0 ].SetLocalValue( result, dataCollector.PortCategory );
-			else
-				RegisterLocalVariable( 0, result, ref dataCollector, m_variableName + OutputId );
+			RegisterLocalVariable( 0, result, ref dataCollector, m_variableName + OutputId );
 			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 
@@ -249,7 +220,6 @@ namespace AmplifyShaderEditor
 		{
 			base.ReadFromString( ref nodeParams );
 			m_variableName = GetCurrentParam( ref nodeParams );
-			m_oldName = m_variableName;
 			if( UIUtils.CurrentShaderVersion() > 14 )
 				m_orderIndex = Convert.ToInt32( GetCurrentParam( ref nodeParams ) );
 

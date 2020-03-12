@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "Texture Coordinates", "UV Coordinates", "Texture UV coordinates set, if <b>Tex</b> is connected to a texture object it will use that texture scale factors, otherwise uses <b>Tilling</b> and <b>Offset</b> port values", null, KeyCode.U, tags: "uv" )]
+	[NodeAttributes( "Texture Coordinates", "UV Coordinates", "Texture UV coordinates set, if <b>Tex</b> is connected to a texture object it will use that texture scale factors, otherwise uses <b>Tilling</b> and <b>Offset</b> port values", null, KeyCode.U )]
 	public sealed class TextureCoordinatesNode : ParentNode
 	{
 
@@ -45,8 +45,6 @@ namespace AmplifyShaderEditor
 
 		[SerializeField]
 		private TexturePropertyNode m_inputReferenceNode = null;
-
-		private Vector4Node m_texCoordsHelper;
 
 		private TexturePropertyNode m_referenceNode = null;
 
@@ -92,7 +90,7 @@ namespace AmplifyShaderEditor
 			base.OnInputPortConnected( portId, otherNodeId, otherPortId, activateNode );
 			if( portId == 2 )
 			{
-				m_inputReferenceNode = m_texPort.GetOutputNodeWhichIsNotRelay() as TexturePropertyNode;
+				m_inputReferenceNode = m_texPort.GetOutputNode() as TexturePropertyNode;
 				UpdatePorts();
 			}
 		}
@@ -385,7 +383,7 @@ namespace AmplifyShaderEditor
 		{
 			if( dataCollector.PortCategory == MasterNodePortCategory.Tessellation )
 			{
-				UIUtils.ShowMessage( UniqueId, m_nodeAttribs.Name + " cannot be used on Master Node Tessellation port" );
+				UIUtils.ShowMessage( m_nodeAttribs.Name + " cannot be used on Master Node Tessellation port" );
 				return "-1";
 			}
 
@@ -431,31 +429,11 @@ namespace AmplifyShaderEditor
 				{
 					string finalTexCoordName = "uv" + m_textureCoordChannel + currPropertyName;
 					string dummyPropertyTexcoords = currPropertyName + "_ST";
-
-					if( m_texCoordsHelper == null )
-					{
-						m_texCoordsHelper = CreateInstance<Vector4Node>();
-						m_texCoordsHelper.ContainerGraph = ContainerGraph;
-						m_texCoordsHelper.SetBaseUniqueId( UniqueId, true );
-						m_texCoordsHelper.RegisterPropertyOnInstancing = false;
-						m_texCoordsHelper.AddGlobalToSRPBatcher = true;
-					}
-
-					if( UIUtils.CurrentWindow.OutsideGraph.IsInstancedShader )
-					{
-						m_texCoordsHelper.CurrentParameterType = PropertyType.InstancedProperty;
-					}
-					else
-					{
-						m_texCoordsHelper.CurrentParameterType = PropertyType.Global;
-					}
-					m_texCoordsHelper.ResetOutputLocals();
-					m_texCoordsHelper.SetRawPropertyName( dummyPropertyTexcoords );
-					dummyPropertyTexcoords = m_texCoordsHelper.GenerateShaderForOutput( 0, ref dataCollector, false );
+					dataCollector.AddToUniforms( UniqueId, "float4", dummyPropertyTexcoords );
 
 					if( m_texcoordSize > 2 )
 					{
-						dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, m_outputPorts[ 0 ].DataType, finalTexCoordName, uvName );
+						dataCollector.AddLocalVariable( UniqueId, m_currentPrecisionType, m_outputPorts[ 0 ].DataType, finalTexCoordName, uvName );
 						dataCollector.AddLocalVariable( UniqueId, finalTexCoordName + ".xy", string.Format( Constants.TilingOffsetFormat, uvName + ".xy", dummyPropertyTexcoords + ".xy", dummyPropertyTexcoords + ".zw" ) + ";" );
 						m_outputPorts[ 0 ].SetLocalValue( finalTexCoordName, dataCollector.PortCategory );
 					}
@@ -473,7 +451,7 @@ namespace AmplifyShaderEditor
 
 					if( m_texcoordSize > 2 )
 					{
-						dataCollector.AddLocalVariable( UniqueId, CurrentPrecisionType, m_outputPorts[ 0 ].DataType, finalTexCoordName, uvName );
+						dataCollector.AddLocalVariable( UniqueId, m_currentPrecisionType, m_outputPorts[ 0 ].DataType, finalTexCoordName, uvName );
 						dataCollector.AddLocalVariable( UniqueId, finalTexCoordName + ".xy", string.Format( Constants.TilingOffsetFormat, uvName + ".xy", tiling, offset ) + ";" );
 						m_outputPorts[ 0 ].SetLocalValue( finalTexCoordName, dataCollector.PortCategory );
 					}
@@ -514,7 +492,7 @@ namespace AmplifyShaderEditor
 			{
 				m_surfaceTexcoordName = GeneratorUtils.GenerateAutoUVs( ref dataCollector, UniqueId, m_textureCoordChannel, null, m_outputPorts[ 0 ].DataType, tiling, offset, OutputId );
 			}
-
+			
 			m_outputPorts[ 0 ].SetLocalValue( m_surfaceTexcoordName, dataCollector.PortCategory );
 			return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
 		}
@@ -574,13 +552,6 @@ namespace AmplifyShaderEditor
 		{
 			base.Destroy();
 			m_referenceNode = null;
-
-			if( m_texCoordsHelper != null )
-			{
-				//Not calling m_texCoordsHelper.Destroy() on purpose so UIUtils does not incorrectly unregister stuff
-				DestroyImmediate( m_texCoordsHelper );
-				m_texCoordsHelper = null;
-			}
 		}
 
 	}

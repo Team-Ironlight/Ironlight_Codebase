@@ -140,10 +140,6 @@ namespace AmplifyShaderEditor
 
 		public TemplateInterpData() { }
 
-		public bool HasRawInterpolatorOfName( string name )
-		{
-			return RawInterpolators.Exists( ( x ) => x.VarName.Equals( name ));
-		}
 
 		public TemplateInterpData( TemplateInterpData other )
 		{

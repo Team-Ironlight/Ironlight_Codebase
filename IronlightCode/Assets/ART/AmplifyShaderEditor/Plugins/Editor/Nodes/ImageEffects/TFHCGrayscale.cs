@@ -11,7 +11,7 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "Grayscale", "Image Effects", "Convert image colors to grayscale", null, KeyCode.None, true, false, null, null, "The Four Headed Cat - @fourheadedcat", tags:"luminance" )]
+	[NodeAttributes( "Grayscale", "Image Effects", "Convert image colors to grayscale", null, KeyCode.None, true, false, null, null, "The Four Headed Cat - @fourheadedcat" )]
 	public sealed class TFHCGrayscale : ParentNode
 	{
 		private const string GrayscaleStyleStr = "Grayscale Style";

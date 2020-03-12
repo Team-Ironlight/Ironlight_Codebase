@@ -238,13 +238,12 @@ public class AI_AbilityManager : MonoBehaviour
 
                         yield return null;
                     }
-                  
                     agent.speed = _mOldSpeed;
                   
                 }
 
                 SwagcoolDownTimer = SwagcoolDown;
-              
+             
             }
 
             if (Vector3.Distance(this.transform.position, target.position) <= _gMinDistance)
@@ -254,7 +253,7 @@ public class AI_AbilityManager : MonoBehaviour
                 float _mOldSpeed = agent.speed; float percent = 0;
                 while (percent <= 3f)
                 {
-                   
+                 
                     percent += Time.deltaTime; float interpolation = (-Mathf.Pow(percent, 2) + percent) * 5f;
                     agent.speed = _agentRunSpeed;
                     agent.destination = Vector3.Lerp(attackPosition, newPosition, interpolation);                             // we are using agent to get the destination, no Callbacks needed right on the spot can determine if the path is Stale/invalid e.g ( Player runaway and hide from the bushes) 
@@ -264,7 +263,6 @@ public class AI_AbilityManager : MonoBehaviour
                     yield return null;
                 }
 
-                
                 agent.speed = _mOldSpeed;
                 _aniMator.SetFloat("Speed", 0f);
             }
@@ -400,10 +398,7 @@ public class AI_AbilityManager : MonoBehaviour
 
         m_ShieldActivationTime = 1f;
 
-        // StartCoroutine(ScreamSound());
-      yield return  StartCoroutine(Play_AttackSound());                                 //Attack Clips -Taunt1 & Taunt2
-
-
+        StartCoroutine(ScreamSound());
         _aniMator.SetBool("isAttacking", true);
         _aniMator.SetBool("isCharging", true);
 
@@ -424,9 +419,7 @@ public class AI_AbilityManager : MonoBehaviour
 
     IEnumerator DeactivateShield(NavMeshAgent agent)
     {
-
-               StartCoroutine(DashSound());
-
+   
         if (_abSorb)
             _abSorb.SetActive(false);     
 
@@ -435,11 +428,10 @@ public class AI_AbilityManager : MonoBehaviour
         else if (agent.isStopped)
         { particleTrail.Stop(); }
 
-      
+        StartCoroutine(DashSound());
 
         _aniMator.SetBool("isCharging", false);
         yield return StartCoroutine(Swag(agent));
-        
 
         _aniMator.SetFloat("Speed", 0f);
         _aniMator.SetBool("isAttacking", false);
@@ -478,14 +470,17 @@ public class AI_AbilityManager : MonoBehaviour
 
     IEnumerator ScreamSound()
     {
-       
+        yield return new WaitForSeconds(0.1f);
 
         mAudio.Play_ScreamSound();
-        yield return new WaitForSeconds(0.1f);
-      
     }
 
-  
+    IEnumerator DashSound()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        mAudio.Play_DashSound();
+    }
     IEnumerator JumpSound()
     {
         mAudio.Play_JumpSound();
@@ -504,19 +499,6 @@ public class AI_AbilityManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
     }
-    IEnumerator DashSound()
-    {
-        yield return new WaitForSeconds(0.1f);
-        mAudio.Play_DashSound();      
-    }
-    IEnumerator Play_AttackSound()
-    {
-        mAudio.Play_AttackSound();
-        yield return new WaitForSeconds(0.4f);
-       
-    }
-
-
     public void StopCoroAll()
     {
         StopCoroutine("Start");

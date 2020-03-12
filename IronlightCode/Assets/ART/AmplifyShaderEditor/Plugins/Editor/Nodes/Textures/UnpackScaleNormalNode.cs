@@ -55,7 +55,7 @@ namespace AmplifyShaderEditor
 
 			if ( outputUsage > 1 )
 			{
-				string varName = "localUnpackNormal" + OutputId;
+				string varName = "localUnpackNormal" + UniqueId;
 				dataCollector.AddLocalVariable( UniqueId, "float3 " + varName + " = " + normalMapUnpackMode + ";" );
 				return GetOutputVectorItem( 0, outputId, varName );
 			}

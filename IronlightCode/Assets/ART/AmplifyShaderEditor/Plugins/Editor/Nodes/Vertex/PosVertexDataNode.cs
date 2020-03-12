@@ -76,7 +76,7 @@ namespace AmplifyShaderEditor
 
 			if ( dataCollector.MasterNodeCategory == AvailableShaderTypes.Template )
 			{
-				string vertexPos = dataCollector.TemplateDataCollectorInstance.GetVertexPosition( ( m_sizeOption == 0 ) ? WirePortDataType.FLOAT3 : WirePortDataType.FLOAT4, CurrentPrecisionType );
+				string vertexPos = dataCollector.TemplateDataCollectorInstance.GetVertexPosition( ( m_sizeOption == 0 ) ? WirePortDataType.FLOAT3 : WirePortDataType.FLOAT4, m_currentPrecisionType );
 				return GetOutputVectorItem( 0, outputId, vertexPos );
 			}
 

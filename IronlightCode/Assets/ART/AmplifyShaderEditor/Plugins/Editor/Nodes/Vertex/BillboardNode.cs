@@ -79,15 +79,15 @@ namespace AmplifyShaderEditor
 		{
 			if( dataCollector.IsFragmentCategory )
 			{
-				UIUtils.ShowMessage( UniqueId, ErrorMessage,MessageSeverity.Error );
-				return m_outputPorts[0].ErrorValue;
+				UIUtils.ShowMessage( ErrorMessage );
+				return "0";
 			}
 			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
-				return m_outputPorts[ 0 ].ErrorValue;
+				return "0";
 
 			m_outputPorts[ 0 ].SetLocalValue( "0", dataCollector.PortCategory );
-			string vertexPosValue = dataCollector.IsTemplate ? dataCollector.TemplateDataCollectorInstance.GetVertexPosition( WirePortDataType.OBJECT, CurrentPrecisionType ) : "v.vertex";
-			string vertexNormalValue = dataCollector.IsTemplate ? dataCollector.TemplateDataCollectorInstance.GetVertexNormal( CurrentPrecisionType ) : "v.normal";
+			string vertexPosValue = dataCollector.IsTemplate ? dataCollector.TemplateDataCollectorInstance.GetVertexPosition( WirePortDataType.OBJECT, m_currentPrecisionType ) : "v.vertex";
+			string vertexNormalValue = dataCollector.IsTemplate ? dataCollector.TemplateDataCollectorInstance.GetVertexNormal( m_currentPrecisionType ) : "v.normal";
 			bool vertexIsFloat3 = false;
 			if( dataCollector.IsTemplate )
 			{

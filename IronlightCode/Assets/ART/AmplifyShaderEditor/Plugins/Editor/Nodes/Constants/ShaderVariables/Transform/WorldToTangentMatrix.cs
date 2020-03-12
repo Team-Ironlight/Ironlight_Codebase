@@ -29,17 +29,17 @@ namespace AmplifyShaderEditor
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
 			if( dataCollector.IsTemplate )
-				return dataCollector.TemplateDataCollectorInstance.GetWorldToTangentMatrix( CurrentPrecisionType );
+				return dataCollector.TemplateDataCollectorInstance.GetWorldToTangentMatrix( m_currentPrecisionType );
 
 			if( dataCollector.IsFragmentCategory )
 			{
 				dataCollector.ForceNormal = true;
 
-				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, CurrentPrecisionType );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, m_currentPrecisionType );
 				dataCollector.AddToInput( UniqueId, SurfaceInputs.INTERNALDATA, addSemiColon: false );
 			}
 
-			GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, CurrentPrecisionType );
+			GeneratorUtils.GenerateWorldToTangentMatrix( ref dataCollector, UniqueId, m_currentPrecisionType );
 
 			return GeneratorUtils.WorldToTangentStr;
 		}

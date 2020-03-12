@@ -144,7 +144,6 @@ namespace AmplifyShaderEditor
 				m_currentSelectedInput = EditorGUIIntPopup( m_varRect, m_currentSelectedInput, m_availableInputsLabels, m_availableInputsValues, UIUtils.GraphDropDown );
 				if( EditorGUI.EndChangeCheck() )
 				{
-					PreviewIsDirty = true;
 					m_editing = false;
 				}
 			}

@@ -24,7 +24,17 @@ public class ContactVertexDisplacementRing : MonoBehaviour
         rend.material.SetFloat("_ExtrudeAmount", normalExtrude * 0.01f);
     }
 
-    
+    // Update is called once per frame
+    void Update()
+    {
+        ////debug
+        //if(Input.GetKeyUp(KeyCode.P) && on == false)
+        //{
+        //    cc = StartCoroutine(Work());
+        //}
+    }
+
+
     IEnumerator Work()
     {
         on = true;
@@ -53,7 +63,7 @@ public class ContactVertexDisplacementRing : MonoBehaviour
         }
 
         rend.material.SetFloat("_Length", -1f);
-        rend.material.SetFloat("_Fade", 1f);
+        rend.material.SetFloat("_Fade", -1f);
         on = false;
     }
 

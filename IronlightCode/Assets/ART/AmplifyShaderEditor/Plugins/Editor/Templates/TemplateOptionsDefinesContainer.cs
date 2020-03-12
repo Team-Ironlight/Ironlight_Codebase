@@ -25,23 +25,12 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public void RemoveTemporaries()
-		{
-			List<PropertyDataCollector> temporaries = m_definesList.FindAll( ( x ) => ( x.NodeId == 1 ) );
-			for( int i = 0; i < temporaries.Count; i++ )
-			{
-				m_definesList.Remove( temporaries[ i ] );
-				m_definesDict.Remove( temporaries[ i ].PropertyName );
-			}
-		}
-
-		public void AddDefine( string define , bool temporary )
+		public void AddDefine( string define )
 		{
 			Refresh();
 			if( !m_definesDict.ContainsKey( define ) )
 			{
-				int nodeId = temporary ? 1 : 0;
-				PropertyDataCollector data = new PropertyDataCollector( nodeId, define );
+				PropertyDataCollector data = new PropertyDataCollector( -1, define );
 				m_definesDict.Add( define, data );
 				m_definesList.Add( data );
 			}

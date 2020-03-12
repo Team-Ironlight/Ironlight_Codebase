@@ -52,12 +52,12 @@ namespace AmplifyShaderEditor
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
 			if( dataCollector.IsTemplate )
-				return GetOutputVectorItem( 0, outputId, dataCollector.TemplateDataCollectorInstance.GetWorldSpaceLightDir( CurrentPrecisionType ) ); ;
+				return GetOutputVectorItem( 0, outputId, dataCollector.TemplateDataCollectorInstance.GetWorldSpaceLightDir() ); ;
 
 			dataCollector.AddToIncludes( UniqueId, Constants.UnityCgLibFuncs );
 			dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_POS );
 
-			return GetOutputVectorItem( 0, outputId, GeneratorUtils.GenerateWorldLightDirection( ref dataCollector, UniqueId, CurrentPrecisionType ) );
+			return GetOutputVectorItem( 0, outputId, GeneratorUtils.GenerateWorldLightDirection( ref dataCollector, UniqueId, m_currentPrecisionType ) );
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )

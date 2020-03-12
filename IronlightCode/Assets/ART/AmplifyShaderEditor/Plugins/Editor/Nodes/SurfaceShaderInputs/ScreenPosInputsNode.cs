@@ -89,29 +89,31 @@ namespace AmplifyShaderEditor
 			{
 				return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
 			}
-			m_currentPrecisionType = PrecisionType.Float;
-			
+
+			if( dataCollector.IsFragmentCategory && !dataCollector.UsingCustomScreenPos )
+				base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalVar );
+
 			string screenPos = string.Empty;
 			if( m_outputTypeInt == 0 )
 			{
 				if( dataCollector.IsTemplate )
 				{
-					screenPos = dataCollector.TemplateDataCollectorInstance.GetScreenPosNormalized( CurrentPrecisionType );
+					screenPos = dataCollector.TemplateDataCollectorInstance.GetScreenPosNormalized();
 				}
 				else
 				{
-					screenPos = GeneratorUtils.GenerateScreenPositionNormalized( ref dataCollector, UniqueId, CurrentPrecisionType);
+					screenPos = GeneratorUtils.GenerateScreenPositionNormalized( ref dataCollector, UniqueId, m_currentPrecisionType, false );
 				}
 			}
 			else
 			{
 				if( dataCollector.IsTemplate )
 				{
-					screenPos = dataCollector.TemplateDataCollectorInstance.GetScreenPos( CurrentPrecisionType );
+					screenPos = dataCollector.TemplateDataCollectorInstance.GetScreenPos();
 				}
 				else
 				{
-					screenPos = GeneratorUtils.GenerateScreenPosition( ref dataCollector, UniqueId, CurrentPrecisionType );
+					screenPos = GeneratorUtils.GenerateScreenPosition( ref dataCollector, UniqueId, m_currentPrecisionType, false );
 				}
 			}
 			
