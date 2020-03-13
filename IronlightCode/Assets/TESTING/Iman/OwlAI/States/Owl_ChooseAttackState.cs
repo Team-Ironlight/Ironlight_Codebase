@@ -21,8 +21,9 @@ public class Owl_ChooseAttackState : ImanBaseState
     public override void OnEnter()
     {
         Debug.Log("Entering Choose Attack State");
-        AttackChoose = rnd.Next(1, 3);
-        Debug.Log(AttackChoose);
+        //AttackChoose = rnd.Next(1, 3);
+        //Debug.Log(AttackChoose);
+        AttackChoose = 1;
     }
 
     public override void OnExit()
