@@ -81,7 +81,8 @@ Transform:
   m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.393701, y: 0.393701, z: 0.393701}
-  m_Children: []
+  m_Children:
+  - {fileID: 5855819692777552689}
   m_Father: {fileID: 4428979813198295006}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -142,6 +143,7 @@ GameObject:
   - component: {fileID: 334340196316393542}
   - component: {fileID: 6414878641567039189}
   - component: {fileID: 7099209235088620538}
+  - component: {fileID: 1777709772451580901}
   m_Layer: 0
   m_Name: OysterMushroomSmall
   m_TagString: Untagged
@@ -209,6 +211,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1777709772451580901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8576724238910153590}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.429603, y: 0.31908512, z: 1.6240617}
+  m_Center: {x: -0.8174059, y: 0.9713538, z: 1.841941}
 --- !u!1 &8909787298769335365
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +235,7 @@ GameObject:
   - component: {fileID: 5143677049196779847}
   - component: {fileID: 7872060594914496362}
   - component: {fileID: 7466764320365413629}
+  - component: {fileID: 2487465646023689130}
   m_Layer: 0
   m_Name: OysterMushroomLarge
   m_TagString: Untagged
@@ -287,3 +303,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2487465646023689130
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8909787298769335365}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6116452, y: 0.597519, z: 2.174137}
+  m_Center: {x: -0.2775114, y: 2.6107132, z: 1.8447727}
+--- !u!1 &9122569240240014937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5855819692777552689}
+  - component: {fileID: 8241363832568510478}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5855819692777552689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122569240240014937}
+  m_LocalRotation: {x: -0, y: -0.44959843, z: -0, w: 0.89323086}
+  m_LocalPosition: {x: 1.824, y: 0, z: 0.005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2340588509526380072}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -53.436, z: 0}
+--- !u!65 &8241363832568510478
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122569240240014937}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1913186, y: 0.37776685, z: 1.9734024}
+  m_Center: {x: 1.0483121, y: 1.5490798, z: 1.823662}
