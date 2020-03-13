@@ -77,12 +77,12 @@ namespace ROFO
         }
 
         //test
-        private void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.E))
-            {
-                Change();
-            }
-        }
+        //private void Update()
+        //{
+        //    if (Input.GetKeyUp(KeyCode.E))
+        //    {
+        //        Change();
+        //    }
+        //}
     }
 }
