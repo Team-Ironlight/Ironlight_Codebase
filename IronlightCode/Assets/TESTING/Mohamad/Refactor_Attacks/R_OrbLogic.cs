@@ -70,14 +70,25 @@ namespace Sharmout.attacks
             Debug.Log(disableCO);
         }
 
-
-
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if(other.gameObject.tag == "Crystal")
+        //    {
+        //        StopAllCoroutines();
+        //        disableCO = null;
+        //        moveCo = null;
+        //        gameObject.SetActive(false);
+        //    }
+        //}
 
         private void OnCollisionEnter(Collision collision)
         {
             if(collision.gameObject.tag == "Enemy")
             {
-
+                StopAllCoroutines();
+                disableCO = null;
+                moveCo = null;
+                gameObject.SetActive(false);
             }
         }
     }

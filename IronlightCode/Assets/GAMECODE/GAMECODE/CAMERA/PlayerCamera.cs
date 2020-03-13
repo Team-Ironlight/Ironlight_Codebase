@@ -124,14 +124,15 @@ public class PlayerCamera : MonoBehaviour
             }
            
         }
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            cam.ZoomIn();
-        }
-        else
-        {
-            cam.ZoomOut();
-        }
+
+        //if (Input.GetKey(KeyCode.Mouse1))
+        //{
+        //    cam.ZoomIn();
+        //}
+        //else
+        //{
+        //    cam.ZoomOut();
+        //}
         //Actual Camera Transformations
         Quaternion TargetQ = Quaternion.Euler(_LocalRotation.y, _LocalRotation.x, 0);
         _ParentTransform.rotation = Quaternion.Slerp(_ParentTransform.rotation, TargetQ, Time.deltaTime * turnDampening);

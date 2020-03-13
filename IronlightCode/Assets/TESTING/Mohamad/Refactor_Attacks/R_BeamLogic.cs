@@ -13,9 +13,12 @@ namespace Sharmout.attacks
         float beamLengthGoing = 0;
         float beamLengthClosing = 0;
 
-        public LineRenderer line;
-        public Transform muzzleRef = null;
+        //public LineRenderer line;
+        //public Transform muzzleRef = null;
         Coroutine currentCo = null;
+
+        public GameObject beamStart = null;
+        public GameObject beamLoop = null;
 
         // LineCast Variables
         private Vector3 lineStart = Vector3.zero;
@@ -42,6 +45,17 @@ namespace Sharmout.attacks
             beamSpeedGoing = stats.speedGoing;
             beamSpeedClosing = stats.speedEnding;
             layersToCheck = stats.layersToCheck;
+
+            var vfx = beamStart.GetComponent<ParticleSystem>();
+            vfx.time = 0;
+            vfx.Play();
+
+            var vfxLoop = beamLoop.GetComponentsInChildren<ParticleSystem>();
+            foreach (var fx in vfxLoop)
+            {
+                fx.time = 0;
+                fx.Play();
+            }
         }
 
         public void ActiveTick(Vector3 _startPoint, Vector3 _fireDirection)
@@ -51,10 +65,6 @@ namespace Sharmout.attacks
 
             BeamPositionUpdater();
 
-            //if(PerformLineCast(lineStart, lineEnd, layersToCheck))
-            //{
-            //    Debug.Log("Sharmouttttttt Pussy");
-            //}
         }
 
         public void FinishTick()
@@ -70,10 +80,13 @@ namespace Sharmout.attacks
                 if (!hittingObj)
                 {
                     lineEnd = lineStart + (lineDirection.normalized * beamLengthGoing);
-                    line.SetPosition(1, lineEnd);
+                    //line.SetPosition(1, lineEnd);
                 }
+                Vector3 direction = (lineEnd - lineStart);
 
-                line.SetPosition(0, lineStart);
+                transform.position = lineStart;
+                transform.forward = lineDirection;
+                //line.SetPosition(0, lineStart);
 
                 posBeforeRelease = lineStart;
                 dirBeforeRelease = lineDirection;
@@ -110,7 +123,7 @@ namespace Sharmout.attacks
             {
                 FinishBeam();
                 lineStart = posBeforeRelease + (dirBeforeRelease * beamLengthClosing);
-                line.SetPosition(0, lineStart);
+                //line.SetPosition(0, lineStart);
 
                 yield return null;
             }
