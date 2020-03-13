@@ -56,10 +56,10 @@ namespace Danish.Components
 
 		void ApplyGravity()
 		{
-			velocity += GravityModifier * Physics.gravity * Time.deltaTime;
+			//velocity += GravityModifier * Physics.gravity * Time.deltaTime;
 
 
-			m_Rigid.velocity = velocity;
+			//m_Rigid.velocity = velocity;
 		}
 
 		public bool GroundCheck()
