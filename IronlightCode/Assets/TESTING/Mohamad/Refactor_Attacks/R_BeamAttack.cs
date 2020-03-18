@@ -23,7 +23,7 @@ namespace Sharmout.attacks
         public void Init(Transform _muzzle, dObjectPooler _pool, BeamSO _stats)
         {
             muzzleRef = _muzzle;
-            beamPool = _pool;
+            beamPool = dObjectPooler.Instance;
             beamStats = _stats;
         }
 

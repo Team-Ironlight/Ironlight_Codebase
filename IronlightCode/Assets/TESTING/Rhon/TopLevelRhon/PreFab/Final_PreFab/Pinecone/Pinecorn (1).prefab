@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 3228392377282597310}
   - component: {fileID: 5879039729299434376}
   - component: {fileID: 191968233828833137}
-  - component: {fileID: 7617620025877588136}
+  - component: {fileID: 535815752}
   m_Layer: 0
   m_Name: Pinecorn (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3228392377282597310
 Transform:
@@ -26,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915951907211633581}
-  m_LocalRotation: {x: -0.44029528, y: -0.44029456, z: 0.5532994, w: 0.5532997}
+  m_LocalRotation: {x: -0.4402954, y: -0.4402954, z: 0.5532992, w: 0.5532992}
   m_LocalPosition: {x: -2.1992226, y: 1.4033203, z: -2.6788788}
-  m_LocalScale: {x: 0.26085013, y: 0.26085013, z: 0.3659374}
+  m_LocalScale: {x: 0.3401203, y: 0.3401202, z: 0.47715032}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,8 +79,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &7617620025877588136
-MeshCollider:
+--- !u!65 &535815752
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -89,7 +89,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 6412623515549900752, guid: 24f5630c41327a944ab76b140cc7d45f, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.0203022, y: 1.7259068, z: 1.9387251}
+  m_Center: {x: 0.3359854, y: 0.033069916, z: 1.0072302}

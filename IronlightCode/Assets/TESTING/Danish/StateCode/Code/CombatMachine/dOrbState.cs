@@ -38,8 +38,10 @@ namespace Danish.StateCode
 
         public override void OnEnter()
         {
-            
             orbComponent.SetFireDirection(crosshairComponent.GetFiringDirection());
+
+            orbComponent.SetFirePosition(Manager.Muzzle.position);
+
             orbComponent.Shoot();
         }
 

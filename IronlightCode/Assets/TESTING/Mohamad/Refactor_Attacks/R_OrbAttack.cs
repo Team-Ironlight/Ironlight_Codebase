@@ -32,7 +32,7 @@ namespace Sharmout.attacks
         {
             // set references
             muzzleRef = _muzzle;
-            OrbPool = _pooler;
+            OrbPool = dObjectPooler.Instance;
             orbStats = _stats;
         }
 
@@ -45,6 +45,11 @@ namespace Sharmout.attacks
         public void SetFireDirection(Vector3 direction)
         {
             fireDirection = direction;
+        }
+
+        public void SetFirePosition(Vector3 position)
+        {
+            firePosition = position;
         }
 
 
@@ -60,7 +65,7 @@ namespace Sharmout.attacks
                 if (currentOrb.TryGetComponent(out R_OrbLogic _logic))
                 {
                     logic = _logic;
-                    logic.Init(muzzleRef.position, fireDirection, orbStats);
+                    logic.Init(firePosition, fireDirection, orbStats);
                 }
             }
         }
@@ -77,7 +82,7 @@ namespace Sharmout.attacks
         // gets a orb bullet from the pool and gives it the firePosition and rotation
         GameObject GetOrbToShoot()
         {
-            firePosition = muzzleRef.position;
+            //firePosition = muzzleRef.position;
             bulletRotation = muzzleRef.rotation;
 
             return OrbPool.SpawnFromPool("Orb", firePosition, bulletRotation);

@@ -77,7 +77,7 @@ public class Owl_AgroState : ImanBaseState
             Y2 = stateManager.transform.eulerAngles.y;
             //move forward
             //stateManager.transform.Translate(0, 0, Time.deltaTime * stateManager.MovementSpeed);
-            if(warningTimer - 1 <= Time.time)
+            if(warningTimer - 0.4f <= Time.time)
             {
                 if (!CamShaked)
                 {
