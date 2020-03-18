@@ -1380,6 +1380,7 @@ MonoBehaviour:
   MovementSpeed: 3
   OGMovementSpeed: 0
   RotationSpeed: 2
+  OGRotationSpeed: 0
   BankRotIntensity: -25
   BankRotSpeed: 7
   WayPoints:
@@ -1409,6 +1410,7 @@ MonoBehaviour:
   WindAttack: 0
   PLY_Transform: {fileID: 0}
   DisBetwnPLY: 0
+  OwlAnim: {fileID: 0}
   StateMachine: {fileID: 1899440933385734333}
   TurnObject: {fileID: 7601449868038927596}
 --- !u!114 &1899440933385734333
@@ -3760,7 +3762,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8496293916482106485, guid: 8315d29c41b8bc54daa65d451a98a1cd, type: 3}
+  - {fileID: 2100000, guid: 6dd477919953f27459270cd901f6a0ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
