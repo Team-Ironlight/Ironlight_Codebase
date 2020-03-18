@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5256906929940414721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.19, y: 0, z: 0.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.1521306, y: 4.758733, z: 4.1521306}
   m_Children:
   - {fileID: 5256906930741600695}
   - {fileID: 5256906930986143972}
@@ -384,6 +384,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5256906929940414735}
     m_Modifications:
+    - target: {fileID: 8052876021999806956, guid: 578a4cfed51518c40a6c620da9398a3d,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Snake
+      objectReference: {fileID: 0}
     - target: {fileID: 6456694892056402943, guid: 578a4cfed51518c40a6c620da9398a3d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -439,11 +444,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8052876021999806956, guid: 578a4cfed51518c40a6c620da9398a3d,
+    - target: {fileID: 5933522125530964806, guid: 578a4cfed51518c40a6c620da9398a3d,
         type: 3}
-      propertyPath: m_Name
-      value: SM_Snake
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -2517951894042516775, guid: e4ea344836460884cb0fa081a1ed101e,
+        type: 3}
+    - target: {fileID: 7561757753966026015, guid: 578a4cfed51518c40a6c620da9398a3d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -8575922750907235006, guid: e4ea344836460884cb0fa081a1ed101e,
+        type: 3}
+    - target: {fileID: 1228067428554558835, guid: 578a4cfed51518c40a6c620da9398a3d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -603053028966308795, guid: e4ea344836460884cb0fa081a1ed101e,
+        type: 3}
+    - target: {fileID: 1006961174743437083, guid: 578a4cfed51518c40a6c620da9398a3d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -8575922750907235006, guid: e4ea344836460884cb0fa081a1ed101e,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 578a4cfed51518c40a6c620da9398a3d, type: 3}
 --- !u!4 &976997233348137405 stripped
@@ -465,6 +489,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5256906929940414735}
     m_Modifications:
+    - target: {fileID: 2426547893413091324, guid: 4cb16fa2baeafc443882954f3b40fc28,
+        type: 3}
+      propertyPath: m_Name
+      value: AnimationController
+      objectReference: {fileID: 0}
     - target: {fileID: 2426547893413091325, guid: 4cb16fa2baeafc443882954f3b40fc28,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -519,11 +548,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2426547893413091324, guid: 4cb16fa2baeafc443882954f3b40fc28,
-        type: 3}
-      propertyPath: m_Name
-      value: AnimationController
       objectReference: {fileID: 0}
     - target: {fileID: 2426547893413091314, guid: 4cb16fa2baeafc443882954f3b40fc28,
         type: 3}
