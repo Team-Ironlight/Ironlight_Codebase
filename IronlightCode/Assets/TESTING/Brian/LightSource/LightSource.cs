@@ -14,6 +14,13 @@ public class LightSource : MonoBehaviour
     private Light spotLight;
     [SerializeField]
     bool absorbLight = false;
+
+    public AudioSource sound;
+    public AudioClip soundToPlay;
+    public float volume;
+    bool clipPlayed = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +36,10 @@ public class LightSource : MonoBehaviour
         {
 
             LightAbsorb();
+            if (currLightIntensity <= 0)
+            {
+                sound.Stop();
+            }
         }
         else
         {
@@ -39,6 +50,7 @@ public class LightSource : MonoBehaviour
     {
         if (currLightIntensity > LightDepleted)
         {
+            sound.PlayOneShot(soundToPlay, volume);
             print("Absorb");
             spotLight.intensity -= Time.deltaTime*RateOfDepletion;
             //StartLightIntensity -= Time.deltaTime * 2;
@@ -60,6 +72,7 @@ public class LightSource : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player") && spotLight.intensity!=0)
         {
+            sound.PlayOneShot(soundToPlay, volume);
             print("Absorbing");
             PlayerHealth.currentHealth += 5 * Time.deltaTime;
             PlayerHealth.CurrSpirit += 5 * Time.deltaTime;
@@ -79,6 +92,7 @@ public class LightSource : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            sound.Stop();
             other.GetComponent<LightCharging>().isCharging = false;
             absorbLight = false;
         }

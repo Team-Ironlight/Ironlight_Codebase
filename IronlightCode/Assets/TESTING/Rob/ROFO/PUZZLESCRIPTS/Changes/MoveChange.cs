@@ -8,6 +8,9 @@ namespace ROFO
     {
         public Vector3[] positions = { Vector3.zero };
 
+        public AudioSource sound;
+        public AudioClip soundToPlay;
+        public float volume;
         //interface method, calls move
         public override void Change()
         {
@@ -27,6 +30,7 @@ namespace ROFO
         {
             SetIsMoving(true);
             //keeps index in array bounds
+            sound.PlayOneShot(soundToPlay, volume);
             int indexStart = indexPos;
             int indexNext = (indexPos + 1 + positions.Length) % positions.Length;
             indexPos = indexNext;

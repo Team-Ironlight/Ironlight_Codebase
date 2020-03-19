@@ -11,6 +11,10 @@ public class DashObsticle : MonoBehaviour
     public float speed=5;
     bool goMarkOne;
 
+    public AudioSource sound;
+    public AudioClip soundToPlay;
+    public float volume;
+   
     [SerializeField] [Range(0, 1)] private float value = 0;
 
     // Start is called before the first frame update
@@ -44,6 +48,7 @@ public class DashObsticle : MonoBehaviour
 
         if (value >= 1)
         {
+            sound.PlayOneShot(soundToPlay, volume);
             Enemy.transform.LookAt(markerOne.transform);
             goMarkOne = false;
             value = 1;
@@ -51,6 +56,7 @@ public class DashObsticle : MonoBehaviour
         
         if (value <= 0)
         {
+            sound.PlayOneShot(soundToPlay, volume);
             Enemy.transform.LookAt(markerTwo.transform.position);
             goMarkOne = true;
             value = 0;

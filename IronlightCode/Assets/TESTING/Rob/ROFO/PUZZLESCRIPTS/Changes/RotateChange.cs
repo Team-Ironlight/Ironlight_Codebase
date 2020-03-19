@@ -10,6 +10,11 @@ namespace ROFO
         public float rotTime = 1f;
         public int letterSize = 3;
 
+        public AudioSource sound;
+        public AudioClip soundToPlay;
+        public float volume;
+
+
         //interface method, calls move
         public override void Change()
         {
@@ -29,6 +34,7 @@ namespace ROFO
         {
             SetIsMoving(true);
             //keeps index in array bounds
+            sound.PlayOneShot(soundToPlay, volume);
             int indexStart = indexPos;
             int indexNext = (indexPos + 1 + rotations.Length) % rotations.Length;
             indexPos = indexNext;
