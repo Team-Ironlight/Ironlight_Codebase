@@ -13,7 +13,7 @@ public class UI_MainMenuHandler : MonoBehaviour
     public void Option()
     {
         SceneManager.LoadScene(2);     
-    } 
+    }
     
     public void Quit()
     {
